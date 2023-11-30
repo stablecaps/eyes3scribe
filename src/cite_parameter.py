@@ -3,7 +3,11 @@
 import sys
 import logging
 from mdutils.mdutils import MdUtils
-from helpers import mkdir_if_none, filter_false_if_str_in_pattern, rm_line_containing
+from helpo.hfile import mkdir_if_notexists
+from helpo.hstrops import (
+    filter_false_if_str_in_pattern,
+    rm_line_containing,
+)
 from function_call_tree import draw_tree, parser
 
 LOG = logging.getLogger(__name__)
@@ -20,7 +24,6 @@ class CiteParameters:
         src_file_path,
         out_dir,
     ):
-
         self.cite_about = cite_about
         self.func_text_dict = func_text_dict
         self.func_dep_dict = func_dep_dict
@@ -50,7 +53,6 @@ class CiteParameters:
         cite_li = []
         for line in func_str.split("\n"):
             for cparam in self.cite_parameters:
-
                 max_str_prefix_len = 11
                 if cparam in line.strip()[0:max_str_prefix_len]:
                     stripped_line = line.strip()
@@ -111,7 +113,6 @@ class CiteParameters:
         return full_cleaned
 
     def gen_func_dependent_str(self, func_name):
-
         func_name = func_name.strip("()")
         print("nnn", self.func_dep_dict)
         called_funcs = self.func_dep_dict.get(func_name, None)
@@ -137,7 +138,6 @@ class CiteParameters:
     def write_func_section(
         self,
     ):
-
         ### Function Index
         self.mdFile.new_header(
             level=2, title="Function Index", style="atx", add_table_of_contents="n"
@@ -207,7 +207,6 @@ class CiteParameters:
             #     type(multiline_funccalls_output),
             # )
             if multiline_funccalls_output is not None:
-
                 self.mdFile.new_header(
                     level=5,
                     title="Function Calls:",
@@ -255,20 +254,19 @@ class CiteParameters:
             if cat in self.src_file_path:
                 category = doc_cats.get(cat, None)
                 outfile_path = self.out_dir + "/" + category
-                mkdir_if_none(dir_name=outfile_path)
+                mkdir_if_notexists(target=outfile_path)
                 full_outfile_path = outfile_path + "/" + outfile_name
                 print("full_outfile_path", full_outfile_path)
 
                 return full_outfile_path
 
         udef_path = self.out_dir + "/" + "undef"
-        mkdir_if_none(dir_name=udef_path)
+        mkdir_if_notexists(target=udef_path)
         return udef_path + "/" + outfile_name
 
         # sys.exit(0)
 
     def main_write_md(self):
-
         # infile_path_name = self.src_file_path.split("/")
         # outfile_path = self.out_dir + "/" + infile_path_name[-1].replace(".sh", ".md")
 
