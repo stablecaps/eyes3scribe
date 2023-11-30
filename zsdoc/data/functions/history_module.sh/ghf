@@ -1,0 +1,12 @@
+about 'Grep bash history Function'
+group 'history'
+param '1: With no args supplied, ghf returns the top 10 most used commands'
+param '2: With 1 search strings ghf returns top 10 uses for that term'
+param '3: With 2 search strings ghf executes a further search filter to the top10'
+example '$ grep_history mkdir'
+
+if [ $# -eq 0 ]; then hist_nlines | _unique_history; fi
+if [ $# -eq 1 ]; then grep_history "$1" | _unique_history; fi
+if [ $# -eq 2 ]; then
+    $(grep_history "$1" | _unique_history | grep ^$2 | _chop_first_column)
+fi

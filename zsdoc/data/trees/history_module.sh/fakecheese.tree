@@ -1,0 +1,9 @@
+fakecheese
+|-- bacon
+|   `-- _unique_history
+|       |-- _add_line_numbers
+|       |-- _chop_first_column
+|       `-- _top_ten
+`-- histdel
+
+6 directories, 0 files

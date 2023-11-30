@@ -1,0 +1,2 @@
+bacon
+histdel $(( $n - $1 )) $(( $n - 1 ))

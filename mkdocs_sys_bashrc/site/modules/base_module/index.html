@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="author" content="giri">
+    <link rel="canonical" href="https://meatware.github.io/sys_bashrc/modules/base_module/">
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>base_module - Sys Bashrc</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <link href="../../custom_css/extra.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Base module", url: "#_top", children: [
+              {title: "Function Index", url: "#function-index" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script>
+      <script src="../../search/main.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../docker-compose_module/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../docker-compose_module/" class="btn btn-xs btn-link">
+        docker-compose_module
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../aws_module/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../aws_module/" class="btn btn-xs btn-link">
+        aws_module
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="base-module">Base module</h1>
+<p><strong><em>(in /home/bsgt/stablecaps_bashrc/modules/base_module.sh)</em></strong></p>
+<h2 id="function-index">Function Index</h2>
+<pre><code class="language-python">01 - ips
+02 - down4me
+03 - myip
+04 - pickfrom
+05 - passgen
+06 - mkcd
+07 - lsgrep
+08 - usage
+09 - comex
+10 - default-file-dir-perms-set
+11 - buf
+12 - del
+13 - rm-except
+14 - gedit
+15 - nomacs
+16 - Ngedit
+17 - terminator
+18 - grepo
+19 - grepoall
+20 - del_file_by_patt
+21 - venv_create
+22 - venv_activate
+</code></pre>
+<hr />
+<h3 id="ips">&gt;&gt; ips():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: display all ip addresses for this host</p>
+<p><strong><em>group</em></strong>: base</p>
+</blockquote>
+<pre><code class="language-bash">function ips() {
+
+    if command -v ifconfig &amp;&gt;/dev/null
+    then
+        ifconfig | awk '/inet /{ gsub(/addr:/, &quot;&quot;); print $2 }'
+    elif command -v ip &amp;&gt;/dev/null
+    then
+        ip addr | grep -oP 'inet \K[\d.]+'
+    else
+        echo &quot;You don't have ifconfig or ip command installed!&quot;
+    fi
+}
+
+</code></pre>
+<hr />
+<h3 id="down4me">&gt;&gt; down4me():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: checks whether a website is down for you, or everybody</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>param</em></strong>: 1: website url</p>
+<p><strong><em>example</em></strong>: <code>$ down4me http://www.google.com</code></p>
+</blockquote>
+<pre><code class="language-bash">function down4me() {
+
+    curl -Ls &quot;http://downforeveryoneorjustme.com/$1&quot; | sed '/just you/!d;s/&lt;[^&gt;]*&gt;//g'
+}
+
+</code></pre>
+<hr />
+<h3 id="myip">&gt;&gt; myip():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: displays your ip address, as seen by the Internet</p>
+<p><strong><em>group</em></strong>: base</p>
+</blockquote>
+<pre><code class="language-bash">function myip() {
+
+    list=(&quot;http://myip.dnsomatic.com/&quot; &quot;http://checkip.dyndns.com/&quot; &quot;http://checkip.dyndns.org/&quot;)
+    for url in ${list[*]}
+    do
+        res=$(curl -s &quot;${url}&quot;)
+        if [ $? -eq 0 ];then
+            break;
+        fi
+    done
+    res=$(echo &quot;$res&quot; | grep -Eo '[0-9\.]+')
+    echo -e &quot;Your public IP is: ${echo_bold_green} $res ${echo_normal}&quot;
+}
+
+</code></pre>
+<hr />
+<h3 id="pickfrom">&gt;&gt; pickfrom():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: picks random line from file</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>param</em></strong>: 1: filename</p>
+<p><strong><em>example</em></strong>: <code>$ pickfrom /usr/share/dict/words</code></p>
+</blockquote>
+<pre><code class="language-bash">function pickfrom() {
+
+    local file=$1
+    [ -z &quot;$file&quot; ] &amp;&amp; reference $FUNCNAME &amp;&amp; return
+    length=$(cat $file | wc -l)
+    n=$(expr $RANDOM \* $length \/ 32768 + 1)
+    head -n $n $file | tail -1
+}
+
+</code></pre>
+<hr />
+<h3 id="passgen">&gt;&gt; passgen():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: generates random password from dictionary words</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>param</em></strong>: optional integer length</p>
+<p><strong><em>param</em></strong>: if unset, defaults to 4</p>
+<p><strong><em>example</em></strong>: <code>$ passgen</code></p>
+<p><strong><em>example</em></strong>: <code>$ passgen 6</code></p>
+</blockquote>
+<pre><code class="language-bash">function passgen() {
+
+    local i pass length=${1:-4}
+    pass=$(echo $(for i in $(eval echo &quot;{1..$length}&quot;); do pickfrom /usr/share/dict/words; done))
+    echo &quot;With spaces (easier to memorize): $pass&quot;
+    echo &quot;Without (use this as the password): $(echo $pass | tr -d ' ')&quot;
+}
+
+</code></pre>
+<h5 id="function-calls">Function Calls:</h5>
+<pre><code class="language-bash">└─ passgen
+   └─ pickfrom
+</code></pre>
+<hr />
+<h3 id="mkcd">&gt;&gt; mkcd():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: make one or more directories and cd into the last one</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>param</em></strong>: one or more directories to create</p>
+<p><strong><em>example</em></strong>: <code>$ mkcd foo</code></p>
+<p><strong><em>example</em></strong>: <code>$ mkcd /tmp/img/photos/large</code></p>
+<p><strong><em>example</em></strong>: <code>$ mkcd foo foo1 foo2 fooN</code></p>
+<p><strong><em>example</em></strong>: <code>$ mkcd /tmp/img/photos/large /tmp/img/photos/self /tmp/img/photos/Beijing</code></p>
+</blockquote>
+<pre><code class="language-bash">function mkcd() {
+
+    mkdir -p -- &quot;$@&quot; &amp;&amp; eval cd -- &quot;\&quot;\$$#\&quot;&quot;
+}
+
+</code></pre>
+<hr />
+<h3 id="lsgrep">&gt;&gt; lsgrep():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: search through directory contents with grep</p>
+<p><strong><em>group</em></strong>: base</p>
+</blockquote>
+<pre><code class="language-bash">function lsgrep() {
+
+    ls | grep &quot;$*&quot;
+}
+
+</code></pre>
+<hr />
+<h3 id="usage">&gt;&gt; usage():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: disk usage per directory, in Mac OS X and Linux</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>param</em></strong>: 1: directory name</p>
+</blockquote>
+<pre><code class="language-bash">function usage() {
+
+    if [ $(uname) = &quot;Darwin&quot; ]; then
+        if [ -n &quot;$1&quot; ]; then
+            du -hd 1 &quot;$1&quot;
+        else
+            du -hd 1
+        fi
+
+    elif [ $(uname) = &quot;Linux&quot; ]; then
+        if [ -n &quot;$1&quot; ]; then
+            du -h --max-depth=1 &quot;$1&quot;
+        else
+            du -h --max-depth=1
+        fi
+    fi
+}
+
+</code></pre>
+<hr />
+<h3 id="comex">&gt;&gt; comex():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: checks for existence of a command</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>param</em></strong>: 1: command to check</p>
+<p><strong><em>example</em></strong>: <code>$ comex ls</code></p>
+</blockquote>
+<pre><code class="language-bash">function comex() {
+
+    type &quot;$1&quot;  #&amp;&gt; /dev/null ;
+}
+
+</code></pre>
+<hr />
+<h3 id="default-file-dir-perms-set">&gt;&gt; default-file-dir-perms-set():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Recursively set directories to 0755 &amp; files under <code>pwd</code> to 0644 octal perms</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>example</em></strong>: <code>default-file-dir-perms-set</code></p>
+</blockquote>
+<pre><code class="language-bash">function default-file-dir-perms-set() {
+
+    find . -type d -print0 | xargs -r -0 chmod 0755
+    find . -type f -print0 | xargs -r -0 chmod 0644
+}
+
+</code></pre>
+<hr />
+<h3 id="buf">&gt;&gt; buf():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: back up file with timestamp</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>param</em></strong>: filename</p>
+<p><strong><em>example</em></strong>: <code>buf $filename</code></p>
+</blockquote>
+<pre><code class="language-bash">function buf() {
+
+    local filename=$1
+    local filetime=$(date +%Y%m%d_%H%M%S)
+    cp -a &quot;${filename}&quot; &quot;${filename}_${filetime}&quot;
+}
+
+</code></pre>
+<hr />
+<h3 id="del">&gt;&gt; del():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: move files to hidden folder in tmp, that gets cleared on each reboot</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>param</em></strong>: file or folder to be deleted</p>
+<p><strong><em>example</em></strong>: <code>del $filename</code></p>
+<p><strong><em>example</em></strong>: <code>del $foldername</code></p>
+</blockquote>
+<pre><code class="language-bash">function del() {
+
+    mkdir -p /tmp/.trash &amp;&amp; mv &quot;$@&quot; /tmp/.trash;
+}
+
+</code></pre>
+<hr />
+<h3 id="rm-except">&gt;&gt; rm-except():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Remove all files/directories except for one file</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>param</em></strong>: file or folder to be deleted</p>
+<p><strong><em>example</em></strong>: <code>rm-except $filename</code></p>
+<p><strong><em>example</em></strong>: <code>rm-except $foldername</code></p>
+</blockquote>
+<pre><code class="language-bash">function rm-except() {
+
+    local keep_file=$1
+
+    find . ! -name &quot;$keep_file&quot; -type f -exec rm -f {} +
+}
+
+</code></pre>
+<hr />
+<h3 id="gedit">&gt;&gt; gedit():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Opens non-blocking program from terminal</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>example</em></strong>: <code>gedit $filename</code></p>
+</blockquote>
+<pre><code class="language-bash">function gedit() {
+
+    command gedit &quot;$@&quot; &amp;&gt;/dev/null &amp;
+}
+
+</code></pre>
+<hr />
+<h3 id="nomacs">&gt;&gt; nomacs():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Opens non-blocking program from terminal</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>example</em></strong>: <code>nomacs $filename</code></p>
+</blockquote>
+<pre><code class="language-bash">function nomacs() {
+
+    command nomacs &quot;$@&quot; &amp;&gt;/dev/null &amp;
+}
+
+</code></pre>
+<hr />
+<h3 id="ngedit">&gt;&gt; Ngedit():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Opens non-blocking program from terminal</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>example</em></strong>: <code>Ngedit $filename</code></p>
+</blockquote>
+<pre><code class="language-bash">function Ngedit() {
+
+    command gedit --new-window &quot;$@&quot; &amp;&gt;/dev/null &amp;
+}
+
+</code></pre>
+<h5 id="function-calls_1">Function Calls:</h5>
+<pre><code class="language-bash">└─ Ngedit
+   └─ gedit
+</code></pre>
+<hr />
+<h3 id="terminator">&gt;&gt; terminator():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Opens non-blocking program from terminal</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>example</em></strong>: <code>terminator $filename</code></p>
+</blockquote>
+<pre><code class="language-bash">function terminator() {
+
+    command terminator --geometry=945x1200+0+0 &quot;$@&quot; &amp;&gt;/dev/null &amp;
+}
+
+</code></pre>
+<hr />
+<h3 id="grepo">&gt;&gt; grepo():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Find all files "*" recursively from current directory and grep within each file for a pattern</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>param</em></strong>: Pattern to grep for</p>
+<p><strong><em>example</em></strong>: <code>grepo $PATERN</code></p>
+<p><strong><em>example</em></strong>: <code>grepo import</code></p>
+</blockquote>
+<pre><code class="language-bash">function grepo() {
+    find ./ -not -path &quot;*/\.*&quot; -not -path &quot;*venv/*&quot; -not -path &quot;*node_modules/*&quot; -name &quot;*&quot; -exec grep --color=auto -Isi &quot;$1&quot; {}  \;
+}
+
+</code></pre>
+<hr />
+<h3 id="grepoall">&gt;&gt; grepoall():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Find all files "*" recursively from current directory and grep within each file for a pattern</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>param</em></strong>: 1. Pattern to grep for</p>
+<p><strong><em>param</em></strong>: 2. File type to find in double quotes</p>
+<p><strong><em>example</em></strong>: <code>grepoall $PATERN</code></p>
+<p><strong><em>example</em></strong>: <code>grepoall import</code></p>
+<p><strong><em>example</em></strong>: <code>grepoall $PATERN $FILE_PATTERN</code></p>
+<p><strong><em>example</em></strong>: <code>grepoall import "*.py"</code></p>
+</blockquote>
+<pre><code class="language-bash">function grepoall() {
+
+    TXT_PATTERN=&quot;$1&quot;
+    if [[ $# -eq 2 ]]; then
+        FILE_SEARCH=&quot;$2&quot;
+    else
+        FILE_SEARCH=&quot;*&quot;
+    fi
+
+    find ./ -not -path &quot;*/\.*&quot; -not -path &quot;*venv/*&quot; -not -path &quot;*node_modules/*&quot; -iname &quot;${FILE_SEARCH}&quot; -exec grep --color=auto -Isin &quot;$TXT_PATTERN&quot; {} /dev/null \;
+}
+
+</code></pre>
+<hr />
+<h3 id="del_file_by_patt">&gt;&gt; del_file_by_patt():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Delete all files matching a pattern</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>param</em></strong>: 1. Delete pattern</p>
+<p><strong><em>example</em></strong>: <code>del_file_by_patt $DEL_PATERN</code></p>
+<p><strong><em>example</em></strong>: <code>del_file_by_patt "*.css"</code></p>
+</blockquote>
+<pre><code class="language-bash">function del_file_by_patt() {
+
+    file_ext=&quot;$1&quot;
+    find . -name &quot;$file_ext&quot; -exec rm -fv {} \;
+}
+
+</code></pre>
+<hr />
+<h3 id="venv_create">&gt;&gt; venv_create():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Create &amp; activte a python virtual environment. Works with Python3</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>param</em></strong>: python version findable on path. Test with $(which)</p>
+<p><strong><em>example</em></strong>: <code>venv_create python3.6</code></p>
+</blockquote>
+<pre><code class="language-bash">function venv_create() {
+
+    if [[ $# -ge 1 ]]; then
+        desired_py_version=$1
+        pyth_ver=$(which $desired_py_version)
+        if [[ -z &quot;${pyth_ver}&quot; ]]; then
+            echo &quot;python version $desired_py_version not found&quot;
+        else
+            $pyth_ver -m venv venv
+            source venv/bin/activate
+        fi
+    else
+        echo &quot;supply an arg&quot;
+    fi
+}
+
+</code></pre>
+<hr />
+<h3 id="venv_activate">&gt;&gt; venv_activate():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Activte an existing python virtual environment</p>
+<p><strong><em>group</em></strong>: base</p>
+<p><strong><em>param</em></strong>: python version findable on path. Test with $(which)</p>
+<p><strong><em>example</em></strong>: <code>venv_activate</code></p>
+</blockquote>
+<pre><code class="language-bash">function venv_activate() {
+
+    source venv/bin/activate
+}
+
+</code></pre>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../docker-compose_module/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../docker-compose_module/" class="btn btn-xs btn-link">
+        docker-compose_module
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../aws_module/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../aws_module/" class="btn btn-xs btn-link">
+        aws_module
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+      <p>
+        <a href="https://github.com/meatware/sys_bashrc.git/edit/master/docs/modules/base_module.md"><i class="fa fa-github"></i>
+Edit on GitHub</a>
+      </p>
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/meatware/sys_bashrc.git/">Windmill Dark</a> theme by giri (noraj).</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+about 'Grep bash history'
+group 'history'
+example '$ grep_history mkdir'
+
+history | grep "$1" ;

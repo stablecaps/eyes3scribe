@@ -1,0 +1,6 @@
+about 'Delete last N lines of history including histdeln'
+group 'history'
+param '1: Number of lines to delete'
+example '$ histdeln 10'
+n=$(history 1 | awk '{print $1}')
+histdel $(( $n - $1 )) $(( $n - 1 ))

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="author" content="giri">
+    <link rel="canonical" href="https://meatware.github.io/sys_bashrc/aliases/_core-bash_aliases/">
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>_core-bash_aliases - Sys Bashrc</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <link href="../../custom_css/extra.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Core BASH Aliases", url: "#_top", children: [
+              {title: "Function Index", url: "#function-index" },
+          ]},
+          {title: "&gt;about: Exa long with tree view with option to limit the number of levels", url: "#about-exa-long-with-tree-view-with-option-to-limit-the-number-of-levels", children: [
+          ]},
+          {title: "&gt;group: aliases", url: "#group-aliases", children: [
+          ]},
+          {title: "&gt;param: number of levels", url: "#param-number-of-levels", children: [
+              {title: "Function Calls:", url: "#function-calls_1" },
+              {title: "&gt;&gt; up():", url: "#up" },
+              {title: "Aliases", url: "#aliases" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script>
+      <script src="../../search/main.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../apt_aliases/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../apt_aliases/" class="btn btn-xs btn-link">
+        apt_aliases
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../.." class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../.." class="btn btn-xs btn-link">
+        Home
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="core-bash-aliases">Core BASH Aliases</h1>
+<p><strong><em>(in /home/bsgt/stablecaps_bashrc/aliases/_core-bash_aliases.sh)</em></strong></p>
+<h2 id="function-index">Function Index</h2>
+<pre><code class="language-python">01 - check_alias_clashes
+02 - mkcd
+03 - up
+</code></pre>
+<hr />
+<h3 id="check_alias_clashes">&gt;&gt; check_alias_clashes():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Check alias clashes</p>
+<p><strong><em>group</em></strong>: aliases</p>
+<p><strong><em>example</em></strong>: <code>$ check_alias_clashes</code></p>
+</blockquote>
+<pre><code class="language-bash">function check_alias_clashes() {
+
+    alias | sed 's/^[^ ]* *\|=.*$//g' | while read a; do
+    printf &quot;%20.20s : %s\n&quot; $a &quot;$(type -ta $a | tr '\n' ' ')&quot;
+    done | awk -F: '$2 ~ /file/'
+}
+
+</code></pre>
+<h5 id="function-calls">Function Calls:</h5>
+<pre><code class="language-bash">└─ check_alias_clashes
+   └─ up
+</code></pre>
+<hr />
+<h3 id="mkcd">&gt;&gt; mkcd():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Make a folder and go into it</p>
+<p><strong><em>group</em></strong>: aliases</p>
+<p><strong><em>param</em></strong>: 1: Name of the directory to create &amp; enter</p>
+<p><strong><em>example</em></strong>: <code>mkcd my_new_dir</code></p>
+</blockquote>
+<h1 id="about-exa-long-with-tree-view-with-option-to-limit-the-number-of-levels">&gt;<strong><em>about</em></strong>: Exa long with tree view with option to limit the number of levels</h1>
+<h1 id="group-aliases">&gt;<strong><em>group</em></strong>: aliases</h1>
+<h1 id="param-number-of-levels">&gt;<strong><em>param</em></strong>: number of levels</h1>
+<pre><code class="language-bash">function mkcd() {
+
+    mkdir -p $1; cd $1
+}
+
+
+
+if command -v exa &gt;/dev/null; then
+    alias ls='${HOME}/stablecaps_bashrc/internal/internal_exa_wrapper.sh'
+else
+    alias ls='/bin/ls -ah --color=always'
+fi
+
+</code></pre>
+<h5 id="function-calls_1">Function Calls:</h5>
+<pre><code class="language-bash">└─ mkcd
+   └─ up
+</code></pre>
+<hr />
+<h3 id="up">&gt;&gt; up():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Go up N directories in the file path</p>
+<p><strong><em>group</em></strong>: aliases</p>
+<p><strong><em>param</em></strong>: 1: Integer corresponding to number of directories to go up.</p>
+<p><strong><em>example</em></strong>: <code>$ up 3</code></p>
+<p><strong><em>about</em></strong>: Uses bat to colorize help text messages</p>
+<p><strong><em>group</em></strong>: aliases</p>
+<p><strong><em>param</em></strong>: Name of program whose help text we wish to pipe to bat</p>
+<p><strong><em>example</em></strong>: <code>$ help mv</code></p>
+<p><strong><em>example</em></strong>: <code>$ help git commit</code></p>
+</blockquote>
+<pre><code class="language-bash">function up() {
+
+    local d=&quot;&quot;
+    limit=$1
+    for ((i=1 ; i &lt;= limit ; i++))
+        do
+            d=$d/..
+        done
+    d=$(echo $d | sed 's/^\///')
+    if [ -z &quot;$d&quot; ]; then
+        d=..
+    fi
+    cd $d
+}
+
+
+
+
+
+
+
+help() {
+    &quot;$@&quot; --help 2&gt;&amp;1 | bathelp
+}
+
+</code></pre>
+<h2 id="aliases">Aliases</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Alias Name</strong></th>
+<th><strong>Code</strong></th>
+<th><strong>Notes</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>mkdir</strong></td>
+<td><code>mkdir -p</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>qs</strong></td>
+<td><code>/bin/ls'</code></td>
+<td>fast ls with no options (many files in a directory)</td>
+</tr>
+<tr>
+<td><strong>la</strong></td>
+<td><code>ls -Alh'</code></td>
+<td>show hidden files</td>
+</tr>
+<tr>
+<td><strong>lao</strong></td>
+<td><code>ls -ld .?*'</code></td>
+<td>show ONLY hidden files</td>
+</tr>
+<tr>
+<td><strong>lx</strong></td>
+<td><code>ls -lXBh'</code></td>
+<td>sort by extension</td>
+</tr>
+<tr>
+<td><strong>lk</strong></td>
+<td><code>ls -lSrh'</code></td>
+<td>sort by size</td>
+</tr>
+<tr>
+<td><strong>lc</strong></td>
+<td><code>ls -lcrh'</code></td>
+<td>sort by change time</td>
+</tr>
+<tr>
+<td><strong>lu</strong></td>
+<td><code>ls -lurh'</code></td>
+<td>sort by access time</td>
+</tr>
+<tr>
+<td><strong>lr</strong></td>
+<td><code>ls -lRh'</code></td>
+<td>recursive ls</td>
+</tr>
+<tr>
+<td><strong>lt</strong></td>
+<td><code>ls -ltrh'</code></td>
+<td>sort by date</td>
+</tr>
+<tr>
+<td><strong>lm</strong></td>
+<td><code>ls -alh | less'</code></td>
+<td>pipe through 'less'</td>
+</tr>
+<tr>
+<td><strong>lw</strong></td>
+<td><code>ls -xAh'</code></td>
+<td>wide listing format</td>
+</tr>
+<tr>
+<td><strong>ll</strong></td>
+<td><code>ls -lth'</code></td>
+<td>long listing format</td>
+</tr>
+<tr>
+<td><strong>labc</strong></td>
+<td><code>ls -lap'</code></td>
+<td>alphabetical sort</td>
+</tr>
+<tr>
+<td><strong>lf</strong></td>
+<td><code>ls -l | egrep -v '^d'"</code></td>
+<td>files only</td>
+</tr>
+<tr>
+<td><strong>ldir</strong></td>
+<td><code>ls -l | egrep '^d'"</code></td>
+<td>directories only</td>
+</tr>
+<tr>
+<td><strong>ex</strong></td>
+<td><code>exa -a --group --color=automatic --classify</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>exl</strong></td>
+<td><code>exa -al --group --links --grid --color=automatic --classify</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>cd..</strong></td>
+<td><code>cd ..</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>..</strong></td>
+<td><code>cd ..</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>...</strong></td>
+<td><code>cd ../..</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>....</strong></td>
+<td><code>cd ../../..</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>.....</strong></td>
+<td><code>cd ../../../..</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>bashrc</strong></td>
+<td><code>cd ${HOME}/stablecaps_bashrc; ll'</code></td>
+<td>Switch to stablecaps_bashrc directory in home and ls</td>
+</tr>
+<tr>
+<td><strong>grep</strong></td>
+<td><code>grep --color=auto</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>egrep</strong></td>
+<td><code>egrep --color=auto</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>fgrep</strong></td>
+<td><code>fgrep --color=auto</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>edbash</strong></td>
+<td><code>gedit ~/.bashrc ~/stablecaps_bashrc/internal/*.sh &amp;</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>F5</strong></td>
+<td><code>source ~/.bashrc</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>df</strong></td>
+<td><code>df -x "squashfs"'</code></td>
+<td>Stop showing mounted snap in file system</td>
+</tr>
+<tr>
+<td><strong>dfraw</strong></td>
+<td><code>df'</code></td>
+<td>raw df with all options disabled</td>
+</tr>
+<tr>
+<td><strong>bat</strong></td>
+<td><code>bat --paging=never --theme "Monokai Extended --plain"</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>batx</strong></td>
+<td><code>bat --paging=always --theme "Monokai Extended"</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>bata</strong></td>
+<td><code>bat --show-all</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>bathelp</strong></td>
+<td><code>bat --plain --language=help</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../apt_aliases/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../apt_aliases/" class="btn btn-xs btn-link">
+        apt_aliases
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../.." class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../.." class="btn btn-xs btn-link">
+        Home
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+      <p>
+        <a href="https://github.com/meatware/sys_bashrc.git/edit/master/docs/aliases/_core-bash_aliases.md"><i class="fa fa-github"></i>
+Edit on GitHub</a>
+      </p>
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/meatware/sys_bashrc.git/">Windmill Dark</a> theme by giri (noraj).</p>
+</footer>
+
+</body>
+</html>

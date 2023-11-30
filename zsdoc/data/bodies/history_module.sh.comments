@@ -1,0 +1,16 @@
+
+
+
+################################################ # shows all history # grep all history
+# http://thirtysixthspan.com/posts/grep-history-for
+# ghf - [G]rep [H]istory [F]or top ten commands and execute one
+# usage:
+#  Most frequent command in recent history
+#   ghf
+#  Most frequent instances of {command} in all history
+#   ghf {command}
+#  Execute {command-number} after a call to ghf
+#   !! {command-number}
+
+################################################
+# https://stackoverflow.com/questions/14750650/how-to-delete-history-of-last-10-commands-in-shell

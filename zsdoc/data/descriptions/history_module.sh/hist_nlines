@@ -1,0 +1,9 @@
+# http://thirtysixthspan.com/posts/grep-history-for
+# ghf - [G]rep [H]istory [F]or top ten commands and execute one
+# usage:
+#  Most frequent command in recent history
+#   ghf
+#  Most frequent instances of {command} in all history
+#   ghf {command}
+#  Execute {command-number} after a call to ghf
+#   !! {command-number}

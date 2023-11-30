@@ -1,0 +1,7 @@
+---
+project_name: mkdocs_sys_bashrc
+site_name: sys bashrc
+site_url: https://github.com/stablecaps/stablecaps.github.io
+site_author: giri
+repo_url: https://github.com/stablecaps/stablecaps_bashrc/
+md_src_dir: /home/bsgt/stablecaps_bashrc

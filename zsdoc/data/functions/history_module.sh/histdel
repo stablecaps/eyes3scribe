@@ -1,0 +1,10 @@
+about 'Delete lines of history between N -> N+n. Excluding histdel iteself.'
+group 'history'
+param '1: starting line to delete'
+param '1: ending line to delete'
+example '$ histdel 1000 1033'
+
+for h in $(seq $1 $2 | tac); do
+    history -d $h
+done
+history -d $(history 1 | awk '{print $1}')

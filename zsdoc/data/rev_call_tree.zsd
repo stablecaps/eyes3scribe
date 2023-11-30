@@ -1,0 +1,8 @@
+history_module.sh/_add_line_numbers:  history_module.sh/_unique_history
+history_module.sh/bacon:  history_module.sh/fakecheese
+history_module.sh/_chop_first_column:  history_module.sh/_unique_history
+history_module.sh/grep_history:  history_module.sh/ghf
+history_module.sh/histdel:  history_module.sh/histdeln  history_module.sh/fakecheese
+history_module.sh/hist_nlines:  history_module.sh/ghf
+history_module.sh/_top_ten:  history_module.sh/_unique_history
+history_module.sh/_unique_history:  history_module.sh/ghf  history_module.sh/bacon

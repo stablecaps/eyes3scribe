@@ -1,0 +1,8 @@
+about 'Get last N entries from bash history. Defauklt withoutarguments is a 100 lines'
+group 'history'
+param '1: An integer corresponding to the number of history lines to tail'
+example '$ hist_nlines 200'
+
+if [ $# -eq 0 ]; then num_lines=100; else num_lines=$1; fi
+
+history | tail -n $num_lines;

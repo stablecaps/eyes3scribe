@@ -1,0 +1,179 @@
+history_module.sh(1)
+====================
+:compat-mode!:
+
+NAME
+----
+history_module.sh - a shell script
+
+SYNOPSIS
+--------
+Documentation automatically generated with `zshelldoc'
+
+FUNCTIONS
+---------
+
+ _add_line_numbers
+ bacon
+ _chop_first_column
+ fakecheese
+ ghf
+ grep_history
+ histdel
+ histdeln
+ hist_nlines
+ _top_ten
+ _unique_history
+
+DETAILS
+-------
+
+Script Body
+~~~~~~~~~~~
+
+Has 4 line(s). No functions are called (may set up e.g. a hook, a Zle widget bound to a key, etc.).
+
+Uses feature(s): _alias_
+
+_add_line_numbers
+~~~~~~~~~~~~~~~~~
+
+Has 1 line(s). Doesn't call other functions.
+
+Called by:
+
+ _unique_history
+
+bacon
+~~~~~
+
+Has 1 line(s). Calls functions:
+
+ bacon
+ `-- _unique_history
+     |-- _add_line_numbers
+     |-- _chop_first_column
+     `-- _top_ten
+
+Called by:
+
+ fakecheese
+
+_chop_first_column
+~~~~~~~~~~~~~~~~~~
+
+Has 1 line(s). Doesn't call other functions.
+
+Called by:
+
+ _unique_history
+
+fakecheese
+~~~~~~~~~~
+
+Has 2 line(s). Calls functions:
+
+ fakecheese
+ |-- bacon
+ |   `-- _unique_history
+ |       |-- _add_line_numbers
+ |       |-- _chop_first_column
+ |       `-- _top_ten
+ `-- histdel
+
+Not called by script or any function (may be e.g. a hook, a Zle widget, etc.).
+
+ghf
+~~~
+
+Has 12 line(s). Calls functions:
+
+ ghf
+ |-- grep_history
+ |-- hist_nlines
+ `-- _unique_history
+     |-- _add_line_numbers
+     |-- _chop_first_column
+     `-- _top_ten
+
+Not called by script or any function (may be e.g. a hook, a Zle widget, etc.).
+
+grep_history
+~~~~~~~~~~~~
+
+Has 5 line(s). Doesn't call other functions.
+
+Called by:
+
+ ghf
+
+histdel
+~~~~~~~
+
+____
+ ################################################
+ # https://stackoverflow.com/questions/14750650/how-to-delete-history-of-last-10-commands-in-shell
+____
+
+Has 10 line(s). Doesn't call other functions.
+
+Called by:
+
+ fakecheese
+ histdeln
+
+histdeln
+~~~~~~~~
+
+Has 6 line(s). Calls functions:
+
+ histdeln
+ `-- histdel
+
+Not called by script or any function (may be e.g. a hook, a Zle widget, etc.).
+
+hist_nlines
+~~~~~~~~~~~
+
+____
+ # http://thirtysixthspan.com/posts/grep-history-for
+ # ghf - [G]rep [H]istory [F]or top ten commands and execute one
+ # usage:
+ #  Most frequent command in recent history
+ #   ghf
+ #  Most frequent instances of {command} in all history
+ #   ghf {command}
+ #  Execute {command-number} after a call to ghf
+ #   !! {command-number}
+____
+
+Has 8 line(s). Doesn't call other functions.
+
+Called by:
+
+ ghf
+
+_top_ten
+~~~~~~~~
+
+Has 1 line(s). Doesn't call other functions.
+
+Called by:
+
+ _unique_history
+
+_unique_history
+~~~~~~~~~~~~~~~
+
+Has 1 line(s). Calls functions:
+
+ _unique_history
+ |-- _add_line_numbers
+ |-- _chop_first_column
+ `-- _top_ten
+
+Called by:
+
+ bacon
+ ghf
+
