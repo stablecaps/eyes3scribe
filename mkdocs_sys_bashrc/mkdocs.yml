@@ -1,6 +1,58 @@
-nav:
-- Home: index.md
-repo_url: https://github.com/stablecaps/stablecaps_bashrc/
+site_name: Sys Bashrc
+site_url: https://meatware.github.io/sys_bashrc
+repo_url: https://github.com/meatware/sys_bashrc.git
 site_author: giri
-site_name: sys bashrc
-site_url: https://github.com/stablecaps/stablecaps.github.io
+nav:
+    - Home: index.md
+    - aliases:
+        - _core-bash_aliases: ./aliases/_core-bash_aliases.md
+        - apt_aliases: ./aliases/apt_aliases.md
+        - git_aliases: ./aliases/git_aliases.md
+        - docker_aliases: ./aliases/docker_aliases.md
+        - kubectl_aliases: ./aliases/kubectl_aliases.md
+        - docker-compose_aliases: ./aliases/docker-compose_aliases.md
+        - terraform_aliases: ./aliases/terraform_aliases.md
+    - completion:
+        - docker_completion: ./completion/docker_completion.md
+        - terraform_completion: ./completion/terraform_completion.md
+        - docker-compose_completion: ./completion/docker-compose_completion.md
+        - git_completion: ./completion/git_completion.md
+        - awscli_completion: ./completion/awscli_completion.md
+    - modules:
+        - aws_module: ./modules/aws_module.md
+        - base_module: ./modules/base_module.md
+        - docker-compose_module: ./modules/docker-compose_module.md
+        - installer_module: ./modules/installer_module.md
+        - composure: ./modules/composure.md
+        - history_module: ./modules/history_module.md
+        - docker_module: ./modules/docker_module.md
+        - ssh-agent_module: ./modules/ssh-agent_module.md
+        - git_module: ./modules/git_module.md
+        - extract: ./modules/extract.md
+        - ssh_helper_module: ./modules/ssh_helper_module.md
+    - internal:
+        - internal_git_functions: ./internal/internal_git_functions.md
+        - internal_colour_defs: ./internal/internal_colour_defs.md
+        - internal_helper_functions: ./internal/internal_helper_functions.md
+        - _unused_scrap_functions: ./internal/_unused_scrap_functions.md
+        - internal_ls_colors_defs: ./internal/internal_ls_colors_defs.md
+        - internal_exa_wrapper: ./internal/internal_exa_wrapper.md
+        - internal_colour_functions: ./internal/internal_colour_functions.md
+theme:
+    name: windmill-dark
+    navigation_depth: 5
+    highlightjs: true
+    hljs_languages:
+        - bash
+        - python
+# markdown_extensions:
+#   - codehilite:
+#       guess_lang: false
+#       use_pygments: true
+#       noclasses: true
+#       pygments_style: monokai
+#   - toc:
+#       toc_depth: 7
+
+extra_css:
+    - custom_css/extra.css

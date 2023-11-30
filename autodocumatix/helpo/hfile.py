@@ -3,6 +3,7 @@ import sys
 import logging
 import yaml
 import shutil
+import pathlib
 
 LOG = logging.getLogger(__name__)
 
@@ -62,7 +63,7 @@ def copy_dir(source, target):
     LOG.info("Copied: %s --> %s", source, target)
 
 
-def select_os_things(my_wd="./", mode="file", suf_pre="", exclude_list=[]):
+def files_and_dirs_lister(mypathstr="./", mode="file", suf_pre="", exclude_list=[]):
     """
 
     Create a filtered list of os type items.
@@ -72,35 +73,35 @@ def select_os_things(my_wd="./", mode="file", suf_pre="", exclude_list=[]):
     """
 
     if mode == "folder":
-        os_thing_list = [
-            thing
-            for thing in os.listdir(my_wd)
-            if os.path.isdir(thing)
-            if thing not in exclude_list
+        os_object_list = [
+            object
+            for object in os.listdir(mypathstr)
+            if os.path.isdir(object)
+            if object not in exclude_list
         ]
 
     elif mode == "file":
-        os_thing_list = [
-            thing
-            for thing in os.listdir(my_wd)
-            if os.path.isfile(thing)
-            if thing not in exclude_list
+        os_object_list = [
+            object
+            for object in os.listdir(mypathstr)
+            if os.path.isfile(object)
+            if object not in exclude_list
         ]
 
     elif mode == "suffix":
-        os_thing_list = [
-            thing
-            for thing in os.listdir(my_wd)
-            if thing.endswith(suf_pre)
-            if thing not in exclude_list
+        os_object_list = [
+            object
+            for object in os.listdir(mypathstr)
+            if object.endswith(suf_pre)
+            if object not in exclude_list
         ]
 
     elif mode == "prefix":
-        os_thing_list = [
-            thing
-            for thing in os.listdir(my_wd)
-            if thing.startswith(suf_pre)
-            if thing not in exclude_list
+        os_object_list = [
+            object
+            for object in os.listdir(mypathstr)
+            if object.startswith(suf_pre)
+            if object not in exclude_list
         ]
 
     else:
@@ -108,4 +109,18 @@ def select_os_things(my_wd="./", mode="file", suf_pre="", exclude_list=[]):
 
         sys.exit(0)
 
-    return os_thing_list
+    return os_object_list
+
+
+def files_and_dirs_recursive_lister(mypathstr="./", myglob="*.sh"):
+    """
+    Create a filtered list of files using recursive glob.
+    """
+
+    mypath = pathlib.Path(mypathstr)
+
+    file_list = [
+        object.as_posix() for object in mypath.rglob(myglob) if object.is_file()
+    ]
+
+    return file_list

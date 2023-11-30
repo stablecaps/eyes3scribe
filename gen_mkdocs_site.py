@@ -60,14 +60,11 @@ if __name__ == "__main__":
 
     out_dir = f"{PROGRAM_ROOT_DIR}/gbm-docs"
     exclude_patterns = "zsdoc", "test", "theme_settings_BACKUP"
-    infiles = hfile.select_os_things(
-        my_wd=PROJECT_DOCS_DIR,
-        mode="suffix",
-        suf_pre=".sh",
-        exclude_list=[],
-    )
 
-    print("infiles", infiles)
+    infiles = hfile.files_and_dirs_recursive_lister(
+        mypathstr=PROJECT_DOCS_DIR, myglob="*.sh"
+    )
+    # print("infiles", infiles)
 
     shell_src_processor = ShellSrcProcessor(
         infiles, out_dir, exclude_patterns, debug=True

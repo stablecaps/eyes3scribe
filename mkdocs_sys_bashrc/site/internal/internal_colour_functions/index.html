@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="author" content="giri">
+    <link rel="canonical" href="https://meatware.github.io/sys_bashrc/internal/internal_colour_functions/">
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>internal_colour_functions - Sys Bashrc</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <link href="../../custom_css/extra.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Internal theme related functions", url: "#_top", children: [
+              {title: "Function Index", url: "#function-index" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script>
+      <script src="../../search/main.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav">
+      <a href="../internal_exa_wrapper/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../internal_exa_wrapper/" class="btn btn-xs btn-link">
+        internal_exa_wrapper
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="internal-theme-related-functions">Internal theme related functions</h1>
+<p><strong><em>(in /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-auto-documatix/mkdocs_sys_bashrc/docs/internal/internal_colour_functions.sh)</em></strong></p>
+<h2 id="function-index">Function Index</h2>
+<pre><code class="language-python">01 - _check_integer
+02 - _check_theme_range
+03 - colsw
+04 - colsw_path
+05 - col_set_prompt_style
+06 - csp1
+07 - csp2
+08 - csp3
+09 - col_cp_root
+10 - col_ssh
+11 - _virtualenv_info
+12 - _virtualenv_min_info
+13 - _ssh_info
+14 - _aws_info
+15 - _pwdtail
+</code></pre>
+<hr />
+<h3 id="_check_integer">&gt;&gt; _check_integer():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Check if argument is an integer</p>
+<p><strong><em>group</em></strong>: internal</p>
+<p><strong><em>param</em></strong>: A putative integer</p>
+<p><strong><em>example</em></strong>: <code>_check_integer 42</code></p>
+</blockquote>
+<pre><code class="language-bash">function _check_integer() {
+
+    local MYINT=&quot;$1&quot;
+    local REX=^[0-9]*$
+    if [[ &quot;$MYINT&quot; =~ $REX ]]; then
+        echo &quot;$MYINT&quot;
+    else
+        echo 0
+    fi
+}
+
+</code></pre>
+<hr />
+<h3 id="_check_theme_range">&gt;&gt; _check_theme_range():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Check if argument is an integer between 0 --&gt; N</p>
+<p><strong><em>group</em></strong>: internal</p>
+<p><strong><em>param</em></strong>: 1. A test integer</p>
+<p><strong><em>param</em></strong>: 2. Ma=x number in range</p>
+<p><strong><em>example</em></strong>: <code>_check_theme_range 56 1003</code></p>
+</blockquote>
+<pre><code class="language-bash">function _check_theme_range() {
+
+    local MYINT=&quot;$1&quot;
+    local MAX_LEN=&quot;$2&quot;
+    if [ &quot;$MYINT&quot; -ge 0 -a &quot;$MYINT&quot; -lt &quot;$MAX_LEN&quot; ]; then
+        echo &quot;$MYINT&quot;
+    else
+        echo 0
+    fi
+}
+
+</code></pre>
+<hr />
+<h3 id="colsw">&gt;&gt; colsw():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Switch PS1 prompt theme color scheme usining a integer, N. There is a upper limit to N</p>
+<p><strong><em>group</em></strong>: internal</p>
+<p><strong><em>param</em></strong>: 1. A integer corresponding to a theme color scheme. See internal_colour_defs.sh</p>
+<p><strong><em>example</em></strong>: <code>colsw 42</code></p>
+</blockquote>
+<pre><code class="language-bash">function colsw() {
+
+
+    local NEWCOL_IDX=${1}
+
+    local NEWCOL_IDX=$(_check_integer &quot;${NEWCOL_IDX}&quot;)
+
+    local NEWCOL_IDX=$(_check_theme_range &quot;${NEWCOL_IDX}&quot; &quot;$BARCOL_ARR_LEN&quot;)
+
+    cp ${HOME}/stablecaps_bashrc/theme_settings.sh ${HOME}/stablecaps_bashrc/theme_settings_BACKUP.sh
+    local CURRCOL_IDX=$(grep &quot;SET_THEME_VAR=&quot; ${HOME}/stablecaps_bashrc/theme_settings.sh | grep -v sed | tr '=' ' ' | awk '{print $2}')
+
+    local CURRPATH_IDX=$(grep &quot;SET_PATHCOL_VAR=&quot; ${HOME}/stablecaps_bashrc/theme_settings.sh | grep -v sed | tr '=' ' ' | awk '{print $2}' | sed 's/\&quot;//g')
+
+
+    SET_THEME_VAR=&quot;${SET_THEME_VAR:=0}&quot;
+    SET_BARCOL=&quot;${SET_BARCOL:=\[\033[38;5;202m\]}&quot;
+    SET_TXTCOL=&quot;${SET_TXTCOL:=\[\033[38;5;221m\]}&quot;
+    SET_PATHCOL_VAR=&quot;${SET_PATHCOL_VAR:=1}&quot;
+    SET_PATHCOL=&quot;${SET_PATHCOL:=\[\033[0;37m\]}&quot;
+cat &lt;&lt; BACON &gt; ${HOME}/stablecaps_bashrc/theme_settings.sh
+
+
+
+
+SET_THEME_VAR=&quot;${NEWCOL_IDX}&quot;
+SET_BARCOL=&quot;${BARCOL_ARR[${NEWCOL_IDX}]}&quot;
+SET_TXTCOL=&quot;${TXTCOL_ARR[${NEWCOL_IDX}]}&quot;
+SET_PATHCOL_VAR=&quot;${CURRPATH_IDX}&quot;
+SET_PATHCOL=&quot;${PATH_COLS_ARR[${CURRPATH_IDX}]}&quot;
+
+BACON
+
+    PRINTCOLVAR=&quot;ON&quot;
+    if [ $PRINTCOLVAR = &quot;ON&quot; ]; then
+        PATHCOL_NAME=${PATH_COLS_ARR[${CURRPATH_IDX}]}
+        BARCOL_NAME=${BARCOL_ARR[${THEME_VAR}]}
+        TXTCOL_NAME=${TXTCOL_ARR[${THEME_VAR}]}
+        echo &quot;BARCOL = ${BARCOL_NAME}&quot;
+        echo &quot;TXTCOL = ${TXTCOL_NAME}&quot;
+        echo &quot;PATHCOL = ${PATHCOL_NAME}&quot;
+    fi
+
+    source ${HOME}/stablecaps_bashrc/_bashrc
+}
+
+</code></pre>
+<h5 id="function-calls">Function Calls:</h5>
+<pre><code class="language-bash">└─ colsw
+   ├─ _check_integer
+   └─ _check_theme_range
+</code></pre>
+<hr />
+<h3 id="colsw_path">&gt;&gt; colsw_path():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Fine Tune PS1 prompt theme $PATH_COL_VAR val color scheme usinng a integer, N. There is a upper limit to N</p>
+<p><strong><em>group</em></strong>: internal</p>
+<p><strong><em>param</em></strong>: 1. A integer corresponding to a theme color scheme. See internal_colour_defs.sh</p>
+<p><strong><em>example</em></strong>: <code>colscolsw_path 2</code></p>
+</blockquote>
+<pre><code class="language-bash">function colsw_path() {
+
+    local NEWPATH_IDX=${1}
+
+    NEWPATH_IDX=$(_check_integer &quot;${NEWPATH_IDX}&quot;)
+
+    NEWPATH_IDX=$(_check_theme_range &quot;${NEWPATH_IDX}&quot; &quot;$PATHCOLS_ARR_LEN&quot;)
+
+    cp ${HOME}/stablecaps_bashrc/theme_settings.sh ${HOME}/stablecaps_bashrc/theme_settings_BACKUP.sh
+
+    local NEWPATH_COL=&quot;${PATH_COLS_ARR[${NEWPATH_IDX}]}&quot;
+
+    sed -i &quot;/^SET_PATHCOL/d&quot; ${HOME}/stablecaps_bashrc/theme_settings.sh
+
+cat &lt;&lt; CHEESE &gt;&gt; ${HOME}/stablecaps_bashrc/theme_settings.sh
+SET_PATHCOL_VAR=&quot;${NEWPATH_IDX}&quot;
+SET_PATHCOL=&quot;${NEWPATH_COL}&quot;
+CHEESE
+    echo &quot;No of Themes: $BARCOL_ARR_LEN&quot;
+    source ${HOME}/stablecaps_bashrc/_bashrc
+}
+
+</code></pre>
+<h5 id="function-calls_1">Function Calls:</h5>
+<pre><code class="language-bash">└─ colsw_path
+   ├─ _check_integer
+   └─ _check_theme_range
+</code></pre>
+<hr />
+<h3 id="col_set_prompt_style">&gt;&gt; col_set_prompt_style():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Change prompt style between full (3-line), mid (2-line) &amp; default (1-line primitive)</p>
+<p><strong><em>group</em></strong>: internal</p>
+<p><strong><em>param</em></strong>: 1. A integer from 1-3</p>
+<p><strong><em>example</em></strong>: <code>col_set_prompt_style 1</code></p>
+</blockquote>
+<pre><code class="language-bash">function col_set_prompt_style() {
+    local CHOICE=&quot;$1&quot;
+    if [[ &quot;$CHOICE&quot; =~ (full|mid) ]]; then
+        export SET_FULL_PROMPT=$CHOICE
+        source ~/.bashrc
+    else
+        echo &quot;enter 'full' or 'mid'&quot;
+    fi
+}
+
+</code></pre>
+<hr />
+<h3 id="csp1">&gt;&gt; csp1():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Change prompt style to full 3-line glory</p>
+<p><strong><em>group</em></strong>: internal</p>
+<p><strong><em>example</em></strong>: <code>csp1</code></p>
+</blockquote>
+<pre><code class="language-bash">function csp1() {
+    col_set_prompt_style full
+}
+
+</code></pre>
+<h5 id="function-calls_2">Function Calls:</h5>
+<pre><code class="language-bash">└─ csp1
+   └─ col_set_prompt_style
+</code></pre>
+<hr />
+<h3 id="csp2">&gt;&gt; csp2():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Change prompt style to experimental 2-line worrying</p>
+<p><strong><em>group</em></strong>: internal</p>
+<p><strong><em>example</em></strong>: <code>csp2</code></p>
+</blockquote>
+<pre><code class="language-bash">function csp2() {
+    col_set_prompt_style mid
+}
+
+</code></pre>
+<h5 id="function-calls_3">Function Calls:</h5>
+<pre><code class="language-bash">└─ csp2
+   └─ col_set_prompt_style
+</code></pre>
+<hr />
+<h3 id="csp3">&gt;&gt; csp3():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Change prompt style to a basic 1-line primitive level (default)</p>
+<p><strong><em>group</em></strong>: internal</p>
+<p><strong><em>example</em></strong>: <code>csp3</code></p>
+</blockquote>
+<pre><code class="language-bash">function csp3() {
+    unset SET_FULL_PROMPT
+    export SET_FULL_PROMPT=
+    source ~/.bashrc
+}
+
+</code></pre>
+<hr />
+<h3 id="col_cp_root">&gt;&gt; col_cp_root():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Copies .bashrc to root home on current machine. Only affects things if full color prompt is set</p>
+<p><strong><em>group</em></strong>: internal</p>
+<p><strong><em>example</em></strong>: <code>col_cp_root</code></p>
+</blockquote>
+<pre><code class="language-bash">function col_cp_root() {
+    sudo mv /root/.bashrc /root/.your_old_bashrc
+    sudo cp -rf ${HOME}/stablecaps_bashrc /root/
+    sudo ln -s /root/stablecaps_bashrc/_bashrc /root/.bashrc
+    sudo su root
+    source /root/.bashrc
+}
+
+</code></pre>
+<hr />
+<h3 id="col_ssh">&gt;&gt; col_ssh():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Copy stablecaps_bashrc PS1 prompt to remote host via rsync</p>
+<p><strong><em>group</em></strong>: internal</p>
+<p><strong><em>param</em></strong>: ${USERNAME}@${HOSTNAME}</p>
+<p><strong><em>example</em></strong>: <code>col_ssh ubuntu@mywebserver.com</code></p>
+</blockquote>
+<pre><code class="language-bash">function col_ssh() {
+    rsync -av ${HOME}/stablecaps_bashrc ${1}:~/
+    ssh -A &quot;${1}&quot; 'mv ~/.bashrc ~/.your_old_bashrc; ln -s ${HOME}/stablecaps_bashrc/_bashrc ~/.bashrc'
+}
+
+</code></pre>
+<hr />
+<h3 id="_virtualenv_info">&gt;&gt; _virtualenv_info():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Get Virtual Env and display in PS prompt (full version)</p>
+<p><strong><em>group</em></strong>: internal</p>
+<p><strong><em>example</em></strong>: <code>_virtualenv_min_info</code></p>
+</blockquote>
+<pre><code class="language-bash">function _virtualenv_info() {
+
+    local venv=$(_virtualenv_min_info)
+    [[ -n &quot;$venv&quot; ]] &amp;&amp; echo &quot;${BARCOL}─${TXTCOL}[${HIRed}$venv${TXTCOL}]&quot;
+}
+
+</code></pre>
+<h5 id="function-calls_4">Function Calls:</h5>
+<pre><code class="language-bash">└─ _virtualenv_info
+   └─ _virtualenv_min_info
+</code></pre>
+<hr />
+<h3 id="_virtualenv_min_info">&gt;&gt; _virtualenv_min_info():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Get Virtual Env and display in PS prompt (minimal version)</p>
+<p><strong><em>group</em></strong>: internal</p>
+<p><strong><em>example</em></strong>: <code>_virtualenv_min_info</code></p>
+</blockquote>
+<pre><code class="language-bash">function _virtualenv_min_info() {
+
+    if [[ -n &quot;$VIRTUAL_ENV&quot; ]]; then
+        local venv=&quot;${VIRTUAL_ENV##*/}&quot;
+    else
+        local venv=&quot;&quot;
+    fi
+    [[ -n &quot;$venv&quot; ]] &amp;&amp; echo &quot;$venv&quot;
+}
+
+</code></pre>
+<hr />
+<h3 id="_ssh_info">&gt;&gt; _ssh_info():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Display ssh in PS prompt if current seesion is via ssh</p>
+<p><strong><em>group</em></strong>: internal</p>
+<p><strong><em>example</em></strong>: <code>_ssh_info</code></p>
+</blockquote>
+<pre><code class="language-bash">function _ssh_info() {
+    ssh_state=&quot;&quot;
+    [[ -n &quot;$ssh_state&quot; ]] &amp;&amp; echo &quot;${BARCOL}─${TXTCOL}[${HIRed}${ssh_state}${TXTCOL}]&quot;
+}
+
+</code></pre>
+<hr />
+<h3 id="_aws_info">&gt;&gt; _aws_info():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Display the current AWS profile loaded in PS prompt</p>
+<p><strong><em>group</em></strong>: internal</p>
+<p><strong><em>example</em></strong>: <code>_aws_info</code></p>
+</blockquote>
+<pre><code class="language-bash">function _aws_info() {
+    aws_profile=&quot;$(printenv AWS_PROFILE)&quot;
+    if [[ -n &quot;${aws_profile}&quot; ]]; then
+        set_aws_profile=${aws_profile}
+    else
+        set_aws_profile=&quot;&quot;
+    fi
+    [[ -n &quot;$set_aws_profile&quot; ]] &amp;&amp; echo &quot;${BARCOL}─${TXTCOL}[${HIRed}${set_aws_profile}${TXTCOL}]&quot;
+}
+
+</code></pre>
+<hr />
+<h3 id="_pwdtail">&gt;&gt; _pwdtail():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>: Display last two directories from <code>pwd</code> in PS prompt</p>
+<p><strong><em>group</em></strong>: internal</p>
+<p><strong><em>example</em></strong>: <code>_pwdtail</code></p>
+</blockquote>
+<pre><code class="language-bash">function _pwdtail() {
+
+    pwd | awk -F/ '{nlast = NF -1;print $nlast&quot;/&quot;$NF}' #TODO: Use for something?
+}
+
+</code></pre>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav">
+      <a href="../internal_exa_wrapper/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../internal_exa_wrapper/" class="btn btn-xs btn-link">
+        internal_exa_wrapper
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+      <p>
+        <a href="https://github.com/meatware/sys_bashrc.git/edit/master/docs/internal/internal_colour_functions.md"><i class="fa fa-github"></i>
+Edit on GitHub</a>
+      </p>
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/meatware/sys_bashrc.git/">Windmill Dark</a> theme by giri (noraj).</p>
+</footer>
+
+</body>
+</html>
