@@ -4,7 +4,8 @@ import logging
 import yaml
 import shutil
 
-from src.helpo import hfile
+from autodocumatix.helpo import hfile
+from autodocumatix.main import ShellSrcProcessor
 
 LOG = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
@@ -17,8 +18,8 @@ logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
 
 if __name__ == "__main__":
-    # PROGRAM_ROOT_DIR = os.path.abspath(".")
-    # print("PROGRAM_ROOT_DIR", PROGRAM_ROOT_DIR)
+    PROGRAM_ROOT_DIR = os.path.abspath(".")
+    print("PROGRAM_ROOT_DIR", PROGRAM_ROOT_DIR)
 
     ### Load config
     myconf = hfile.load_yaml_file(file_name="config/bashrc_stablecaps.yaml")
@@ -56,6 +57,23 @@ if __name__ == "__main__":
         file_name=f"{PROJECT_DIR}/mkdocs.yml",
         yaml_string=mkdocs_yml,
     )
+
+    out_dir = f"{PROGRAM_ROOT_DIR}/gbm-docs"
+    exclude_patterns = "zsdoc", "test", "theme_settings_BACKUP"
+    infiles = hfile.select_os_things(
+        my_wd=PROJECT_DOCS_DIR,
+        mode="suffix",
+        suf_pre=".sh",
+        exclude_list=[],
+    )
+
+    print("infiles", infiles)
+
+    shell_src_processor = ShellSrcProcessor(
+        infiles, out_dir, exclude_patterns, debug=True
+    )
+
+    shell_src_processor.main_routine()
 
     ### Create markdown files
     # python src/main.py --infiles $(find /home/bsgt/sys_bashrc/ -name "*.sh")  \
