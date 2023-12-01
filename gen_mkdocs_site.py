@@ -25,7 +25,7 @@ class GenMkdocsSite:
         self.debug = debug
 
         LOG.info("Loading config: %s", site_confname)
-        self.cnf = hfile.load_yaml_file(file_name="config/bashrc_stablecaps.yaml")
+        self.cnf = hfile.load_yaml_file2dict(file_name="config/bashrc_stablecaps.yaml")
         LOG.info("cnf: %s", self.cnf)
 
         ### Set paths
@@ -74,23 +74,42 @@ class GenMkdocsSite:
 
         LOG.info("Generating markdown yaml")
 
-        mkdocs_yml = textwrap.dedent(
-            f"""
-        site_name: {self.cnf['site_name']}
-        site_url: {self.cnf['site_url']}
-        repo_url: {self.cnf['repo_url']}
-        site_author: {self.cnf['site_author']}
-        nav:
-            - Home: index.md
-        """
+        # mkdocs_yml = textwrap.dedent(
+        #     f"""
+        # site_name: {self.cnf['site_name']}
+        # site_url: {self.cnf['site_url']}
+        # repo_url: {self.cnf['repo_url']}
+        # site_author: {self.cnf['site_author']}
+        # nav:
+        #     - Home: index.md
+        # """
+        # )
+        yaml_dict = (
+            {
+                "site_name": {self.cnf["site_name"]},
+                "site_url": {self.cnf["site_url"]},
+                "repo_url": {self.cnf["repo_url"]},
+                "site_author": {self.cnf["site_author"]},
+                "validation": [
+                    {"omitted_files": "warn"},
+                    {"absolute_links": "warn"},
+                    {"unrecognized_links": "warn"},
+                ],
+                "nav": [
+                    {"Home": "index.md"},
+                ],
+            },
         )
 
+        # "validation:
+        # omitted_files: warn
+        # absolute_links: warn
+        # unrecognized_links: warn
         for catname in self.cnf["category_names"]:
-            mkdocs_yml += textwrap.dedent(
-                f"""
-                    - {catname}
-                """
-            )
+            # mkdocs_yml += f"  - {catname}:\n"
+            # yaml_dict["nav"][""]
+
+            catname_holder = []
 
             mdinfiles = hfile.files_and_dirs_recursive_lister(
                 mypathstr=self.OUT_DIR, myglob="*.md"
@@ -102,13 +121,12 @@ class GenMkdocsSite:
             for md_filepath in mdinfiles:
                 if catname in md_filepath:
                     page_name = md_filepath.replace("md.", "").split("/")[-1]
-                    mkdocs_yml += textwrap.dedent(
-                        f"""
-                            {page_name}: {md_filepath}
-                        """
-                    )
+                    # mkdocs_yml += f"    {page_name}: {md_filepath}\n"
+                    page_path_map = {page_name, md_filepath}
+                    catname_holder.append(page_path_map)
+
         print()
-        print(mkdocs_yml)
+        print(yaml_dict)
         print()
 
         hfile.dump_yaml_file(
@@ -181,7 +199,7 @@ if __name__ == "__main__":
     # print("PROGRAM_ROOT_DIR", PROGRAM_ROOT_DIR)
 
     # ### Load config
-    # cnf = hfile.load_yaml_file(file_name="config/bashrc_stablecaps.yaml")
+    # cnf = hfile.load_yaml_file2dict(file_name="config/bashrc_stablecaps.yaml")
     # print("cnf", cnf)
 
     # # TODO: allow PROJECT_DIR to be initiated anywhere

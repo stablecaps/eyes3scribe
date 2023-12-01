@@ -8,7 +8,16 @@ import pathlib
 LOG = logging.getLogger(__name__)
 
 
-def load_yaml_file(file_name):
+def load_yaml_file2dict(file_name):
+    """
+    Load a YAML file and return its contents.
+
+    Args:
+        file_name (str): The name of the file to load.
+
+    Returns:
+        dict: The contents of the YAML file.
+    """
     with open(file_name, "r", encoding="iso-8859-1") as my_yaml:
         yaml_data = yaml.safe_load(my_yaml)
         LOG.info("yaml_data: %s", yaml_data)
@@ -20,17 +29,31 @@ def dump_yaml_file(
     file_name,
     yaml_string,
 ):
+    """
+    Writes data to a YAML file.
+
+    Args:
+        file_name (str): The name of the file to write to.
+        data (dict): The data to write to the file.
+
+    Returns:
+        None
+    """
     yaml_data = yaml.safe_load(yaml_string)
     with open(file_name, "w") as my_yaml:
         print("Writing yaml data to file name", file_name)
         LOG.info("yaml_data: %s", yaml_data)
         yaml.dump(yaml_data, my_yaml)
 
-    return yaml_data
-
 
 def rmdir_if_exists(target):
-    """Remove file directory if it exists."""
+    """
+    Remove a directory if it exists.
+
+    Args:
+        target (str): The directory to remove.
+    """
+    ...
 
     if os.path.exists(target):
         print("Deleting Directory:", target)
@@ -38,7 +61,12 @@ def rmdir_if_exists(target):
 
 
 def mkdir_if_notexists(target):
-    """Make a file directory if it does not exist."""
+    """
+    Create a directory if it does not exist.
+
+    Args:
+        target (str): The directory to create.
+    """
 
     if not os.path.exists(target):
         print("Making Directory:", target)
@@ -46,8 +74,6 @@ def mkdir_if_notexists(target):
 
 
 def copy_clobber(source, target):
-    """Copy directory. Overwrite target folder if it exists."""
-
     rmdir_if_exists(target)
 
     shutil.copytree(source, target)
@@ -56,16 +82,21 @@ def copy_clobber(source, target):
 
 
 def copy_dir(source, target):
-    """Copy directory."""
-
     shutil.copytree(source, target, dirs_exist_ok=True)
 
     LOG.info("Copied: %s --> %s", source, target)
 
 
 def copy_file(source, target):
-    """Copy file."""
+    """
+    Copies a directory from source to target.
 
+    Args:
+        source (str): The source directory to copy.
+        target (str): The target directory to copy to.
+    Exanple:
+        >>> hfile.copy_dir(source="custom_assets/custom_css", target=f"{PROJECT_DOCS_DIR}/custom_css/")
+    """
     shutil.copyfile(source, target)
 
     LOG.info("Copied: %s --> %s", source, target)
@@ -73,11 +104,22 @@ def copy_file(source, target):
 
 def files_and_dirs_lister(mypathstr="./", mode="file", suf_pre="", exclude_list=[]):
     """
+    Lists files and directories based on the provided mode.
 
-    Create a filtered list of os type items.
+    Args:
+        mypathstr (str, optional): The directory to search. Defaults to "./".
+        mode (str, optional): The mode to use for listing ("folder", "file", "suffix", "prefix"). Defaults to "file".
+        suf_pre (str, optional): The suffix or prefix to filter by. Only used if mode is "suffix" or "prefix". Defaults to "".
+        exclude_list (list, optional): A list of files or directories to exclude. Defaults to [].
 
-    Mode can be folder, file, suffix, prefix.
+    Returns:
+        list: A list of all matching files or directories.
 
+    Examples:
+        >>> hfile.files_and_dirs_lister(mypathstr="./", mode="file", suf_pre="", exclude_list=[])
+        >>> hfile.files_and_dirs_lister(mypathstr="./", mode="folder", suf_pre="", exclude_list=[])
+        >>> hfile.files_and_dirs_lister(mypathstr="./", mode="suffix", suf_pre=".sh", exclude_list=[])
+        >>> hfile.files_and_dirs_lister(mypathstr="./", mode="prefix", suf_pre="gen_", exclude_list=[])
     """
 
     if mode == "folder":
@@ -122,9 +164,18 @@ def files_and_dirs_lister(mypathstr="./", mode="file", suf_pre="", exclude_list=
 
 def files_and_dirs_recursive_lister(mypathstr="./", myglob="*.sh"):
     """
-    Create a filtered list of files using recursive glob.
-    """
+    Lists all files in a directory and its subdirectories that match a given glob.
 
+    Args:
+        mypathstr (str, optional): The directory to search. Defaults to "./".
+        myglob (str, optional): The glob to match files against. Defaults to "*.sh".
+
+    Returns:
+        list: A list of all matching files.
+
+    Example:
+            >>> files_and_dirs_recursive_lister(mypathstr="/home/user", myglob="*.txt")
+    """
     mypath = pathlib.Path(mypathstr)
 
     file_list = [
