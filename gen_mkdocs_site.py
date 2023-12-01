@@ -4,6 +4,7 @@ import logging
 import yaml
 import shutil
 import argparse
+import textwrap
 from autodocumatix.helpo import hfile
 
 # TODO: sort out imports better for rich print
@@ -72,7 +73,9 @@ class GenMkdocsSite:
             hfile.copy_file(source=mdsrc, target=f"{self.OUT_DIR}/{mddest}")
 
         LOG.info("Generating markdown yaml")
-        mkdocs_yml = f"""
+
+        mkdocs_yml = textwrap.dedent(
+            f"""
         site_name: {self.cnf['site_name']}
         site_url: {self.cnf['site_url']}
         repo_url: {self.cnf['repo_url']}
@@ -80,11 +83,33 @@ class GenMkdocsSite:
         nav:
             - Home: index.md
         """
+        )
 
         for catname in self.cnf["category_names"]:
-            mkdocs_yml += f"""
-            - {catname}
-        """
+            mkdocs_yml += textwrap.dedent(
+                f"""
+                    - {catname}
+                """
+            )
+
+            mdinfiles = hfile.files_and_dirs_recursive_lister(
+                mypathstr=self.OUT_DIR, myglob="*.md"
+            )
+
+            print("mdinfiles", mdinfiles)
+            # sys.exit(42)
+
+            for md_filepath in mdinfiles:
+                if catname in md_filepath:
+                    page_name = md_filepath.replace("md.", "").split("/")[-1]
+                    mkdocs_yml += textwrap.dedent(
+                        f"""
+                            {page_name}: {md_filepath}
+                        """
+                    )
+        print()
+        print(mkdocs_yml)
+        print()
 
         hfile.dump_yaml_file(
             file_name=f"{self.PROJECT_DIR}/mkdocs.yml",
