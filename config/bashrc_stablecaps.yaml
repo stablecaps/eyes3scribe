@@ -4,4 +4,17 @@ site_name: sys bashrc
 site_url: https://github.com/stablecaps/stablecaps.github.io
 site_author: giri
 repo_url: https://github.com/stablecaps/stablecaps_bashrc/
-md_src_dir: /home/bsgt/stablecaps_bashrc
+shell_src_dir: /home/bsgt/stablecaps_bashrc
+out_dir: /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-auto-documatix/output-docs/
+exclude_patterns:
+  - "zsdoc"
+  - "test"
+  - "theme_settings_BACKUP"
+additional_mdfiles:
+  /home/bsgt/stablecaps_bashrc/README.md: index.md
+category_names:
+  - aliases
+  - completion
+  - modules
+  - internal
+

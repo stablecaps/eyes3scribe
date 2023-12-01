@@ -63,6 +63,14 @@ def copy_dir(source, target):
     LOG.info("Copied: %s --> %s", source, target)
 
 
+def copy_file(source, target):
+    """Copy file."""
+
+    shutil.copyfile(source, target)
+
+    LOG.info("Copied: %s --> %s", source, target)
+
+
 def files_and_dirs_lister(mypathstr="./", mode="file", suf_pre="", exclude_list=[]):
     """
 

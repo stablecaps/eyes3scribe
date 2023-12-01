@@ -33,7 +33,7 @@ nav:
 EOF
 
 ###########################
-cd docs
+cd ${PROJECT_NAME}/docs
 all_md_files=$(find . -name "*.md")
 cd -
 
@@ -51,7 +51,7 @@ BACON
     grouped_categ_pages=$(echo "$all_md_files" | grep "$category_name")
 
     for page_path in $grouped_categ_pages; do
-    echo "z $page_path"
+        echo "z $page_path"
         page_name=$(echo "$page_path" | grep "$category_name" | sed 's|.md||g' | tr "/" " " | awk '{print $3}')
         echo "mymd: $page_name $page_path"
         #exit 1
