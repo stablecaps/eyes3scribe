@@ -11,6 +11,7 @@ from autodocumatix.helpo.hstrops import (
     rm_lines_starting_with,
 )
 
+from autodocumatix.FunctionDependencyProcessor import FunctionDependencyProcessor
 from rich import print as print
 
 LOG = logging.getLogger(__name__)
@@ -60,18 +61,18 @@ class ShellSrcPreProcessor:
         full_alias_str_list = []
         func_name = None
         cite_about = "Undefined. Add composure cite-about to shell script file"
+
         with open(infile_path, "r") as FHI:
             self.dprint(infile_path)
 
             func_text_dict = {}
-            src_text = text = FHI.read()
+            src_text = FHI.read()
+
             for line in src_text.split("\n"):
                 if line.startswith("function"):
-                    func_name = ShellSrcPreProcessor.get_function_name(line)
-                    if func_name is not None:
-                        # first function
-                        func_name_list.append(func_name)
-                        func_text_dict[func_name] = line
+                    func_name = self._process_function_line(
+                        line, func_name_list, func_text_dict
+                    )
                 elif line.startswith(
                     (
                         "about-plugin",
@@ -81,79 +82,51 @@ class ShellSrcPreProcessor:
                         "about-internal",
                     )
                 ):
-                    cite_about = (
-                        line.replace("about-plugin", "")
-                        .replace("about-alias", "")
-                        .replace("about-completion", "")
-                        .replace("about-module", "")
-                        .replace("about-internal", "")
-                        .replace("'", "")
-                        .strip()
-                    )
+                    cite_about = self._process_about_line(line)
                 elif line.startswith("alias"):
-                    # pass alias into a container - write out full definition
-                    alias_list = line.replace("alias ", "").strip().split("=", 1)
-                    self.dprint(alias_list)
-
-                    alias_name = alias_list[0]
-                    alias_cmd = alias_list[1]
-                    alias_comment = ""
-                    # Further split alias line using "#" because final column is a description
-                    if "#" in alias_list[1]:
-                        alias_list_lvl2 = alias_list[1].split("#", 1)
-                        alias_cmd = alias_list_lvl2[0]
-                        alias_comment = alias_list_lvl2[1]
-
-                    alias_fmtstr = (
-                        f"| **{alias_name}** | `{alias_cmd[1:-1]}` | {alias_comment}\n"
-                    )
-
-                    full_alias_str_list.append(alias_fmtstr)
-
+                    full_alias_str_list.append(self._process_alias_line(line))
                 else:
                     if func_name is not None:
-                        # func_name = func_name.strip("()")
-                        func_text_dict[func_name] = (
-                            func_text_dict[func_name] + "\n" + line
-                        )
+                        func_text_dict[func_name] += "\n" + line
 
         return func_name_list, full_alias_str_list, cite_about, func_text_dict
 
-    def create_func_dep_dict(self, func_name_list, func_text_dict):
-        func_dep_dict = {}
-        self.dprint(func_name_list)
-        print(func_text_dict)
-        for key, multiline_fdef in func_text_dict.items():
-            cleaned_ml_fdef = rm_lines_starting_with(
-                multiline_str=multiline_fdef, rm_patt_list=["#"]
-            )
-            print("\n*~~~~~yogi\n", key, "\n", cleaned_ml_fdef)
-            for func_name in func_name_list:
-                if func_name != key:  # exclude fuctions own name
-                    print("hoo1", key, func_name)
-                    if (func_name + " " in cleaned_ml_fdef) or (
-                        "(" + func_name + ")" in cleaned_ml_fdef
-                    ):  # get wholeword function call  # search for function name in multiline function definition
-                        if key not in func_dep_dict:
-                            # create new entry
-                            print("hoo2", func_name)
-                            func_dep_dict[key] = [func_name]
-                            # sys.exit(1)
-                        else:
-                            # append to exiting list
-                            if func_name not in func_dep_dict[key]:  # unique values
-                                func_dep_dict[key].append(func_name)
+    def _process_function_line(self, line, func_name_list, func_text_dict):
+        func_name = ShellSrcPreProcessor.get_function_name(line)
+        if func_name is not None:
+            func_name_list.append(func_name)
+            func_text_dict[func_name] = line
+        return func_name
 
-                # print(line)
-        return func_dep_dict
+    def _process_about_line(self, line):
+        return (
+            line.replace("about-plugin", "")
+            .replace("about-alias", "")
+            .replace("about-completion", "")
+            .replace("about-module", "")
+            .replace("about-internal", "")
+            .replace("'", "")
+            .strip()
+        )
+
+    def _process_alias_line(self, line):
+        alias_list = line.replace("alias ", "").strip().split("=", 1)
+        self.dprint(alias_list)
+
+        alias_name = alias_list[0]
+        alias_cmd = alias_list[1]
+        alias_comment = ""
+
+        if "#" in alias_list[1]:
+            alias_list_lvl2 = alias_list[1].split("#", 1)
+            alias_cmd = alias_list_lvl2[0]
+            alias_comment = alias_list_lvl2[1]
+
+        return f"| **{alias_name}** | `{alias_cmd[1:-1]}` | {alias_comment}\n"
 
     def main_routine(self):
-        # print("cleaned_infiles", cleaned_infiles)
-        # sys.exit(0)
-
         for infile_path in self.cleaned_infiles:
-            self.dprint(infile_path)
-
+            LOG.info("Create func_text_dict for file: %s", infile_path)
             (
                 func_name_list,
                 full_alias_str_list,
@@ -161,40 +134,22 @@ class ShellSrcPreProcessor:
                 func_text_dict,
             ) = self.create_func_text_dict(infile_path=infile_path)
 
-            print("\n\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-
-            func_dep_dict = self.create_func_dep_dict(
+            LOG.info("Create func_dep_dict for file: %s", infile_path)
+            function_dependency_processor = FunctionDependencyProcessor(
                 func_name_list=func_name_list, func_text_dict=func_text_dict
             )
-            print("func_dep_dict", func_dep_dict)
-            # sys.exit(1)
+            func_dep_dict = function_dependency_processor.create_func_dep_dict()
 
-            print("\n\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-            # from function_call_tree import draw_tree, parser
+            LOG.debug("func_dep_dict = %s", func_dep_dict)
 
+            LOG.info("Print function data in func_dep_dict")
             for func_name, called_funcs in func_dep_dict.items():
                 print("\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
                 print("\n\n")
 
                 print(func_name, len(called_funcs), called_funcs)
-            #     print("\n")
-            #     stringify_funccalls = func_name + ": " + " ".join(called_funcs) + "\n"
 
-            #     for cfunc in called_funcs:
-            #         if cfunc in func_dep_dict:
-            #             # make a dependent string
-            #             stringify_funccalls += (
-            #                 cfunc + ": " + " ".join(func_dep_dict[cfunc]) + "\n"
-            #             )
-            #     print(f"\n{stringify_funccalls}")
-
-            # draw_tree(parser(stringify_funccalls))
-
-            # sys.exit(0)
-
-            print("\n\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-            # for key, value in func_text_dict.items():
-            #     print("\n*~~~~~\n", key)  # , "\n", value)
+            LOG.info("Convert shell files to markdown files")
             Sh2MdFileWriter(
                 cite_about=cite_about,
                 func_text_dict=func_text_dict,
@@ -204,8 +159,6 @@ class ShellSrcPreProcessor:
                 out_dir=self.out_dir,
             )
 
-
-# function_list = []
 
 if __name__ == "__main__":
     help_banner = "????????????????????"

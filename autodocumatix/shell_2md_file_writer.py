@@ -4,10 +4,6 @@ import sys
 import logging
 from mdutils.mdutils import MdUtils
 from autodocumatix.helpo.hfile import mkdir_if_notexists
-from autodocumatix.helpo.hstrops import (
-    rm_lines_starting_with,
-)
-from autodocumatix.function_call_tree import draw_tree, parser
 from autodocumatix.DocSectionWriterFunction import DocSectionWriterFunction
 
 

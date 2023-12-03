@@ -10,7 +10,7 @@ LOG = logging.getLogger(__name__)
 
 def false_when_str_contains_pattern(test_str, input_patt_li):
     """
-    Returns False when the test string contains any pattern from the list.
+    Returns False when the test string contains any pattern from the list. Is case sensitive.
 
     Args:
         test_str (str): The string to test.
@@ -23,6 +23,10 @@ def false_when_str_contains_pattern(test_str, input_patt_li):
         >>> false_when_str_contains_pattern("Hello, world!", ["world", "!"])
         False
     """
+    for idx in range(len(input_patt_li)):
+        cleaned_pattern = input_patt_li[idx].strip()
+        input_patt_li[idx] = cleaned_pattern
+
     test_str_clean = test_str.strip()
     for pattern in input_patt_li:
         print("*", pattern, test_str_clean)
@@ -33,7 +37,7 @@ def false_when_str_contains_pattern(test_str, input_patt_li):
 
 def false_when_str_starts_with_pattern(test_str, input_patt_li):
     """
-    Returns False when the test string starts with any pattern from the list.
+    Returns False when the test string starts with any pattern from the list. . Is case sensitive.
 
     Args:
         test_str (str): The string to test.
@@ -46,6 +50,10 @@ def false_when_str_starts_with_pattern(test_str, input_patt_li):
         >>> false_when_str_starts_with_pattern("Hello, world!", ["Hell", "world"])
         False
     """
+    for idx in range(len(input_patt_li)):
+        cleaned_pattern = input_patt_li[idx].strip()
+        input_patt_li[idx] = cleaned_pattern
+
     test_str_clean = test_str.strip()
     for pattern in input_patt_li:
         print("*", pattern, test_str_clean)

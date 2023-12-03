@@ -69,7 +69,7 @@ class DocSectionWriterFunction:
                 if cparam in line.strip()[0:max_str_prefix_len]:
                     stripped_line = line.strip()
                     LOG.debug(
-                        "*!!",
+                        "*!! %s, %s, %s, %s",
                         line.strip()[0:max_str_prefix_len],
                         "8",
                         cparam,
@@ -85,15 +85,15 @@ class DocSectionWriterFunction:
                     )
                     if cparam == "example '":
                         ### Put example in inline code block
-                        LOG.debug("stripped_line_fmt0", stripped_line_fmt)
+                        LOG.debug("stripped_line_fmt0: %s", stripped_line_fmt)
 
                         example_fmt = stripped_line_fmt.replace("***: ", """***: `""")
                         stripped_line_fmt = example_fmt[:-1] + "`\n"
-                        LOG.debug("stripped_line_fmt1", stripped_line_fmt)
+                        LOG.debug("stripped_line_fmt1: %s", stripped_line_fmt)
 
-                    LOG.debug("stripped_line_fmt", stripped_line_fmt)
+                    LOG.debug("stripped_line_fmt: %s", stripped_line_fmt)
                     cite_li.append(stripped_line_fmt)
-        LOG.debug("cite_li", cite_li)
+        LOG.debug("cite_li: %s", cite_li)
         return cite_li
 
     def _add_about_param_example_etc(self, func_str):
@@ -211,12 +211,12 @@ class DocSectionWriterFunction:
             self.mdFile.insert_code(code=multiline_funccalls_output, language="bash")
         self.mdFile.new_paragraph("\n")
 
-    def _compose_about_group_param_example_settings(self):
+    def _generate_markdown_code_from_function_signature(self):
         """
-        Compose sections about group parameters and examples for each function in the function text dictionary.
+        Generate markdown sections with parameter and example documentation for each function in the function text dictionary.
 
         Example:
-            writer._compose_about_group_param_example_settings()
+            writer._generate_markdown_code_from_function_signature()
         """
         for func_name, func_str in self.func_text_dict.items():
             LOG.debug("\n*~~~~~\n %s", func_name)  # , "\n", func_str)
@@ -233,4 +233,4 @@ class DocSectionWriterFunction:
             writer.write_func_section()
         """
         self._write_function_index()
-        self._compose_about_group_param_example_settings()
+        self._generate_markdown_code_from_function_signature()
