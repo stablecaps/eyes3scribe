@@ -1,17 +1,13 @@
 """Gen-Bash-MkDoc main entrypoint"""
 
-import os
 import sys
 import logging
 import argparse
 from autodocumatix.shell_2md_file_writer import Sh2MdFileWriter
 from autodocumatix.helpo.hfile import mkdir_if_notexists
-from autodocumatix.helpo.hstrops import (
-    false_when_str_contains_pattern,
-    rm_lines_starting_with,
-)
+from autodocumatix.helpo.hstrops import false_when_str_contains_pattern
 
-from autodocumatix.FunctionDependencyProcessor import FunctionDependencyProcessor
+from autodocumatix.function_dependency_processor import FunctionDependencyProcessor
 from rich import print as print
 
 LOG = logging.getLogger(__name__)
@@ -141,12 +137,12 @@ class ShellSrcPreProcessor:
             func_dep_dict = function_dependency_processor.create_func_dep_dict()
 
             LOG.debug("func_dep_dict = %s", func_dep_dict)
+            # print("func_name_list", func_name_list)
+            # if len(func_dep_dict) > 1:
+            #     sys.exit(42)
 
             LOG.info("Print function data in func_dep_dict")
             for func_name, called_funcs in func_dep_dict.items():
-                print("\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-                print("\n\n")
-
                 print(func_name, len(called_funcs), called_funcs)
 
             LOG.info("Convert shell files to markdown files")
@@ -160,52 +156,52 @@ class ShellSrcPreProcessor:
             )
 
 
-if __name__ == "__main__":
-    help_banner = "????????????????????"
+# if __name__ == "__main__":
+#     help_banner = "????????????????????"
 
-    parser = argparse.ArgumentParser(
-        description="Gen-Bash-MkDoc",
-        usage="??????????????????????",
-    )
+#     parser = argparse.ArgumentParser(
+#         description="Gen-Bash-MkDoc",
+#         usage="??????????????????????",
+#     )
 
-    parser.add_argument(
-        "-i",
-        "--infiles",
-        dest="infiles",
-        help="Space seperated strings of Bash src code files",
-        type=str,
-        nargs="*",
-        default=None,
-        required=True,
-    )
+#     parser.add_argument(
+#         "-i",
+#         "--infiles",
+#         dest="infiles",
+#         help="Space seperated strings of Bash src code files",
+#         type=str,
+#         nargs="*",
+#         default=None,
+#         required=True,
+#     )
 
-    parser.add_argument(
-        "-o",
-        "--out-dir",
-        dest="out_dir",
-        help="Output folder to which processed documentation is written to",
-        type=str,
-        default=None,
-        required=True,
-    )
+#     parser.add_argument(
+#         "-o",
+#         "--out-dir",
+#         dest="out_dir",
+#         help="Output folder to which processed documentation is written to",
+#         type=str,
+#         default=None,
+#         required=True,
+#     )
 
-    parser.add_argument(
-        "-x",
-        "--exclude-files",
-        dest="exclude_patterns",
-        help="FList of space seperated file path patterns to exclude",
-        type=str,
-        nargs="*",
-        default=[],
-    )
+#     parser.add_argument(
+#         "-x",
+#         "--exclude-files",
+#         dest="exclude_patterns",
+#         help="FList of space seperated file path patterns to exclude",
+#         type=str,
+#         nargs="*",
+#         default=[],
+#     )
 
-    args = parser.parse_args()
+#     args = parser.parse_args()
 
-    shell_src_preprocessor = ShellSrcPreProcessor(
-        args.infiles, args.out_dir, args.exclude_patterns
-    )
+#     shell_src_preprocessor = ShellSrcPreProcessor(
+#         args.infiles, args.out_dir, args.exclude_patterns
+#     )
 
-    shell_src_preprocessor.main_routine()
+#     shell_src_preprocessor.main_routine()
 
 
 # https://adamj.eu/tech/2021/10/08/tips-for-debugging-with-print/

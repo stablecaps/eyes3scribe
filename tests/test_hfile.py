@@ -9,6 +9,7 @@ from autodocumatix.helpo.hfile import (
     mkdir_if_notexists,
     copy_clobber,
     copy_dir,
+    copy_file,
 )
 
 
@@ -22,7 +23,7 @@ def test_load_yaml_file2dict():
     result = load_yaml_file2dict(temp_name)
 
     # Check the result
-    assert result == {"name": "Test"}
+    assert result == {"name": "Test"}, "Failed to load YAML file to dictionary"
 
     # Clean up
     os.remove(temp_name)
@@ -41,7 +42,7 @@ def test_dump_yaml_file():
         result = f.read()
 
     # Check the result
-    assert result == "name: Test\n"
+    assert result == "name: Test\n", "Failed to dump data to YAML file"
 
     # Clean up
     os.remove(temp_name)
@@ -55,7 +56,7 @@ def test_rmdir_if_exists():
     rmdir_if_exists(temp_dir)
 
     # Check the directory no longer exists
-    assert not os.path.exists(temp_dir)
+    assert not os.path.exists(temp_dir), "Failed to remove the directory"
 
 
 def test_mkdir_if_notexists():
@@ -67,7 +68,7 @@ def test_mkdir_if_notexists():
     mkdir_if_notexists(temp_dir)
 
     # Check the directory exists
-    assert os.path.exists(temp_dir)
+    assert os.path.exists(temp_dir), "Failed to create the directory"
 
     # Clean up
     os.rmdir(temp_dir)
@@ -82,7 +83,7 @@ def test_copy_clobber():
     copy_clobber(source_dir, target_dir)
 
     # Check the target directory exists
-    assert os.path.exists(target_dir)
+    assert os.path.exists(target_dir), "Failed to copy and clobber the directory"
 
     # Clean up
     os.rmdir(source_dir)
@@ -98,7 +99,7 @@ def test_copy_dir():
     copy_dir(source_dir, target_dir)
 
     # Check the target directory exists
-    assert os.path.exists(target_dir)
+    assert os.path.exists(target_dir), "Failed to copy the directory"
 
     # Clean up
     os.rmdir(source_dir)
@@ -114,3 +115,11 @@ def test_copy_file():
         target_file_name = target_file.name
 
     # Copy the source to the target
+    copy_file(source_file_name, target_file_name)
+
+    # Check the target file exists
+    assert os.path.exists(target_file_name), "Failed to copy the file"
+
+    # Clean up
+    os.remove(source_file_name)
+    os.remove(target_file_name)

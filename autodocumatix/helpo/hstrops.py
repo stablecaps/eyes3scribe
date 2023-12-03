@@ -1,9 +1,7 @@
 """String Ops Helpers module."""
 
-import os
-import sys
 import logging
-import errno
+
 
 LOG = logging.getLogger(__name__)
 
