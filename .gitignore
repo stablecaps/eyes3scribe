@@ -128,3 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .vscode
+mkdocs_stablecaps_bashrc/*
+output-docs/*

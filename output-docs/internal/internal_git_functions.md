@@ -3,7 +3,7 @@ Internal PS prompt related git functions
 ========================================
 
 
-***(in /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-auto-documatix/mkdocs_sys_bashrc/docs/internal/internal_git_functions.sh)***
+***(in /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-auto-documatix/mkdocs_stablecaps_bashrc/docs/internal/internal_git_functions.sh)***
 ## Function Index
 
 

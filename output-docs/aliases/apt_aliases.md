@@ -3,7 +3,7 @@ Apt & dpkg aliases for Ubuntu and Debian distros.
 =================================================
 
 
-***(in /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-auto-documatix/mkdocs_sys_bashrc/docs/aliases/apt_aliases.sh)***
+***(in /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-auto-documatix/mkdocs_stablecaps_bashrc/docs/aliases/apt_aliases.sh)***
 ## Function Index
 
 

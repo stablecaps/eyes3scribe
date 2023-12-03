@@ -46,6 +46,16 @@ def dump_yaml_file(
         yaml.dump(yaml_data, my_yaml)
 
 
+def dict2_yaml_file(
+    file_name,
+    yaml_dict,
+):
+    with open(file_name, "w") as my_yaml:
+        print("Writing yaml data to file name", file_name)
+        LOG.info("yaml_dict: %s", yaml_dict)
+        yaml.dump(yaml_dict, my_yaml)
+
+
 def rmdir_if_exists(target):
     """
     Remove a directory if it exists.

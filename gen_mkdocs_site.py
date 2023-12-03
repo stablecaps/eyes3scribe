@@ -84,28 +84,26 @@ class GenMkdocsSite:
         #     - Home: index.md
         # """
         # )
-        yaml_dict = (
-            {
-                "site_name": {self.cnf["site_name"]},
-                "site_url": {self.cnf["site_url"]},
-                "repo_url": {self.cnf["repo_url"]},
-                "site_author": {self.cnf["site_author"]},
-                "validation": [
-                    {"omitted_files": "warn"},
-                    {"absolute_links": "warn"},
-                    {"unrecognized_links": "warn"},
-                ],
-                "nav": [
-                    {"Home": "index.md"},
-                ],
-            },
-        )
+        yaml_dict = {
+            "site_name": self.cnf.get("site_name"),
+            "site_url": self.cnf.get("site_url"),
+            "repo_url": self.cnf.get("repo_url"),
+            "site_author": self.cnf.get("site_author"),
+            "validation": [
+                {"omitted_files": "warn"},
+                {"absolute_links": "warn"},
+                {"unrecognized_links": "warn"},
+            ],
+            "nav": [
+                {"Home": "index.md"},
+            ],
+        }
 
         # "validation:
         # omitted_files: warn
         # absolute_links: warn
         # unrecognized_links: warn
-        for catname in self.cnf["category_names"]:
+        for catname in self.cnf.get("category_names"):
             # mkdocs_yml += f"  - {catname}:\n"
             # yaml_dict["nav"][""]
 
@@ -122,16 +120,18 @@ class GenMkdocsSite:
                 if catname in md_filepath:
                     page_name = md_filepath.replace("md.", "").split("/")[-1]
                     # mkdocs_yml += f"    {page_name}: {md_filepath}\n"
-                    page_path_map = {page_name, md_filepath}
+                    page_path_map = {page_name: md_filepath}
                     catname_holder.append(page_path_map)
+
+            yaml_dict["nav"].append({catname: catname_holder})
 
         print()
         print(yaml_dict)
         print()
 
-        hfile.dump_yaml_file(
+        hfile.dict2_yaml_file(
             file_name=f"{self.PROJECT_DIR}/mkdocs.yml",
-            yaml_string=mkdocs_yml,
+            yaml_dict=yaml_dict,
         )
 
     def main_routine(self):

@@ -3,7 +3,7 @@ Composure module by Erichs: light-hearted functions for intuitive shell programm
 ===================================================================================
 
 
-***(in /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-auto-documatix/mkdocs_sys_bashrc/docs/modules/composure.sh)***
+***(in /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-auto-documatix/mkdocs_stablecaps_bashrc/docs/modules/composure.sh)***
 ## Function Index
 
 
