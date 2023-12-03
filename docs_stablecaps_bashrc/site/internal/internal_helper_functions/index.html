@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="author" content="giri">
+    <link rel="canonical" href="https://github.com/stablecaps/stablecaps.github.io/internal/internal_helper_functions/">
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>internal_helper_functions - stablecaps bashrc</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <link href="../../custom_css/extra.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Internal bash helper functions", url: "#_top", children: [
+              {title: "Function Index", url: "#function-index" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script>
+      <script src="../../search/main.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../_unused_scrap_functions/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../_unused_scrap_functions/" class="btn btn-xs btn-link">
+        _unused_scrap_functions
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../internal_colour_defs/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../internal_colour_defs/" class="btn btn-xs btn-link">
+        internal_colour_defs
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="internal-bash-helper-functions">Internal bash helper functions</h1>
+<p><strong><em>(in /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-auto-documatix/docs_stablecaps_bashrc/docs/internal/internal_helper_functions.sh)</em></strong></p>
+<h2 id="function-index">Function Index</h2>
+<pre><code class="language-python">01 - check_new_bashrc_vers
+</code></pre>
+<hr />
+<h3 id="check_new_bashrc_vers">&gt;&gt; check_new_bashrc_vers():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>:  'checks whether stablecaps_bashrc is up-to-date</p>
+<p><strong><em>group</em></strong>:  'internal</p>
+<p><strong><em>example</em></strong>:  'check_new_bashrc_vers</p>
+</blockquote>
+<pre><code class="language-bash">function check_new_bashrc_vers() {
+
+    git --git-dir=${HOME}/stablecaps_bashrc/.git fetch --quiet
+    BASHRC_CURR_BRANCH=$(git --git-dir=${HOME}/stablecaps_bashrc/.git rev-parse --abbrev-ref HEAD)
+    BASHRC_COMMIT_DETAILS=$(git --git-dir=${HOME}/stablecaps_bashrc/.git rev-list --left-right \
+                            --count origin/master...&quot;${BASHRC_CURR_BRANCH}&quot;)
+    BC_BEHIND=$(echo &quot;$BASHRC_COMMIT_DETAILS&quot; | awk '{print $1}' | sed 's/^[ \t]*//;s/[ \t]*$//')
+    BC_AHEAD=$(echo &quot;$BASHRC_COMMIT_DETAILS&quot; | awk '{print $2}' | sed 's/^[ \t]*//;s/[ \t]*$//')
+
+    echo -e &quot;\n${PureCHATREU}Your bashrc is ${PureBRed}${BC_BEHIND} ${PureCHATREU}commits behind origin/master and ${PureBBlue}${BC_AHEAD} ${PureCHATREU}commits ahead\n${NOCOL}&quot;
+}
+</code></pre>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../_unused_scrap_functions/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../_unused_scrap_functions/" class="btn btn-xs btn-link">
+        _unused_scrap_functions
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../internal_colour_defs/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../internal_colour_defs/" class="btn btn-xs btn-link">
+        internal_colour_defs
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+      <p>
+        <a href="https://github.com/stablecaps/stablecaps_bashrc/edit/master/docs/internal/internal_helper_functions.md"><i class="fa fa-github"></i>
+Edit on GitHub</a>
+      </p>
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/stablecaps/stablecaps_bashrc/">Windmill Dark</a> theme by giri (noraj).</p>
+</footer>
+
+</body>
+</html>

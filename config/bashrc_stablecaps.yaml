@@ -1,11 +1,10 @@
 ---
-project_name: mkdocs_stablecaps_bashrc
+project_name: docs_stablecaps_bashrc
 site_name: stablecaps bashrc
 site_url: https://github.com/stablecaps/stablecaps.github.io
 site_author: giri
 repo_url: https://github.com/stablecaps/stablecaps_bashrc/
-shell_src_dir: /home/bsgt/stablecaps_bashrc
-out_dir: /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-auto-documatix/output-docs/
+shell_srcdir: /home/bsgt/stablecaps_bashrc
 exclude_patterns:
   - "zsdoc"
   - "test"

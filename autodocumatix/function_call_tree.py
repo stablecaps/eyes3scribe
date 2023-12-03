@@ -1,4 +1,4 @@
-"""Draws function callrelationships like unix "tree" command.
+"""Draws function call relationships like unix "tree" command.
 
     from https://stackoverflow.com/questions/32151776/visualize-tree-in-bash-like-the-output-of-unix-tree
     >>> text='''apple: banana eggplant
@@ -19,7 +19,6 @@ import logging
 from functools import reduce
 
 LOG = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
 branch = "├"
 pipe = "|"
@@ -43,9 +42,9 @@ class Leaf(Tree):
 
 
 def _int_draw_tree(tree, level, last=False, sup=[]):
-    def update(left, i):
-        if i < len(left):
-            left[i] = "   "
+    def update(left, idx):
+        if idx < len(left):
+            left[idx] = "   "
         return left
 
     drawing = (

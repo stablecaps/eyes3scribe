@@ -1,0 +1,3805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="author" content="giri">
+    <link rel="canonical" href="https://github.com/stablecaps/stablecaps.github.io/completion/git_completion/">
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>git_completion - stablecaps bashrc</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <link href="../../custom_css/extra.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "GIT Completions", url: "#_top", children: [
+              {title: "Function Index", url: "#function-index" },
+          ]},
+          {title: "&gt;example: :", url: "#example", children: [
+              {title: "&gt;&gt; __git_get_option_value():", url: "#__git_get_option_value" },
+              {title: "&gt;&gt; __git_has_doubledash():", url: "#__git_has_doubledash" },
+              {title: "&gt;&gt; __git_count_arguments():", url: "#__git_count_arguments" },
+              {title: "&gt;&gt; _git_am():", url: "#_git_am" },
+              {title: "&gt;&gt; _git_apply():", url: "#_git_apply" },
+              {title: "&gt;&gt; _git_add():", url: "#_git_add" },
+              {title: "&gt;&gt; _git_archive():", url: "#_git_archive" },
+              {title: "&gt;&gt; _git_bisect():", url: "#_git_bisect" },
+              {title: "&gt;&gt; _git_branch():", url: "#_git_branch" },
+              {title: "&gt;&gt; _git_bundle():", url: "#_git_bundle" },
+              {title: "&gt;&gt; _git_checkout():", url: "#_git_checkout" },
+              {title: "&gt;&gt; _git_cherry_pick():", url: "#_git_cherry_pick" },
+              {title: "&gt;&gt; _git_clean():", url: "#_git_clean" },
+              {title: "&gt;&gt; _git_clone():", url: "#_git_clone" },
+              {title: "&gt;&gt; _git_commit():", url: "#_git_commit" },
+              {title: "&gt;&gt; _git_describe():", url: "#_git_describe" },
+              {title: "&gt;&gt; _git_diff():", url: "#_git_diff" },
+              {title: "&gt;&gt; _git_difftool():", url: "#_git_difftool" },
+              {title: "&gt;&gt; _git_fetch():", url: "#_git_fetch" },
+              {title: "&gt;&gt; _git_format_patch():", url: "#_git_format_patch" },
+              {title: "&gt;&gt; _git_fsck():", url: "#_git_fsck" },
+              {title: "&gt;&gt; _git_gitk():", url: "#_git_gitk" },
+              {title: "&gt;&gt; __git_match_ctag():", url: "#__git_match_ctag" },
+              {title: "&gt;&gt; __git_complete_symbol():", url: "#__git_complete_symbol" },
+              {title: "&gt;&gt; _git_grep():", url: "#_git_grep" },
+              {title: "&gt;&gt; _git_help():", url: "#_git_help" },
+              {title: "&gt;&gt; _git_init():", url: "#_git_init" },
+              {title: "&gt;&gt; _git_ls_files():", url: "#_git_ls_files" },
+              {title: "&gt;&gt; _git_ls_remote():", url: "#_git_ls_remote" },
+              {title: "&gt;&gt; _git_log():", url: "#_git_log" },
+              {title: "&gt;&gt; _git_merge():", url: "#_git_merge" },
+              {title: "&gt;&gt; _git_mergetool():", url: "#_git_mergetool" },
+              {title: "&gt;&gt; _git_merge_base():", url: "#_git_merge_base" },
+              {title: "&gt;&gt; _git_mv():", url: "#_git_mv" },
+              {title: "&gt;&gt; _git_notes():", url: "#_git_notes" },
+              {title: "&gt;&gt; _git_pull():", url: "#_git_pull" },
+              {title: "&gt;&gt; __git_complete_force_with_lease():", url: "#__git_complete_force_with_lease" },
+              {title: "&gt;&gt; _git_push():", url: "#_git_push" },
+              {title: "&gt;&gt; _git_range_diff():", url: "#_git_range_diff" },
+              {title: "&gt;&gt; _git_rebase():", url: "#_git_rebase" },
+              {title: "&gt;&gt; _git_reflog():", url: "#_git_reflog" },
+              {title: "&gt;&gt; _git_send_email():", url: "#_git_send_email" },
+              {title: "&gt;&gt; _git_stage():", url: "#_git_stage" },
+              {title: "&gt;&gt; _git_status():", url: "#_git_status" },
+              {title: "&gt;&gt; __git_config_get_set_variables():", url: "#__git_config_get_set_variables" },
+              {title: "&gt;&gt; __git_compute_config_vars():", url: "#__git_compute_config_vars" },
+              {title: "&gt;&gt; _git_config():", url: "#_git_config" },
+              {title: "&gt;&gt; _git_remote():", url: "#_git_remote" },
+              {title: "&gt;&gt; _git_replace():", url: "#_git_replace" },
+              {title: "&gt;&gt; _git_rerere():", url: "#_git_rerere" },
+              {title: "&gt;&gt; _git_reset():", url: "#_git_reset" },
+              {title: "&gt;&gt; _git_revert():", url: "#_git_revert" },
+              {title: "&gt;&gt; _git_rm():", url: "#_git_rm" },
+              {title: "&gt;&gt; _git_shortlog():", url: "#_git_shortlog" },
+              {title: "&gt;&gt; _git_show():", url: "#_git_show" },
+              {title: "&gt;&gt; _git_show_branch():", url: "#_git_show_branch" },
+              {title: "&gt;&gt; _git_stash():", url: "#_git_stash" },
+              {title: "&gt;&gt; _git_submodule():", url: "#_git_submodule" },
+              {title: "&gt;&gt; _git_svn():", url: "#_git_svn" },
+              {title: "&gt;&gt; _git_tag():", url: "#_git_tag" },
+              {title: "&gt;&gt; _git_whatchanged():", url: "#_git_whatchanged" },
+              {title: "&gt;&gt; _git_worktree():", url: "#_git_worktree" },
+              {title: "&gt;&gt; __git_complete_common():", url: "#__git_complete_common" },
+              {title: "&gt;&gt; __git_support_parseopt_helper():", url: "#__git_support_parseopt_helper" },
+              {title: "&gt;&gt; __git_complete_command():", url: "#__git_complete_command" },
+              {title: "&gt;&gt; __git_main():", url: "#__git_main" },
+              {title: "&gt;&gt; __gitk_main():", url: "#__gitk_main" },
+              {title: "&gt;&gt; __git_func_wrap():", url: "#__git_func_wrap" },
+              {title: "&gt;&gt; __git_complete():", url: "#__git_complete" },
+              {title: "&gt;&gt; _git():", url: "#_git" },
+              {title: "&gt;&gt; _gitk():", url: "#_gitk" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script>
+      <script src="../../search/main.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../awscli_completion/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../awscli_completion/" class="btn btn-xs btn-link">
+        awscli_completion
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../docker-compose_completion/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../docker-compose_completion/" class="btn btn-xs btn-link">
+        docker-compose_completion
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="git-completions">GIT Completions</h1>
+<p><strong><em>(in /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-auto-documatix/docs_stablecaps_bashrc/docs/completions/git_completion.sh)</em></strong></p>
+<h2 id="function-index">Function Index</h2>
+<pre><code class="language-python">01 - __git_find_repo_path
+02 - __gitdir
+03 - __git
+04 - __git_dequote
+05 - __git_reassemble_comp_words_by_ref
+06 - __gitcomp_direct
+07 - __gitcompappend
+08 - __gitcompadd
+09 - __gitcomp
+10 - __gitcomp_builtin
+11 - __gitcomp_nl_append
+12 - __gitcomp_nl
+13 - __gitcomp_file_direct
+14 - __gitcomp_file
+15 - __git_ls_files_helper
+16 - __git_index_files
+17 - __git_complete_index_file
+18 - __git_heads
+19 - __git_tags
+20 - __git_refs
+21 - __git_complete_refs
+22 - __git_refs2
+23 - __git_complete_fetch_refspecs
+24 - __git_refs_remotes
+25 - __git_remotes
+26 - __git_is_configured_remote
+27 - __git_list_merge_strategies
+28 - __git_compute_merge_strategies
+29 - __git_complete_revlist_file
+30 - __git_complete_file
+31 - __git_complete_revlist
+32 - __git_complete_remote_or_refspec
+33 - __git_complete_strategy
+34 - __git_compute_all_commands
+35 - __git_get_config_variables
+36 - __git_pretty_aliases
+37 - __git_aliased_command
+38 - __git_find_on_cmdline
+39 - __git_get_option_value
+40 - __git_has_doubledash
+41 - __git_count_arguments
+42 - _git_am
+43 - _git_apply
+44 - _git_add
+45 - _git_archive
+46 - _git_bisect
+47 - _git_branch
+48 - _git_bundle
+49 - _git_checkout
+50 - _git_cherry_pick
+51 - _git_clean
+52 - _git_clone
+53 - _git_commit
+54 - _git_describe
+55 - _git_diff
+56 - _git_difftool
+57 - _git_fetch
+58 - _git_format_patch
+59 - _git_fsck
+60 - _git_gitk
+61 - __git_match_ctag
+62 - __git_complete_symbol
+63 - _git_grep
+64 - _git_help
+65 - _git_init
+66 - _git_ls_files
+67 - _git_ls_remote
+68 - _git_log
+69 - _git_merge
+70 - _git_mergetool
+71 - _git_merge_base
+72 - _git_mv
+73 - _git_notes
+74 - _git_pull
+75 - __git_complete_force_with_lease
+76 - _git_push
+77 - _git_range_diff
+78 - _git_rebase
+79 - _git_reflog
+80 - _git_send_email
+81 - _git_stage
+82 - _git_status
+83 - __git_config_get_set_variables
+84 - __git_compute_config_vars
+85 - _git_config
+86 - _git_remote
+87 - _git_replace
+88 - _git_rerere
+89 - _git_reset
+90 - _git_revert
+91 - _git_rm
+92 - _git_shortlog
+93 - _git_show
+94 - _git_show_branch
+95 - _git_stash
+96 - _git_submodule
+97 - _git_svn
+98 - _git_tag
+99 - _git_whatchanged
+100 - _git_worktree
+101 - __git_complete_common
+102 - __git_support_parseopt_helper
+103 - __git_complete_command
+104 - __git_main
+105 - __gitk_main
+106 - __git_func_wrap
+107 - __git_complete
+108 - _git
+109 - _gitk
+</code></pre>
+<hr />
+<h3 id="__git_find_repo_path">&gt;&gt; __git_find_repo_path():</h3>
+<pre><code class="language-bash">function __git_find_repo_path() {
+    if [ -n &quot;$__git_repo_path&quot; ]; then
+        return
+    fi
+
+    if [ -n &quot;${__git_C_args-}&quot; ]; then
+        __git_repo_path=&quot;$(git &quot;${__git_C_args[@]}&quot; \
+            ${__git_dir:+--git-dir=&quot;$__git_dir&quot;} \
+            rev-parse --absolute-git-dir 2&gt;/dev/null)&quot;
+    elif [ -n &quot;${__git_dir-}&quot; ]; then
+        test -d &quot;$__git_dir&quot; &amp;&amp;
+        __git_repo_path=&quot;$__git_dir&quot;
+    elif [ -n &quot;${GIT_DIR-}&quot; ]; then
+        test -d &quot;${GIT_DIR-}&quot; &amp;&amp;
+        __git_repo_path=&quot;$GIT_DIR&quot;
+    elif [ -d .git ]; then
+        __git_repo_path=.git
+    else
+        __git_repo_path=&quot;$(git rev-parse --git-dir 2&gt;/dev/null)&quot;
+    fi
+}
+</code></pre>
+<hr />
+<h3 id="__gitdir">&gt;&gt; __gitdir():</h3>
+<pre><code class="language-bash">function __gitdir() {
+    if [ -z &quot;${1-}&quot; ]; then
+        __git_find_repo_path || return 1
+        echo &quot;$__git_repo_path&quot;
+    elif [ -d &quot;$1/.git&quot; ]; then
+        echo &quot;$1/.git&quot;
+    else
+        echo &quot;$1&quot;
+    fi
+}
+</code></pre>
+<h5 id="function-calls">Function Calls:</h5>
+<pre><code class="language-bash">└─ __gitdir
+   └─ __git_find_repo_path
+</code></pre>
+<hr />
+<h3 id="__git">&gt;&gt; __git():</h3>
+<pre><code class="language-bash">function __git() {
+    git ${__git_C_args:+&quot;${__git_C_args[@]}&quot;} \
+        ${__git_dir:+--git-dir=&quot;$__git_dir&quot;} &quot;$@&quot; 2&gt;/dev/null
+}
+</code></pre>
+<hr />
+<h3 id="__git_dequote">&gt;&gt; __git_dequote():</h3>
+<pre><code class="language-bash">function __git_dequote() {
+    local rest=&quot;$1&quot; len ch
+
+    dequoted_word=&quot;&quot;
+
+    while test -n &quot;$rest&quot;; do
+        len=${#dequoted_word}
+        dequoted_word=&quot;$dequoted_word${rest%%[\\\'\&quot;]*}&quot;
+        rest=&quot;${rest:$((${#dequoted_word}-$len))}&quot;
+
+        case &quot;${rest:0:1}&quot; in
+        \\)
+            ch=&quot;${rest:1:1}&quot;
+            case &quot;$ch&quot; in
+            $'\n')
+                ;;
+            *)
+                dequoted_word=&quot;$dequoted_word$ch&quot;
+                ;;
+            esac
+            rest=&quot;${rest:2}&quot;
+            ;;
+        \')
+            rest=&quot;${rest:1}&quot;
+            len=${#dequoted_word}
+            dequoted_word=&quot;$dequoted_word${rest%%\'*}&quot;
+            rest=&quot;${rest:$((${#dequoted_word}-$len+1))}&quot;
+            ;;
+        \&quot;)
+            rest=&quot;${rest:1}&quot;
+            while test -n &quot;$rest&quot; ; do
+                len=${#dequoted_word}
+                dequoted_word=&quot;$dequoted_word${rest%%[\\\&quot;]*}&quot;
+                rest=&quot;${rest:$((${#dequoted_word}-$len))}&quot;
+                case &quot;${rest:0:1}&quot; in
+                \\)
+                    ch=&quot;${rest:1:1}&quot;
+                    case &quot;$ch&quot; in
+                    \&quot;|\\|\$|\`)
+                        dequoted_word=&quot;$dequoted_word$ch&quot;
+                        ;;
+                    $'\n')
+                        ;;
+                    *)
+                        dequoted_word=&quot;$dequoted_word\\$ch&quot;
+                        ;;
+                    esac
+                    rest=&quot;${rest:2}&quot;
+                    ;;
+                \&quot;)
+                    rest=&quot;${rest:1}&quot;
+                    break
+                    ;;
+                esac
+            done
+            ;;
+        esac
+    done
+}
+</code></pre>
+<hr />
+<h3 id="__git_reassemble_comp_words_by_ref">&gt;&gt; __git_reassemble_comp_words_by_ref():</h3>
+<pre><code class="language-bash">function __git_reassemble_comp_words_by_ref() {
+    local exclude i j first
+    exclude=&quot;${1//[^$COMP_WORDBREAKS]}&quot;
+    cword_=$COMP_CWORD
+    if [ -z &quot;$exclude&quot; ]; then
+        words_=(&quot;${COMP_WORDS[@]}&quot;)
+        return
+    fi
+    for ((i=0, j=0; i &lt; ${#COMP_WORDS[@]}; i++, j++)); do
+        first=t
+        while
+            [ $i -gt 0 ] &amp;&amp;
+            [ -n &quot;${COMP_WORDS[$i]}&quot; ] &amp;&amp;
+            [ &quot;${COMP_WORDS[$i]//[^$exclude]}&quot; = &quot;${COMP_WORDS[$i]}&quot; ]
+        do
+            if [ $j -ge 2 ] &amp;&amp; [ -n &quot;$first&quot; ]; then
+                ((j--))
+            fi
+            first=
+            words_[$j]=${words_[j]}${COMP_WORDS[i]}
+            if [ $i = $COMP_CWORD ]; then
+                cword_=$j
+            fi
+            if (($i &lt; ${#COMP_WORDS[@]} - 1)); then
+                ((i++))
+            else
+                return
+            fi
+        done
+        words_[$j]=${words_[j]}${COMP_WORDS[i]}
+        if [ $i = $COMP_CWORD ]; then
+            cword_=$j
+        fi
+    done
+}
+
+if ! type _get_comp_words_by_ref &gt;/dev/null 2&gt;&amp;1; then
+</code></pre>
+<hr />
+<h3 id="__gitcomp_direct">&gt;&gt; __gitcomp_direct():</h3>
+<pre><code class="language-bash">function  __gitcomp_direct() {
+    local IFS=$'\n'
+
+    COMPREPLY=($1)
+}
+</code></pre>
+<hr />
+<h3 id="__gitcompappend">&gt;&gt; __gitcompappend():</h3>
+<pre><code class="language-bash">function __gitcompappend() {
+    local x i=${#COMPREPLY[@]}
+    for x in $1; do
+        if [[ &quot;$x&quot; == &quot;$3&quot;* ]]; then
+            COMPREPLY[i++]=&quot;$2$x$4&quot;
+        fi
+    done
+}
+</code></pre>
+<hr />
+<h3 id="__gitcompadd">&gt;&gt; __gitcompadd():</h3>
+<pre><code class="language-bash">function __gitcompadd() {
+    COMPREPLY=()
+    __gitcompappend &quot;$@&quot;
+}
+</code></pre>
+<h5 id="function-calls_1">Function Calls:</h5>
+<pre><code class="language-bash">└─ __gitcompadd
+   └─ __gitcompappend
+</code></pre>
+<hr />
+<h3 id="__gitcomp">&gt;&gt; __gitcomp():</h3>
+<pre><code class="language-bash">function __gitcomp() {
+    local cur_=&quot;${3-$cur}&quot;
+
+    case &quot;$cur_&quot; in
+    --*=)
+        ;;
+    --no-*)
+        local c i=0 IFS=$' \t\n'
+        for c in $1; do
+            if [[ $c == &quot;--&quot; ]]; then
+                continue
+            fi
+            c=&quot;$c${4-}&quot;
+            if [[ $c == &quot;$cur_&quot;* ]]; then
+                case $c in
+                --*=*|*.) ;;
+                *) c=&quot;$c &quot; ;;
+                esac
+                COMPREPLY[i++]=&quot;${2-}$c&quot;
+            fi
+        done
+        ;;
+    *)
+        local c i=0 IFS=$' \t\n'
+        for c in $1; do
+            if [[ $c == &quot;--&quot; ]]; then
+                c=&quot;--no-...${4-}&quot;
+                if [[ $c == &quot;$cur_&quot;* ]]; then
+                    COMPREPLY[i++]=&quot;${2-}$c &quot;
+                fi
+                break
+            fi
+            c=&quot;$c${4-}&quot;
+            if [[ $c == &quot;$cur_&quot;* ]]; then
+                case $c in
+                --*=*|*.) ;;
+                *) c=&quot;$c &quot; ;;
+                esac
+                COMPREPLY[i++]=&quot;${2-}$c&quot;
+            fi
+        done
+        ;;
+    esac
+}
+
+if [[ -n ${ZSH_VERSION-} ]]; then
+    unset $(set |sed -ne 's/^\(__gitcomp_builtin_[a-zA-Z0-9_][a-zA-Z0-9_]*\)=.*/\1/p') 2&gt;/dev/null
+else
+    unset $(compgen -v __gitcomp_builtin_)
+fi
+</code></pre>
+<hr />
+<h3 id="__gitcomp_builtin">&gt;&gt; __gitcomp_builtin():</h3>
+<pre><code class="language-bash">function __gitcomp_builtin() {
+    local cmd=&quot;$1&quot;
+    local incl=&quot;$2&quot;
+    local excl=&quot;$3&quot;
+
+    local var=__gitcomp_builtin_&quot;${cmd/-/_}&quot;
+    local options
+    eval &quot;options=\$$var&quot;
+
+    if [ -z &quot;$options&quot; ]; then
+        options=&quot; $incl $(__git ${cmd/_/ } --git-completion-helper) &quot;
+        for i in $excl; do
+            options=&quot;${options/ $i / }&quot;
+        done
+        eval &quot;$var=\&quot;$options\&quot;&quot;
+    fi
+
+    __gitcomp &quot;$options&quot;
+}
+</code></pre>
+<h5 id="function-calls_2">Function Calls:</h5>
+<pre><code class="language-bash">└─ __gitcomp_builtin
+   ├─ __git
+   ├─ __gitcomp
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="__gitcomp_nl_append">&gt;&gt; __gitcomp_nl_append():</h3>
+<pre><code class="language-bash">function __gitcomp_nl_append() {
+    local IFS=$'\n'
+    __gitcompappend &quot;$1&quot; &quot;${2-}&quot; &quot;${3-$cur}&quot; &quot;${4- }&quot;
+}
+</code></pre>
+<h5 id="function-calls_3">Function Calls:</h5>
+<pre><code class="language-bash">└─ __gitcomp_nl_append
+   └─ __gitcompappend
+</code></pre>
+<hr />
+<h3 id="__gitcomp_nl">&gt;&gt; __gitcomp_nl():</h3>
+<pre><code class="language-bash">function __gitcomp_nl() {
+    COMPREPLY=()
+    __gitcomp_nl_append &quot;$@&quot;
+}
+</code></pre>
+<h5 id="function-calls_4">Function Calls:</h5>
+<pre><code class="language-bash">└─ __gitcomp_nl
+   └─ __gitcomp_nl_append
+      └─ __gitcompappend
+</code></pre>
+<hr />
+<h3 id="__gitcomp_file_direct">&gt;&gt; __gitcomp_file_direct():</h3>
+<pre><code class="language-bash">function __gitcomp_file_direct() {
+    local IFS=$'\n'
+
+    COMPREPLY=($1)
+
+    compopt -o filenames +o nospace 2&gt;/dev/null ||
+    compgen -f /non-existing-dir/ &gt;/dev/null ||
+    true
+}
+</code></pre>
+<hr />
+<h3 id="__gitcomp_file">&gt;&gt; __gitcomp_file():</h3>
+<pre><code class="language-bash">function __gitcomp_file() {
+    local IFS=$'\n'
+
+    __gitcompadd &quot;$1&quot; &quot;${2-}&quot; &quot;${3-$cur}&quot; &quot;&quot;
+
+    compopt -o filenames +o nospace 2&gt;/dev/null ||
+    compgen -f /non-existing-dir/ &gt;/dev/null ||
+    true
+}
+</code></pre>
+<h5 id="function-calls_5">Function Calls:</h5>
+<pre><code class="language-bash">└─ __gitcomp_file
+   └─ __gitcompadd
+      └─ __gitcompappend
+</code></pre>
+<hr />
+<h3 id="__git_ls_files_helper">&gt;&gt; __git_ls_files_helper():</h3>
+<pre><code class="language-bash">function __git_ls_files_helper() {
+    if [ &quot;$2&quot; == &quot;--committable&quot; ]; then
+        __git -C &quot;$1&quot; -c core.quotePath=false diff-index \
+            --name-only --relative HEAD -- &quot;${3//\\/\\\\}*&quot;
+    else
+        __git -C &quot;$1&quot; -c core.quotePath=false ls-files \
+            --exclude-standard $2 -- &quot;${3//\\/\\\\}*&quot;
+    fi
+}
+</code></pre>
+<h5 id="function-calls_6">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_ls_files_helper
+   ├─ __git
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_index_files">&gt;&gt; __git_index_files():</h3>
+<pre><code class="language-bash">function __git_index_files() {
+    local root=&quot;$2&quot; match=&quot;$3&quot;
+
+    __git_ls_files_helper &quot;$root&quot; &quot;$1&quot; &quot;$match&quot; |
+    awk -F / -v pfx=&quot;${2//\\/\\\\}&quot; '{
+        paths[$1] = 1
+    }
+    END {
+        for (p in paths) {
+            if (substr(p, 1, 1) != &quot;\&quot;&quot;) {
+                print pfx p
+                continue
+            }
+
+            p = dequote(p)
+            if (p == &quot;&quot;)
+                continue
+
+            if (p in paths)
+                continue
+            else
+                print pfx p
+        }
+    }
+    function dequote(p,    bs_idx, out, esc, esc_idx, dec) {
+        p = substr(p, 2)
+
+        while ((bs_idx = index(p, &quot;\\&quot;)) != 0) {
+            out = out substr(p, 1, bs_idx - 1)
+            esc = substr(p, bs_idx + 1, 1)
+            p = substr(p, bs_idx + 2)
+
+            if ((esc_idx = index(&quot;abtvfr\&quot;\\&quot;, esc)) != 0) {
+                out = out substr(&quot;\a\b\t\v\f\r\&quot;\\&quot;,
+                         esc_idx, 1)
+            } else if (esc == &quot;n&quot;) {
+                return &quot;&quot;
+            } else {
+                dec = esc             * 64 + \
+                      substr(p, 1, 1) * 8  + \
+                      substr(p, 2, 1)
+                out = out sprintf(&quot;%c&quot;, dec)
+                p = substr(p, 3)
+            }
+        }
+        if (substr(p, length(p), 1) == &quot;\&quot;&quot;)
+            out = out substr(p, 1, length(p) - 1)
+        else
+            out = out p
+
+        return out
+    }'
+}
+</code></pre>
+<h5 id="function-calls_7">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_index_files
+   └─ __git_ls_files_helper
+      ├─ __git
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_complete_index_file">&gt;&gt; __git_complete_index_file():</h3>
+<pre><code class="language-bash">function __git_complete_index_file() {
+    local dequoted_word pfx=&quot;&quot; cur_
+
+    __git_dequote &quot;$cur&quot;
+
+    case &quot;$dequoted_word&quot; in
+    ?*/*)
+        pfx=&quot;${dequoted_word%/*}/&quot;
+        cur_=&quot;${dequoted_word##*/}&quot;
+        ;;
+    *)
+        cur_=&quot;$dequoted_word&quot;
+    esac
+
+    __gitcomp_file_direct &quot;$(__git_index_files &quot;$1&quot; &quot;$pfx&quot; &quot;$cur_&quot;)&quot;
+}
+</code></pre>
+<h5 id="function-calls_8">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_complete_index_file
+   ├─ __git_dequote
+   ├─ __gitcomp_file_direct
+   └─ __git_index_files
+      └─ __git_ls_files_helper
+</code></pre>
+<hr />
+<h3 id="__git_heads">&gt;&gt; __git_heads():</h3>
+<pre><code class="language-bash">function __git_heads() {
+    local pfx=&quot;${1-}&quot; cur_=&quot;${2-}&quot; sfx=&quot;${3-}&quot;
+
+    __git for-each-ref --format=&quot;${pfx//\%/%%}%(refname:strip=2)$sfx&quot; \
+            &quot;refs/heads/$cur_*&quot; &quot;refs/heads/$cur_*/**&quot;
+}
+</code></pre>
+<h5 id="function-calls_9">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_heads
+   ├─ __git
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_tags">&gt;&gt; __git_tags():</h3>
+<pre><code class="language-bash">function __git_tags() {
+    local pfx=&quot;${1-}&quot; cur_=&quot;${2-}&quot; sfx=&quot;${3-}&quot;
+
+    __git for-each-ref --format=&quot;${pfx//\%/%%}%(refname:strip=2)$sfx&quot; \
+            &quot;refs/tags/$cur_*&quot; &quot;refs/tags/$cur_*/**&quot;
+}
+</code></pre>
+<h5 id="function-calls_10">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_tags
+   ├─ __git
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_refs">&gt;&gt; __git_refs():</h3>
+<pre><code class="language-bash">function __git_refs() {
+    local i hash dir track=&quot;${2-}&quot;
+    local list_refs_from=path remote=&quot;${1-}&quot;
+    local format refs
+    local pfx=&quot;${3-}&quot; cur_=&quot;${4-$cur}&quot; sfx=&quot;${5-}&quot;
+    local match=&quot;${4-}&quot;
+    local fer_pfx=&quot;${pfx//\%/%%}&quot; # &quot;escape&quot; for-each-ref format specifiers
+
+    __git_find_repo_path
+    dir=&quot;$__git_repo_path&quot;
+
+    if [ -z &quot;$remote&quot; ]; then
+        if [ -z &quot;$dir&quot; ]; then
+            return
+        fi
+    else
+        if __git_is_configured_remote &quot;$remote&quot;; then
+            list_refs_from=remote
+        elif [ -d &quot;$remote/.git&quot; ]; then
+            dir=&quot;$remote/.git&quot;
+        elif [ -d &quot;$remote&quot; ]; then
+            dir=&quot;$remote&quot;
+        else
+            list_refs_from=url
+        fi
+    fi
+
+    if [ &quot;$list_refs_from&quot; = path ]; then
+        if [[ &quot;$cur_&quot; == ^* ]]; then
+            pfx=&quot;$pfx^&quot;
+            fer_pfx=&quot;$fer_pfx^&quot;
+            cur_=${cur_#^}
+            match=${match#^}
+        fi
+        case &quot;$cur_&quot; in
+        refs|refs/*)
+            format=&quot;refname&quot;
+            refs=(&quot;$match*&quot; &quot;$match*/**&quot;)
+            track=&quot;&quot;
+            ;;
+        *)
+            for i in HEAD FETCH_HEAD ORIG_HEAD MERGE_HEAD REBASE_HEAD; do
+                case &quot;$i&quot; in
+                $match*)
+                    if [ -e &quot;$dir/$i&quot; ]; then
+                        echo &quot;$pfx$i$sfx&quot;
+                    fi
+                    ;;
+                esac
+            done
+            format=&quot;refname:strip=2&quot;
+            refs=(&quot;refs/tags/$match*&quot; &quot;refs/tags/$match*/**&quot;
+                &quot;refs/heads/$match*&quot; &quot;refs/heads/$match*/**&quot;
+                &quot;refs/remotes/$match*&quot; &quot;refs/remotes/$match*/**&quot;)
+            ;;
+        esac
+        __git_dir=&quot;$dir&quot; __git for-each-ref --format=&quot;$fer_pfx%($format)$sfx&quot; \
+            &quot;${refs[@]}&quot;
+        if [ -n &quot;$track&quot; ]; then
+            __git for-each-ref --format=&quot;$fer_pfx%(refname:strip=3)$sfx&quot; \
+                --sort=&quot;refname:strip=3&quot; \
+                &quot;refs/remotes/*/$match*&quot; &quot;refs/remotes/*/$match*/**&quot; | \
+            uniq -u
+        fi
+        return
+    fi
+    case &quot;$cur_&quot; in
+    refs|refs/*)
+        __git ls-remote &quot;$remote&quot; &quot;$match*&quot; | \
+        while read -r hash i; do
+            case &quot;$i&quot; in
+            *^{}) ;;
+            *) echo &quot;$pfx$i$sfx&quot; ;;
+            esac
+        done
+        ;;
+    *)
+        if [ &quot;$list_refs_from&quot; = remote ]; then
+            case &quot;HEAD&quot; in
+            $match*)    echo &quot;${pfx}HEAD$sfx&quot; ;;
+            esac
+            __git for-each-ref --format=&quot;$fer_pfx%(refname:strip=3)$sfx&quot; \
+                &quot;refs/remotes/$remote/$match*&quot; \
+                &quot;refs/remotes/$remote/$match*/**&quot;
+        else
+            local query_symref
+            case &quot;HEAD&quot; in
+            $match*)    query_symref=&quot;HEAD&quot; ;;
+            esac
+            __git ls-remote &quot;$remote&quot; $query_symref \
+                &quot;refs/tags/$match*&quot; &quot;refs/heads/$match*&quot; \
+                &quot;refs/remotes/$match*&quot; |
+            while read -r hash i; do
+                case &quot;$i&quot; in
+                *^{})   ;;
+                refs/*) echo &quot;$pfx${i#refs/*/}$sfx&quot; ;;
+                *)  echo &quot;$pfx$i$sfx&quot; ;;  # symbolic refs
+                esac
+            done
+        fi
+        ;;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_11">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_refs
+   ├─ __git
+   ├─ __git_is_configured_remote
+   |  └─ __git_remotes
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_complete_refs">&gt;&gt; __git_complete_refs():</h3>
+<pre><code class="language-bash">function __git_complete_refs() {
+    local remote track pfx cur_=&quot;$cur&quot; sfx=&quot; &quot;
+
+    while test $# != 0; do
+        case &quot;$1&quot; in
+        --remote=*) remote=&quot;${1##--remote=}&quot; ;;
+        --track)    track=&quot;yes&quot; ;;
+        --pfx=*)    pfx=&quot;${1##--pfx=}&quot; ;;
+        --cur=*)    cur_=&quot;${1##--cur=}&quot; ;;
+        --sfx=*)    sfx=&quot;${1##--sfx=}&quot; ;;
+        *)      return 1 ;;
+        esac
+        shift
+    done
+
+    __gitcomp_direct &quot;$(__git_refs &quot;$remote&quot; &quot;$track&quot; &quot;$pfx&quot; &quot;$cur_&quot; &quot;$sfx&quot;)&quot;
+}
+</code></pre>
+<h5 id="function-calls_12">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_complete_refs
+   ├─ __gitcomp_direct
+   └─ __git_refs
+      ├─ __git
+      ├─ __git_is_configured_remote
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_refs2">&gt;&gt; __git_refs2():</h3>
+<pre><code class="language-bash">function __git_refs2() {
+    local i
+    for i in $(__git_refs &quot;$1&quot;); do
+        echo &quot;$i:$i&quot;
+    done
+}
+</code></pre>
+<h5 id="function-calls_13">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_refs2
+   └─ __git_refs
+      ├─ __git
+      ├─ __git_is_configured_remote
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_complete_fetch_refspecs">&gt;&gt; __git_complete_fetch_refspecs():</h3>
+<pre><code class="language-bash">function __git_complete_fetch_refspecs() {
+    local i remote=&quot;$1&quot; pfx=&quot;${2-}&quot; cur_=&quot;${3-$cur}&quot; sfx=&quot;${4- }&quot;
+
+    __gitcomp_direct &quot;$(
+        for i in $(__git_refs &quot;$remote&quot; &quot;&quot; &quot;&quot; &quot;$cur_&quot;) ; do
+            echo &quot;$pfx$i:$i$sfx&quot;
+        done
+        )&quot;
+}
+</code></pre>
+<h5 id="function-calls_14">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_complete_fetch_refspecs
+   ├─ __gitcomp_direct
+   └─ __git_refs
+      ├─ __git
+      ├─ __git_is_configured_remote
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_refs_remotes">&gt;&gt; __git_refs_remotes():</h3>
+<pre><code class="language-bash">function __git_refs_remotes() {
+    local i hash
+    __git ls-remote &quot;$1&quot; 'refs/heads/*' | \
+    while read -r hash i; do
+        echo &quot;$i:refs/remotes/$1/${i#refs/heads/}&quot;
+    done
+}
+</code></pre>
+<h5 id="function-calls_15">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_refs_remotes
+   ├─ __git
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_remotes">&gt;&gt; __git_remotes():</h3>
+<pre><code class="language-bash">function __git_remotes() {
+    __git_find_repo_path
+    test -d &quot;$__git_repo_path/remotes&quot; &amp;&amp; ls -1 &quot;$__git_repo_path/remotes&quot;
+    __git remote
+}
+</code></pre>
+<h5 id="function-calls_16">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_remotes
+   ├─ __git
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_is_configured_remote">&gt;&gt; __git_is_configured_remote():</h3>
+<pre><code class="language-bash">function __git_is_configured_remote() {
+    local remote
+    for remote in $(__git_remotes); do
+        if [ &quot;$remote&quot; = &quot;$1&quot; ]; then
+            return 0
+        fi
+    done
+    return 1
+}
+</code></pre>
+<h5 id="function-calls_17">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_is_configured_remote
+   └─ __git_remotes
+      ├─ __git
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_list_merge_strategies">&gt;&gt; __git_list_merge_strategies():</h3>
+<pre><code class="language-bash">function __git_list_merge_strategies() {
+    LANG=C LC_ALL=C git merge -s help 2&gt;&amp;1 |
+    sed -n -e '/[Aa]vailable strategies are: /,/^$/{
+        s/\.$//
+        s/.*://
+        s/^[    ]*//
+        s/[     ]*$//
+        p
+    }'
+}
+
+__git_merge_strategies=
+</code></pre>
+<hr />
+<h3 id="__git_compute_merge_strategies">&gt;&gt; __git_compute_merge_strategies():</h3>
+<pre><code class="language-bash">function __git_compute_merge_strategies() {
+    test -n &quot;$__git_merge_strategies&quot; ||
+    __git_merge_strategies=$(__git_list_merge_strategies)
+}
+</code></pre>
+<h5 id="function-calls_18">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_compute_merge_strategies
+   └─ __git_list_merge_strategies
+</code></pre>
+<hr />
+<h3 id="__git_complete_revlist_file">&gt;&gt; __git_complete_revlist_file():</h3>
+<pre><code class="language-bash">function __git_complete_revlist_file()  {
+    local dequoted_word pfx ls ref cur_=&quot;$cur&quot;
+    case &quot;$cur_&quot; in
+    *..?*:*)
+        return
+        ;;
+    ?*:*)
+        ref=&quot;${cur_%%:*}&quot;
+        cur_=&quot;${cur_#*:}&quot;
+
+        __git_dequote &quot;$cur_&quot;
+
+        case &quot;$dequoted_word&quot; in
+        ?*/*)
+            pfx=&quot;${dequoted_word%/*}&quot;
+            cur_=&quot;${dequoted_word##*/}&quot;
+            ls=&quot;$ref:$pfx&quot;
+            pfx=&quot;$pfx/&quot;
+            ;;
+        *)
+            cur_=&quot;$dequoted_word&quot;
+            ls=&quot;$ref&quot;
+            ;;
+        esac
+
+        case &quot;$COMP_WORDBREAKS&quot; in
+        *:*) : great ;;
+        *)   pfx=&quot;$ref:$pfx&quot; ;;
+        esac
+
+        __gitcomp_file &quot;$(__git ls-tree &quot;$ls&quot; \
+                | sed 's/^.*    //
+                       s/$//')&quot; \
+            &quot;$pfx&quot; &quot;$cur_&quot;
+        ;;
+    *...*)
+        pfx=&quot;${cur_%...*}...&quot;
+        cur_=&quot;${cur_#*...}&quot;
+        __git_complete_refs --pfx=&quot;$pfx&quot; --cur=&quot;$cur_&quot;
+        ;;
+    *..*)
+        pfx=&quot;${cur_%..*}..&quot;
+        cur_=&quot;${cur_#*..}&quot;
+        __git_complete_refs --pfx=&quot;$pfx&quot; --cur=&quot;$cur_&quot;
+        ;;
+    *)
+        __git_complete_refs
+        ;;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_19">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_complete_revlist_file
+   ├─ __git
+   ├─ __git_dequote
+   ├─ __gitcomp_file
+   |  └─ __gitcompadd
+   ├─ __git_complete_refs
+   |  ├─ __gitcomp_direct
+   |  └─ __git_refs
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_complete_file">&gt;&gt; __git_complete_file():</h3>
+<pre><code class="language-bash">function __git_complete_file() {
+    __git_complete_revlist_file
+}
+</code></pre>
+<hr />
+<h3 id="__git_complete_revlist">&gt;&gt; __git_complete_revlist():</h3>
+<pre><code class="language-bash">function __git_complete_revlist() {
+    __git_complete_revlist_file
+}
+</code></pre>
+<hr />
+<h3 id="__git_complete_remote_or_refspec">&gt;&gt; __git_complete_remote_or_refspec():</h3>
+<pre><code class="language-bash">function __git_complete_remote_or_refspec() {
+    local cur_=&quot;$cur&quot; cmd=&quot;${words[1]}&quot;
+    local i c=2 remote=&quot;&quot; pfx=&quot;&quot; lhs=1 no_complete_refspec=0
+    if [ &quot;$cmd&quot; = &quot;remote&quot; ]; then
+        ((c++))
+    fi
+    while [ $c -lt $cword ]; do
+        i=&quot;${words[c]}&quot;
+        case &quot;$i&quot; in
+        --mirror) [ &quot;$cmd&quot; = &quot;push&quot; ] &amp;&amp; no_complete_refspec=1 ;;
+        -d|--delete) [ &quot;$cmd&quot; = &quot;push&quot; ] &amp;&amp; lhs=0 ;;
+        --all)
+            case &quot;$cmd&quot; in
+            push) no_complete_refspec=1 ;;
+            fetch)
+                return
+                ;;
+            *) ;;
+            esac
+            ;;
+        --multiple) no_complete_refspec=1; break ;;
+        -*) ;;
+        *) remote=&quot;$i&quot;; break ;;
+        esac
+        ((c++))
+    done
+    if [ -z &quot;$remote&quot; ]; then
+        __gitcomp_nl &quot;$(__git_remotes)&quot;
+        return
+    fi
+    if [ $no_complete_refspec = 1 ]; then
+        return
+    fi
+    [ &quot;$remote&quot; = &quot;.&quot; ] &amp;&amp; remote=
+    case &quot;$cur_&quot; in
+    *:*)
+        case &quot;$COMP_WORDBREAKS&quot; in
+        *:*) : great ;;
+        *)   pfx=&quot;${cur_%%:*}:&quot; ;;
+        esac
+        cur_=&quot;${cur_#*:}&quot;
+        lhs=0
+        ;;
+    +*)
+        pfx=&quot;+&quot;
+        cur_=&quot;${cur_#+}&quot;
+        ;;
+    esac
+    case &quot;$cmd&quot; in
+    fetch)
+        if [ $lhs = 1 ]; then
+            __git_complete_fetch_refspecs &quot;$remote&quot; &quot;$pfx&quot; &quot;$cur_&quot;
+        else
+            __git_complete_refs --pfx=&quot;$pfx&quot; --cur=&quot;$cur_&quot;
+        fi
+        ;;
+    pull|remote)
+        if [ $lhs = 1 ]; then
+            __git_complete_refs --remote=&quot;$remote&quot; --pfx=&quot;$pfx&quot; --cur=&quot;$cur_&quot;
+        else
+            __git_complete_refs --pfx=&quot;$pfx&quot; --cur=&quot;$cur_&quot;
+        fi
+        ;;
+    push)
+        if [ $lhs = 1 ]; then
+            __git_complete_refs --pfx=&quot;$pfx&quot; --cur=&quot;$cur_&quot;
+        else
+            __git_complete_refs --remote=&quot;$remote&quot; --pfx=&quot;$pfx&quot; --cur=&quot;$cur_&quot;
+        fi
+        ;;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_20">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_complete_remote_or_refspec
+   ├─ __gitcomp_nl
+   |  └─ __gitcomp_nl_append
+   ├─ __git_complete_refs
+   |  ├─ __gitcomp_direct
+   |  └─ __git_refs
+   ├─ __git_complete_fetch_refspecs
+   |  ├─ __gitcomp_direct
+   |  └─ __git_refs
+   └─ __git_remotes
+      ├─ __git
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_complete_strategy">&gt;&gt; __git_complete_strategy():</h3>
+<pre><code class="language-bash">function __git_complete_strategy() {
+    __git_compute_merge_strategies
+    case &quot;$prev&quot; in
+    -s|--strategy)
+        __gitcomp &quot;$__git_merge_strategies&quot;
+        return 0
+    esac
+    case &quot;$cur&quot; in
+    --strategy=*)
+        __gitcomp &quot;$__git_merge_strategies&quot; &quot;&quot; &quot;${cur##--strategy=}&quot;
+        return 0
+        ;;
+    esac
+    return 1
+}
+
+__git_all_commands=
+</code></pre>
+<h5 id="function-calls_21">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_complete_strategy
+   └─ __gitcomp
+</code></pre>
+<hr />
+<h3 id="__git_compute_all_commands">&gt;&gt; __git_compute_all_commands():</h3>
+<pre><code class="language-bash">function __git_compute_all_commands() {
+    test -n &quot;$__git_all_commands&quot; ||
+    __git_all_commands=$(git --list-cmds=main,others,alias,nohelpers)
+}
+</code></pre>
+<hr />
+<h3 id="__git_get_config_variables">&gt;&gt; __git_get_config_variables():</h3>
+<pre><code class="language-bash">function __git_get_config_variables() {
+    local section=&quot;$1&quot; i IFS=$'\n'
+    for i in $(__git config --name-only --get-regexp &quot;^$section\..*&quot;); do
+        echo &quot;${i#$section.}&quot;
+    done
+}
+</code></pre>
+<h5 id="function-calls_22">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_get_config_variables
+   ├─ __git
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_pretty_aliases">&gt;&gt; __git_pretty_aliases():</h3>
+<pre><code class="language-bash">function __git_pretty_aliases() {
+    __git_get_config_variables &quot;pretty&quot;
+}
+</code></pre>
+<h5 id="function-calls_23">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_pretty_aliases
+   └─ __git_get_config_variables
+      ├─ __git
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_aliased_command">&gt;&gt; __git_aliased_command():</h3>
+<pre><code class="language-bash">function __git_aliased_command() {
+    local word cmdline=$(__git config --get &quot;alias.$1&quot;)
+    for word in $cmdline; do
+        case &quot;$word&quot; in
+        \!gitk|gitk)
+            echo &quot;gitk&quot;
+            return
+            ;;
+        \!*)    : shell command alias ;;
+        -*) : option ;;
+        *=*)    : setting env ;;
+        git)    : git itself ;;
+        \(\))   : skip parens of shell function definition ;;
+        {)  : skip start of shell helper function ;;
+        :)  : skip null command ;;
+        \'*)    : skip opening quote after sh -c ;;
+        *)
+            echo &quot;$word&quot;
+            return
+        esac
+    done
+}
+</code></pre>
+<h5 id="function-calls_24">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_aliased_command
+   ├─ __git
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_find_on_cmdline">&gt;&gt; __git_find_on_cmdline():</h3>
+<h1 id="example">&gt;<strong><em>example</em></strong>: :</h1>
+<pre><code class="language-bash">function __git_find_on_cmdline() {
+    local word subcommand c=1
+    while [ $c -lt $cword ]; do
+        word=&quot;${words[c]}&quot;
+        for subcommand in $1; do
+            if [ &quot;$subcommand&quot; = &quot;$word&quot; ]; then
+                echo &quot;$subcommand&quot;
+                return
+            fi
+        done
+        ((c++))
+    done
+}
+</code></pre>
+<hr />
+<h3 id="__git_get_option_value">&gt;&gt; __git_get_option_value():</h3>
+<pre><code class="language-bash">function __git_get_option_value() {
+    local c short_opt long_opt val
+    local result= values config_key word
+
+    short_opt=&quot;$1&quot;
+    long_opt=&quot;$2&quot;
+    values=&quot;$3&quot;
+    config_key=&quot;$4&quot;
+
+    ((c = $cword - 1))
+    while [ $c -ge 0 ]; do
+        word=&quot;${words[c]}&quot;
+        for val in $values; do
+            if [ &quot;$short_opt$val&quot; = &quot;$word&quot; ] ||
+               [ &quot;$long_opt$val&quot;  = &quot;$word&quot; ]; then
+                result=&quot;$val&quot;
+                break 2
+            fi
+        done
+        ((c--))
+    done
+
+    if [ -n &quot;$config_key&quot; ] &amp;&amp; [ -z &quot;$result&quot; ]; then
+        result=&quot;$(__git config &quot;$config_key&quot;)&quot;
+    fi
+
+    echo &quot;$result&quot;
+}
+</code></pre>
+<h5 id="function-calls_25">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_get_option_value
+   ├─ __git
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_has_doubledash">&gt;&gt; __git_has_doubledash():</h3>
+<pre><code class="language-bash">function __git_has_doubledash() {
+    local c=1
+    while [ $c -lt $cword ]; do
+        if [ &quot;--&quot; = &quot;${words[c]}&quot; ]; then
+            return 0
+        fi
+        ((c++))
+    done
+    return 1
+}
+</code></pre>
+<hr />
+<h3 id="__git_count_arguments">&gt;&gt; __git_count_arguments():</h3>
+<pre><code class="language-bash">function __git_count_arguments() {
+    local word i c=0
+
+    for ((i=1; i &lt; ${#words[@]}; i++)); do
+        word=&quot;${words[i]}&quot;
+
+        case &quot;$word&quot; in
+            --)
+                ((c = 0))
+                ;;
+            &quot;$1&quot;)
+                ((c = 0))
+                ;;
+            ?*)
+                ((c++))
+                ;;
+        esac
+    done
+
+    printf &quot;%d&quot; $c
+}
+
+__git_whitespacelist=&quot;nowarn warn error error-all fix&quot;
+__git_am_inprogress_options=&quot;--skip --continue --resolved --abort --quit --show-current-patch&quot;
+</code></pre>
+<hr />
+<h3 id="_git_am">&gt;&gt; _git_am():</h3>
+<pre><code class="language-bash">function _git_am() {
+    __git_find_repo_path
+    if [ -d &quot;$__git_repo_path&quot;/rebase-apply ]; then
+        __gitcomp &quot;$__git_am_inprogress_options&quot;
+        return
+    fi
+    case &quot;$cur&quot; in
+    --whitespace=*)
+        __gitcomp &quot;$__git_whitespacelist&quot; &quot;&quot; &quot;${cur##--whitespace=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp_builtin am &quot;&quot; \
+            &quot;$__git_am_inprogress_options&quot;
+        return
+    esac
+}
+</code></pre>
+<h5 id="function-calls_26">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_am
+   ├─ __gitcomp
+   └─ __gitcomp_builtin
+      ├─ __git
+      ├─ __gitcomp
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_apply">&gt;&gt; _git_apply():</h3>
+<pre><code class="language-bash">function _git_apply() {
+    case &quot;$cur&quot; in
+    --whitespace=*)
+        __gitcomp &quot;$__git_whitespacelist&quot; &quot;&quot; &quot;${cur##--whitespace=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp_builtin apply
+        return
+    esac
+}
+</code></pre>
+<h5 id="function-calls_27">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_apply
+   ├─ __gitcomp
+   └─ __gitcomp_builtin
+      ├─ __git
+      ├─ __gitcomp
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_add">&gt;&gt; _git_add():</h3>
+<pre><code class="language-bash">function _git_add() {
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin add
+        return
+    esac
+
+    local complete_opt=&quot;--others --modified --directory --no-empty-directory&quot;
+    if test -n &quot;$(__git_find_on_cmdline &quot;-u --update&quot;)&quot;
+    then
+        complete_opt=&quot;--modified&quot;
+    fi
+    __git_complete_index_file &quot;$complete_opt&quot;
+}
+</code></pre>
+<h5 id="function-calls_28">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_add
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   ├─ __git_complete_index_file
+   |  ├─ __git_dequote
+   |  ├─ __gitcomp_file_direct
+   |  └─ __git_index_files
+   └─ __git_find_on_cmdline
+</code></pre>
+<hr />
+<h3 id="_git_archive">&gt;&gt; _git_archive():</h3>
+<pre><code class="language-bash">function  _git_archive() {
+    case &quot;$cur&quot; in
+    --format=*)
+        __gitcomp &quot;$(git archive --list)&quot; &quot;&quot; &quot;${cur##--format=}&quot;
+        return
+        ;;
+    --remote=*)
+        __gitcomp_nl &quot;$(__git_remotes)&quot; &quot;&quot; &quot;${cur##--remote=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp &quot;
+            --format= --list --verbose
+            --prefix= --remote= --exec= --output
+            &quot;
+        return
+        ;;
+    esac
+    __git_complete_file
+}
+</code></pre>
+<h5 id="function-calls_29">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_archive
+   ├─ __gitcomp
+   ├─ __gitcomp_nl
+   |  └─ __gitcomp_nl_append
+   └─ __git_remotes
+      ├─ __git
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_bisect">&gt;&gt; _git_bisect():</h3>
+<pre><code class="language-bash">function  _git_bisect() {
+    __git_has_doubledash &amp;&amp; return
+
+    local subcommands=&quot;start bad good skip reset visualize replay log run&quot;
+    local subcommand=&quot;$(__git_find_on_cmdline &quot;$subcommands&quot;)&quot;
+    if [ -z &quot;$subcommand&quot; ]; then
+        __git_find_repo_path
+        if [ -f &quot;$__git_repo_path&quot;/BISECT_START ]; then
+            __gitcomp &quot;$subcommands&quot;
+        else
+            __gitcomp &quot;replay start&quot;
+        fi
+        return
+    fi
+
+    case &quot;$subcommand&quot; in
+    bad|good|reset|skip|start)
+        __git_complete_refs
+        ;;
+    *)
+        ;;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_30">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_bisect
+   ├─ __gitcomp
+   ├─ __git_find_on_cmdline
+   └─ __git_has_doubledash
+</code></pre>
+<hr />
+<h3 id="_git_branch">&gt;&gt; _git_branch():</h3>
+<pre><code class="language-bash">function _git_branch() {
+    local i c=1 only_local_ref=&quot;n&quot; has_r=&quot;n&quot;
+
+    while [ $c -lt $cword ]; do
+        i=&quot;${words[c]}&quot;
+        case &quot;$i&quot; in
+        -d|--delete|-m|--move)  only_local_ref=&quot;y&quot; ;;
+        -r|--remotes)       has_r=&quot;y&quot; ;;
+        esac
+        ((c++))
+    done
+
+    case &quot;$cur&quot; in
+    --set-upstream-to=*)
+        __git_complete_refs --cur=&quot;${cur##--set-upstream-to=}&quot;
+        ;;
+    --*)
+        __gitcomp_builtin branch
+        ;;
+    *)
+        if [ $only_local_ref = &quot;y&quot; -a $has_r = &quot;n&quot; ]; then
+            __gitcomp_direct &quot;$(__git_heads &quot;&quot; &quot;$cur&quot; &quot; &quot;)&quot;
+        else
+            __git_complete_refs
+        fi
+        ;;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_31">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_branch
+   ├─ __gitcomp_direct
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   ├─ __git_heads
+   |  ├─ __git
+   |  └─ _git
+   └─ __git_complete_refs
+      ├─ __gitcomp_direct
+      └─ __git_refs
+</code></pre>
+<hr />
+<h3 id="_git_bundle">&gt;&gt; _git_bundle():</h3>
+<pre><code class="language-bash">function _git_bundle() {
+    local cmd=&quot;${words[2]}&quot;
+    case &quot;$cword&quot; in
+    2)
+        __gitcomp &quot;create list-heads verify unbundle&quot;
+        ;;
+    3)
+        ;;
+    *)
+        case &quot;$cmd&quot; in
+            create)
+                __git_complete_revlist
+            ;;
+        esac
+        ;;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_32">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_bundle
+   └─ __gitcomp
+</code></pre>
+<hr />
+<h3 id="_git_checkout">&gt;&gt; _git_checkout():</h3>
+<pre><code class="language-bash">function _git_checkout() {
+    __git_has_doubledash &amp;&amp; return
+
+    case &quot;$cur&quot; in
+    --conflict=*)
+        __gitcomp &quot;diff3 merge&quot; &quot;&quot; &quot;${cur##--conflict=}&quot;
+        ;;
+    --*)
+        __gitcomp_builtin checkout
+        ;;
+    *)
+        local flags=&quot;--track --no-track --no-guess&quot; track_opt=&quot;--track&quot;
+        if [ &quot;$GIT_COMPLETION_CHECKOUT_NO_GUESS&quot; = &quot;1&quot; ] ||
+           [ -n &quot;$(__git_find_on_cmdline &quot;$flags&quot;)&quot; ]; then
+            track_opt=''
+        fi
+        __git_complete_refs $track_opt
+        ;;
+    esac
+}
+
+__git_cherry_pick_inprogress_options=&quot;--continue --quit --abort&quot;
+</code></pre>
+<h5 id="function-calls_33">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_checkout
+   ├─ __gitcomp
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   ├─ __git_complete_refs
+   |  ├─ __gitcomp_direct
+   |  └─ __git_refs
+   ├─ __git_find_on_cmdline
+   └─ __git_has_doubledash
+</code></pre>
+<hr />
+<h3 id="_git_cherry_pick">&gt;&gt; _git_cherry_pick():</h3>
+<pre><code class="language-bash">function _git_cherry_pick() {
+    __git_find_repo_path
+    if [ -f &quot;$__git_repo_path&quot;/CHERRY_PICK_HEAD ]; then
+        __gitcomp &quot;$__git_cherry_pick_inprogress_options&quot;
+        return
+    fi
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin cherry-pick &quot;&quot; \
+            &quot;$__git_cherry_pick_inprogress_options&quot;
+        ;;
+    *)
+        __git_complete_refs
+        ;;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_34">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_cherry_pick
+   ├─ __gitcomp
+   └─ __gitcomp_builtin
+      ├─ __git
+      ├─ __gitcomp
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_clean">&gt;&gt; _git_clean():</h3>
+<pre><code class="language-bash">function _git_clean() {
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin clean
+        return
+        ;;
+    esac
+
+    __git_complete_index_file &quot;--others --directory&quot;
+}
+</code></pre>
+<h5 id="function-calls_35">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_clean
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   └─ __git_complete_index_file
+      ├─ __git_dequote
+      ├─ __gitcomp_file_direct
+      └─ __git_index_files
+</code></pre>
+<hr />
+<h3 id="_git_clone">&gt;&gt; _git_clone():</h3>
+<pre><code class="language-bash">function _git_clone() {
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin clone
+        return
+        ;;
+    esac
+}
+
+__git_untracked_file_modes=&quot;all no normal&quot;
+</code></pre>
+<h5 id="function-calls_36">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_clone
+   └─ __gitcomp_builtin
+      ├─ __git
+      ├─ __gitcomp
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_commit">&gt;&gt; _git_commit():</h3>
+<pre><code class="language-bash">function _git_commit() {
+    case &quot;$prev&quot; in
+    -c|-C)
+        __git_complete_refs
+        return
+        ;;
+    esac
+
+    case &quot;$cur&quot; in
+    --cleanup=*)
+        __gitcomp &quot;default scissors strip verbatim whitespace
+            &quot; &quot;&quot; &quot;${cur##--cleanup=}&quot;
+        return
+        ;;
+    --reuse-message=*|--reedit-message=*|\
+    --fixup=*|--squash=*)
+        __git_complete_refs --cur=&quot;${cur#*=}&quot;
+        return
+        ;;
+    --untracked-files=*)
+        __gitcomp &quot;$__git_untracked_file_modes&quot; &quot;&quot; &quot;${cur##--untracked-files=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp_builtin commit
+        return
+    esac
+
+    if __git rev-parse --verify --quiet HEAD &gt;/dev/null; then
+        __git_complete_index_file &quot;--committable&quot;
+    else
+        __git_complete_index_file &quot;--cached&quot;
+    fi
+}
+</code></pre>
+<h5 id="function-calls_37">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_commit
+   ├─ __git
+   ├─ __gitcomp
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   ├─ __git_complete_index_file
+   |  ├─ __git_dequote
+   |  ├─ __gitcomp_file_direct
+   |  └─ __git_index_files
+   ├─ __git_complete_refs
+   |  ├─ __gitcomp_direct
+   |  └─ __git_refs
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_describe">&gt;&gt; _git_describe():</h3>
+<pre><code class="language-bash">function _git_describe() {
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin describe
+        return
+    esac
+    __git_complete_refs
+}
+
+__git_diff_algorithms=&quot;myers minimal patience histogram&quot;
+
+__git_diff_submodule_formats=&quot;diff log short&quot;
+
+__git_diff_common_options=&quot;--stat --numstat --shortstat --summary
+            --patch-with-stat --name-only --name-status --color
+            --no-color --color-words --no-renames --check
+            --full-index --binary --abbrev --diff-filter=
+            --find-copies-harder --ignore-cr-at-eol
+            --text --ignore-space-at-eol --ignore-space-change
+            --ignore-all-space --ignore-blank-lines --exit-code
+            --quiet --ext-diff --no-ext-diff
+            --no-prefix --src-prefix= --dst-prefix=
+            --inter-hunk-context=
+            --patience --histogram --minimal
+            --raw --word-diff --word-diff-regex=
+            --dirstat --dirstat= --dirstat-by-file
+            --dirstat-by-file= --cumulative
+            --diff-algorithm=
+            --submodule --submodule= --ignore-submodules
+&quot;
+</code></pre>
+<h5 id="function-calls_38">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_describe
+   └─ __gitcomp_builtin
+      ├─ __git
+      ├─ __gitcomp
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_diff">&gt;&gt; _git_diff():</h3>
+<pre><code class="language-bash">function _git_diff() {
+    __git_has_doubledash &amp;&amp; return
+
+    case &quot;$cur&quot; in
+    --diff-algorithm=*)
+        __gitcomp &quot;$__git_diff_algorithms&quot; &quot;&quot; &quot;${cur##--diff-algorithm=}&quot;
+        return
+        ;;
+    --submodule=*)
+        __gitcomp &quot;$__git_diff_submodule_formats&quot; &quot;&quot; &quot;${cur##--submodule=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp &quot;--cached --staged --pickaxe-all --pickaxe-regex
+            --base --ours --theirs --no-index
+            $__git_diff_common_options
+            &quot;
+        return
+        ;;
+    esac
+    __git_complete_revlist_file
+}
+
+__git_mergetools_common=&quot;diffuse diffmerge ecmerge emerge kdiff3 meld opendiff
+            tkdiff vimdiff gvimdiff xxdiff araxis p4merge bc codecompare
+&quot;
+</code></pre>
+<h5 id="function-calls_39">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_diff
+   ├─ __gitcomp
+   └─ __git_has_doubledash
+</code></pre>
+<hr />
+<h3 id="_git_difftool">&gt;&gt; _git_difftool():</h3>
+<pre><code class="language-bash">function _git_difftool() {
+    __git_has_doubledash &amp;&amp; return
+
+    case &quot;$cur&quot; in
+    --tool=*)
+        __gitcomp &quot;$__git_mergetools_common kompare&quot; &quot;&quot; &quot;${cur##--tool=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp_builtin difftool &quot;$__git_diff_common_options
+                    --base --cached --ours --theirs
+                    --pickaxe-all --pickaxe-regex
+                    --relative --staged
+                    &quot;
+        return
+        ;;
+    esac
+    __git_complete_revlist_file
+}
+
+__git_fetch_recurse_submodules=&quot;yes on-demand no&quot;
+</code></pre>
+<h5 id="function-calls_40">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_difftool
+   ├─ __gitcomp
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   └─ __git_has_doubledash
+</code></pre>
+<hr />
+<h3 id="_git_fetch">&gt;&gt; _git_fetch():</h3>
+<pre><code class="language-bash">function _git_fetch() {
+    case &quot;$cur&quot; in
+    --recurse-submodules=*)
+        __gitcomp &quot;$__git_fetch_recurse_submodules&quot; &quot;&quot; &quot;${cur##--recurse-submodules=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp_builtin fetch
+        return
+        ;;
+    esac
+    __git_complete_remote_or_refspec
+}
+
+__git_format_patch_extra_options=&quot;
+    --full-index --not --all --no-prefix --src-prefix=
+    --dst-prefix= --notes
+&quot;
+</code></pre>
+<h5 id="function-calls_41">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_fetch
+   ├─ __gitcomp
+   └─ __gitcomp_builtin
+      ├─ __git
+      ├─ __gitcomp
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_format_patch">&gt;&gt; _git_format_patch():</h3>
+<pre><code class="language-bash">function _git_format_patch() {
+    case &quot;$cur&quot; in
+    --thread=*)
+        __gitcomp &quot;
+            deep shallow
+            &quot; &quot;&quot; &quot;${cur##--thread=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp_builtin format-patch &quot;$__git_format_patch_extra_options&quot;
+        return
+        ;;
+    esac
+    __git_complete_revlist
+}
+</code></pre>
+<h5 id="function-calls_42">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_format_patch
+   ├─ __gitcomp
+   └─ __gitcomp_builtin
+      ├─ __git
+      ├─ __gitcomp
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_fsck">&gt;&gt; _git_fsck():</h3>
+<pre><code class="language-bash">function _git_fsck() {
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin fsck
+        return
+        ;;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_43">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_fsck
+   └─ __gitcomp_builtin
+      ├─ __git
+      ├─ __gitcomp
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_gitk">&gt;&gt; _git_gitk():</h3>
+<pre><code class="language-bash">function _git_gitk() {
+    _gitk
+}
+</code></pre>
+<hr />
+<h3 id="__git_match_ctag">&gt;&gt; __git_match_ctag():</h3>
+<pre><code class="language-bash">function __git_match_ctag() {
+    awk -v pfx=&quot;${3-}&quot; -v sfx=&quot;${4-}&quot; &quot;
+        /^${1//\//\\/}/ { print pfx \$1 sfx }
+        &quot; &quot;$2&quot;
+}
+</code></pre>
+<hr />
+<h3 id="__git_complete_symbol">&gt;&gt; __git_complete_symbol():</h3>
+<pre><code class="language-bash">function __git_complete_symbol() {
+    local tags=tags pfx=&quot;&quot; cur_=&quot;${cur-}&quot; sfx=&quot; &quot;
+
+    while test $# != 0; do
+        case &quot;$1&quot; in
+        --tags=*)   tags=&quot;${1##--tags=}&quot; ;;
+        --pfx=*)    pfx=&quot;${1##--pfx=}&quot; ;;
+        --cur=*)    cur_=&quot;${1##--cur=}&quot; ;;
+        --sfx=*)    sfx=&quot;${1##--sfx=}&quot; ;;
+        *)      return 1 ;;
+        esac
+        shift
+    done
+
+    if test -r &quot;$tags&quot;; then
+        __gitcomp_direct &quot;$(__git_match_ctag &quot;$cur_&quot; &quot;$tags&quot; &quot;$pfx&quot; &quot;$sfx&quot;)&quot;
+    fi
+}
+</code></pre>
+<h5 id="function-calls_44">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_complete_symbol
+   ├─ __gitcomp_direct
+   └─ __git_match_ctag
+</code></pre>
+<hr />
+<h3 id="_git_grep">&gt;&gt; _git_grep():</h3>
+<pre><code class="language-bash">function _git_grep() {
+    __git_has_doubledash &amp;&amp; return
+
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin grep
+        return
+        ;;
+    esac
+
+    case &quot;$cword,$prev&quot; in
+    2,*|*,-*)
+        __git_complete_symbol &amp;&amp; return
+        ;;
+    esac
+
+    __git_complete_refs
+}
+</code></pre>
+<h5 id="function-calls_45">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_grep
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   ├─ __git_has_doubledash
+   └─ __git_complete_symbol
+      ├─ __gitcomp_direct
+      └─ __git_match_ctag
+</code></pre>
+<hr />
+<h3 id="_git_help">&gt;&gt; _git_help():</h3>
+<pre><code class="language-bash">function _git_help() {
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin help
+        return
+        ;;
+    esac
+    if test -n &quot;$GIT_TESTING_ALL_COMMAND_LIST&quot;
+    then
+        __gitcomp &quot;$GIT_TESTING_ALL_COMMAND_LIST $(git --list-cmds=alias,list-guide) gitk&quot;
+    else
+        __gitcomp &quot;$(git --list-cmds=main,nohelpers,alias,list-guide) gitk&quot;
+    fi
+}
+</code></pre>
+<h5 id="function-calls_46">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_help
+   ├─ __gitcomp
+   └─ __gitcomp_builtin
+      ├─ __git
+      ├─ __gitcomp
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_init">&gt;&gt; _git_init():</h3>
+<pre><code class="language-bash">function _git_init() {
+    case &quot;$cur&quot; in
+    --shared=*)
+        __gitcomp &quot;
+            false true umask group all world everybody
+            &quot; &quot;&quot; &quot;${cur##--shared=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp_builtin init
+        return
+        ;;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_47">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_init
+   ├─ __gitcomp
+   └─ __gitcomp_builtin
+      ├─ __git
+      ├─ __gitcomp
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_ls_files">&gt;&gt; _git_ls_files():</h3>
+<pre><code class="language-bash">function _git_ls_files() {
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin ls-files
+        return
+        ;;
+    esac
+
+    __git_complete_index_file &quot;--cached&quot;
+}
+</code></pre>
+<h5 id="function-calls_48">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_ls_files
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   └─ __git_complete_index_file
+      ├─ __git_dequote
+      ├─ __gitcomp_file_direct
+      └─ __git_index_files
+</code></pre>
+<hr />
+<h3 id="_git_ls_remote">&gt;&gt; _git_ls_remote():</h3>
+<pre><code class="language-bash">function _git_ls_remote() {
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin ls-remote
+        return
+        ;;
+    esac
+    __gitcomp_nl &quot;$(__git_remotes)&quot;
+}
+
+_git_ls_tree() {
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin ls-tree
+        return
+        ;;
+    esac
+
+    __git_complete_file
+}
+
+__git_log_common_options=&quot;
+    --not --all
+    --branches --tags --remotes
+    --first-parent --merges --no-merges
+    --max-count=
+    --max-age= --since= --after=
+    --min-age= --until= --before=
+    --min-parents= --max-parents=
+    --no-min-parents --no-max-parents
+&quot;
+__git_log_gitk_options=&quot;
+    --dense --sparse --full-history
+    --simplify-merges --simplify-by-decoration
+    --left-right --notes --no-notes
+&quot;
+__git_log_shortlog_options=&quot;
+    --author= --committer= --grep=
+    --all-match --invert-grep
+&quot;
+
+__git_log_pretty_formats=&quot;oneline short medium full fuller email raw format:&quot;
+__git_log_date_formats=&quot;relative iso8601 rfc2822 short local default raw&quot;
+</code></pre>
+<h5 id="function-calls_49">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_ls_remote
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   ├─ __gitcomp_nl
+   |  └─ __gitcomp_nl_append
+   └─ __git_remotes
+      ├─ __git
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_log">&gt;&gt; _git_log():</h3>
+<pre><code class="language-bash">function _git_log() {
+    __git_has_doubledash &amp;&amp; return
+    __git_find_repo_path
+
+    local merge=&quot;&quot;
+    if [ -f &quot;$__git_repo_path/MERGE_HEAD&quot; ]; then
+        merge=&quot;--merge&quot;
+    fi
+    case &quot;$prev,$cur&quot; in
+    -L,:*:*)
+        return  # fall back to Bash filename completion
+        ;;
+    -L,:*)
+        __git_complete_symbol --cur=&quot;${cur#:}&quot; --sfx=&quot;:&quot;
+        return
+        ;;
+    -G,*|-S,*)
+        __git_complete_symbol
+        return
+        ;;
+    esac
+    case &quot;$cur&quot; in
+    --pretty=*|--format=*)
+        __gitcomp &quot;$__git_log_pretty_formats $(__git_pretty_aliases)
+            &quot; &quot;&quot; &quot;${cur#*=}&quot;
+        return
+        ;;
+    --date=*)
+        __gitcomp &quot;$__git_log_date_formats&quot; &quot;&quot; &quot;${cur##--date=}&quot;
+        return
+        ;;
+    --decorate=*)
+        __gitcomp &quot;full short no&quot; &quot;&quot; &quot;${cur##--decorate=}&quot;
+        return
+        ;;
+    --diff-algorithm=*)
+        __gitcomp &quot;$__git_diff_algorithms&quot; &quot;&quot; &quot;${cur##--diff-algorithm=}&quot;
+        return
+        ;;
+    --submodule=*)
+        __gitcomp &quot;$__git_diff_submodule_formats&quot; &quot;&quot; &quot;${cur##--submodule=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp &quot;
+            $__git_log_common_options
+            $__git_log_shortlog_options
+            $__git_log_gitk_options
+            --root --topo-order --date-order --reverse
+            --follow --full-diff
+            --abbrev-commit --abbrev=
+            --relative-date --date=
+            --pretty= --format= --oneline
+            --show-signature
+            --cherry-mark
+            --cherry-pick
+            --graph
+            --decorate --decorate=
+            --walk-reflogs
+            --parents --children
+            $merge
+            $__git_diff_common_options
+            --pickaxe-all --pickaxe-regex
+            &quot;
+        return
+        ;;
+    -L:*:*)
+        return  # fall back to Bash filename completion
+        ;;
+    -L:*)
+        __git_complete_symbol --cur=&quot;${cur#-L:}&quot; --sfx=&quot;:&quot;
+        return
+        ;;
+    -G*)
+        __git_complete_symbol --pfx=&quot;-G&quot; --cur=&quot;${cur#-G}&quot;
+        return
+        ;;
+    -S*)
+        __git_complete_symbol --pfx=&quot;-S&quot; --cur=&quot;${cur#-S}&quot;
+        return
+        ;;
+    esac
+    __git_complete_revlist
+}
+</code></pre>
+<h5 id="function-calls_50">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_log
+   ├─ __gitcomp
+   ├─ __git_pretty_aliases
+   |  └─ __git_get_config_variables
+   ├─ __git_has_doubledash
+   └─ __git_complete_symbol
+      ├─ __gitcomp_direct
+      └─ __git_match_ctag
+</code></pre>
+<hr />
+<h3 id="_git_merge">&gt;&gt; _git_merge():</h3>
+<pre><code class="language-bash">function _git_merge() {
+    __git_complete_strategy &amp;&amp; return
+
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin merge
+        return
+    esac
+    __git_complete_refs
+}
+</code></pre>
+<h5 id="function-calls_51">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_merge
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   └─ __git_complete_strategy
+      └─ __gitcomp
+</code></pre>
+<hr />
+<h3 id="_git_mergetool">&gt;&gt; _git_mergetool():</h3>
+<pre><code class="language-bash">function _git_mergetool() {
+    case &quot;$cur&quot; in
+    --tool=*)
+        __gitcomp &quot;$__git_mergetools_common tortoisemerge&quot; &quot;&quot; &quot;${cur##--tool=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp &quot;--tool= --prompt --no-prompt --gui --no-gui&quot;
+        return
+        ;;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_52">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_mergetool
+   └─ __gitcomp
+</code></pre>
+<hr />
+<h3 id="_git_merge_base">&gt;&gt; _git_merge_base():</h3>
+<pre><code class="language-bash">function _git_merge_base() {
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin merge-base
+        return
+        ;;
+    esac
+    __git_complete_refs
+}
+</code></pre>
+<h5 id="function-calls_53">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_merge_base
+   └─ __gitcomp_builtin
+      ├─ __git
+      ├─ __gitcomp
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_mv">&gt;&gt; _git_mv():</h3>
+<pre><code class="language-bash">function _git_mv() {
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin mv
+        return
+        ;;
+    esac
+
+    if [ $(__git_count_arguments &quot;mv&quot;) -gt 0 ]; then
+        __git_complete_index_file &quot;--cached --others --directory&quot;
+    else
+        __git_complete_index_file &quot;--cached&quot;
+    fi
+}
+</code></pre>
+<h5 id="function-calls_54">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_mv
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   ├─ __git_complete_index_file
+   |  ├─ __git_dequote
+   |  ├─ __gitcomp_file_direct
+   |  └─ __git_index_files
+   └─ __git_count_arguments
+</code></pre>
+<hr />
+<h3 id="_git_notes">&gt;&gt; _git_notes():</h3>
+<pre><code class="language-bash">function _git_notes() {
+    local subcommands='add append copy edit get-ref list merge prune remove show'
+    local subcommand=&quot;$(__git_find_on_cmdline &quot;$subcommands&quot;)&quot;
+
+    case &quot;$subcommand,$cur&quot; in
+    ,--*)
+        __gitcomp_builtin notes
+        ;;
+    ,*)
+        case &quot;$prev&quot; in
+        --ref)
+            __git_complete_refs
+            ;;
+        *)
+            __gitcomp &quot;$subcommands --ref&quot;
+            ;;
+        esac
+        ;;
+    *,--reuse-message=*|*,--reedit-message=*)
+        __git_complete_refs --cur=&quot;${cur#*=}&quot;
+        ;;
+    *,--*)
+        __gitcomp_builtin notes_$subcommand
+        ;;
+    prune,*|get-ref,*)
+        ;;
+    *)
+        case &quot;$prev&quot; in
+        -m|-F)
+            ;;
+        *)
+            __git_complete_refs
+            ;;
+        esac
+        ;;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_55">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_notes
+   ├─ __gitcomp
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   ├─ __git_complete_refs
+   |  ├─ __gitcomp_direct
+   |  └─ __git_refs
+   └─ __git_find_on_cmdline
+</code></pre>
+<hr />
+<h3 id="_git_pull">&gt;&gt; _git_pull():</h3>
+<pre><code class="language-bash">function _git_pull() {
+    __git_complete_strategy &amp;&amp; return
+
+    case &quot;$cur&quot; in
+    --recurse-submodules=*)
+        __gitcomp &quot;$__git_fetch_recurse_submodules&quot; &quot;&quot; &quot;${cur##--recurse-submodules=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp_builtin pull
+
+        return
+        ;;
+    esac
+    __git_complete_remote_or_refspec
+}
+
+__git_push_recurse_submodules=&quot;check on-demand only&quot;
+</code></pre>
+<h5 id="function-calls_56">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_pull
+   ├─ __gitcomp
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   └─ __git_complete_strategy
+      └─ __gitcomp
+</code></pre>
+<hr />
+<h3 id="__git_complete_force_with_lease">&gt;&gt; __git_complete_force_with_lease():</h3>
+<pre><code class="language-bash">function __git_complete_force_with_lease() {
+    local cur_=$1
+
+    case &quot;$cur_&quot; in
+    --*=)
+        ;;
+    *:*)
+        __git_complete_refs --cur=&quot;${cur_#*:}&quot;
+        ;;
+    *)
+        __git_complete_refs --cur=&quot;$cur_&quot;
+        ;;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_57">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_complete_force_with_lease
+   └─ __git_complete_refs
+      ├─ __gitcomp_direct
+      └─ __git_refs
+</code></pre>
+<hr />
+<h3 id="_git_push">&gt;&gt; _git_push():</h3>
+<pre><code class="language-bash">function _git_push() {
+    case &quot;$prev&quot; in
+    --repo)
+        __gitcomp_nl &quot;$(__git_remotes)&quot;
+        return
+        ;;
+    --recurse-submodules)
+        __gitcomp &quot;$__git_push_recurse_submodules&quot;
+        return
+        ;;
+    esac
+    case &quot;$cur&quot; in
+    --repo=*)
+        __gitcomp_nl &quot;$(__git_remotes)&quot; &quot;&quot; &quot;${cur##--repo=}&quot;
+        return
+        ;;
+    --recurse-submodules=*)
+        __gitcomp &quot;$__git_push_recurse_submodules&quot; &quot;&quot; &quot;${cur##--recurse-submodules=}&quot;
+        return
+        ;;
+    --force-with-lease=*)
+        __git_complete_force_with_lease &quot;${cur##--force-with-lease=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp_builtin push
+        return
+        ;;
+    esac
+    __git_complete_remote_or_refspec
+}
+</code></pre>
+<h5 id="function-calls_58">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_push
+   ├─ __gitcomp
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   ├─ __gitcomp_nl
+   |  └─ __gitcomp_nl_append
+   ├─ __git_remotes
+   |  ├─ __git
+   |  └─ _git
+   └─ __git_complete_force_with_lease
+      └─ __git_complete_refs
+</code></pre>
+<hr />
+<h3 id="_git_range_diff">&gt;&gt; _git_range_diff():</h3>
+<pre><code class="language-bash">function _git_range_diff() {
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp &quot;
+            --creation-factor= --no-dual-color
+            $__git_diff_common_options
+        &quot;
+        return
+        ;;
+    esac
+    __git_complete_revlist
+}
+</code></pre>
+<h5 id="function-calls_59">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_range_diff
+   └─ __gitcomp
+</code></pre>
+<hr />
+<h3 id="_git_rebase">&gt;&gt; _git_rebase():</h3>
+<pre><code class="language-bash">function _git_rebase() {
+    __git_find_repo_path
+    if [ -f &quot;$__git_repo_path&quot;/rebase-merge/interactive ]; then
+        __gitcomp &quot;--continue --skip --abort --quit --edit-todo --show-current-patch&quot;
+        return
+    elif [ -d &quot;$__git_repo_path&quot;/rebase-apply ] || \
+         [ -d &quot;$__git_repo_path&quot;/rebase-merge ]; then
+        __gitcomp &quot;--continue --skip --abort --quit --show-current-patch&quot;
+        return
+    fi
+    __git_complete_strategy &amp;&amp; return
+    case &quot;$cur&quot; in
+    --whitespace=*)
+        __gitcomp &quot;$__git_whitespacelist&quot; &quot;&quot; &quot;${cur##--whitespace=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp &quot;
+            --onto --merge --strategy --interactive
+            --rebase-merges --preserve-merges --stat --no-stat
+            --committer-date-is-author-date --ignore-date
+            --ignore-whitespace --whitespace=
+            --autosquash --no-autosquash
+            --fork-point --no-fork-point
+            --autostash --no-autostash
+            --verify --no-verify
+            --keep-empty --root --force-rebase --no-ff
+            --rerere-autoupdate
+            --exec
+            &quot;
+
+        return
+    esac
+    __git_complete_refs
+}
+</code></pre>
+<h5 id="function-calls_60">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_rebase
+   ├─ __gitcomp
+   └─ __git_complete_strategy
+      └─ __gitcomp
+</code></pre>
+<hr />
+<h3 id="_git_reflog">&gt;&gt; _git_reflog():</h3>
+<pre><code class="language-bash">function _git_reflog() {
+    local subcommands=&quot;show delete expire&quot;
+    local subcommand=&quot;$(__git_find_on_cmdline &quot;$subcommands&quot;)&quot;
+
+    if [ -z &quot;$subcommand&quot; ]; then
+        __gitcomp &quot;$subcommands&quot;
+    else
+        __git_complete_refs
+    fi
+}
+
+__git_send_email_confirm_options=&quot;always never auto cc compose&quot;
+__git_send_email_suppresscc_options=&quot;author self cc bodycc sob cccmd body all&quot;
+</code></pre>
+<h5 id="function-calls_61">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_reflog
+   ├─ __gitcomp
+   └─ __git_find_on_cmdline
+</code></pre>
+<hr />
+<h3 id="_git_send_email">&gt;&gt; _git_send_email():</h3>
+<pre><code class="language-bash">function _git_send_email () {
+    case &quot;$prev&quot; in
+    --to|--cc|--bcc|--from)
+        __gitcomp &quot;$(__git send-email --dump-aliases)&quot;
+        return
+        ;;
+    esac
+
+    case &quot;$cur&quot; in
+    --confirm=*)
+        __gitcomp &quot;
+            $__git_send_email_confirm_options
+            &quot; &quot;&quot; &quot;${cur##--confirm=}&quot;
+        return
+        ;;
+    --suppress-cc=*)
+        __gitcomp &quot;
+            $__git_send_email_suppresscc_options
+            &quot; &quot;&quot; &quot;${cur##--suppress-cc=}&quot;
+
+        return
+        ;;
+    --smtp-encryption=*)
+        __gitcomp &quot;ssl tls&quot; &quot;&quot; &quot;${cur##--smtp-encryption=}&quot;
+        return
+        ;;
+    --thread=*)
+        __gitcomp &quot;
+            deep shallow
+            &quot; &quot;&quot; &quot;${cur##--thread=}&quot;
+        return
+        ;;
+    --to=*|--cc=*|--bcc=*|--from=*)
+        __gitcomp &quot;$(__git send-email --dump-aliases)&quot; &quot;&quot; &quot;${cur#--*=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp_builtin send-email &quot;--annotate --bcc --cc --cc-cmd --chain-reply-to
+            --compose --confirm= --dry-run --envelope-sender
+            --from --identity
+            --in-reply-to --no-chain-reply-to --no-signed-off-by-cc
+            --no-suppress-from --no-thread --quiet --reply-to
+            --signed-off-by-cc --smtp-pass --smtp-server
+            --smtp-server-port --smtp-encryption= --smtp-user
+            --subject --suppress-cc= --suppress-from --thread --to
+            --validate --no-validate
+            $__git_format_patch_extra_options&quot;
+        return
+        ;;
+    esac
+    __git_complete_revlist
+}
+</code></pre>
+<h5 id="function-calls_62">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_send_email
+   ├─ __git
+   ├─ __gitcomp
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_stage">&gt;&gt; _git_stage():</h3>
+<pre><code class="language-bash">function _git_stage() {
+    _git_add
+}
+</code></pre>
+<hr />
+<h3 id="_git_status">&gt;&gt; _git_status():</h3>
+<pre><code class="language-bash">function _git_status() {
+    local complete_opt
+    local untracked_state
+
+    case &quot;$cur&quot; in
+    --ignore-submodules=*)
+        __gitcomp &quot;none untracked dirty all&quot; &quot;&quot; &quot;${cur##--ignore-submodules=}&quot;
+        return
+        ;;
+    --untracked-files=*)
+        __gitcomp &quot;$__git_untracked_file_modes&quot; &quot;&quot; &quot;${cur##--untracked-files=}&quot;
+        return
+        ;;
+    --column=*)
+        __gitcomp &quot;
+            always never auto column row plain dense nodense
+            &quot; &quot;&quot; &quot;${cur##--column=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp_builtin status
+        return
+        ;;
+    esac
+
+    untracked_state=&quot;$(__git_get_option_value &quot;-u&quot; &quot;--untracked-files=&quot; \
+        &quot;$__git_untracked_file_modes&quot; &quot;status.showUntrackedFiles&quot;)&quot;
+
+    case &quot;$untracked_state&quot; in
+    no)
+        complete_opt=
+        ;;
+    all|normal|*)
+        complete_opt=&quot;--cached --directory --no-empty-directory --others&quot;
+
+        if [ -n &quot;$(__git_find_on_cmdline &quot;--ignored&quot;)&quot; ]; then
+            complete_opt=&quot;$complete_opt --ignored --exclude=*&quot;
+        fi
+        ;;
+    esac
+
+    __git_complete_index_file &quot;$complete_opt&quot;
+}
+</code></pre>
+<h5 id="function-calls_63">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_status
+   ├─ __gitcomp
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   ├─ __git_complete_index_file
+   |  ├─ __git_dequote
+   |  ├─ __gitcomp_file_direct
+   |  └─ __git_index_files
+   ├─ __git_find_on_cmdline
+   └─ __git_get_option_value
+      ├─ __git
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_config_get_set_variables">&gt;&gt; __git_config_get_set_variables():</h3>
+<pre><code class="language-bash">function __git_config_get_set_variables() {
+    local prevword word config_file= c=$cword
+    while [ $c -gt 1 ]; do
+        word=&quot;${words[c]}&quot;
+        case &quot;$word&quot; in
+        --system|--global|--local|--file=*)
+            config_file=&quot;$word&quot;
+            break
+            ;;
+        -f|--file)
+            config_file=&quot;$word $prevword&quot;
+            break
+            ;;
+        esac
+        prevword=$word
+        c=$((--c))
+    done
+
+    __git config $config_file --name-only --list
+}
+
+__git_config_vars=
+</code></pre>
+<h5 id="function-calls_64">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_config_get_set_variables
+   ├─ __git
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_compute_config_vars">&gt;&gt; __git_compute_config_vars():</h3>
+<pre><code class="language-bash">function __git_compute_config_vars() {
+    test -n &quot;$__git_config_vars&quot; ||
+    __git_config_vars=&quot;$(git help --config-for-completion | sort | uniq)&quot;
+}
+</code></pre>
+<hr />
+<h3 id="_git_config">&gt;&gt; _git_config():</h3>
+<pre><code class="language-bash">function _git_config() {
+    local varname
+
+    if [ &quot;${BASH_VERSINFO[0]:-0}&quot; -ge 4 ]; then
+        varname=&quot;${prev,,}&quot;
+    else
+        varname=&quot;$(echo &quot;$prev&quot; |tr A-Z a-z)&quot;
+    fi
+
+    case &quot;$varname&quot; in
+    branch.*.remote|branch.*.pushremote)
+        __gitcomp_nl &quot;$(__git_remotes)&quot;
+        return
+        ;;
+    branch.*.merge)
+        __git_complete_refs
+        return
+        ;;
+    branch.*.rebase)
+        __gitcomp &quot;false true merges preserve interactive&quot;
+        return
+        ;;
+    remote.pushdefault)
+        __gitcomp_nl &quot;$(__git_remotes)&quot;
+        return
+        ;;
+    remote.*.fetch)
+        local remote=&quot;${prev#remote.}&quot;
+        remote=&quot;${remote%.fetch}&quot;
+        if [ -z &quot;$cur&quot; ]; then
+            __gitcomp_nl &quot;refs/heads/&quot; &quot;&quot; &quot;&quot; &quot;&quot;
+            return
+        fi
+        __gitcomp_nl &quot;$(__git_refs_remotes &quot;$remote&quot;)&quot;
+        return
+        ;;
+    remote.*.push)
+        local remote=&quot;${prev#remote.}&quot;
+        remote=&quot;${remote%.push}&quot;
+        __gitcomp_nl &quot;$(__git for-each-ref \
+            --format='%(refname):%(refname)' refs/heads)&quot;
+        return
+        ;;
+    pull.twohead|pull.octopus)
+        __git_compute_merge_strategies
+        __gitcomp &quot;$__git_merge_strategies&quot;
+        return
+        ;;
+    color.branch|color.diff|color.interactive|\
+    color.showbranch|color.status|color.ui)
+        __gitcomp &quot;always never auto&quot;
+        return
+        ;;
+    color.pager)
+        __gitcomp &quot;false true&quot;
+        return
+        ;;
+    color.*.*)
+        __gitcomp &quot;
+            normal black red green yellow blue magenta cyan white
+            bold dim ul blink reverse
+            &quot;
+        return
+        ;;
+    diff.submodule)
+        __gitcomp &quot;log short&quot;
+        return
+        ;;
+    help.format)
+        __gitcomp &quot;man info web html&quot;
+        return
+        ;;
+    log.date)
+        __gitcomp &quot;$__git_log_date_formats&quot;
+        return
+        ;;
+    sendemail.aliasfiletype)
+        __gitcomp &quot;mutt mailrc pine elm gnus&quot;
+        return
+        ;;
+    sendemail.confirm)
+        __gitcomp &quot;$__git_send_email_confirm_options&quot;
+        return
+        ;;
+    sendemail.suppresscc)
+        __gitcomp &quot;$__git_send_email_suppresscc_options&quot;
+        return
+        ;;
+    sendemail.transferencoding)
+        __gitcomp &quot;7bit 8bit quoted-printable base64&quot;
+        return
+        ;;
+    --get|--get-all|--unset|--unset-all)
+        __gitcomp_nl &quot;$(__git_config_get_set_variables)&quot;
+        return
+        ;;
+    *.*)
+        return
+        ;;
+    esac
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin config
+        return
+        ;;
+    branch.*.*)
+        local pfx=&quot;${cur%.*}.&quot; cur_=&quot;${cur##*.}&quot;
+        __gitcomp &quot;remote pushRemote merge mergeOptions rebase&quot; &quot;$pfx&quot; &quot;$cur_&quot;
+        return
+        ;;
+    branch.*)
+        local pfx=&quot;${cur%.*}.&quot; cur_=&quot;${cur#*.}&quot;
+        __gitcomp_direct &quot;$(__git_heads &quot;$pfx&quot; &quot;$cur_&quot; &quot;.&quot;)&quot;
+        __gitcomp_nl_append $'autoSetupMerge\nautoSetupRebase\n' &quot;$pfx&quot; &quot;$cur_&quot;
+        return
+        ;;
+    guitool.*.*)
+        local pfx=&quot;${cur%.*}.&quot; cur_=&quot;${cur##*.}&quot;
+        __gitcomp &quot;
+            argPrompt cmd confirm needsFile noConsole noRescan
+            prompt revPrompt revUnmerged title
+            &quot; &quot;$pfx&quot; &quot;$cur_&quot;
+        return
+        ;;
+    difftool.*.*)
+        local pfx=&quot;${cur%.*}.&quot; cur_=&quot;${cur##*.}&quot;
+        __gitcomp &quot;cmd path&quot; &quot;$pfx&quot; &quot;$cur_&quot;
+        return
+        ;;
+    man.*.*)
+        local pfx=&quot;${cur%.*}.&quot; cur_=&quot;${cur##*.}&quot;
+        __gitcomp &quot;cmd path&quot; &quot;$pfx&quot; &quot;$cur_&quot;
+        return
+        ;;
+    mergetool.*.*)
+        local pfx=&quot;${cur%.*}.&quot; cur_=&quot;${cur##*.}&quot;
+        __gitcomp &quot;cmd path trustExitCode&quot; &quot;$pfx&quot; &quot;$cur_&quot;
+        return
+        ;;
+    pager.*)
+        local pfx=&quot;${cur%.*}.&quot; cur_=&quot;${cur#*.}&quot;
+        __git_compute_all_commands
+        __gitcomp_nl &quot;$__git_all_commands&quot; &quot;$pfx&quot; &quot;$cur_&quot;
+        return
+        ;;
+    remote.*.*)
+        local pfx=&quot;${cur%.*}.&quot; cur_=&quot;${cur##*.}&quot;
+        __gitcomp &quot;
+            url proxy fetch push mirror skipDefaultUpdate
+            receivepack uploadpack tagOpt pushurl
+            &quot; &quot;$pfx&quot; &quot;$cur_&quot;
+        return
+        ;;
+    remote.*)
+        local pfx=&quot;${cur%.*}.&quot; cur_=&quot;${cur#*.}&quot;
+        __gitcomp_nl &quot;$(__git_remotes)&quot; &quot;$pfx&quot; &quot;$cur_&quot; &quot;.&quot;
+        __gitcomp_nl_append &quot;pushDefault&quot; &quot;$pfx&quot; &quot;$cur_&quot;
+        return
+        ;;
+    url.*.*)
+        local pfx=&quot;${cur%.*}.&quot; cur_=&quot;${cur##*.}&quot;
+        __gitcomp &quot;insteadOf pushInsteadOf&quot; &quot;$pfx&quot; &quot;$cur_&quot;
+        return
+        ;;
+    *.*)
+        __git_compute_config_vars
+        __gitcomp &quot;$__git_config_vars&quot;
+        ;;
+    *)
+        __git_compute_config_vars
+        __gitcomp &quot;$(echo &quot;$__git_config_vars&quot; | sed 's/\.[^ ]*/./g')&quot;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_65">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_config
+   ├─ __git
+   ├─ __gitcomp_direct
+   ├─ __gitcomp
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   ├─ __gitcomp_nl_append
+   |  └─ __gitcompappend
+   ├─ __gitcomp_nl
+   |  └─ __gitcomp_nl_append
+   ├─ __git_heads
+   |  ├─ __git
+   |  └─ _git
+   ├─ __git_refs_remotes
+   |  ├─ __git
+   |  └─ _git
+   ├─ __git_remotes
+   |  ├─ __git
+   |  └─ _git
+   ├─ __git_config_get_set_variables
+   |  ├─ __git
+   |  └─ _git
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_remote">&gt;&gt; _git_remote():</h3>
+<pre><code class="language-bash">function _git_remote() {
+    local subcommands=&quot;
+        add rename remove set-head set-branches
+        get-url set-url show prune update
+        &quot;
+    local subcommand=&quot;$(__git_find_on_cmdline &quot;$subcommands&quot;)&quot;
+    if [ -z &quot;$subcommand&quot; ]; then
+        case &quot;$cur&quot; in
+        --*)
+            __gitcomp_builtin remote
+            ;;
+        *)
+            __gitcomp &quot;$subcommands&quot;
+            ;;
+        esac
+        return
+    fi
+
+    case &quot;$subcommand,$cur&quot; in
+    add,--*)
+        __gitcomp_builtin remote_add
+        ;;
+    add,*)
+        ;;
+    set-head,--*)
+        __gitcomp_builtin remote_set-head
+        ;;
+    set-branches,--*)
+        __gitcomp_builtin remote_set-branches
+        ;;
+    set-head,*|set-branches,*)
+        __git_complete_remote_or_refspec
+        ;;
+    update,--*)
+        __gitcomp_builtin remote_update
+        ;;
+    update,*)
+        __gitcomp &quot;$(__git_remotes) $(__git_get_config_variables &quot;remotes&quot;)&quot;
+        ;;
+    set-url,--*)
+        __gitcomp_builtin remote_set-url
+        ;;
+    get-url,--*)
+        __gitcomp_builtin remote_get-url
+        ;;
+    prune,--*)
+        __gitcomp_builtin remote_prune
+        ;;
+    *)
+        __gitcomp_nl &quot;$(__git_remotes)&quot;
+        ;;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_66">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_remote
+   ├─ __gitcomp
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   ├─ __gitcomp_nl
+   |  └─ __gitcomp_nl_append
+   ├─ __git_remotes
+   |  ├─ __git
+   |  └─ _git
+   ├─ __git_get_config_variables
+   |  ├─ __git
+   |  └─ _git
+   └─ __git_find_on_cmdline
+</code></pre>
+<hr />
+<h3 id="_git_replace">&gt;&gt; _git_replace():</h3>
+<pre><code class="language-bash">function _git_replace() {
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin replace
+        return
+        ;;
+    esac
+    __git_complete_refs
+}
+</code></pre>
+<h5 id="function-calls_67">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_replace
+   └─ __gitcomp_builtin
+      ├─ __git
+      ├─ __gitcomp
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_rerere">&gt;&gt; _git_rerere():</h3>
+<pre><code class="language-bash">function _git_rerere() {
+    local subcommands=&quot;clear forget diff remaining status gc&quot;
+    local subcommand=&quot;$(__git_find_on_cmdline &quot;$subcommands&quot;)&quot;
+    if test -z &quot;$subcommand&quot;
+    then
+        __gitcomp &quot;$subcommands&quot;
+        return
+    fi
+}
+</code></pre>
+<h5 id="function-calls_68">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_rerere
+   ├─ __gitcomp
+   └─ __git_find_on_cmdline
+</code></pre>
+<hr />
+<h3 id="_git_reset">&gt;&gt; _git_reset():</h3>
+<pre><code class="language-bash">function _git_reset() {
+    __git_has_doubledash &amp;&amp; return
+
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin reset
+        return
+        ;;
+    esac
+    __git_complete_refs
+}
+
+__git_revert_inprogress_options=&quot;--continue --quit --abort&quot;
+</code></pre>
+<h5 id="function-calls_69">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_reset
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   └─ __git_has_doubledash
+</code></pre>
+<hr />
+<h3 id="_git_revert">&gt;&gt; _git_revert():</h3>
+<pre><code class="language-bash">function _git_revert() {
+    __git_find_repo_path
+    if [ -f &quot;$__git_repo_path&quot;/REVERT_HEAD ]; then
+        __gitcomp &quot;$__git_revert_inprogress_options&quot;
+        return
+    fi
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin revert &quot;&quot; \
+            &quot;$__git_revert_inprogress_options&quot;
+        return
+        ;;
+    esac
+    __git_complete_refs
+}
+</code></pre>
+<h5 id="function-calls_70">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_revert
+   ├─ __gitcomp
+   └─ __gitcomp_builtin
+      ├─ __git
+      ├─ __gitcomp
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_rm">&gt;&gt; _git_rm():</h3>
+<pre><code class="language-bash">function _git_rm() {
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin rm
+        return
+        ;;
+    esac
+
+    __git_complete_index_file &quot;--cached&quot;
+}
+</code></pre>
+<h5 id="function-calls_71">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_rm
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   └─ __git_complete_index_file
+      ├─ __git_dequote
+      ├─ __gitcomp_file_direct
+      └─ __git_index_files
+</code></pre>
+<hr />
+<h3 id="_git_shortlog">&gt;&gt; _git_shortlog():</h3>
+<pre><code class="language-bash">function _git_shortlog() {
+    __git_has_doubledash &amp;&amp; return
+
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp &quot;
+            $__git_log_common_options
+            $__git_log_shortlog_options
+            --numbered --summary --email
+            &quot;
+        return
+        ;;
+    esac
+    __git_complete_revlist
+}
+</code></pre>
+<h5 id="function-calls_72">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_shortlog
+   ├─ __gitcomp
+   └─ __git_has_doubledash
+</code></pre>
+<hr />
+<h3 id="_git_show">&gt;&gt; _git_show():</h3>
+<pre><code class="language-bash">function _git_show() {
+    __git_has_doubledash &amp;&amp; return
+
+    case &quot;$cur&quot; in
+    --pretty=*|--format=*)
+        __gitcomp &quot;$__git_log_pretty_formats $(__git_pretty_aliases)
+            &quot; &quot;&quot; &quot;${cur#*=}&quot;
+        return
+        ;;
+    --diff-algorithm=*)
+        __gitcomp &quot;$__git_diff_algorithms&quot; &quot;&quot; &quot;${cur##--diff-algorithm=}&quot;
+        return
+        ;;
+    --submodule=*)
+        __gitcomp &quot;$__git_diff_submodule_formats&quot; &quot;&quot; &quot;${cur##--submodule=}&quot;
+        return
+        ;;
+    --*)
+        __gitcomp &quot;--pretty= --format= --abbrev-commit --oneline
+            --show-signature
+            $__git_diff_common_options
+            &quot;
+        return
+        ;;
+    esac
+    __git_complete_revlist_file
+}
+</code></pre>
+<h5 id="function-calls_73">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_show
+   ├─ __gitcomp
+   ├─ __git_pretty_aliases
+   |  └─ __git_get_config_variables
+   └─ __git_has_doubledash
+</code></pre>
+<hr />
+<h3 id="_git_show_branch">&gt;&gt; _git_show_branch():</h3>
+<pre><code class="language-bash">function _git_show_branch() {
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin show-branch
+        return
+        ;;
+    esac
+    __git_complete_revlist
+}
+</code></pre>
+<h5 id="function-calls_74">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_show_branch
+   └─ __gitcomp_builtin
+      ├─ __git
+      ├─ __gitcomp
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_stash">&gt;&gt; _git_stash():</h3>
+<pre><code class="language-bash">function _git_stash() {
+    local save_opts='--all --keep-index --no-keep-index --quiet --patch --include-untracked'
+    local subcommands='push list show apply clear drop pop create branch'
+    local subcommand=&quot;$(__git_find_on_cmdline &quot;$subcommands save&quot;)&quot;
+    if [ -n &quot;$(__git_find_on_cmdline &quot;-p&quot;)&quot; ]; then
+        subcommand=&quot;push&quot;
+    fi
+    if [ -z &quot;$subcommand&quot; ]; then
+        case &quot;$cur&quot; in
+        --*)
+            __gitcomp &quot;$save_opts&quot;
+            ;;
+        sa*)
+            if [ -z &quot;$(__git_find_on_cmdline &quot;$save_opts&quot;)&quot; ]; then
+                __gitcomp &quot;save&quot;
+            fi
+            ;;
+        *)
+            if [ -z &quot;$(__git_find_on_cmdline &quot;$save_opts&quot;)&quot; ]; then
+                __gitcomp &quot;$subcommands&quot;
+            fi
+            ;;
+        esac
+    else
+        case &quot;$subcommand,$cur&quot; in
+        push,--*)
+            __gitcomp &quot;$save_opts --message&quot;
+            ;;
+        save,--*)
+            __gitcomp &quot;$save_opts&quot;
+            ;;
+        apply,--*|pop,--*)
+            __gitcomp &quot;--index --quiet&quot;
+            ;;
+        drop,--*)
+            __gitcomp &quot;--quiet&quot;
+            ;;
+        list,--*)
+            __gitcomp &quot;--name-status --oneline --patch-with-stat&quot;
+            ;;
+        show,--*|branch,--*)
+            ;;
+        branch,*)
+            if [ $cword -eq 3 ]; then
+                __git_complete_refs
+            else
+                __gitcomp_nl &quot;$(__git stash list \
+                        | sed -n -e 's/:.*//p')&quot;
+            fi
+            ;;
+        show,*|apply,*|drop,*|pop,*)
+            __gitcomp_nl &quot;$(__git stash list \
+                    | sed -n -e 's/:.*//p')&quot;
+            ;;
+        *)
+            ;;
+        esac
+    fi
+}
+</code></pre>
+<h5 id="function-calls_75">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_stash
+   ├─ __git
+   ├─ __gitcomp
+   ├─ __gitcomp_nl
+   |  └─ __gitcomp_nl_append
+   ├─ __git_find_on_cmdline
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_submodule">&gt;&gt; _git_submodule():</h3>
+<pre><code class="language-bash">function _git_submodule() {
+    __git_has_doubledash &amp;&amp; return
+
+    local subcommands=&quot;add status init deinit update summary foreach sync&quot;
+    local subcommand=&quot;$(__git_find_on_cmdline &quot;$subcommands&quot;)&quot;
+    if [ -z &quot;$subcommand&quot; ]; then
+        case &quot;$cur&quot; in
+        --*)
+            __gitcomp &quot;--quiet&quot;
+            ;;
+        *)
+            __gitcomp &quot;$subcommands&quot;
+            ;;
+        esac
+        return
+    fi
+
+    case &quot;$subcommand,$cur&quot; in
+    add,--*)
+        __gitcomp &quot;--branch --force --name --reference --depth&quot;
+        ;;
+    status,--*)
+        __gitcomp &quot;--cached --recursive&quot;
+        ;;
+    deinit,--*)
+        __gitcomp &quot;--force --all&quot;
+        ;;
+    update,--*)
+        __gitcomp &quot;
+            --init --remote --no-fetch
+            --recommend-shallow --no-recommend-shallow
+            --force --rebase --merge --reference --depth --recursive --jobs
+        &quot;
+        ;;
+    summary,--*)
+        __gitcomp &quot;--cached --files --summary-limit&quot;
+        ;;
+    foreach,--*|sync,--*)
+        __gitcomp &quot;--recursive&quot;
+        ;;
+    *)
+        ;;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_76">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_submodule
+   ├─ __gitcomp
+   ├─ __git_find_on_cmdline
+   └─ __git_has_doubledash
+</code></pre>
+<hr />
+<h3 id="_git_svn">&gt;&gt; _git_svn():</h3>
+<pre><code class="language-bash">function _git_svn() {
+    local subcommands=&quot;
+        init fetch clone rebase dcommit log find-rev
+        set-tree commit-diff info create-ignore propget
+        proplist show-ignore show-externals branch tag blame
+        migrate mkdirs reset gc
+        &quot;
+    local subcommand=&quot;$(__git_find_on_cmdline &quot;$subcommands&quot;)&quot;
+    if [ -z &quot;$subcommand&quot; ]; then
+        __gitcomp &quot;$subcommands&quot;
+    else
+        local remote_opts=&quot;--username= --config-dir= --no-auth-cache&quot;
+        local fc_opts=&quot;
+            --follow-parent --authors-file= --repack=
+            --no-metadata --use-svm-props --use-svnsync-props
+            --log-window-size= --no-checkout --quiet
+            --repack-flags --use-log-author --localtime
+            --add-author-from
+            --ignore-paths= --include-paths= $remote_opts
+            &quot;
+        local init_opts=&quot;
+            --template= --shared= --trunk= --tags=
+            --branches= --stdlayout --minimize-url
+            --no-metadata --use-svm-props --use-svnsync-props
+            --rewrite-root= --prefix= $remote_opts
+            &quot;
+        local cmt_opts=&quot;
+            --edit --rmdir --find-copies-harder --copy-similarity=
+            &quot;
+
+        case &quot;$subcommand,$cur&quot; in
+        fetch,--*)
+            __gitcomp &quot;--revision= --fetch-all $fc_opts&quot;
+            ;;
+        clone,--*)
+            __gitcomp &quot;--revision= $fc_opts $init_opts&quot;
+            ;;
+        init,--*)
+            __gitcomp &quot;$init_opts&quot;
+            ;;
+        dcommit,--*)
+            __gitcomp &quot;
+                --merge --strategy= --verbose --dry-run
+                --fetch-all --no-rebase --commit-url
+                --revision --interactive $cmt_opts $fc_opts
+                &quot;
+            ;;
+        set-tree,--*)
+            __gitcomp &quot;--stdin $cmt_opts $fc_opts&quot;
+            ;;
+        create-ignore,--*|propget,--*|proplist,--*|show-ignore,--*|\
+        show-externals,--*|mkdirs,--*)
+            __gitcomp &quot;--revision=&quot;
+            ;;
+        log,--*)
+            __gitcomp &quot;
+                --limit= --revision= --verbose --incremental
+                --oneline --show-commit --non-recursive
+                --authors-file= --color
+                &quot;
+            ;;
+        rebase,--*)
+            __gitcomp &quot;
+                --merge --verbose --strategy= --local
+                --fetch-all --dry-run $fc_opts
+                &quot;
+            ;;
+        commit-diff,--*)
+            __gitcomp &quot;--message= --file= --revision= $cmt_opts&quot;
+            ;;
+        info,--*)
+            __gitcomp &quot;--url&quot;
+            ;;
+        branch,--*)
+            __gitcomp &quot;--dry-run --message --tag&quot;
+            ;;
+        tag,--*)
+            __gitcomp &quot;--dry-run --message&quot;
+            ;;
+        blame,--*)
+            __gitcomp &quot;--git-format&quot;
+            ;;
+        migrate,--*)
+            __gitcomp &quot;
+                --config-dir= --ignore-paths= --minimize
+                --no-auth-cache --username=
+                &quot;
+            ;;
+        reset,--*)
+            __gitcomp &quot;--revision= --parent&quot;
+            ;;
+        *)
+            ;;
+        esac
+    fi
+}
+</code></pre>
+<h5 id="function-calls_77">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_svn
+   ├─ __gitcomp
+   └─ __git_find_on_cmdline
+</code></pre>
+<hr />
+<h3 id="_git_tag">&gt;&gt; _git_tag():</h3>
+<pre><code class="language-bash">function _git_tag() {
+    local i c=1 f=0
+    while [ $c -lt $cword ]; do
+        i=&quot;${words[c]}&quot;
+        case &quot;$i&quot; in
+        -d|--delete|-v|--verify)
+            __gitcomp_direct &quot;$(__git_tags &quot;&quot; &quot;$cur&quot; &quot; &quot;)&quot;
+            return
+            ;;
+        -f)
+            f=1
+            ;;
+        esac
+        ((c++))
+    done
+
+    case &quot;$prev&quot; in
+    -m|-F)
+        ;;
+    -*|tag)
+        if [ $f = 1 ]; then
+            __gitcomp_direct &quot;$(__git_tags &quot;&quot; &quot;$cur&quot; &quot; &quot;)&quot;
+        fi
+        ;;
+    *)
+        __git_complete_refs
+        ;;
+    esac
+
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin tag
+        ;;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_78">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_tag
+   ├─ __gitcomp_direct
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   └─ __git_tags
+      ├─ __git
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="_git_whatchanged">&gt;&gt; _git_whatchanged():</h3>
+<pre><code class="language-bash">function _git_whatchanged() {
+    _git_log
+}
+</code></pre>
+<hr />
+<h3 id="_git_worktree">&gt;&gt; _git_worktree():</h3>
+<pre><code class="language-bash">function _git_worktree() {
+    local subcommands=&quot;add list lock move prune remove unlock&quot;
+    local subcommand=&quot;$(__git_find_on_cmdline &quot;$subcommands&quot;)&quot;
+    if [ -z &quot;$subcommand&quot; ]; then
+        __gitcomp &quot;$subcommands&quot;
+    else
+        case &quot;$subcommand,$cur&quot; in
+        add,--*)
+            __gitcomp_builtin worktree_add
+            ;;
+        list,--*)
+            __gitcomp_builtin worktree_list
+            ;;
+        lock,--*)
+            __gitcomp_builtin worktree_lock
+            ;;
+        prune,--*)
+            __gitcomp_builtin worktree_prune
+            ;;
+        remove,--*)
+            __gitcomp &quot;--force&quot;
+            ;;
+        *)
+            ;;
+        esac
+    fi
+}
+</code></pre>
+<h5 id="function-calls_79">Function Calls:</h5>
+<pre><code class="language-bash">└─ _git_worktree
+   ├─ __gitcomp
+   ├─ __gitcomp_builtin
+   |  ├─ __git
+   |  ├─ __gitcomp
+   |  └─ _git
+   └─ __git_find_on_cmdline
+</code></pre>
+<hr />
+<h3 id="__git_complete_common">&gt;&gt; __git_complete_common():</h3>
+<pre><code class="language-bash">function __git_complete_common() {
+    local command=&quot;$1&quot;
+
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp_builtin &quot;$command&quot;
+        ;;
+    esac
+}
+
+__git_cmds_with_parseopt_helper=
+</code></pre>
+<h5 id="function-calls_80">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_complete_common
+   └─ __gitcomp_builtin
+      ├─ __git
+      ├─ __gitcomp
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_support_parseopt_helper">&gt;&gt; __git_support_parseopt_helper():</h3>
+<pre><code class="language-bash">function __git_support_parseopt_helper() {
+    test -n &quot;$__git_cmds_with_parseopt_helper&quot; ||
+        __git_cmds_with_parseopt_helper=&quot;$(__git --list-cmds=parseopt)&quot;
+
+    case &quot; $__git_cmds_with_parseopt_helper &quot; in
+    *&quot; $1 &quot;*)
+        return 0
+        ;;
+    *)
+        return 1
+        ;;
+    esac
+}
+</code></pre>
+<h5 id="function-calls_81">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_support_parseopt_helper
+   ├─ __git
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_complete_command">&gt;&gt; __git_complete_command():</h3>
+<pre><code class="language-bash">function __git_complete_command() {
+    local command=&quot;$1&quot;
+    local completion_func=&quot;_git_${command//-/_}&quot;
+    if ! declare -f $completion_func &gt;/dev/null 2&gt;/dev/null &amp;&amp;
+        declare -f _completion_loader &gt;/dev/null 2&gt;/dev/null
+    then
+        _completion_loader &quot;git-$command&quot;
+    fi
+    if declare -f $completion_func &gt;/dev/null 2&gt;/dev/null
+    then
+        $completion_func
+        return 0
+    elif __git_support_parseopt_helper &quot;$command&quot;
+    then
+        __git_complete_common &quot;$command&quot;
+        return 0
+    else
+        return 1
+    fi
+}
+</code></pre>
+<h5 id="function-calls_82">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_complete_command
+   ├─ __git_complete_common
+   |  └─ __gitcomp_builtin
+   └─ __git_support_parseopt_helper
+      ├─ __git
+      └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_main">&gt;&gt; __git_main():</h3>
+<pre><code class="language-bash">function __git_main() {
+    local i c=1 command __git_dir __git_repo_path
+    local __git_C_args C_args_count=0
+
+    while [ $c -lt $cword ]; do
+        i=&quot;${words[c]}&quot;
+        case &quot;$i&quot; in
+        --git-dir=*) __git_dir=&quot;${i#--git-dir=}&quot; ;;
+        --git-dir)   ((c++)) ; __git_dir=&quot;${words[c]}&quot; ;;
+        --bare)      __git_dir=&quot;.&quot; ;;
+        --help) command=&quot;help&quot;; break ;;
+        -c|--work-tree|--namespace) ((c++)) ;;
+        -C) __git_C_args[C_args_count++]=-C
+            ((c++))
+            __git_C_args[C_args_count++]=&quot;${words[c]}&quot;
+            ;;
+        -*) ;;
+        *) command=&quot;$i&quot;; break ;;
+        esac
+        ((c++))
+    done
+
+    if [ -z &quot;$command&quot; ]; then
+        case &quot;$prev&quot; in
+        --git-dir|-C|--work-tree)
+            return
+            ;;
+        -c|--namespace)
+            return
+            ;;
+        esac
+        case &quot;$cur&quot; in
+        --*)   __gitcomp &quot;
+            --paginate
+            --no-pager
+            --git-dir=
+            --bare
+            --version
+            --exec-path
+            --exec-path=
+            --html-path
+            --man-path
+            --info-path
+            --work-tree=
+            --namespace=
+            --no-replace-objects
+            --help
+            &quot;
+            ;;
+        *)
+            if test -n &quot;$GIT_TESTING_PORCELAIN_COMMAND_LIST&quot;
+            then
+                __gitcomp &quot;$GIT_TESTING_PORCELAIN_COMMAND_LIST&quot;
+            else
+                __gitcomp &quot;$(git --list-cmds=list-mainporcelain,others,nohelpers,alias,list-complete,config)&quot;
+            fi
+            ;;
+        esac
+        return
+    fi
+
+    __git_complete_command &quot;$command&quot; &amp;&amp; return
+
+    local expansion=$(__git_aliased_command &quot;$command&quot;)
+    if [ -n &quot;$expansion&quot; ]; then
+        words[1]=$expansion
+        __git_complete_command &quot;$expansion&quot;
+    fi
+}
+</code></pre>
+<h5 id="function-calls_83">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_main
+   ├─ __gitcomp
+   ├─ __git_aliased_command
+   |  ├─ __git
+   |  └─ _git
+   └─ __git_complete_command
+      ├─ __git_complete_common
+      └─ __git_support_parseopt_helper
+</code></pre>
+<hr />
+<h3 id="__gitk_main">&gt;&gt; __gitk_main():</h3>
+<pre><code class="language-bash">function __gitk_main() {
+    __git_has_doubledash &amp;&amp; return
+
+    local __git_repo_path
+    __git_find_repo_path
+
+    local merge=&quot;&quot;
+    if [ -f &quot;$__git_repo_path/MERGE_HEAD&quot; ]; then
+        merge=&quot;--merge&quot;
+    fi
+    case &quot;$cur&quot; in
+    --*)
+        __gitcomp &quot;
+            $__git_log_common_options
+            $__git_log_gitk_options
+            $merge
+            &quot;
+        return
+        ;;
+    esac
+    __git_complete_revlist
+}
+
+if [[ -n ${ZSH_VERSION-} ]] &amp;&amp;
+   [[ -z ${GIT_SOURCING_ZSH_COMPLETION-} ]]; then
+    echo &quot;WARNING: this script is deprecated, please see git-completion.zsh&quot; 1&gt;&amp;2
+
+    autoload -U +X compinit &amp;&amp; compinit
+
+    __gitcomp ()
+    {
+        emulate -L zsh
+
+        local cur_=&quot;${3-$cur}&quot;
+
+        case &quot;$cur_&quot; in
+        --*=)
+            ;;
+        *)
+            local c IFS=$' \t\n'
+            local -a array
+            for c in ${=1}; do
+                c=&quot;$c${4-}&quot;
+                case $c in
+                --*=*|*.) ;;
+                *) c=&quot;$c &quot; ;;
+                esac
+                array[${#array[@]}+1]=&quot;$c&quot;
+            done
+            compset -P '*[=:]'
+            compadd -Q -S '' -p &quot;${2-}&quot; -a -- array &amp;&amp; _ret=0
+            ;;
+        esac
+    }
+
+    __gitcomp_direct() {
+        emulate -L zsh
+
+        local IFS=$'\n'
+        compset -P '*[=:]'
+        compadd -Q -- ${=1} &amp;&amp; _ret=0
+    }
+
+    __gitcomp_nl() {
+        emulate -L zsh
+
+        local IFS=$'\n'
+        compset -P '*[=:]'
+        compadd -Q -S &quot;${4- }&quot; -p &quot;${2-}&quot; -- ${=1} &amp;&amp; _ret=0
+    }
+
+    __gitcomp_file_direct() {
+        emulate -L zsh
+
+        local IFS=$'\n'
+        compset -P '*[=:]'
+        compadd -f -- ${=1} &amp;&amp; _ret=0
+    }
+
+    __gitcomp_file() {
+        emulate -L zsh
+
+        local IFS=$'\n'
+        compset -P '*[=:]'
+        compadd -p &quot;${2-}&quot; -f -- ${=1} &amp;&amp; _ret=0
+    }
+
+    _git() {
+        local _ret=1 cur cword prev
+        cur=${words[CURRENT]}
+        prev=${words[CURRENT-1]}
+        let cword=CURRENT-1
+        emulate ksh -c __${service}_main
+        let _ret &amp;&amp; _default &amp;&amp; _ret=0
+        return _ret
+    }
+
+    compdef _git git gitk
+    return
+fi
+</code></pre>
+<h5 id="function-calls_84">Function Calls:</h5>
+<pre><code class="language-bash">└─ __gitk_main
+   ├─ __gitcomp
+   ├─ __git_has_doubledash
+   └─ _git
+</code></pre>
+<hr />
+<h3 id="__git_func_wrap">&gt;&gt; __git_func_wrap():</h3>
+<pre><code class="language-bash">function __git_func_wrap() {
+    local cur words cword prev
+    _get_comp_words_by_ref -n =: cur words cword prev
+    $1
+}
+</code></pre>
+<hr />
+<h3 id="__git_complete">&gt;&gt; __git_complete():</h3>
+<pre><code class="language-bash">function __git_complete() {
+    local wrapper=&quot;__git_wrap${2}&quot;
+    eval &quot;$wrapper () { __git_func_wrap $2 ; }&quot;
+    complete -o bashdefault -o default -o nospace -F $wrapper $1 2&gt;/dev/null \
+        || complete -o default -o nospace -F $wrapper $1
+}
+</code></pre>
+<h5 id="function-calls_85">Function Calls:</h5>
+<pre><code class="language-bash">└─ __git_complete
+   └─ __git_func_wrap
+</code></pre>
+<hr />
+<h3 id="_git">&gt;&gt; _git():</h3>
+<pre><code class="language-bash">function _git () {
+    __git_wrap__git_main
+}
+</code></pre>
+<hr />
+<h3 id="_gitk">&gt;&gt; _gitk():</h3>
+<pre><code class="language-bash">function _gitk () {
+    __git_wrap__gitk_main
+}
+
+__git_complete git __git_main
+__git_complete gitk __gitk_main
+
+if [ Cygwin = &quot;$(uname -o 2&gt;/dev/null)&quot; ]; then
+__git_complete git.exe __git_main
+fi
+</code></pre>
+<h5 id="function-calls_86">Function Calls:</h5>
+<pre><code class="language-bash">└─ _gitk
+   └─ __git_complete
+      └─ __git_func_wrap
+</code></pre>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../awscli_completion/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../awscli_completion/" class="btn btn-xs btn-link">
+        awscli_completion
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../docker-compose_completion/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../docker-compose_completion/" class="btn btn-xs btn-link">
+        docker-compose_completion
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+      <p>
+        <a href="https://github.com/stablecaps/stablecaps_bashrc/edit/master/docs/completion/git_completion.md"><i class="fa fa-github"></i>
+Edit on GitHub</a>
+      </p>
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/stablecaps/stablecaps_bashrc/">Windmill Dark</a> theme by giri (noraj).</p>
+</footer>
+
+</body>
+</html>

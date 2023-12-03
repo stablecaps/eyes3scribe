@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="author" content="giri">
+    <link rel="canonical" href="https://github.com/stablecaps/stablecaps.github.io/modules/history_module/">
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>history_module - stablecaps bashrc</title>
+    <link href="../../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+    <link href="../../custom_css/extra.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../../js/jquery-3.2.1.min.js"></script>
+    <script src="../../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '../..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "History functions", url: "#_top", children: [
+              {title: "Function Index", url: "#function-index" },
+              {title: "Aliases", url: "#aliases" },
+          ]},
+        ];
+
+    </script>
+    <script src="../../js/base.js"></script>
+      <script src="../../search/main.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../docker_module/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../docker_module/" class="btn btn-xs btn-link">
+        docker_module
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../composure/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../composure/" class="btn btn-xs btn-link">
+        composure
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="history-functions">History functions</h1>
+<p><strong><em>(in /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-auto-documatix/docs_stablecaps_bashrc/docs/modules/history_module.sh)</em></strong></p>
+<h2 id="function-index">Function Index</h2>
+<pre><code class="language-python">01 - hist_nlines
+02 - grep_history
+03 - _chop_first_column
+04 - _add_line_numbers
+05 - _top_ten
+06 - _unique_history
+07 - ghf
+08 - histdel
+09 - histdeln
+</code></pre>
+<hr />
+<h3 id="hist_nlines">&gt;&gt; hist_nlines():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>:  'Get last N entries from bash history. N default is 100 lines</p>
+<p><strong><em>group</em></strong>:  'history</p>
+<p><strong><em>param</em></strong>:  '1: An integer corresponding to the number of history lines to tail</p>
+<p><strong><em>example</em></strong>:  '$ hist_nlines 200</p>
+</blockquote>
+<pre><code class="language-bash">function hist_nlines() {
+
+    if [ $# -eq 0 ]; then num_lines=100; else num_lines=$1; fi
+
+    history | tail -n $num_lines;
+}
+</code></pre>
+<hr />
+<h3 id="grep_history">&gt;&gt; grep_history():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>:  'Grep bash history</p>
+<p><strong><em>group</em></strong>:  'history</p>
+<p><strong><em>example</em></strong>:  '$ grep_history ls</p>
+</blockquote>
+<pre><code class="language-bash">function grep_history() {
+
+    history | grep &quot;$1&quot; ;
+}
+</code></pre>
+<hr />
+<h3 id="_chop_first_column">&gt;&gt; _chop_first_column():</h3>
+<pre><code class="language-bash">function _chop_first_column() { awk '{for (i=2; i&lt;NF; i++) printf $i &quot; &quot;; print $NF}' ; }
+</code></pre>
+<hr />
+<h3 id="_add_line_numbers">&gt;&gt; _add_line_numbers():</h3>
+<pre><code class="language-bash">function _add_line_numbers() { awk '{print NR &quot; &quot; $0}' ; }
+</code></pre>
+<hr />
+<h3 id="_top_ten">&gt;&gt; _top_ten():</h3>
+<pre><code class="language-bash">function _top_ten() { sort | uniq -c | sort -r | head -n 10 ; }
+</code></pre>
+<hr />
+<h3 id="_unique_history">&gt;&gt; _unique_history():</h3>
+<pre><code class="language-bash">function _unique_history() { _chop_first_column | _top_ten | _chop_first_column | _add_line_numbers ; }
+</code></pre>
+<h5 id="function-calls">Function Calls:</h5>
+<pre><code class="language-bash">└─ _unique_history
+   ├─ _chop_first_column
+   ├─ _add_line_numbers
+   └─ _top_ten
+</code></pre>
+<hr />
+<h3 id="ghf">&gt;&gt; ghf():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>:  'Grep bash history Function</p>
+<p><strong><em>group</em></strong>:  'history</p>
+<p><strong><em>param</em></strong>:  '1: With no args supplied, ghf returns the top 10 most used commands</p>
+<p><strong><em>param</em></strong>:  '2: With 1 search strings ghf returns top 10 uses for that term</p>
+<p><strong><em>param</em></strong>:  '3: With 2 search strings ghf executes a further search filter to the top10</p>
+<p><strong><em>example</em></strong>:  '$ grep_history mkdir</p>
+</blockquote>
+<pre><code class="language-bash">function ghf() {
+
+    if [ $# -eq 0 ]; then hist_nlines | _unique_history; fi
+    if [ $# -eq 1 ]; then grep_history &quot;$1&quot; | _unique_history; fi
+    if [ $# -eq 2 ]; then
+        $(grep_history &quot;$1&quot; | _unique_history | grep ^$2 | _chop_first_column)
+    fi
+}
+</code></pre>
+<h5 id="function-calls_1">Function Calls:</h5>
+<pre><code class="language-bash">└─ ghf
+   ├─ hist_nlines
+   ├─ grep_history
+   └─ _unique_history
+      ├─ _chop_first_column
+      ├─ _add_line_numbers
+      └─ _top_ten
+</code></pre>
+<hr />
+<h3 id="histdel">&gt;&gt; histdel():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>:  'Delete lines of history between N -&gt; N+n. Excluding histdel iteself.</p>
+<p><strong><em>group</em></strong>:  'history</p>
+<p><strong><em>param</em></strong>:  '1: starting line to delete</p>
+<p><strong><em>param</em></strong>:  '2: ending line to delete</p>
+<p><strong><em>example</em></strong>:  '$ histdel 1000 1033</p>
+</blockquote>
+<pre><code class="language-bash">function histdel() {
+
+    for h in $(seq $1 $2 | tac); do
+        history -d $h
+    done
+    history -d $(history 1 | awk '{print $1}')
+}
+</code></pre>
+<hr />
+<h3 id="histdeln">&gt;&gt; histdeln():</h3>
+<blockquote>
+<p><strong><em>about</em></strong>:  'Delete last N lines of history including histdeln</p>
+<p><strong><em>group</em></strong>:  'history</p>
+<p><strong><em>param</em></strong>:  '1: Number of lines to delete</p>
+<p><strong><em>example</em></strong>:  '$ histdeln 10</p>
+</blockquote>
+<pre><code class="language-bash">function histdeln() {
+
+    n=$(history 1 | awk '{print $1}')
+
+    histdel $(( $n - $1 )) $(( $n - 1 ))
+}
+</code></pre>
+<h5 id="function-calls_2">Function Calls:</h5>
+<pre><code class="language-bash">└─ histdeln
+   └─ histdel
+</code></pre>
+<h2 id="aliases">Aliases</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Alias Name</strong></th>
+<th><strong>Code</strong></th>
+<th><strong>Notes</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>hist</strong></td>
+<td><code>history'</code></td>
+<td>shows all history</td>
+</tr>
+<tr>
+<td><strong>gh</strong></td>
+<td><code>history | grep '</code></td>
+<td>grep all history</td>
+</tr>
+</tbody>
+</table>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../docker_module/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../docker_module/" class="btn btn-xs btn-link">
+        docker_module
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href="../composure/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../composure/" class="btn btn-xs btn-link">
+        composure
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+      <p>
+        <a href="https://github.com/stablecaps/stablecaps_bashrc/edit/master/docs/modules/history_module.md"><i class="fa fa-github"></i>
+Edit on GitHub</a>
+      </p>
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/stablecaps/stablecaps_bashrc/">Windmill Dark</a> theme by giri (noraj).</p>
+</footer>
+
+</body>
+</html>
