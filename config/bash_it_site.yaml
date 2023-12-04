@@ -1,0 +1,24 @@
+---
+project_name: docs_bash-it
+site_name: bash-it
+site_url: https://github.com/Bash-it/bash-it.github.io
+site_author: giri
+repo_url: https://github.com/Bash-it/bash-it/
+shell_srcdir: /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-it
+shell_glob_patterns:
+  - "*.bash"
+  - "*.sh"
+exclude_patterns:
+  - hooks
+  - docs
+  - lib
+  - test
+  - test_lib
+  - themes
+additional_mdfiles:
+  /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-it/docs/README.md: index.md
+category_names:
+  - aliases
+  - completion
+  - plugins
+  - internal

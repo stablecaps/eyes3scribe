@@ -30,6 +30,7 @@ nav:
   - ssh_helper_module: .//modules/ssh_helper_module.md
 - internal:
   - internal_git_functions: .//internal/internal_git_functions.md
+  - test: .//internal/test.md
   - internal_colour_defs: .//internal/internal_colour_defs.md
   - internal_helper_functions: .//internal/internal_helper_functions.md
   - _unused_scrap_functions: .//internal/_unused_scrap_functions.md

@@ -5,6 +5,9 @@ site_url: https://github.com/stablecaps/stablecaps.github.io
 site_author: giri
 repo_url: https://github.com/stablecaps/stablecaps_bashrc/
 shell_srcdir: /home/bsgt/stablecaps_bashrc
+shell_glob_patterns:
+  - "*.bash"
+  - "*.sh"
 exclude_patterns:
   - "zsdoc"
   - "test"

@@ -64,7 +64,9 @@ class ShellSrcPreProcessor:
                 ):
                     cite_about = self._process_about_line(line)
                 elif line.startswith("alias"):
-                    full_alias_str_list.append(self._process_alias_line(line))
+                    alias_str = self._process_alias_line(line)
+                    if alias_str is not None:
+                        full_alias_str_list.append(alias_str)
                 else:
                     if func_name is not None:
                         func_text_dict[func_name] += "\n" + line
@@ -90,8 +92,13 @@ class ShellSrcPreProcessor:
         )
 
     def _process_alias_line(self, line):
+        LOG.debug("line: %s", line)
+
         alias_list = line.replace("alias ", "").strip().split("=", 1)
         LOG.debug("alias_list: %s", alias_list)
+
+        if len(alias_list) < 2:
+            return None
 
         alias_name = alias_list[0]
         alias_cmd = alias_list[1]

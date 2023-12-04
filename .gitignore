@@ -130,3 +130,4 @@ dmypy.json
 .vscode
 mkdocs_stablecaps_bashrc/*
 output-docs/*
+docs_bash-it/*

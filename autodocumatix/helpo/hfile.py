@@ -133,7 +133,7 @@ def files_and_dirs_lister(mypathstr="./", mode="file", suf_pre="", exclude_list=
     """
     if exclude_list is None:
         exclude_list = []
-      
+
     if mode == "folder":
         os_object_list = [
             object

@@ -9,11 +9,21 @@ import os
 import sys
 
 from autodocumatix.helpo import hfile
+from autodocumatix.helpo.coloured_log_formatter import ColouredLogFormatter
 from autodocumatix.helpo.hstrops import false_when_str_contains_pattern
 from autodocumatix.shell_src_preprocessor import ShellSrcPreProcessor
 
 LOG = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+# logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
+# create console handler with a higher log level
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+
+ch.setFormatter(ColouredLogFormatter())
+
+LOG.addHandler(ch)
+
 # 1. copy bash src files to a temp directory
 # 2. copy custom css assets to appropriate place
 # 3. create mkdocs.yml file
@@ -40,7 +50,7 @@ class GenMkdocsSite:
         self.debug = debug
 
         LOG.info("Loading config: %s", site_confname)
-        self.cnf = hfile.load_yaml_file2dict(file_name="config/bashrc_stablecaps.yaml")
+        self.cnf = hfile.load_yaml_file2dict(file_name=site_confname)
 
         LOG.info("cnf: %s", self.cnf)
 
@@ -68,12 +78,17 @@ class GenMkdocsSite:
             print("👉", locals())
 
     def clean_infiles(self, infiles):
+        strict_exclude_patterns = [
+            f"/{patt}/" for patt in self.cnf.get("exclude_patterns")
+        ]
+
+        LOG.debug("strict_exclude_patterns: %s", strict_exclude_patterns)
         cleaned_infiles = [
             infile
             for infile in infiles
             if false_when_str_contains_pattern(
-                test_str=infile,
-                input_patt_li=self.cnf.get("exclude_patterns"),
+                test_str=infile.replace(self.project_docs_dir, ""),
+                input_patt_li=strict_exclude_patterns,
             )
         ]
         return cleaned_infiles
@@ -135,7 +150,10 @@ class GenMkdocsSite:
             LOG.debug("mdinfiles: %s", mdinfiles)
 
             for md_filepath in mdinfiles:
-                if catname in md_filepath:
+                print("catname", catname)
+                print("md_filepath", md_filepath)
+                if f"/{catname}/" in md_filepath:
+                    print("TRUE\n")
                     page_name = md_filepath.replace(".md", "").split("/")[-1]
                     md_rel_filepath = md_filepath.replace(self.project_docs_dir, "./")
                     page_path_map = {page_name: md_rel_filepath}
@@ -148,6 +166,7 @@ class GenMkdocsSite:
             file_name=f"{self.project_dir}/mkdocs.yml",
             yaml_dict=yaml_dict,
         )
+        # sys.exit(42)
 
     def main_routine(self):
         """
@@ -157,10 +176,24 @@ class GenMkdocsSite:
 
         os.chdir(self.project_dir)
 
-        infiles = hfile.files_and_dirs_recursive_lister(
-            mypathstr=self.project_docs_dir, myglob="*.sh"
+        glob_patt_list = (
+            self.cnf.get("shell_glob_patterns")
+            if self.cnf.get("shell_glob_patterns")
+            else ["*.sh"]
         )
+        LOG.info("Using shell_glob_patterns: %s", glob_patt_list)
+
+        infiles = []
+        for glob_patt in glob_patt_list:
+            infiles.extend(
+                hfile.files_and_dirs_recursive_lister(
+                    mypathstr=self.project_docs_dir, myglob=glob_patt
+                )
+            )
+        LOG.debug("infiles: %s", infiles)
+
         cleaned_infiles = self.clean_infiles(infiles)
+        LOG.warning("cleaned_infiles: %s", cleaned_infiles)
 
         shell_src_preprocessor = ShellSrcPreProcessor(
             cleaned_infiles,
@@ -184,7 +217,6 @@ if __name__ == "__main__":
         dest="site_confname",
         help="Location of Site conf in yaml format",
         type=str,
-        nargs="*",
         default=None,
         required=True,
     )
@@ -210,6 +242,7 @@ if __name__ == "__main__":
     # )
 
     args = parser.parse_args()
-
     gen_mkdocs_site = GenMkdocsSite(site_confname=args.site_confname, debug=args.debug)
     gen_mkdocs_site.main_routine()
+
+    LOG.info("Program Finished")
