@@ -12,8 +12,8 @@ LOG = logging.getLogger(__name__)
 
 
 class ShellSrcPreProcessor:
-    def __init__(self, cnf, cleaned_infiles, project_docs_dir, debug=False):
-        self.cnf = cnf
+    def __init__(self, conf, cleaned_infiles, project_docs_dir, debug=False):
+        self.conf = conf
         self.cleaned_infiles = cleaned_infiles
         self.project_docs_dir = project_docs_dir
         self.debug = debug
@@ -112,6 +112,10 @@ class ShellSrcPreProcessor:
 
     def main_routine(self):
         for infile_path in self.cleaned_infiles:
+            # if "/plugins/" in infile_path:
+            #     LOG.warning("infile_path: %s", infile_path)
+            #     sys.exit(42)
+
             # LOG.info("Create func_text_dict for file: %s", infile_path)
             (
                 func_name_list,
@@ -120,11 +124,24 @@ class ShellSrcPreProcessor:
                 func_text_dict,
             ) = self.create_func_text_dict(infile_path=infile_path)
 
+            # if "/plugins/" in infile_path:
+            #     LOG.warning("infile_path: %s", infile_path)
+            #     print("func_name_list = ", func_name_list)
+            #     print("func_text_dict = ", func_text_dict)
+            #     print("full_alias_str_list = ", full_alias_str_list)
+            #     print("cite_about = ", cite_about)
+
+            #     sys.exit(42)
+
             # LOG.info("Create func_dep_dict for file: %s", infile_path)
             function_dependency_processor = FunctionDependencyProcessor(
                 func_name_list=func_name_list, func_text_dict=func_text_dict
             )
             func_dep_dict = function_dependency_processor.create_func_dep_dict()
+
+            # if "/plugins/" in infile_path:
+            #     print("func_dep_dict = ", func_dep_dict)
+            #     sys.exit(42)
 
             # LOG.debug("func_dep_dict = %s", func_dep_dict)
             # print("func_name_list = ", func_name_list)
@@ -138,7 +155,7 @@ class ShellSrcPreProcessor:
 
             # LOG.info("Convert shell files to markdown files")
             Sh2MdFileWriter(
-                self.cnf,
+                self.conf,
                 cite_about=cite_about,
                 func_text_dict=func_text_dict,
                 func_dep_dict=func_dep_dict,

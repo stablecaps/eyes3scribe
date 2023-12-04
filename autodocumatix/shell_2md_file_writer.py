@@ -15,7 +15,7 @@ LOG = logging.getLogger(__name__)
 class Sh2MdFileWriter:
     def __init__(
         self,
-        cnf,
+        conf,
         cite_about,
         func_text_dict,
         func_dep_dict,
@@ -23,7 +23,7 @@ class Sh2MdFileWriter:
         src_file_path,
         project_docs_dir,
     ):
-        self.cnf = cnf
+        self.conf = conf
         self.cite_about = cite_about
         self.func_text_dict = func_text_dict
         self.func_dep_dict = func_dep_dict
@@ -62,50 +62,51 @@ class Sh2MdFileWriter:
 
     def organise_mdfiles_2subdirs(self):
         # probably only does one level
-        doc_cats = {
-            "aliases": "aliases",
-            "completion": "completion",
-            "modules": "modules",
-            "internal": "internal",
-            "completions": "completions",
-        }
-        cat_substrings = list(doc_cats.keys())
+        category_names = self.conf.get("category_names")
 
-        infile_path_name = self.src_file_path.split("/")
-        LOG.debug("infile_path_name: %s", infile_path_name)
+        infile_path_list = self.src_file_path.split("/")
+        LOG.debug("infile_path_list: %s", infile_path_list)
 
-        LOG.debug("shell_glob_patterns: %s", self.cnf.get("shell_glob_patterns"))
+        LOG.debug("shell_glob_patterns: %s", self.conf.get("shell_glob_patterns"))
 
         outfile_name = str_multi_replace(
-            input_str=infile_path_name[-1],
-            rm_patt_list=self.cnf.get("shell_glob_patterns"),
+            input_str=infile_path_list[-1],
+            rm_patt_list=self.conf.get("shell_glob_patterns"),
             replace_str=".md",
         )
         LOG.debug("outfile_name: %s", outfile_name)
-        # sys.exit(42)
 
+        relative_src_path = self.src_file_path.replace(
+            self.conf.get("project_docs_dir"), ""
+        )
         full_outfile_path = None
-        for cat in cat_substrings:
-            if cat in self.src_file_path:
-                category = doc_cats.get(cat, None)
-                outfile_path = self.project_docs_dir + "/" + category
+        for catname in category_names:
+            if f"/{catname}/" in relative_src_path:
+                outfile_path = self.project_docs_dir + "/" + catname
                 mkdir_if_notexists(target=outfile_path)
                 full_outfile_path = outfile_path + "/" + outfile_name
                 LOG.debug("full_outfile_path: %s", full_outfile_path)
+                # sys.exit(42)
 
                 return full_outfile_path
 
         udef_path = self.project_docs_dir + "/" + "undef"
         mkdir_if_notexists(target=udef_path)
-        return udef_path + "/" + outfile_name
 
-        # sys.exit(0)
+        return udef_path + "/" + outfile_name
 
     def main_write_md(self):
         full_outfile_path = self.organise_mdfiles_2subdirs()
 
+        # if "/plugins/" in full_outfile_path:
+        #     print("full_outfile_path = ", full_outfile_path)
+        #     sys.exit(42)
+
         self.mdFile = MdUtils(file_name=full_outfile_path, title=self.cite_about)
-        self.mdFile.new_paragraph(f"***(in {self.src_file_path})***")
+        relative_md_path = self.src_file_path.replace(
+            self.conf.get("project_docs_dir"), ""
+        )
+        self.mdFile.new_paragraph(f"***(in {relative_md_path})***")
 
         ### Process functions
         if len(self.func_text_dict) > 0:

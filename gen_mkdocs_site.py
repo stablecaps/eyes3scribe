@@ -39,7 +39,7 @@ class GenMkdocsSite:
     process shell files, and create the MkDocs site.
     """
 
-    def __init__(self, build_serve, site_confname, debug=False):
+    def __init__(self, site_confname, build_serve, check_singlefile, debug=False):
         """
         Initialize the GenMkdocsSite class.
 
@@ -48,27 +48,31 @@ class GenMkdocsSite:
             debug (bool, optional): If True, debug information will be printed. Defaults to False.
         """
         self.build_serve = build_serve
+        self.check_singlefile = check_singlefile
         self.debug = debug
 
         LOG.info("Loading config: %s", site_confname)
-        self.cnf = hfile.load_yaml_file2dict(file_name=site_confname)
+        self.conf = hfile.load_yaml_file2dict(file_name=site_confname)
 
-        LOG.info("cnf: %s", self.cnf)
+        LOG.info("conf: %s", self.conf)
 
-        self.glob_patt_list = self.cnf.get("shell_glob_patterns")
+        self.glob_patt_list = self.conf.get("shell_glob_patterns")
 
         if self.glob_patt_list is None:
             self.glob_patt_list = ["*.sh"]
-            self.cnf["shell_glob_patterns"] = ["*.sh"]
+            self.conf["shell_glob_patterns"] = ["*.sh"]
 
         LOG.info("Using shell_glob_patterns: %s", self.glob_patt_list)
 
         ### Set paths
         self.program_root_dir = os.path.abspath(".")
         # TODO: allow project_dir to be initiated anywhere
-        self.project_dir = os.path.abspath(self.cnf.get("project_name"))
+        self.project_dir = os.path.abspath(self.conf.get("project_name"))
         self.project_docs_dir = f"{self.project_dir}/docs"
         self.project_css_dir = f"{self.project_docs_dir}/custom_css/"
+
+        self.conf["project_docs_dir"] = self.project_docs_dir
+        self.conf["project_css_dir"] = self.project_css_dir
 
         LOG.info("program_root_dir: %s", self.program_root_dir)
         LOG.info("project_dir: %s", self.project_dir)
@@ -88,7 +92,7 @@ class GenMkdocsSite:
 
     def clean_infiles(self, infiles):
         strict_exclude_patterns = [
-            f"/{patt}/" for patt in self.cnf.get("exclude_patterns")
+            f"/{patt}/" for patt in self.conf.get("exclude_patterns")
         ]
 
         LOG.debug("strict_exclude_patterns: %s", strict_exclude_patterns)
@@ -115,7 +119,7 @@ class GenMkdocsSite:
             target=f"{self.project_css_dir}",
         )
         hfile.copy_dir(
-            source=f'{self.cnf.get("shell_srcdir")}', target=self.project_docs_dir
+            source=f'{self.conf.get("shell_srcdir")}', target=self.project_docs_dir
         )
 
     def create_mkdocs_site(self):
@@ -123,15 +127,15 @@ class GenMkdocsSite:
         Create a MkDocs site by copying additional markdown files and generating mkdocs yaml.
         """
         LOG.info("Copying additional markdown files")
-        for mdsrc, mddest in self.cnf.get("additional_mdfiles").items():
+        for mdsrc, mddest in self.conf.get("additional_mdfiles").items():
             hfile.copy_file(source=mdsrc, target=f"{self.project_docs_dir}/{mddest}")
 
         LOG.info("Generating markdown yaml")
         yaml_dict = {
-            "site_name": self.cnf.get("site_name"),
-            "site_url": self.cnf.get("site_url"),
-            "repo_url": self.cnf.get("repo_url"),
-            "site_author": self.cnf.get("site_author"),
+            "site_name": self.conf.get("site_name"),
+            "site_url": self.conf.get("site_url"),
+            "repo_url": self.conf.get("repo_url"),
+            "site_author": self.conf.get("site_author"),
             "validation": [
                 {"omitted_files": "warn"},
                 {"absolute_links": "warn"},
@@ -149,7 +153,7 @@ class GenMkdocsSite:
             "extra_css": ["custom_css/extra.css"],
         }
 
-        for catname in self.cnf.get("category_names"):
+        for catname in self.conf.get("category_names"):
             catname_holder = []
 
             mdinfiles = hfile.files_and_dirs_recursive_lister(
@@ -185,20 +189,26 @@ class GenMkdocsSite:
 
         os.chdir(self.project_dir)
 
-        infiles = []
-        for glob_patt in self.glob_patt_list:
-            infiles.extend(
-                hfile.files_and_dirs_recursive_lister(
-                    mypathstr=self.project_docs_dir, myglob=glob_patt
+        if self.check_singlefile is None:
+            infiles = []
+            for glob_patt in self.glob_patt_list:
+                infiles.extend(
+                    hfile.files_and_dirs_recursive_lister(
+                        mypathstr=self.project_docs_dir, myglob=glob_patt
+                    )
                 )
-            )
+        else:
+            LOG.warning("Checking single file")
+            infiles = [self.check_singlefile]
+
         LOG.debug("infiles: %s", infiles)
 
         cleaned_infiles = self.clean_infiles(infiles)
-        LOG.debug("cleaned_infiles: %s", cleaned_infiles)
+        LOG.info("cleaned_infiles: %s", cleaned_infiles)
+        # sys.exit(42)
 
         shell_src_preprocessor = ShellSrcPreProcessor(
-            self.cnf,
+            self.conf,
             cleaned_infiles,
             self.project_docs_dir,
             debug=self.debug,
@@ -239,6 +249,16 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
+        "-c",
+        "--check-singlefile",
+        dest="check_singlefile",
+        help="Pass the path of a single shell src file to debug",
+        type=str,
+        default=None,
+        required=False,
+    )
+
+    parser.add_argument(
         "-d", "--debug", dest="debug", help="Turn debug logging on", action="store_true"
     )
 
@@ -254,7 +274,10 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     gen_mkdocs_site = GenMkdocsSite(
-        site_confname=args.site_confname, build_serve=args.build_serve, debug=args.debug
+        site_confname=args.site_confname,
+        build_serve=args.build_serve,
+        check_singlefile=args.check_singlefile,
+        debug=args.debug,
     )
     gen_mkdocs_site.main_routine()
 
