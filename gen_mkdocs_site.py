@@ -54,6 +54,14 @@ class GenMkdocsSite:
 
         LOG.info("cnf: %s", self.cnf)
 
+        self.glob_patt_list = self.cnf.get("shell_glob_patterns")
+
+        if self.glob_patt_list is None:
+            self.glob_patt_list = ["*.sh"]
+            self.cnf["shell_glob_patterns"] = ["*.sh"]
+
+        LOG.info("Using shell_glob_patterns: %s", self.glob_patt_list)
+
         ### Set paths
         self.program_root_dir = os.path.abspath(".")
         # TODO: allow project_dir to be initiated anywhere
@@ -87,7 +95,7 @@ class GenMkdocsSite:
             infile
             for infile in infiles
             if false_when_str_contains_pattern(
-                test_str=infile.replace(self.project_docs_dir, ""),
+                input_str=infile.replace(self.project_docs_dir, ""),
                 input_patt_li=strict_exclude_patterns,
             )
         ]
@@ -176,15 +184,8 @@ class GenMkdocsSite:
 
         os.chdir(self.project_dir)
 
-        glob_patt_list = (
-            self.cnf.get("shell_glob_patterns")
-            if self.cnf.get("shell_glob_patterns")
-            else ["*.sh"]
-        )
-        LOG.info("Using shell_glob_patterns: %s", glob_patt_list)
-
         infiles = []
-        for glob_patt in glob_patt_list:
+        for glob_patt in self.glob_patt_list:
             infiles.extend(
                 hfile.files_and_dirs_recursive_lister(
                     mypathstr=self.project_docs_dir, myglob=glob_patt
@@ -196,6 +197,7 @@ class GenMkdocsSite:
         LOG.warning("cleaned_infiles: %s", cleaned_infiles)
 
         shell_src_preprocessor = ShellSrcPreProcessor(
+            self.cnf,
             cleaned_infiles,
             self.project_docs_dir,
             debug=self.debug,

@@ -5,12 +5,12 @@ import logging
 LOG = logging.getLogger(__name__)
 
 
-def false_when_str_contains_pattern(test_str, input_patt_li):
+def false_when_str_contains_pattern(input_str, input_patt_li):
     """
     Returns False when the test string contains any pattern from the list. Is case sensitive.
 
     Args:
-        test_str (str): The string to test.
+        input_str (str): The string to test.
         input_patt_li (list): The list of patterns to check for.
 
     Returns:
@@ -24,19 +24,19 @@ def false_when_str_contains_pattern(test_str, input_patt_li):
         cleaned_pattern = input_patt_li[idx].strip()
         input_patt_li[idx] = cleaned_pattern
 
-    test_str_clean = test_str.strip()
+    input_str_clean = input_str.strip()
     for pattern in input_patt_li:
-        if pattern in test_str_clean:
+        if pattern in input_str_clean:
             return False
     return True
 
 
-def false_when_str_starts_with_pattern(test_str, input_patt_li):
+def false_when_str_starts_with_pattern(input_str, input_patt_li):
     """
     Returns False when the test string starts with any pattern from the list. . Is case sensitive.
 
     Args:
-        test_str (str): The string to test.
+        input_str (str): The string to test.
         input_patt_li (list): The list of patterns to check for.
 
     Returns:
@@ -50,9 +50,9 @@ def false_when_str_starts_with_pattern(test_str, input_patt_li):
         cleaned_pattern = input_patt_li[idx].strip()
         input_patt_li[idx] = cleaned_pattern
 
-    test_str_clean = test_str.strip()
+    input_str_clean = input_str.strip()
     for pattern in input_patt_li:
-        if test_str_clean.startswith(pattern):
+        if input_str_clean.startswith(pattern):
             return False
     return True
 
@@ -78,3 +78,21 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
             out_str += f"{line}\n"
 
     return out_str
+
+
+def str_multi_replace(input_str, rm_patt_list, replace_str):
+    """
+    Replace multiple substrings in the input string with a replacement string.
+
+    Args:
+        input_str (str): The string to perform replacements on.
+        rm_patt_list (list): A list of substrings to be replaced.
+        replace_str (str, optional): The string to replace the substrings with.
+
+    Returns:
+        str: The input string with all specified substrings replaced with the replacement string.
+    """
+    for patt in rm_patt_list:
+        patt_cleaned = patt.replace("*.", "")
+        input_str = input_str.replace(patt_cleaned, replace_str)
+    return input_str

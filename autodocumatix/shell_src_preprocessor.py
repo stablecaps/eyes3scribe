@@ -6,15 +6,14 @@ import sys
 from rich import print as print
 
 from autodocumatix.function_dependency_processor import FunctionDependencyProcessor
-from autodocumatix.helpo.hfile import mkdir_if_notexists
-from autodocumatix.helpo.hstrops import false_when_str_contains_pattern
 from autodocumatix.shell_2md_file_writer import Sh2MdFileWriter
 
 LOG = logging.getLogger(__name__)
 
 
 class ShellSrcPreProcessor:
-    def __init__(self, cleaned_infiles, project_docs_dir, debug=False):
+    def __init__(self, cnf, cleaned_infiles, project_docs_dir, debug=False):
+        self.cnf = cnf
         self.cleaned_infiles = cleaned_infiles
         self.project_docs_dir = project_docs_dir
         self.debug = debug
@@ -139,6 +138,7 @@ class ShellSrcPreProcessor:
 
             # LOG.info("Convert shell files to markdown files")
             Sh2MdFileWriter(
+                self.cnf,
                 cite_about=cite_about,
                 func_text_dict=func_text_dict,
                 func_dep_dict=func_dep_dict,

@@ -7,6 +7,7 @@ from mdutils.mdutils import MdUtils
 
 from autodocumatix.DocSectionWriterFunction import DocSectionWriterFunction
 from autodocumatix.helpo.hfile import mkdir_if_notexists
+from autodocumatix.helpo.hstrops import str_multi_replace
 
 LOG = logging.getLogger(__name__)
 
@@ -14,6 +15,7 @@ LOG = logging.getLogger(__name__)
 class Sh2MdFileWriter:
     def __init__(
         self,
+        cnf,
         cite_about,
         func_text_dict,
         func_dep_dict,
@@ -21,6 +23,7 @@ class Sh2MdFileWriter:
         src_file_path,
         project_docs_dir,
     ):
+        self.cnf = cnf
         self.cite_about = cite_about
         self.func_text_dict = func_text_dict
         self.func_dep_dict = func_dep_dict
@@ -71,7 +74,13 @@ class Sh2MdFileWriter:
         infile_path_name = self.src_file_path.split("/")
         LOG.debug("infile_path_name: %s", infile_path_name)
 
-        outfile_name = infile_path_name[-1].replace(".sh", ".md")
+        LOG.debug("shell_glob_patterns: %s", self.cnf.get("shell_glob_patterns"))
+        sys.exit(42)
+        outfile_name = str_multi_replace(
+            input_str=infile_path_name[-1],
+            rm_patt_list=self.cnf.get("shell_glob_patterns"),
+            replace_str=".md",
+        )
 
         full_outfile_path = None
         for cat in cat_substrings:
