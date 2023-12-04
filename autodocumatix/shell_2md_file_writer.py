@@ -24,8 +24,6 @@ class Sh2MdFileWriter:
         self.cite_about = cite_about
         self.func_text_dict = func_text_dict
         self.func_dep_dict = func_dep_dict
-        # print("nnn", func_dep_dict)
-        # sys.exit(0)
         self.full_alias_str_list = full_alias_str_list
         self.src_file_path = src_file_path
         self.project_docs_dir = project_docs_dir
@@ -35,7 +33,7 @@ class Sh2MdFileWriter:
             "group",
             "param",
             "example",
-        ]  # , "about '", "about '"]
+        ]
 
         # self.cparam_sort_mapper = {
         #     ">***about***": 0,
@@ -93,9 +91,6 @@ class Sh2MdFileWriter:
         # sys.exit(0)
 
     def main_write_md(self):
-        # infile_path_name = self.src_file_path.split("/")
-        # outfile_path = self.project_docs_dir + "/" + infile_path_name[-1].replace(".sh", ".md")
-
         full_outfile_path = self.organise_mdfiles_2subdirs()
 
         self.mdFile = MdUtils(file_name=full_outfile_path, title=self.cite_about)
