@@ -112,7 +112,7 @@ def copy_file(source, target):
     LOG.info("Copied: %s --> %s", source, target)
 
 
-def files_and_dirs_lister(mypathstr="./", mode="file", suf_pre="", exclude_list=[]):
+def files_and_dirs_lister(mypathstr="./", mode="file", suf_pre="", exclude_list=None):
     """
     Lists files and directories based on the provided mode.
 
@@ -131,6 +131,9 @@ def files_and_dirs_lister(mypathstr="./", mode="file", suf_pre="", exclude_list=
         >>> hfile.files_and_dirs_lister(mypathstr="./", mode="suffix", suf_pre=".sh", exclude_list=[])
         >>> hfile.files_and_dirs_lister(mypathstr="./", mode="prefix", suf_pre="gen_", exclude_list=[])
     """
+    if exclude_list is None:
+        exclude_list = []
+      
     if mode == "folder":
         os_object_list = [
             object
