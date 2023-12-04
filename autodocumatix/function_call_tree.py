@@ -14,8 +14,8 @@
     └─ fig
 """
 
-import sys
 import logging
+import sys
 from functools import reduce
 
 LOG = logging.getLogger(__name__)
@@ -28,11 +28,24 @@ dash = "─"
 
 class Tree(object):
     def __init__(self, tag):
+        """
+        Initialize the Tree object.
+
+        Args:
+            tag (str): The tag associated with the tree node.
+        """
         self.tag = tag
 
 
 class Node(Tree):
     def __init__(self, tag, *nodes):
+        """
+        Initialize the Node object.
+
+        Args:
+            tag (str): The tag associated with the node.
+            *nodes (list): List of child nodes.
+        """
         super(Node, self).__init__(tag)
         self.nodes = list(nodes)
 
@@ -42,7 +55,30 @@ class Leaf(Tree):
 
 
 def _int_draw_tree(tree, level, last=False, sup=[]):
+    """
+    Internal function to draw the tree.
+
+    Args:
+        tree (Tree): The tree to draw.
+        level (int): The current level in the tree.
+        last (bool, optional): If True, this is the last node at this level of the tree. Defaults to False.
+        sup (list, optional): List of levels that are "open" (i.e., have a child node). Defaults to [].
+
+    Returns:
+        list: List of strings representing the drawn tree.
+    """
+
     def update(left, idx):
+        """
+        Update the specified index of the 'left' list with spaces.
+
+        Args:
+            left (list): The list to be updated.
+            idx (int): The index in the list to be updated.
+
+        Returns:
+            list: The updated list.
+        """
         if idx < len(left):
             left[idx] = "   "
         return left
@@ -67,10 +103,26 @@ def _int_draw_tree(tree, level, last=False, sup=[]):
 
 class Track(object):
     def __init__(self, parent, idx):
+        """
+        Initialize the Track object.
+
+        Args:
+            parent (Node): The parent node.
+            idx (int): The index of this track.
+        """
         self.parent, self.idx = parent, idx
 
 
 def parser(text):
+    """
+    Parse the given text into a list of trees.
+
+    Args:
+        text (str): The text to parse.
+
+    Returns:
+        list: The list of trees parsed from the text.
+    """
     trees = []
     tracks = {}
     for line in text.splitlines():
@@ -101,18 +153,26 @@ def parser(text):
 
 
 def draw_tree(trees):
+    """
+    Draw the given trees and return the resulting string.
+
+    Args:
+        trees (list): The list of trees to draw.
+
+    Returns:
+        str: The string representation of the drawn trees.
+    """
     global GLOBAL_LINE_HOLDER
-    GLOBAL_LINE_HOLDER = []  # print("trees", trees)
-    # sys.exit(0)
+    GLOBAL_LINE_HOLDER = []
+
     for tree in trees[:-1]:
         _int_draw_tree(tree, 0)
     line_list = _int_draw_tree(trees[-1], 0, True, [0])
 
-    # print("line_list", line_list)
+    LOG.debug("line_list: %s", line_list)
     full_ml_tree_str = "\n".join(line_list)
-    print("full_ml_tree_str\n", full_ml_tree_str)
+    LOG.debug("full_ml_tree_str\n%s", full_ml_tree_str)
 
-    # sys.exit(1)
     return full_ml_tree_str
 
 

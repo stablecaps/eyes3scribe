@@ -14,31 +14,15 @@ LOG = logging.getLogger(__name__)
 
 
 class ShellSrcPreProcessor:
-    def __init__(self, infiles, out_dir, exclude_patterns, debug=False):
-        self.infiles = infiles
-        self.out_dir = out_dir
-        self.exclude_patterns = exclude_patterns
+    def __init__(self, cleaned_infiles, project_docs_dir, debug=False):
+        self.cleaned_infiles = cleaned_infiles
+        self.project_docs_dir = project_docs_dir
         self.debug = debug
-
-        ###
-        self.cleaned_infiles = self.clean_infiles()
-
-        mkdir_if_notexists(target=self.out_dir)
 
     def dprint(self, myvar):
         if self.debug:
             print(f"{myvar = }")
             print("👉", locals())
-
-    def clean_infiles(self):
-        cleaned_infiles = [
-            infile
-            for infile in self.infiles
-            if false_when_str_contains_pattern(
-                test_str=infile, input_patt_li=self.exclude_patterns
-            )
-        ]
-        return cleaned_infiles
 
     @staticmethod
     def get_function_name(line_str):
@@ -48,7 +32,7 @@ class ShellSrcPreProcessor:
 
             function_header = line_str.split()
             func_name = function_header[1].strip("()")
-            print("func_name:", func_name)
+            LOG.debug("func_name: %s", func_name)
         return func_name
 
     def create_func_text_dict(self, infile_path):
@@ -59,7 +43,7 @@ class ShellSrcPreProcessor:
         cite_about = "Undefined. Add composure cite-about to shell script file"
 
         with open(infile_path, "r") as FHI:
-            self.dprint(infile_path)
+            LOG.debug("infile_path: %s", infile_path)
 
             func_text_dict = {}
             src_text = FHI.read()
@@ -107,7 +91,7 @@ class ShellSrcPreProcessor:
 
     def _process_alias_line(self, line):
         alias_list = line.replace("alias ", "").strip().split("=", 1)
-        self.dprint(alias_list)
+        LOG.debug("alias_list: %s", alias_list)
 
         alias_name = alias_list[0]
         alias_cmd = alias_list[1]
@@ -122,7 +106,7 @@ class ShellSrcPreProcessor:
 
     def main_routine(self):
         for infile_path in self.cleaned_infiles:
-            LOG.info("Create func_text_dict for file: %s", infile_path)
+            # LOG.info("Create func_text_dict for file: %s", infile_path)
             (
                 func_name_list,
                 full_alias_str_list,
@@ -130,30 +114,30 @@ class ShellSrcPreProcessor:
                 func_text_dict,
             ) = self.create_func_text_dict(infile_path=infile_path)
 
-            LOG.info("Create func_dep_dict for file: %s", infile_path)
+            # LOG.info("Create func_dep_dict for file: %s", infile_path)
             function_dependency_processor = FunctionDependencyProcessor(
                 func_name_list=func_name_list, func_text_dict=func_text_dict
             )
             func_dep_dict = function_dependency_processor.create_func_dep_dict()
 
-            LOG.debug("func_dep_dict = %s", func_dep_dict)
-            print("func_name_list = ", func_name_list)
-            print("func_text_dict = ", func_text_dict)
-            if len(func_dep_dict) > 1:
-                sys.exit(42)
+            # LOG.debug("func_dep_dict = %s", func_dep_dict)
+            # print("func_name_list = ", func_name_list)
+            # print("func_text_dict = ", func_text_dict)
+            # if len(func_dep_dict) > 1:
+            #     sys.exit(42)
 
-            LOG.info("Print function data in func_dep_dict")
-            for func_name, called_funcs in func_dep_dict.items():
-                print(func_name, len(called_funcs), called_funcs)
+            # LOG.info("Print function data in func_dep_dict")
+            # for func_name, called_funcs in func_dep_dict.items():
+            #     print(func_name, len(called_funcs), called_funcs)
 
-            LOG.info("Convert shell files to markdown files")
+            # LOG.info("Convert shell files to markdown files")
             Sh2MdFileWriter(
                 cite_about=cite_about,
                 func_text_dict=func_text_dict,
                 func_dep_dict=func_dep_dict,
                 full_alias_str_list=full_alias_str_list,
                 src_file_path=infile_path,
-                out_dir=self.out_dir,
+                project_docs_dir=self.project_docs_dir,
             )
 
 
@@ -179,7 +163,7 @@ class ShellSrcPreProcessor:
 #     parser.add_argument(
 #         "-o",
 #         "--out-dir",
-#         dest="out_dir",
+#         dest="project_docs_dir",
 #         help="Output folder to which processed documentation is written to",
 #         type=str,
 #         default=None,
@@ -199,7 +183,7 @@ class ShellSrcPreProcessor:
 #     args = parser.parse_args()
 
 #     shell_src_preprocessor = ShellSrcPreProcessor(
-#         args.infiles, args.out_dir, args.exclude_patterns
+#         args.infiles, args.project_docs_dir, args.exclude_patterns
 #     )
 
 #     shell_src_preprocessor.main_routine()

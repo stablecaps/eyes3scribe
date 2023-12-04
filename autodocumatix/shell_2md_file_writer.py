@@ -1,11 +1,12 @@
 """Class to extract composure cite parameters from function src code."""
 
-import sys
 import logging
-from mdutils.mdutils import MdUtils
-from autodocumatix.helpo.hfile import mkdir_if_notexists
-from autodocumatix.DocSectionWriterFunction import DocSectionWriterFunction
+import sys
 
+from mdutils.mdutils import MdUtils
+
+from autodocumatix.DocSectionWriterFunction import DocSectionWriterFunction
+from autodocumatix.helpo.hfile import mkdir_if_notexists
 
 LOG = logging.getLogger(__name__)
 
@@ -18,7 +19,7 @@ class Sh2MdFileWriter:
         func_dep_dict,
         full_alias_str_list,
         src_file_path,
-        out_dir,
+        project_docs_dir,
     ):
         self.cite_about = cite_about
         self.func_text_dict = func_text_dict
@@ -27,7 +28,7 @@ class Sh2MdFileWriter:
         # sys.exit(0)
         self.full_alias_str_list = full_alias_str_list
         self.src_file_path = src_file_path
-        self.out_dir = out_dir
+        self.project_docs_dir = project_docs_dir
 
         self.sh2_md_file_writers = [
             "about",
@@ -70,23 +71,22 @@ class Sh2MdFileWriter:
         cat_substrings = list(doc_cats.keys())
 
         infile_path_name = self.src_file_path.split("/")
-        print("infile_path_name", infile_path_name)
+        LOG.debug("infile_path_name: %s", infile_path_name)
 
         outfile_name = infile_path_name[-1].replace(".sh", ".md")
-        # sys.exit(0)
 
         full_outfile_path = None
         for cat in cat_substrings:
             if cat in self.src_file_path:
                 category = doc_cats.get(cat, None)
-                outfile_path = self.out_dir + "/" + category
+                outfile_path = self.project_docs_dir + "/" + category
                 mkdir_if_notexists(target=outfile_path)
                 full_outfile_path = outfile_path + "/" + outfile_name
-                print("full_outfile_path", full_outfile_path)
+                LOG.debug("full_outfile_path: %s", full_outfile_path)
 
                 return full_outfile_path
 
-        udef_path = self.out_dir + "/" + "undef"
+        udef_path = self.project_docs_dir + "/" + "undef"
         mkdir_if_notexists(target=udef_path)
         return udef_path + "/" + outfile_name
 
@@ -94,11 +94,9 @@ class Sh2MdFileWriter:
 
     def main_write_md(self):
         # infile_path_name = self.src_file_path.split("/")
-        # outfile_path = self.out_dir + "/" + infile_path_name[-1].replace(".sh", ".md")
+        # outfile_path = self.project_docs_dir + "/" + infile_path_name[-1].replace(".sh", ".md")
 
         full_outfile_path = self.organise_mdfiles_2subdirs()
-        print("full_outfile_path", full_outfile_path)
-        # sys.exit(0)
 
         self.mdFile = MdUtils(file_name=full_outfile_path, title=self.cite_about)
         self.mdFile.new_paragraph(f"***(in {self.src_file_path})***")

@@ -43,7 +43,7 @@ def dump_yaml_file(
     yaml_data = yaml.safe_load(yaml_string)
     with open(file_name, "w") as my_yaml:
         print("Writing yaml data to file name", file_name)
-        LOG.info("yaml_data: %s", yaml_data)
+        LOG.debug("yaml_data: %s", yaml_data)
         yaml.dump(yaml_data, my_yaml)
 
 
@@ -53,7 +53,7 @@ def dict2_yaml_file(
 ):
     with open(file_name, "w") as my_yaml:
         print("Writing yaml data to file name", file_name)
-        LOG.info("yaml_dict: %s", yaml_dict)
+        LOG.debug("yaml_dict: %s", yaml_dict)
         yaml.dump(yaml_dict, my_yaml)
 
 

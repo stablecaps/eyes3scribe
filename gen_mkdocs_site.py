@@ -9,10 +9,11 @@ import os
 import sys
 
 from autodocumatix.helpo import hfile
+from autodocumatix.helpo.hstrops import false_when_str_contains_pattern
 from autodocumatix.shell_src_preprocessor import ShellSrcPreProcessor
 
 LOG = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
+logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 # 1. copy bash src files to a temp directory
 # 2. copy custom css assets to appropriate place
 # 3. create mkdocs.yml file
@@ -66,6 +67,17 @@ class GenMkdocsSite:
             print(f"{myvar = }")
             print("👉", locals())
 
+    def clean_infiles(self, infiles):
+        cleaned_infiles = [
+            infile
+            for infile in infiles
+            if false_when_str_contains_pattern(
+                test_str=infile,
+                input_patt_li=self.cnf.get("exclude_patterns"),
+            )
+        ]
+        return cleaned_infiles
+
     def setup_docs_project(self):
         """
         Set up the docs project by copying shell source files and custom CSS
@@ -81,22 +93,6 @@ class GenMkdocsSite:
         hfile.copy_dir(
             source=f'{self.cnf.get("shell_srcdir")}', target=self.project_docs_dir
         )
-
-    def process_shell_files(self, infiles):
-        """
-        Process shell source files using the ShellSrcPreProcessor.
-
-        Args:
-            infiles (list): List of input shell files to be processed.
-        """
-        shell_src_preprocessor = ShellSrcPreProcessor(
-            infiles,
-            self.project_docs_dir,
-            self.cnf.get("exclude_patterns"),
-            debug=self.debug,
-        )
-
-        shell_src_preprocessor.main_routine()
 
     def create_mkdocs_site(self):
         """
@@ -136,7 +132,7 @@ class GenMkdocsSite:
                 mypathstr=self.project_docs_dir, myglob="*.md"
             )
 
-            print("mdinfiles", mdinfiles)
+            LOG.debug("mdinfiles: %s", mdinfiles)
 
             for md_filepath in mdinfiles:
                 if catname in md_filepath:
@@ -164,8 +160,14 @@ class GenMkdocsSite:
         infiles = hfile.files_and_dirs_recursive_lister(
             mypathstr=self.project_docs_dir, myglob="*.sh"
         )
+        cleaned_infiles = self.clean_infiles(infiles)
 
-        self.process_shell_files(infiles)
+        shell_src_preprocessor = ShellSrcPreProcessor(
+            cleaned_infiles,
+            self.project_docs_dir,
+            debug=self.debug,
+        )
+        shell_src_preprocessor.main_routine()
 
         self.create_mkdocs_site()
 

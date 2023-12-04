@@ -2,7 +2,6 @@
 
 import logging
 
-
 LOG = logging.getLogger(__name__)
 
 
@@ -27,7 +26,6 @@ def false_when_str_contains_pattern(test_str, input_patt_li):
 
     test_str_clean = test_str.strip()
     for pattern in input_patt_li:
-        print("*", pattern, test_str_clean)
         if pattern in test_str_clean:
             return False
     return True
@@ -54,7 +52,6 @@ def false_when_str_starts_with_pattern(test_str, input_patt_li):
 
     test_str_clean = test_str.strip()
     for pattern in input_patt_li:
-        print("*", pattern, test_str_clean)
         if test_str_clean.startswith(pattern):
             return False
     return True
