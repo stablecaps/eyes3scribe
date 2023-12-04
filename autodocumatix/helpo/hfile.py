@@ -78,7 +78,6 @@ def mkdir_if_notexists(target):
     Args:
         target (str): The directory to create.
     """
-
     if not os.path.exists(target):
         print("Making Directory:", target)
         os.makedirs(target)
@@ -134,7 +133,7 @@ def files_and_dirs_lister(mypathstr="./", mode="file", suf_pre="", exclude_list=
     """
     if exclude_list is None:
         exclude_list = []
-
+      
     if mode == "folder":
         os_object_list = [
             object
