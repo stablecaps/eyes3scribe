@@ -93,6 +93,7 @@ def str_multi_replace(input_str, rm_patt_list, replace_str):
         str: The input string with all specified substrings replaced with the replacement string.
     """
     for patt in rm_patt_list:
-        patt_cleaned = patt.replace("*.", "")
+        patt_cleaned = patt.replace("*.", ".")
+        print("patt_cleaned", patt_cleaned)
         input_str = input_str.replace(patt_cleaned, replace_str)
     return input_str

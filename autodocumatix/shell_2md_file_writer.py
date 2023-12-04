@@ -75,12 +75,14 @@ class Sh2MdFileWriter:
         LOG.debug("infile_path_name: %s", infile_path_name)
 
         LOG.debug("shell_glob_patterns: %s", self.cnf.get("shell_glob_patterns"))
-        sys.exit(42)
+
         outfile_name = str_multi_replace(
             input_str=infile_path_name[-1],
             rm_patt_list=self.cnf.get("shell_glob_patterns"),
             replace_str=".md",
         )
+        LOG.debug("outfile_name: %s", outfile_name)
+        # sys.exit(42)
 
         full_outfile_path = None
         for cat in cat_substrings:

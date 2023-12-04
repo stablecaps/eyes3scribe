@@ -39,7 +39,7 @@ class GenMkdocsSite:
     process shell files, and create the MkDocs site.
     """
 
-    def __init__(self, site_confname, debug=False):
+    def __init__(self, build_serve, site_confname, debug=False):
         """
         Initialize the GenMkdocsSite class.
 
@@ -47,6 +47,7 @@ class GenMkdocsSite:
             site_confname (str): The name of the site configuration.
             debug (bool, optional): If True, debug information will be printed. Defaults to False.
         """
+        self.build_serve = build_serve
         self.debug = debug
 
         LOG.info("Loading config: %s", site_confname)
@@ -194,7 +195,7 @@ class GenMkdocsSite:
         LOG.debug("infiles: %s", infiles)
 
         cleaned_infiles = self.clean_infiles(infiles)
-        LOG.warning("cleaned_infiles: %s", cleaned_infiles)
+        LOG.debug("cleaned_infiles: %s", cleaned_infiles)
 
         shell_src_preprocessor = ShellSrcPreProcessor(
             self.cnf,
@@ -205,6 +206,12 @@ class GenMkdocsSite:
         shell_src_preprocessor.main_routine()
 
         self.create_mkdocs_site()
+
+        if self.build_serve:
+            LOG.warning("Building and serving local docs site")
+            os.chdir(self.project_dir)
+            os.system("mkdocs build")
+            os.system("mkdocs serve")
 
 
 if __name__ == "__main__":
@@ -224,13 +231,15 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "-d",
-        "--debug",
-        dest="debug",
-        help="Turn debug logging on",
-        type=bool,
-        default=False,
-        required=False,
+        "-b",
+        "---build-serve",
+        dest="build_serve",
+        help="Build & Serve local mkdocs site after generating docs site",
+        action="store_true",
+    )
+
+    parser.add_argument(
+        "-d", "--debug", dest="debug", help="Turn debug logging on", action="store_true"
     )
 
     # parser.add_argument(
@@ -244,7 +253,9 @@ if __name__ == "__main__":
     # )
 
     args = parser.parse_args()
-    gen_mkdocs_site = GenMkdocsSite(site_confname=args.site_confname, debug=args.debug)
+    gen_mkdocs_site = GenMkdocsSite(
+        site_confname=args.site_confname, build_serve=args.build_serve, debug=args.debug
+    )
     gen_mkdocs_site.main_routine()
 
     LOG.info("Program Finished")
