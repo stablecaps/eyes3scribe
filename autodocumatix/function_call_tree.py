@@ -54,7 +54,7 @@ class Leaf(Tree):
     pass
 
 
-def _int_draw_tree(tree, level, last=False, sup=[]):
+def _int_draw_tree(tree, level, last=False, sup=None):
     """
     Internal function to draw the tree.
 
@@ -67,6 +67,8 @@ def _int_draw_tree(tree, level, last=False, sup=[]):
     Returns:
         list: List of strings representing the drawn tree.
     """
+    if sup is None:
+        sup = []
 
     def update(left, idx):
         """
