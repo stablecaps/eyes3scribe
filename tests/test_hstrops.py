@@ -35,91 +35,91 @@ from autodocumatix.helpo.hstrops import (
 def test_false_when_str_contains_pattern():
     # Test when the string contains a pattern
     assert (
-        false_when_str_contains_pattern("Hello, world!", ["world", "!"]) == False
+        false_when_str_contains_pattern("Hello, world!", ["world", "!"]) is False
     ), "Failed when the string contains a pattern"
 
     # Test when the string does not contain any pattern
     assert (
-        false_when_str_contains_pattern("Hello, world!", ["Goodbye", "earth"]) == True
+        false_when_str_contains_pattern("Hello, world!", ["Goodbye", "earth"]) is True
     ), "Failed when the string does not contain any pattern"
 
     # Test when the string is empty
     assert (
-        false_when_str_contains_pattern("", ["Hell", "world"]) == True
+        false_when_str_contains_pattern("", ["Hell", "world"]) is True
     ), "Failed when the string is empty"
 
     # Test when the pattern list is empty
     assert (
-        false_when_str_contains_pattern("Hello, world!", []) == True
+        false_when_str_contains_pattern("Hello, world!", []) is True
     ), "Failed when the pattern list is empty"
 
     # Test when the string and the pattern list are both empty
     assert (
-        false_when_str_contains_pattern("", []) == True
+        false_when_str_contains_pattern("", []) is True
     ), "Failed when the string and the pattern list are both empty"
 
     # Test when the string contains a pattern after stripping leading spaces
     assert (
-        false_when_str_contains_pattern("  Hello, world!  ", ["world", "!"]) == False
+        false_when_str_contains_pattern("  Hello, world!  ", ["world", "!"]) is False
     ), "Failed when the string contains a pattern after stripping leading spaces"
 
     # Test when the string contains a pattern but has different casing
     assert (
-        false_when_str_contains_pattern("hello, world!", ["WORLD", "!"]) == False
+        false_when_str_contains_pattern("hello, world!", ["WORLD", "!"]) is False
     ), "Failed when the string contains a pattern but has different casing"
 
     # Test when the pattern list contains a pattern with leading or trailing spaces
     assert (
-        false_when_str_contains_pattern("Hello, world!", [" world ", " ! "]) == False
+        false_when_str_contains_pattern("Hello, world!", [" world ", " ! "]) is False
     ), "Failed when the pattern list contains a pattern with leading or trailing spaces"
 
 
 def test_false_when_str_starts_with_pattern():
     # Test when the string starts with a pattern
     assert (
-        false_when_str_starts_with_pattern("Hello, world!", ["Hell", "world"]) == False
+        false_when_str_starts_with_pattern("Hello, world!", ["Hell", "world"]) is False
     ), "Failed when the string starts with a pattern"
 
     # Test when the string does not start with any pattern
     assert (
         false_when_str_starts_with_pattern("Hello, world!", ["Goodbye", "earth"])
-        == True
+        is True
     ), "Failed when the string does not start with any pattern"
 
     # Test when the string is empty
     assert (
-        false_when_str_starts_with_pattern("", ["Hell", "world"]) == True
+        false_when_str_starts_with_pattern("", ["Hell", "world"]) is True
     ), "Failed when the string is empty"
 
     # Test when the pattern list is empty
     assert (
-        false_when_str_starts_with_pattern("Hello, world!", []) == True
+        false_when_str_starts_with_pattern("Hello, world!", []) is True
     ), "Failed when the pattern list is empty"
 
     # Test when the string and the pattern list are both empty
     assert (
-        false_when_str_starts_with_pattern("", []) == True
+        false_when_str_starts_with_pattern("", []) is True
     ), "Failed when the string and the pattern list are both empty"
 
     # Test when the string starts with a pattern after stripping leading spaces
     assert (
         false_when_str_starts_with_pattern("  Hello, world!", ["Hell", "world"])
-        == False
+        is False
     ), "Failed when the string starts with a pattern after stripping leading spaces"
 
     # Test when the string starts with a pattern after stripping trailing spaces
     assert (
         false_when_str_starts_with_pattern("Hello, world!  ", ["Hell", "world"])
-        == False
+        is False
     ), "Failed when the string starts with a pattern after stripping trailing spaces"
 
     # Test when the string starts with a pattern but has different casing
     assert (
-        false_when_str_starts_with_pattern("hello, world!", ["Hell", "world"]) == True
+        false_when_str_starts_with_pattern("hello, world!", ["Hell", "world"]) is True
     ), "Failed when the string starts with a pattern but has different casing"
 
     # Test when the pattern list contains a pattern with leading or trailing spaces
     assert (
         false_when_str_starts_with_pattern("Hello, world!", [" Hell", "world "])
-        == False
+        is False
     ), "Failed when the pattern list contains a pattern with leading or trailing spaces"
