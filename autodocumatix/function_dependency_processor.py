@@ -1,10 +1,8 @@
 import logging
 
-from autodocumatix.helpo.hstrops import (
-    rm_lines_starting_with,
-)
-
 from rich import print as print
+
+from autodocumatix.helpo.hstrops import rm_lines_starting_with
 
 LOG = logging.getLogger(__name__)
 
