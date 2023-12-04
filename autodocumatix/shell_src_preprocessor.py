@@ -1,14 +1,14 @@
 """Gen-Bash-MkDoc main entrypoint"""
 
-import sys
 import logging
-import argparse
-from autodocumatix.shell_2md_file_writer import Sh2MdFileWriter
-from autodocumatix.helpo.hfile import mkdir_if_notexists
-from autodocumatix.helpo.hstrops import false_when_str_contains_pattern
+import sys
+
+from rich import print as print
 
 from autodocumatix.function_dependency_processor import FunctionDependencyProcessor
-from rich import print as print
+from autodocumatix.helpo.hfile import mkdir_if_notexists
+from autodocumatix.helpo.hstrops import false_when_str_contains_pattern
+from autodocumatix.shell_2md_file_writer import Sh2MdFileWriter
 
 LOG = logging.getLogger(__name__)
 
@@ -137,9 +137,10 @@ class ShellSrcPreProcessor:
             func_dep_dict = function_dependency_processor.create_func_dep_dict()
 
             LOG.debug("func_dep_dict = %s", func_dep_dict)
-            # print("func_name_list", func_name_list)
-            # if len(func_dep_dict) > 1:
-            #     sys.exit(42)
+            print("func_name_list = ", func_name_list)
+            print("func_text_dict = ", func_text_dict)
+            if len(func_dep_dict) > 1:
+                sys.exit(42)
 
             LOG.info("Print function data in func_dep_dict")
             for func_name, called_funcs in func_dep_dict.items():

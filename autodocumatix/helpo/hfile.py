@@ -1,9 +1,10 @@
-import os
-import sys
 import logging
-import yaml
-import shutil
+import os
 import pathlib
+import shutil
+import sys
+
+import yaml
 
 LOG = logging.getLogger(__name__)
 
@@ -105,7 +106,7 @@ def copy_file(source, target):
         source (str): The source directory to copy.
         target (str): The target directory to copy to.
     Exanple:
-        >>> hfile.copy_dir(source="custom_assets/custom_css", target=f"{PROJECT_DOCS_DIR}/custom_css/")
+        >>> hfile.copy_dir(source="custom_assets/custom_css", target=f"{project_docs_dir}/custom_css/")
     """
     shutil.copyfile(source, target)
 

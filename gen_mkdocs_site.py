@@ -1,13 +1,14 @@
+"""
+This module contains the GenMkdocsSite class which is used to generate a
+MkDocs site. It is the main entry point for the code in this repo.
+"""
+
+import argparse
+import logging
 import os
 import sys
-import logging
-import yaml
-import shutil
-import argparse
-import textwrap
-from autodocumatix.helpo import hfile
 
-# TODO: sort out imports better for rich print
+from autodocumatix.helpo import hfile
 from autodocumatix.shell_src_preprocessor import ShellSrcPreProcessor
 
 LOG = logging.getLogger(__name__)
@@ -21,7 +22,20 @@ logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
 
 
 class GenMkdocsSite:
+    """
+    The GenMkdocsSite class takes a site configuration name and an optional
+    debug flag as input. It provides methods to set up the docs project,
+    process shell files, and create the MkDocs site.
+    """
+
     def __init__(self, site_confname, debug=False):
+        """
+        Initialize the GenMkdocsSite class.
+
+        Args:
+            site_confname (str): The name of the site configuration.
+            debug (bool, optional): If True, debug information will be printed. Defaults to False.
+        """
         self.debug = debug
 
         LOG.info("Loading config: %s", site_confname)
@@ -30,39 +44,54 @@ class GenMkdocsSite:
         LOG.info("cnf: %s", self.cnf)
 
         ### Set paths
-        self.PROGRAM_ROOT_DIR = os.path.abspath(".")
-        # TODO: allow PROJECT_DIR to be initiated anywhere
-        self.PROJECT_DIR = os.path.abspath(self.cnf.get("project_name"))
-        self.PROJECT_DOCS_DIR = f"{self.PROJECT_DIR}/docs"
-        self.PROJECT_CSS_DIR = f"{self.PROJECT_DOCS_DIR}/custom_css/"
+        self.program_root_dir = os.path.abspath(".")
+        # TODO: allow project_dir to be initiated anywhere
+        self.project_dir = os.path.abspath(self.cnf.get("project_name"))
+        self.project_docs_dir = f"{self.project_dir}/docs"
+        self.project_css_dir = f"{self.project_docs_dir}/custom_css/"
 
-        LOG.info("PROGRAM_ROOT_DIR: %s", self.PROGRAM_ROOT_DIR)
-        LOG.info("PROJECT_DIR: %s", self.PROJECT_DIR)
-        LOG.info("PROJECT_DOCS_DIR: %s", self.PROJECT_DOCS_DIR)
-        LOG.info("PROJECT_CSS_DIR: %s", self.PROJECT_CSS_DIR)
+        LOG.info("program_root_dir: %s", self.program_root_dir)
+        LOG.info("project_dir: %s", self.project_dir)
+        LOG.info("project_docs_dir: %s", self.project_docs_dir)
+        LOG.info("project_css_dir: %s", self.project_css_dir)
 
     def dprint(self, myvar):
+        """
+        Print debug information if self.debug is True.
+
+        Args:
+            myvar (Any): The variable to print.
+        """
         if self.debug:
             print(f"{myvar = }")
             print("👉", locals())
 
     def setup_docs_project(self):
-        ### Copy shell source files to project directory
-        hfile.rmdir_if_exists(target=self.PROJECT_DOCS_DIR)
-        hfile.mkdir_if_notexists(target=self.PROJECT_DOCS_DIR)
+        """
+        Set up the docs project by copying shell source files and custom CSS
+        to the project directory.
+        """
+        hfile.rmdir_if_exists(target=self.project_docs_dir)
+        hfile.mkdir_if_notexists(target=self.project_docs_dir)
 
         hfile.copy_dir(
             source="custom_assets/custom_css",
-            target=f"{self.PROJECT_CSS_DIR}",
+            target=f"{self.project_css_dir}",
         )
         hfile.copy_dir(
-            source=f'{self.cnf.get("shell_srcdir")}', target=self.PROJECT_DOCS_DIR
+            source=f'{self.cnf.get("shell_srcdir")}', target=self.project_docs_dir
         )
 
     def process_shell_files(self, infiles):
+        """
+        Process shell source files using the ShellSrcPreProcessor.
+
+        Args:
+            infiles (list): List of input shell files to be processed.
+        """
         shell_src_preprocessor = ShellSrcPreProcessor(
             infiles,
-            self.PROJECT_DOCS_DIR,
+            self.project_docs_dir,
             self.cnf.get("exclude_patterns"),
             debug=self.debug,
         )
@@ -70,9 +99,12 @@ class GenMkdocsSite:
         shell_src_preprocessor.main_routine()
 
     def create_mkdocs_site(self):
+        """
+        Create a MkDocs site by copying additional markdown files and generating mkdocs yaml.
+        """
         LOG.info("Copying additional markdown files")
         for mdsrc, mddest in self.cnf.get("additional_mdfiles").items():
-            hfile.copy_file(source=mdsrc, target=f"{self.PROJECT_DOCS_DIR}/{mddest}")
+            hfile.copy_file(source=mdsrc, target=f"{self.project_docs_dir}/{mddest}")
 
         LOG.info("Generating markdown yaml")
         yaml_dict = {
@@ -101,7 +133,7 @@ class GenMkdocsSite:
             catname_holder = []
 
             mdinfiles = hfile.files_and_dirs_recursive_lister(
-                mypathstr=self.PROJECT_DOCS_DIR, myglob="*.md"
+                mypathstr=self.project_docs_dir, myglob="*.md"
             )
 
             print("mdinfiles", mdinfiles)
@@ -109,7 +141,7 @@ class GenMkdocsSite:
             for md_filepath in mdinfiles:
                 if catname in md_filepath:
                     page_name = md_filepath.replace(".md", "").split("/")[-1]
-                    md_rel_filepath = md_filepath.replace(self.PROJECT_DOCS_DIR, "./")
+                    md_rel_filepath = md_filepath.replace(self.project_docs_dir, "./")
                     page_path_map = {page_name: md_rel_filepath}
                     catname_holder.append(page_path_map)
 
@@ -117,17 +149,20 @@ class GenMkdocsSite:
 
         LOG.info("Writing mkdocs config yaml")
         hfile.dict2_yaml_file(
-            file_name=f"{self.PROJECT_DIR}/mkdocs.yml",
+            file_name=f"{self.project_dir}/mkdocs.yml",
             yaml_dict=yaml_dict,
         )
 
     def main_routine(self):
+        """
+        Main routine for setting up the docs project, processing shell files, and creating the MkDocs site.
+        """
         self.setup_docs_project()
 
-        os.chdir(self.PROJECT_DIR)
+        os.chdir(self.project_dir)
 
         infiles = hfile.files_and_dirs_recursive_lister(
-            mypathstr=self.PROJECT_DOCS_DIR, myglob="*.sh"
+            mypathstr=self.project_docs_dir, myglob="*.sh"
         )
 
         self.process_shell_files(infiles)
@@ -136,8 +171,6 @@ class GenMkdocsSite:
 
 
 if __name__ == "__main__":
-    help_banner = "????????????????????"
-
     parser = argparse.ArgumentParser(
         description="Gen-Bash-MkDoc",
         usage="python gen_mkdocs_site.py --site-confname config/bashrc_stablecaps.yaml",
