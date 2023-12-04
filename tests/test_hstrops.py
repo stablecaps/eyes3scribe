@@ -1,9 +1,9 @@
 import pytest
+
 from autodocumatix.helpo.hstrops import (
     false_when_str_contains_pattern,
     false_when_str_starts_with_pattern,
 )
-
 
 # def test_false_when_str_contains_pattern():
 #     # Test when the string contains a pattern
@@ -82,7 +82,8 @@ def test_false_when_str_starts_with_pattern():
 
     # Test when the string does not start with any pattern
     assert (
-        false_when_str_starts_with_pattern("Hello, world!", ["Goodbye", "earth"]) is True
+        false_when_str_starts_with_pattern("Hello, world!", ["Goodbye", "earth"])
+        is True
     ), "Failed when the string does not start with any pattern"
 
     # Test when the string is empty
@@ -102,12 +103,14 @@ def test_false_when_str_starts_with_pattern():
 
     # Test when the string starts with a pattern after stripping leading spaces
     assert (
-        false_when_str_starts_with_pattern("  Hello, world!", ["Hell", "world"]) is False
+        false_when_str_starts_with_pattern("  Hello, world!", ["Hell", "world"])
+        is False
     ), "Failed when the string starts with a pattern after stripping leading spaces"
 
     # Test when the string starts with a pattern after stripping trailing spaces
     assert (
-        false_when_str_starts_with_pattern("Hello, world!  ", ["Hell", "world"]) is False
+        false_when_str_starts_with_pattern("Hello, world!  ", ["Hell", "world"])
+        is False
     ), "Failed when the string starts with a pattern after stripping trailing spaces"
 
     # Test when the string starts with a pattern but has different casing
@@ -117,5 +120,6 @@ def test_false_when_str_starts_with_pattern():
 
     # Test when the pattern list contains a pattern with leading or trailing spaces
     assert (
-        false_when_str_starts_with_pattern("Hello, world!", [" Hell", "world "]) is False
+        false_when_str_starts_with_pattern("Hello, world!", [" Hell", "world "])
+        is False
     ), "Failed when the pattern list contains a pattern with leading or trailing spaces"
