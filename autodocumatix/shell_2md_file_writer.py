@@ -108,6 +108,12 @@ class Sh2MdFileWriter:
         )
         self.mdFile.new_paragraph(f"***(in {relative_md_path})***")
 
+        if "/explain.plugin" in relative_md_path:
+            print("func_text_dict = ", self.func_text_dict)
+            print("func_dep_dict = ", self.func_dep_dict)
+
+            sys.exit(42)
+
         ### Process functions
         if len(self.func_text_dict) > 0:
             doc_section_writer_function = DocSectionWriterFunction(

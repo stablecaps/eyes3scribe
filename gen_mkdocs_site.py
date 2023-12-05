@@ -168,7 +168,7 @@ class GenMkdocsSite:
                 if f"/{catname}/" in md_filepath:
                     print("TRUE\n")
                     page_name = md_filepath.replace(".md", "").split("/")[-1]
-                    md_rel_filepath = md_filepath.replace(self.project_docs_dir, "./")
+                    md_rel_filepath = md_filepath.replace(self.project_docs_dir, ".")
                     page_path_map = {page_name: md_rel_filepath}
                     catname_holder.append(page_path_map)
 
