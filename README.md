@@ -1,6 +1,48 @@
 # BASH Auto-Documatix
 
-## Coming soon: Will be uploaded in the next few days
+# This is still a WIP
+
+## Overview
+This project is a Python application that uses pip for package management. The main entry point for the application is gen_mkdocs_site.py.
+
+## Getting Started
+
+### Prerequisites
+* Python 3.x
+* pip
+
+## Installation
+
+```
+git clone <repository_url>
+cd <project_directory>
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Usage
+```
+# Run program to create mkdocs documentation site and serve it locally.
+python gen_mkdocs_site.py --site-confname config/bash_it_site.yaml ---build-serve
+
+# Show help
+python gen_mkdocs_site.py --help
+```
+
+### Program options
+1. site_confname (str): The name of the site configuration.
+2. build_serve (bool): Whether to build and serve the local MkDocs site.
+3. check_singlefile (str): The path of a single shell source file to debug.
+4. debug (bool, optional): If True, debug information will be printed. Defaults to False.
+
+
+## Contributing
+Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
+
+## License
+This project is licensed under the Apache 2.0 License - see the LICENSE.md file for details.
+
 
 
 ## Not so Random info links

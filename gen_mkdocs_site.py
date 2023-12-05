@@ -45,6 +45,8 @@ class GenMkdocsSite:
 
         Args:
             site_confname (str): The name of the site configuration.
+            build_serve (bool): Whether to build and serve the local MkDocs site.
+            check_singlefile (str): The path of a single shell source file to debug.
             debug (bool, optional): If True, debug information will be printed. Defaults to False.
         """
         self.build_serve = build_serve
