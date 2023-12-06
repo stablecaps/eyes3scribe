@@ -65,6 +65,7 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
 11. write scripts to autogenerate template python repo
 12. add create callgen to pre-commit hook
 13. add badges
+14. package for pip
 
 
 
