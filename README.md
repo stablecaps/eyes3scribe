@@ -1,12 +1,5 @@
 # BASH Auto-Documatix
 
-![Your Repository's Stats](https://github-readme-stats.vercel.app/api?username=stablecaps&show_icons=true)
-
-![Profile View Counter](https://komarev.com/ghpvc/?username=stablecaps)
-
-![Hits](https://hitcounter.pythonanywhere.com/count/tag.svg?url=https://github.com/stablecaps/bash-auto-documatix)
-
-![Your Repository's Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=Tanu-N-Prabhu&theme=blue-green)
 
 # This is still a WIP!!!
 
