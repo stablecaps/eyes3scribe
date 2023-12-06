@@ -71,6 +71,7 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
 17. create GHA to auto generate BASH documentation
 18. fix mkdocs search
 19. amend readme to take into account poetry & also list instruction sfor standalone binary
+20. rename site to bashautodoc
 
 
 
