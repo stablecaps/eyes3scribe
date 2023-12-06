@@ -1,5 +1,7 @@
 # BASH Auto Doc
 
+[![DeepSource](https://app.deepsource.com/gh/stablecaps/bash-auto-doc.svg/?label=active+issues&show_trend=true&token=JveipNb_ClaKjk0YBBKrG-32)](https://app.deepsource.com/gh/stablecaps/bash-auto-doc/)
+[![DeepSource](https://app.deepsource.com/gh/stablecaps/bash-auto-doc.svg/?label=resolved+issues&show_trend=true&token=JveipNb_ClaKjk0YBBKrG-32)](https://app.deepsource.com/gh/stablecaps/bash-auto-doc/)
 
 # This is still a WIP!!!
 
