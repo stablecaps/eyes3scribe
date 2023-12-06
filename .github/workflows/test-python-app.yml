@@ -80,6 +80,15 @@ jobs:
     # they'll be installed and working.
     - run: poetry install --no-interaction
 
-    # And finally run tests. I'm using pytest and all my pytest config is in my `pyproject.toml`
-    # so this line is super-simple. But it could be as complex as you need.
-    - run: poetry run pytest
+    # # And finally run tests. I'm using pytest and all my pytest config is in my `pyproject.toml`
+    # # so this line is super-simple. But it could be as complex as you need.
+    # - run: poetry run pytest
+
+    # Run pytest with --cov and --cov-report flags
+    - shell: bash
+      env:
+        DEEPSOURCE_BUILD_REPO_DSN: ${{ secrets.DEEPSOURCE_BUILD_REPO_DSN }}
+      run: |
+        curl https://deepsource.io/cli | sh
+        pytest --cov=./ --cov-report xml
+        ./bin/deepsource report --analyzer test-coverage --key python --value-file `pwd`/coverage.xml
