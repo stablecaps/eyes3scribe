@@ -37,6 +37,13 @@ python gen_mkdocs_site.py --help
 4. `--debug` (bool, optional): If True, debug information will be printed. Defaults to False.
 
 
+## Program structure
+
+**Callgraph:**
+
+![Callgraph](images/callgraph.png)
+
+
 ## Contributing
 Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
 
