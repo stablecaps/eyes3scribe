@@ -138,11 +138,11 @@ class GenMkdocsSite:
             "site_url": self.conf.get("site_url"),
             "repo_url": self.conf.get("repo_url"),
             "site_author": self.conf.get("site_author"),
-            "validation": [
-                {"omitted_files": "warn"},
-                {"absolute_links": "warn"},
-                {"unrecognized_links": "warn"},
-            ],
+            # "validation": [
+            #     {"omitted_files": "warn"},
+            #     {"absolute_links": "warn"},
+            #     {"unrecognized_links": "warn"},
+            # ],
             "nav": [
                 {"Home": "index.md"},
             ],

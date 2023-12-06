@@ -112,7 +112,7 @@ class Sh2MdFileWriter:
             print("func_text_dict = ", self.func_text_dict)
             print("func_dep_dict = ", self.func_dep_dict)
 
-            sys.exit(42)
+            # sys.exit(42)
 
         ### Process functions
         if len(self.func_text_dict) > 0:

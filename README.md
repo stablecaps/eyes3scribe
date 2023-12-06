@@ -66,6 +66,10 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
 12. add create callgen to pre-commit hook
 13. add badges
 14. package for pip
+15. protect master branch
+16. create repo avatar image
+17. create GHA to auto generate BASH documentation
+18. fix mkdocs search
 
 
 
