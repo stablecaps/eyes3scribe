@@ -83,4 +83,6 @@ jobs:
         curl https://deepsource.io/cli | sh
 
         pytest --cov=./ --cov-report xml
+
+        export DEEPSOURCE_DSN=${DEEPSOURCE_BUILD_REPO_DSN}
         ./bin/deepsource report --analyzer test-coverage --key python --value-file `pwd`/coverage.xml
