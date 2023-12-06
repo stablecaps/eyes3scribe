@@ -53,7 +53,7 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
 
 ## Things to do still
 1. use poetry to setup package & standalone app
-2. set up python test coverage (link with deep source)
+~~2. set up python test coverage (link with deep source)~~
 3. set up pre-commit hooks
 4. create python documentaion website using portray
 5. fix paths so it works with windows
@@ -66,11 +66,11 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
 12. add create callgen to pre-commit hook
 13. add badges
 14. package for pip
-15. protect master branch
+~~15. protect master branch~~
 16. create repo avatar image
 17. create GHA to auto generate BASH documentation
 18. fix mkdocs search
-19. amend readme to take into account poetry & also list instruction sfor standalone binary
+19. amend readme to take into account poetry & also list instructions for standalone binary
 20. rename site to bashautodoc
 
 
