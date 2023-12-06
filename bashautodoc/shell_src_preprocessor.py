@@ -5,8 +5,8 @@ import sys
 
 from rich import print as print
 
-from autodocumatix.function_dependency_processor import FunctionDependencyProcessor
-from autodocumatix.shell_2md_file_writer import Sh2MdFileWriter
+from bashautodoc.function_dependency_processor import FunctionDependencyProcessor
+from bashautodoc.shell_2md_file_writer import Sh2MdFileWriter
 
 LOG = logging.getLogger(__name__)
 

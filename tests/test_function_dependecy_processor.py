@@ -1,6 +1,6 @@
 # import pytest
 
-# from autodocumatix.function_dependency_processor import FunctionDependencyProcessor
+# from bashautodoc.function_dependency_processor import FunctionDependencyProcessor
 
 
 # @pytest.fixture

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "bash-auto-documatix"
+name = "bashautodoc"
 version = "0.1.0"
 description = "Automatically creates HTML documentation files for BASH/Shell source code using markdown & python mkdocs"
 authors = ["Darkpandarts <114529342+darkpandarts@users.noreply.github.com>"]

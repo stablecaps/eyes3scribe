@@ -3,7 +3,7 @@ import tempfile
 
 import pytest
 
-from autodocumatix.helpo.hfile import (
+from bashautodoc.helpo.hfile import (
     copy_clobber,
     copy_dir,
     copy_file,

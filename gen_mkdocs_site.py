@@ -8,10 +8,10 @@ import logging
 import os
 import sys
 
-from autodocumatix.helpo import hfile
-from autodocumatix.helpo.coloured_log_formatter import ColouredLogFormatter
-from autodocumatix.helpo.hstrops import false_when_str_contains_pattern
-from autodocumatix.shell_src_preprocessor import ShellSrcPreProcessor
+from bashautodoc.helpo import hfile
+from bashautodoc.helpo.coloured_log_formatter import ColouredLogFormatter
+from bashautodoc.helpo.hstrops import false_when_str_contains_pattern
+from bashautodoc.shell_src_preprocessor import ShellSrcPreProcessor
 
 LOG = logging.getLogger(__name__)
 # logging.basicConfig(level=logging.INFO, stream=sys.stdout)

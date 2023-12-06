@@ -1,4 +1,4 @@
-# BASH Auto-Documatix
+# BASH Auto Doc
 
 
 # This is still a WIP!!!
@@ -70,6 +70,7 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
 16. create repo avatar image
 17. create GHA to auto generate BASH documentation
 18. fix mkdocs search
+19. amend readme to take into account poetry & also list instruction sfor standalone binary
 
 
 
