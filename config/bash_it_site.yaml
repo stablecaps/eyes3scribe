@@ -24,7 +24,6 @@ shell_glob_patterns:
   - "*.sh"
 exclude_patterns:
   - hooks
-  - docs
   - lib
   - test
   - test_lib

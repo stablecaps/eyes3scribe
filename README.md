@@ -85,7 +85,7 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
     3. create repo avatar image
 
 5. **Bug Fixes and Improvements**
-    1. fix paths so it works with windows
+    1. fix paths so it works with windows - use Pathlib
     2. move undefined md pages to undef category
     3. fix orphan single quote on value for about, param, etc
 

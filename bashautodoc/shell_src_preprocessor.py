@@ -31,23 +31,23 @@ LOG = logging.getLogger(__name__)
 class ShellSrcPreProcessor:
     """Preprocesses shell source files for documentation generation."""
 
-    def __init__(self, conf, cleaned_srcfiles_abspath, project_docs_dir, debug=False):
+    def __init__(self, conf, cleaned_srcfiles_relpath, project_docs_dir, debug=False):
         """
         Initialize the ShellSrcPreProcessor.
 
         Args:
             conf (str): Configuration information.
-            cleaned_srcfiles_abspath (list): List of cleaned input file paths.
+            cleaned_srcfiles_relpath (list): List of cleaned input file paths.
             project_docs_dir (str): Directory path for project documentation.
             debug (bool, optional): Enable debug mode. Defaults to False.
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_abspath=["file1", "file2"],
+                                                cleaned_srcfiles_relpath=["file1", "file2"],
                                                 project_docs_dir="docs/",
         """
         self.conf = conf
-        self.cleaned_srcfiles_abspath = cleaned_srcfiles_abspath
+        self.cleaned_srcfiles_relpath = cleaned_srcfiles_relpath
         self.project_docs_dir = project_docs_dir
         self.debug = debug
 
@@ -60,7 +60,7 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_abspath=["file1", "file2"],
+                                                cleaned_srcfiles_relpath=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             preprocessor.dprint("Hello, World!")
@@ -90,12 +90,12 @@ class ShellSrcPreProcessor:
             LOG.debug("func_name: %s", func_name)
         return func_name
 
-    def create_func_text_dict(self, infile_path):
+    def create_func_text_dict(self, srcfile_relpath):
         """
         Create a dictionary of function names and their corresponding code.
 
         Args:
-            infile_path (str): Path to the input file.
+            srcfile_relpath (str): Path to the src file.
 
         Returns:
             tuple: Tuple containing function name list, alias string list,
@@ -103,7 +103,7 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_abspath=["file1", "file2"],
+                                                cleaned_srcfiles_relpath=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             func_name_list, alias_str_list, cite_about, func_text_dict =
@@ -114,17 +114,18 @@ class ShellSrcPreProcessor:
         func_name = None
         cite_about = "Undefined. Add composure cite-about to shell script file"
 
-        with open(infile_path, "r") as FHI:
-            LOG.debug("infile_path: %s", infile_path)
+        with open(srcfile_relpath, "r") as FHI:
+            LOG.debug("srcfile_relpath: %s", srcfile_relpath)
 
             func_text_dict = {}
             src_text = FHI.read()
 
             for line in src_text.split("\n"):
                 if line.startswith("function"):
-                    func_name = self._process_function_line(
-                        line, func_name_list, func_text_dict
-                    )
+                    func_name = ShellSrcPreProcessor.get_function_name(line)
+                    if func_name is not None:
+                        func_name_list.append(func_name)
+                        func_text_dict[func_name] = line
                 elif line.startswith(
                     (
                         "about-plugin",
@@ -145,32 +146,6 @@ class ShellSrcPreProcessor:
 
         return func_name_list, full_alias_str_list, cite_about, func_text_dict
 
-    def _process_function_line(self, line, func_name_list, func_text_dict):
-        """
-        Process a line of code containing a function definition.
-
-        Args:
-            line (str): Line of code.
-            func_name_list (list): List of function names.
-            func_text_dict (dict): Dictionary of function names and their code.
-
-        Returns:
-            str: Function name.
-
-        Example:
-            preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_abspath=["file1", "file2"],
-                                                project_docs_dir="docs/",
-                                                debug=True)
-            func_name = preprocessor._process_function_line("function hello_world {",
-                                                            [], {})
-        """
-        func_name = ShellSrcPreProcessor.get_function_name(line)
-        if func_name is not None:
-            func_name_list.append(func_name)
-            func_text_dict[func_name] = line
-        return func_name
-
     def _process_about_line(self, line):
         """
         Process a line of code containing an "about" statement.
@@ -183,7 +158,7 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_abspath=["file1", "file2"],
+                                                cleaned_srcfiles_relpath=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             about_statement = preprocessor._process_about_line("about-plugin 'This is a plugin'")
@@ -210,7 +185,7 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_abspath=["file1", "file2"],
+                                                cleaned_srcfiles_relpath=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             alias_string = preprocessor._process_alias_line("alias ls='ls -l' # List files")
@@ -243,18 +218,18 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_abspath=["file1", "file2"],
+                                                cleaned_srcfiles_relpath=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             preprocessor.main_routine()
         """
-        for infile_path in self.cleaned_srcfiles_abspath:
+        for srcfile_relpath in self.cleaned_srcfiles_relpath:
             (
                 func_name_list,
                 full_alias_str_list,
                 cite_about,
                 func_text_dict,
-            ) = self.create_func_text_dict(infile_path=infile_path)
+            ) = self.create_func_text_dict(srcfile_relpath=srcfile_relpath)
 
             function_dependency_processor = FunctionDependencyProcessor(
                 func_name_list=func_name_list, func_text_dict=func_text_dict
@@ -267,6 +242,6 @@ class ShellSrcPreProcessor:
                 func_text_dict=func_text_dict,
                 func_dep_dict=func_dep_dict,
                 full_alias_str_list=full_alias_str_list,
-                srcfile_path=infile_path,
+                srcfile_path=srcfile_relpath,
                 project_docs_dir=self.project_docs_dir,
             )

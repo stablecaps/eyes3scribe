@@ -106,15 +106,28 @@ class GenMkdocsSite:
 
         LOG.debug("strict_exclude_patterns: %s", strict_exclude_patterns)
         # TODO: would it be better to convert to relative path here?
-        cleaned_srcfiles_abspath = [
-            infile
-            for infile in srcfiles_abspath
+        # cleaned_srcfiles_relpath = [
+        #     infile
+        #     for infile in srcfiles_abspath
+        #     if false_when_str_contains_pattern(
+        #         input_str=infile.replace(self.project_docs_dir, ""),
+        #         input_patt_li=strict_exclude_patterns,
+        #     )
+        # ]
+        cleaned_srcfiles_relpath = []
+        for srcfile in srcfiles_abspath:
+            print("srcfile", srcfile)
+            # print("program_root_dir", self.program_root_dir)
+            srcfile_relpath = srcfile.replace(self.program_root_dir, ".")
+            print("srcfile_relpath", srcfile_relpath)
+            # sys.exit(42)
+
             if false_when_str_contains_pattern(
-                input_str=infile.replace(self.project_docs_dir, ""),
+                input_str=srcfile_relpath,
                 input_patt_li=strict_exclude_patterns,
-            )
-        ]
-        return cleaned_srcfiles_abspath
+            ):
+                cleaned_srcfiles_relpath.append(srcfile_relpath)
+        return cleaned_srcfiles_relpath
 
     def setup_docs_project(self):
         """
@@ -181,7 +194,8 @@ class GenMkdocsSite:
         """
         self.setup_docs_project()
 
-        os.chdir(self.project_dir)
+        # TODO: sort out using arbitrary directory
+        # os.chdir(self.project_dir)
 
         if self.check_singlefile is None:
             srcfiles_abspath = []
@@ -197,13 +211,13 @@ class GenMkdocsSite:
 
         LOG.debug("srcfiles_abspath: %s", srcfiles_abspath)
 
-        cleaned_srcfiles_abspath = self.clean_srcfiles(srcfiles_abspath)
-        LOG.info("cleaned_srcfiles_abspath: %s", cleaned_srcfiles_abspath)
+        cleaned_srcfiles_relpath = self.clean_srcfiles(srcfiles_abspath)
+        LOG.info("cleaned_srcfiles_relpath: %s", cleaned_srcfiles_relpath)
         # sys.exit(42)
 
         shell_src_preprocessor = ShellSrcPreProcessor(
             self.conf,
-            cleaned_srcfiles_abspath,
+            cleaned_srcfiles_relpath,
             self.project_docs_dir,
             debug=self.debug,
         )

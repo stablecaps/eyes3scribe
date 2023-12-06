@@ -18,6 +18,7 @@ Example:
     writer.main_write_md()
 """
 import logging
+import os
 import sys
 
 from mdutils.mdutils import MdUtils
@@ -113,40 +114,85 @@ class Sh2MdFileWriter:
 
         self.mdFile.new_paragraph(mytable)
 
-    def organise_mdfiles_2subdirs(self):
+    # # TODO: change this function anme to make it more descriptive
+    # def organise_mdfiles_2subdirs(self):
+    #     """
+    #     Organize markdown files into subdirectories.
+    #     """
+    #     # probably only does one level
+    #     category_names = self.conf.get("category_names")
+
+    #     srcfile_path_split = self.srcfile_path.split("/")
+    #     LOG.debug("srcfile_path_split: %s", srcfile_path_split)
+
+    #     LOG.debug("shell_glob_patterns: %s", self.conf.get("shell_glob_patterns"))
+
+    #     mdoutfile_name = str_multi_replace(
+    #         input_str=srcfile_path_split[-1],
+    #         rm_patt_list=self.conf.get("shell_glob_patterns"),
+    #         replace_str=".md",
+    #     )
+    #     LOG.debug("mdoutfile_name: %s", mdoutfile_name)
+
+    #     srcfile_relpath = self.srcfile_path.replace(
+    #         self.conf.get("project_docs_dir"), ""
+    #     )
+    #     LOG.debug("srcfile_relpath: %s", srcfile_relpath)
+
+    #     mdoutfile_abspath = None
+    #     for catname in category_names:
+    #         if f"/{catname}/" in srcfile_relpath:
+    #             # TODO: this is pointlessly inefficient - fix it
+    #             catpath = self.project_docs_dir + "/" + catname
+    #             mkdir_if_notexists(target=catpath)
+    #             mdoutfile_abspath = catpath + "/" + mdoutfile_name
+    #             LOG.debug("mdoutfile_abspath: %s", mdoutfile_abspath)
+    #             # sys.exit(42)
+
+    #             return mdoutfile_abspath
+
+    #     ### rule to undef if not in category_names
+    #     udef_path = self.project_docs_dir + "/" + "undef"
+    #     mkdir_if_notexists(target=udef_path)
+
+    #     return udef_path + "/" + mdoutfile_name
+
+    def organize_markdown_files_into_subdirectories(self):
         """
         Organize markdown files into subdirectories.
         """
-        # probably only does one level
-        category_names = self.conf.get("category_names")
-
-        infile_path_list = self.srcfile_path.split("/")
-        LOG.debug("infile_path_list: %s", infile_path_list)
-
-        LOG.debug("shell_glob_patterns: %s", self.conf.get("shell_glob_patterns"))
+        srcfile_path_split = self.srcfile_path.split("/")
 
         mdoutfile_name = str_multi_replace(
-            input_str=infile_path_list[-1],
+            input_str=srcfile_path_split[-1],
             rm_patt_list=self.conf.get("shell_glob_patterns"),
             replace_str=".md",
         )
-        LOG.debug("mdoutfile_name: %s", mdoutfile_name)
 
         srcfile_relpath = self.srcfile_path.replace(
             self.conf.get("project_docs_dir"), ""
         )
+        LOG.debug("shell_glob_patterns: %s", self.conf.get("shell_glob_patterns"))
+        LOG.debug("srcfile_path_split: %s", srcfile_path_split)
+        LOG.debug("mdoutfile_name: %s", mdoutfile_name)
+        LOG.debug("srcfile_relpath: %s", srcfile_relpath)
+
+        # probably only does one level
+        category_names = self.conf.get("category_names")
         mdoutfile_abspath = None
         for catname in category_names:
             if f"/{catname}/" in srcfile_relpath:
                 # TODO: this is pointlessly inefficient - fix it
-                catpath = self.project_docs_dir + "/" + catname
+                catpath = f"{self.project_docs_dir}/{catname}"
                 mkdir_if_notexists(target=catpath)
-                mdoutfile_abspath = catpath + "/" + mdoutfile_name
+                mdoutfile_abspath = f"{catpath}/{mdoutfile_name}"
                 LOG.debug("mdoutfile_abspath: %s", mdoutfile_abspath)
                 # sys.exit(42)
 
                 return mdoutfile_abspath
 
+        ### rule to undef if not in category_names
+        # TDOD: use Pathlib
         udef_path = self.project_docs_dir + "/" + "undef"
         mkdir_if_notexists(target=udef_path)
 
@@ -160,7 +206,7 @@ class Sh2MdFileWriter:
         functions and aliases, and writes out the markdown file.
         """
 
-        mdoutfile_abspath = self.organise_mdfiles_2subdirs()
+        mdoutfile_abspath = self.organize_markdown_files_into_subdirectories()
 
         if "/explain.plugin" in mdoutfile_abspath:
             print("func_text_dict = ", self.func_text_dict)
@@ -169,12 +215,12 @@ class Sh2MdFileWriter:
 
             # sys.exit(42)
 
-        if "/plugins/" in mdoutfile_abspath:
-            print("mdoutfile_abspath = ", mdoutfile_abspath)
-            print("func_text_dict = ", self.func_text_dict)
-            print("func_dep_dict = ", self.func_dep_dict)
-            print("full_alias_str_list = ", self.full_alias_str_list)
-            sys.exit(42)
+        # if "/plugins/" in mdoutfile_abspath:
+        #     print("mdoutfile_abspath = ", mdoutfile_abspath)
+        #     print("func_text_dict = ", self.func_text_dict)
+        #     print("func_dep_dict = ", self.func_dep_dict)
+        #     print("full_alias_str_list = ", self.full_alias_str_list)
+        #     sys.exit(42)
 
         self.mdFile = MdUtils(file_name=mdoutfile_abspath, title=self.cite_about)
 
