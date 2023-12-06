@@ -45,12 +45,28 @@ __(made with [Code2Flow](https://github.com/scottrogowski/code2flow))__
 ![Callgraph](images/callgraph.png)
 
 
-# TODO: add CONTRIBUTING.md
 ## Contributing
 Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## License
 This project is licensed under the Apache 2.0 License - see the LICENSE.md file for details.
+
+## Things to do still
+1. use poetry to setup package & standalone app
+2. set up python test coverage (link with deep source)
+3. set up pre-commit hooks
+4. create python documentaion website using portray
+5. fix paths so it works with windows
+6. fix input yaml so it works better with arbitrary mkdocs yaml
+7. add contributing.md
+8. move undefined md pages to undef category
+9. finish generating docsstrings
+10. finish tests
+11. write scripts to autogenerate template python repo
+12. add create callgen to pre-commit hook
+13. add badges
+
+
 
 
 
