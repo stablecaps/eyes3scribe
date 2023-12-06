@@ -4,9 +4,14 @@ import pathlib
 import shutil
 import sys
 
-import yaml
+from ruamel.yaml import YAML
+
+# import yaml
+
 
 LOG = logging.getLogger(__name__)
+
+yaml = YAML(typ="safe")
 
 
 def load_yaml_file2dict(file_name):
@@ -19,9 +24,10 @@ def load_yaml_file2dict(file_name):
     Returns:
         dict: The contents of the YAML file.
     """
-    with open(file_name, "r", encoding="iso-8859-1") as my_yaml:
-        yaml_data = yaml.safe_load(my_yaml)
+    with open(file_name, "r", encoding="iso-8859-1") as yaml_path:
+        yaml_data = yaml.load(yaml_path)
         LOG.info("yaml_data: %s", yaml_data)
+        # sys.exit(42)
 
     return yaml_data
 
@@ -40,21 +46,21 @@ def dump_yaml_file(
     Returns:
         None
     """
-    yaml_data = yaml.safe_load(yaml_string)
-    with open(file_name, "w") as my_yaml:
+    yaml_data = yaml.load(yaml_string)
+    with open(file_name, "w") as yaml_path:
         print("Writing yaml data to file name", file_name)
         LOG.debug("yaml_data: %s", yaml_data)
-        yaml.dump(yaml_data, my_yaml)
+        yaml.dump(yaml_data, yaml_path)
 
 
 def dict2_yaml_file(
     file_name,
     yaml_dict,
 ):
-    with open(file_name, "w") as my_yaml:
+    with open(file_name, "w") as yaml_path:
         print("Writing yaml data to file name", file_name)
         LOG.debug("yaml_dict: %s", yaml_dict)
-        yaml.dump(yaml_dict, my_yaml)
+        yaml.dump(yaml_dict, yaml_path)
 
 
 def rmdir_if_exists(target):

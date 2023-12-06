@@ -62,30 +62,45 @@ Please read CONTRIBUTING.md for details on our code of conduct, and the process 
 This project is licensed under the Apache 2.0 License - see the LICENSE.md file for details.
 
 ## Things to do still
-1. use poetry to setup package & standalone app
-~~2. set up python test coverage (link with deep source)~~
-3. set up pre-commit hooks
-4. create python documentaion website using portray
-5. fix paths so it works with windows
-6. fix input yaml so it works better with arbitrary mkdocs yaml
-7. add contributing.md
-8. move undefined md pages to undef category
-9. finish generating docsstrings
-10. finish tests
-11. write scripts to autogenerate template python repo
-12. add create callgen to pre-commit hook
-13. add badges
-14. package for pip
-~~15. protect master branch~~
-16. create repo avatar image
-17. create GHA to auto generate BASH documentation
-18. fix mkdocs search
-19. amend readme to take into account poetry & also list instructions for standalone binary
-20. rename site to bashautodoc
+1. **Setup and Configuration**
+    1. use poetry to setup package & standalone app
+    2. ~~set up python test coverage (link with deep source)~~
+    3. set up pre-commit hooks
+    4. add create callgen to pre-commit hook
+    5. ~~protect master branch~~
+    6. package for pip
 
+2. **Documentation**
+    1. finish generating docstrings
+    2. feed test data into docstrings (run tests on docstrings to check vailidity?)
+    3. add contributing.md
+    4. create GHA to auto generate BASH documentation
 
+3. **Testing**
+    1. finish tests using better data sources
 
+4. **Project Management**
+    1. write scripts to autogenerate template python repo
+    2. add badges
+    3. create repo avatar image
 
+5. **Bug Fixes and Improvements**
+    1. fix paths so it works with windows
+    2. move undefined md pages to undef category
+    3. fix orphan single quote on value for about, param, etc
+
+6. Mkdocs
+    1. fix mkdocs search
+    ~~2. fix input yaml so it works better with arbitrary mkdocs yaml~~
+    ~~3. allow arbitrary mkdocs themes to be used~~
+
+1. create python documentation website:
+    1. investigate using mkdocstrings
+    2. investigate using subsets of callgraph for viz
+
+8. **Miscellaneous**
+    1. amend readme to take into account poetry & also list instructions for standalone binary
+    2. rename site to bashautodoc
 
 ## Not so Random info links
 

@@ -13,7 +13,7 @@ Example:
                              func_text_dict={},
                              func_dep_dict={},
                              full_alias_str_list=[],
-                             src_file_path="file1",
+                             srcfile_path="file1",
                              project_docs_dir="docs/")
     writer.main_write_md()
 """
@@ -39,7 +39,7 @@ class Sh2MdFileWriter:
         func_text_dict,
         func_dep_dict,
         full_alias_str_list,
-        src_file_path,
+        srcfile_path,
         project_docs_dir,
     ):
         """
@@ -51,7 +51,7 @@ class Sh2MdFileWriter:
             func_text_dict (dict): Dictionary of function names and their code.
             func_dep_dict (dict): Dictionary of function dependencies.
             full_alias_str_list (list): List of full alias strings.
-            src_file_path (str): Path to the source file.
+            srcfile_path (str): Path to the source file.
             project_docs_dir (str): Directory path for project documentation.
 
         Example:
@@ -60,7 +60,7 @@ class Sh2MdFileWriter:
                                         func_text_dict={},
                                         func_dep_dict={},
                                         full_alias_str_list=[],
-                                        src_file_path="file1",
+                                        srcfile_path="file1",
                                         project_docs_dir="docs/")
         """
         self.conf = conf
@@ -68,7 +68,7 @@ class Sh2MdFileWriter:
         self.func_text_dict = func_text_dict
         self.func_dep_dict = func_dep_dict
         self.full_alias_str_list = full_alias_str_list
-        self.src_file_path = src_file_path
+        self.srcfile_path = srcfile_path
         self.project_docs_dir = project_docs_dir
 
         self.sh2_md_file_writers = [
@@ -97,7 +97,7 @@ class Sh2MdFileWriter:
                                         func_text_dict={},
                                         func_dep_dict={},
                                         full_alias_str_list=[],
-                                        src_file_path="file1",
+                                        srcfile_path="file1",
                                         project_docs_dir="docs/")
             writer.write_aliases_section()
         """
@@ -120,36 +120,37 @@ class Sh2MdFileWriter:
         # probably only does one level
         category_names = self.conf.get("category_names")
 
-        infile_path_list = self.src_file_path.split("/")
+        infile_path_list = self.srcfile_path.split("/")
         LOG.debug("infile_path_list: %s", infile_path_list)
 
         LOG.debug("shell_glob_patterns: %s", self.conf.get("shell_glob_patterns"))
 
-        outfile_name = str_multi_replace(
+        mdoutfile_name = str_multi_replace(
             input_str=infile_path_list[-1],
             rm_patt_list=self.conf.get("shell_glob_patterns"),
             replace_str=".md",
         )
-        LOG.debug("outfile_name: %s", outfile_name)
+        LOG.debug("mdoutfile_name: %s", mdoutfile_name)
 
-        relative_src_path = self.src_file_path.replace(
+        srcfile_relpath = self.srcfile_path.replace(
             self.conf.get("project_docs_dir"), ""
         )
-        full_outfile_path = None
+        mdoutfile_abspath = None
         for catname in category_names:
-            if f"/{catname}/" in relative_src_path:
-                outfile_path = self.project_docs_dir + "/" + catname
-                mkdir_if_notexists(target=outfile_path)
-                full_outfile_path = outfile_path + "/" + outfile_name
-                LOG.debug("full_outfile_path: %s", full_outfile_path)
+            if f"/{catname}/" in srcfile_relpath:
+                # TODO: this is pointlessly inefficient - fix it
+                catpath = self.project_docs_dir + "/" + catname
+                mkdir_if_notexists(target=catpath)
+                mdoutfile_abspath = catpath + "/" + mdoutfile_name
+                LOG.debug("mdoutfile_abspath: %s", mdoutfile_abspath)
                 # sys.exit(42)
 
-                return full_outfile_path
+                return mdoutfile_abspath
 
         udef_path = self.project_docs_dir + "/" + "undef"
         mkdir_if_notexists(target=udef_path)
 
-        return udef_path + "/" + outfile_name
+        return udef_path + "/" + mdoutfile_name
 
     def main_write_md(self):
         """
@@ -158,23 +159,29 @@ class Sh2MdFileWriter:
         This routine organizes markdown files into subdirectories, processes
         functions and aliases, and writes out the markdown file.
         """
-        full_outfile_path = self.organise_mdfiles_2subdirs()
 
-        # if "/plugins/" in full_outfile_path:
-        #     print("full_outfile_path = ", full_outfile_path)
-        #     sys.exit(42)
+        mdoutfile_abspath = self.organise_mdfiles_2subdirs()
 
-        self.mdFile = MdUtils(file_name=full_outfile_path, title=self.cite_about)
-        relative_md_path = self.src_file_path.replace(
-            self.conf.get("project_docs_dir"), ""
-        )
-        self.mdFile.new_paragraph(f"***(in {relative_md_path})***")
-
-        if "/explain.plugin" in relative_md_path:
+        if "/explain.plugin" in mdoutfile_abspath:
             print("func_text_dict = ", self.func_text_dict)
             print("func_dep_dict = ", self.func_dep_dict)
+            print("full_alias_str_list = ", self.full_alias_str_list)
 
             # sys.exit(42)
+
+        if "/plugins/" in mdoutfile_abspath:
+            print("mdoutfile_abspath = ", mdoutfile_abspath)
+            print("func_text_dict = ", self.func_text_dict)
+            print("func_dep_dict = ", self.func_dep_dict)
+            print("full_alias_str_list = ", self.full_alias_str_list)
+            sys.exit(42)
+
+        self.mdFile = MdUtils(file_name=mdoutfile_abspath, title=self.cite_about)
+
+        mdoutfile_relpath = self.srcfile_path.replace(
+            self.conf.get("project_docs_dir"), ""
+        )
+        self.mdFile.new_paragraph(f"***(in {mdoutfile_relpath})***")
 
         ### Process functions
         if len(self.func_text_dict) > 0:

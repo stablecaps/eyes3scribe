@@ -31,23 +31,23 @@ LOG = logging.getLogger(__name__)
 class ShellSrcPreProcessor:
     """Preprocesses shell source files for documentation generation."""
 
-    def __init__(self, conf, cleaned_infiles, project_docs_dir, debug=False):
+    def __init__(self, conf, cleaned_srcfiles_abspath, project_docs_dir, debug=False):
         """
         Initialize the ShellSrcPreProcessor.
 
         Args:
             conf (str): Configuration information.
-            cleaned_infiles (list): List of cleaned input file paths.
+            cleaned_srcfiles_abspath (list): List of cleaned input file paths.
             project_docs_dir (str): Directory path for project documentation.
             debug (bool, optional): Enable debug mode. Defaults to False.
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_infiles=["file1", "file2"],
+                                                cleaned_srcfiles_abspath=["file1", "file2"],
                                                 project_docs_dir="docs/",
         """
         self.conf = conf
-        self.cleaned_infiles = cleaned_infiles
+        self.cleaned_srcfiles_abspath = cleaned_srcfiles_abspath
         self.project_docs_dir = project_docs_dir
         self.debug = debug
 
@@ -60,7 +60,7 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_infiles=["file1", "file2"],
+                                                cleaned_srcfiles_abspath=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             preprocessor.dprint("Hello, World!")
@@ -103,7 +103,7 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_infiles=["file1", "file2"],
+                                                cleaned_srcfiles_abspath=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             func_name_list, alias_str_list, cite_about, func_text_dict =
@@ -159,7 +159,7 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_infiles=["file1", "file2"],
+                                                cleaned_srcfiles_abspath=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             func_name = preprocessor._process_function_line("function hello_world {",
@@ -183,7 +183,7 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_infiles=["file1", "file2"],
+                                                cleaned_srcfiles_abspath=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             about_statement = preprocessor._process_about_line("about-plugin 'This is a plugin'")
@@ -210,7 +210,7 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_infiles=["file1", "file2"],
+                                                cleaned_srcfiles_abspath=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             alias_string = preprocessor._process_alias_line("alias ls='ls -l' # List files")
@@ -243,12 +243,12 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_infiles=["file1", "file2"],
+                                                cleaned_srcfiles_abspath=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             preprocessor.main_routine()
         """
-        for infile_path in self.cleaned_infiles:
+        for infile_path in self.cleaned_srcfiles_abspath:
             (
                 func_name_list,
                 full_alias_str_list,
@@ -267,6 +267,6 @@ class ShellSrcPreProcessor:
                 func_text_dict=func_text_dict,
                 func_dep_dict=func_dep_dict,
                 full_alias_str_list=full_alias_str_list,
-                src_file_path=infile_path,
+                srcfile_path=infile_path,
                 project_docs_dir=self.project_docs_dir,
             )

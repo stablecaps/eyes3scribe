@@ -1,9 +1,23 @@
 ---
+### conf mkdocs
 project_name: docs_bash-it
 site_name: bash-it
 site_url: https://github.com/Bash-it/bash-it.github.io
 site_author: giri
 repo_url: https://github.com/Bash-it/bash-it/
+theme:
+  name: windmill-dark
+  navigation_depth: 5
+  highlightjs: true
+  hljs_languages:
+  - bash
+  - python
+extra_css:
+  - custom_css/extra.css
+nav:
+- Home: index.md
+
+### conf bashautodoc
 shell_srcdir: /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-it
 shell_glob_patterns:
   - "*.bash"

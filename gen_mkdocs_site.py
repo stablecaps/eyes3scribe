@@ -55,6 +55,13 @@ class GenMkdocsSite:
 
         LOG.info("Loading config: %s", site_confname)
         self.conf = hfile.load_yaml_file2dict(file_name=site_confname)
+        self.conf_bashautodoc_keys = [
+            "shell_srcdir",
+            "shell_glob_patterns",
+            "exclude_patterns",
+            "additional_mdfiles",
+            "category_names",
+        ]
 
         LOG.info("conf: %s", self.conf)
 
@@ -92,21 +99,22 @@ class GenMkdocsSite:
             print(f"{myvar = }")
             print("👉", locals())
 
-    def clean_infiles(self, infiles):
+    def clean_srcfiles(self, srcfiles_abspath):
         strict_exclude_patterns = [
             f"/{patt}/" for patt in self.conf.get("exclude_patterns")
         ]
 
         LOG.debug("strict_exclude_patterns: %s", strict_exclude_patterns)
-        cleaned_infiles = [
+        # TODO: would it be better to convert to relative path here?
+        cleaned_srcfiles_abspath = [
             infile
-            for infile in infiles
+            for infile in srcfiles_abspath
             if false_when_str_contains_pattern(
                 input_str=infile.replace(self.project_docs_dir, ""),
                 input_patt_li=strict_exclude_patterns,
             )
         ]
-        return cleaned_infiles
+        return cleaned_srcfiles_abspath
 
     def setup_docs_project(self):
         """
@@ -134,25 +142,9 @@ class GenMkdocsSite:
 
         LOG.info("Generating markdown yaml")
         yaml_dict = {
-            "site_name": self.conf.get("site_name"),
-            "site_url": self.conf.get("site_url"),
-            "repo_url": self.conf.get("repo_url"),
-            "site_author": self.conf.get("site_author"),
-            # "validation": [
-            #     {"omitted_files": "warn"},
-            #     {"absolute_links": "warn"},
-            #     {"unrecognized_links": "warn"},
-            # ],
-            "nav": [
-                {"Home": "index.md"},
-            ],
-            "theme": {
-                "name": "windmill-dark",
-                "navigation_depth": 5,
-                "highlightjs": True,
-                "hljs_languages": ["bash", "python"],
-            },
-            "extra_css": ["custom_css/extra.css"],
+            key: value
+            for (key, value) in self.conf.items()
+            if key not in self.conf_bashautodoc_keys
         }
 
         for catname in self.conf.get("category_names"):
@@ -192,26 +184,26 @@ class GenMkdocsSite:
         os.chdir(self.project_dir)
 
         if self.check_singlefile is None:
-            infiles = []
+            srcfiles_abspath = []
             for glob_patt in self.glob_patt_list:
-                infiles.extend(
+                srcfiles_abspath.extend(
                     hfile.files_and_dirs_recursive_lister(
                         mypathstr=self.project_docs_dir, myglob=glob_patt
                     )
                 )
         else:
             LOG.warning("Checking single file")
-            infiles = [self.check_singlefile]
+            srcfiles_abspath = [self.check_singlefile]
 
-        LOG.debug("infiles: %s", infiles)
+        LOG.debug("srcfiles_abspath: %s", srcfiles_abspath)
 
-        cleaned_infiles = self.clean_infiles(infiles)
-        LOG.info("cleaned_infiles: %s", cleaned_infiles)
+        cleaned_srcfiles_abspath = self.clean_srcfiles(srcfiles_abspath)
+        LOG.info("cleaned_srcfiles_abspath: %s", cleaned_srcfiles_abspath)
         # sys.exit(42)
 
         shell_src_preprocessor = ShellSrcPreProcessor(
             self.conf,
-            cleaned_infiles,
+            cleaned_srcfiles_abspath,
             self.project_docs_dir,
             debug=self.debug,
         )
