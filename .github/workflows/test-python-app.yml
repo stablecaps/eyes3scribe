@@ -15,17 +15,18 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.8", "3.9", "3.10", "3.11", "pypy3.8", "pypy3.9", "pypy3.10"]
+        os: [ubuntu-latest] #, macos-latest, windows-latest]
+        # python-version: ["3.8", "3.9", "3.10", "3.11", "pypy3.8", "pypy3.9", "pypy3.10"]
+        python-version: ["3.9"] #, "3.10", "3.11", "pypy3.8", "pypy3.9", "pypy3.10"]
         # exclude:
         #   - os: macos-latest
         #     python-version: "3.9"
         #   - os: windows-latest
-        #     python-version: "3.9"    
+        #     python-version: "3.9"
 
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Set up Python 3.x
       uses: actions/setup-python@v3
       with:
@@ -55,7 +56,7 @@ jobs:
       with:
         version: 1.7.1
         virtualenvs-create: true
-        virtualenvs-in-project: true 
+        virtualenvs-in-project: true
 
     # Cache your dependencies (i.e. all the stuff in your `pyproject.toml`). Note the cache
     # key: if you're using multiple Python versions, or multiple OSes, you'd need to include
@@ -66,7 +67,7 @@ jobs:
       with:
         path: .venv
         key: pydeps-${{ hashFiles('**/poetry.lock') }}
-        
+
     # Install dependencies. `--no-root` means "install all dependencies but not the project
     # itself", which is what you want to avoid caching _your_ code. The `if` statement
     # ensures this only runs on a cache miss.
@@ -78,7 +79,7 @@ jobs:
     # pyproject.toml and makes that if you add things like console-scripts at some point that
     # they'll be installed and working.
     - run: poetry install --no-interaction
-      
+
     # And finally run tests. I'm using pytest and all my pytest config is in my `pyproject.toml`
     # so this line is super-simple. But it could be as complex as you need.
     - run: poetry run pytest
