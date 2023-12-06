@@ -1,8 +1,20 @@
 version = 1
 
+exclude_patterns = [
+  "docs*/**",
+  "zsdoc/*",
+  "compsure_backups/*"
+]
+
+test_patterns = [
+  "tests/**/*.py",
+  "tests/*.py",
+  "test_*.py"
+]
+
 [[analyzers]]
 name = "test-coverage"
-enabled = false
+enabled = true
 
 [[analyzers]]
 name = "shell"

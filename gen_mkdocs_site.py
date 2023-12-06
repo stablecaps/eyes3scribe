@@ -222,6 +222,7 @@ class GenMkdocsSite:
         if self.build_serve:
             LOG.warning("Building and serving local docs site")
             os.chdir(self.project_dir)
+            # TODO: use subprocess
             os.system("mkdocs build")
             os.system("mkdocs serve")
 
