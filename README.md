@@ -1,6 +1,14 @@
 # BASH Auto-Documatix
 
-# This is still a WIP
+![Your Repository's Stats](https://github-readme-stats.vercel.app/api?username=stablecaps&show_icons=true)
+
+![Profile View Counter](https://komarev.com/ghpvc/?username=stablecaps)
+
+![Hits](https://hitcounter.pythonanywhere.com/count/tag.svg?url=https://github.com/stablecaps/bash-auto-documatix)
+
+![Your Repository's Stats](https://github-readme-stats.vercel.app/api/top-langs/?username=Tanu-N-Prabhu&theme=blue-green)
+
+# This is still a WIP!!!
 
 ## Overview
 This project is a Python application that uses pip for package management. The main entry point for the application is gen_mkdocs_site.py.
@@ -39,11 +47,12 @@ python gen_mkdocs_site.py --help
 
 ## Program structure
 
-**Callgraph:**
-
+**Auto-Documatix Callgraph:**
+__(made with [Code2Flow](https://github.com/scottrogowski/code2flow))__
 ![Callgraph](images/callgraph.png)
 
 
+# TODO: add CONTRIBUTING.md
 ## Contributing
 Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
 
