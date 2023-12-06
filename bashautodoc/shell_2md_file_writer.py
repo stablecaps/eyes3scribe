@@ -1,5 +1,22 @@
-"""Class to extract composure cite parameters from function src code."""
+"""
+This module contains the Sh2MdFileWriter class which is responsible for
+converting shell source files to markdown files for documentation.
 
+The Sh2MdFileWriter class takes in configuration information, function text
+and dependency dictionaries, a list of full alias strings, the source file path,
+and the project documentation directory. It organizes markdown files into
+subdirectories, processes functions and aliases, and writes out the markdown file.
+
+Example:
+    writer = Sh2MdFileWriter(conf="config",
+                             cite_about="about citation",
+                             func_text_dict={},
+                             func_dep_dict={},
+                             full_alias_str_list=[],
+                             src_file_path="file1",
+                             project_docs_dir="docs/")
+    writer.main_write_md()
+"""
 import logging
 import sys
 
@@ -13,6 +30,8 @@ LOG = logging.getLogger(__name__)
 
 
 class Sh2MdFileWriter:
+    """Converts shell source files to markdown files for documentation."""
+
     def __init__(
         self,
         conf,
@@ -23,6 +42,27 @@ class Sh2MdFileWriter:
         src_file_path,
         project_docs_dir,
     ):
+        """
+        Initialize the Shell2MdFileWriter.
+
+        Args:
+            conf (str): Configuration information.
+            cite_about (str): About citation.
+            func_text_dict (dict): Dictionary of function names and their code.
+            func_dep_dict (dict): Dictionary of function dependencies.
+            full_alias_str_list (list): List of full alias strings.
+            src_file_path (str): Path to the source file.
+            project_docs_dir (str): Directory path for project documentation.
+
+        Example:
+            writer = Shell2MdFileWriter(conf="config",
+                                        cite_about="about citation",
+                                        func_text_dict={},
+                                        func_dep_dict={},
+                                        full_alias_str_list=[],
+                                        src_file_path="file1",
+                                        project_docs_dir="docs/")
+        """
         self.conf = conf
         self.cite_about = cite_about
         self.func_text_dict = func_text_dict
@@ -48,6 +88,19 @@ class Sh2MdFileWriter:
         self.main_write_md()
 
     def write_aliases_section(self):
+        """
+        Write the aliases section to the markdown file.
+
+        Example:
+            writer = Shell2MdFileWriter(conf="config",
+                                        cite_about="about citation",
+                                        func_text_dict={},
+                                        func_dep_dict={},
+                                        full_alias_str_list=[],
+                                        src_file_path="file1",
+                                        project_docs_dir="docs/")
+            writer.write_aliases_section()
+        """
         self.mdFile.new_header(
             level=2, title="Aliases", style="atx", add_table_of_contents="n"
         )
@@ -61,6 +114,9 @@ class Sh2MdFileWriter:
         self.mdFile.new_paragraph(mytable)
 
     def organise_mdfiles_2subdirs(self):
+        """
+        Organize markdown files into subdirectories.
+        """
         # probably only does one level
         category_names = self.conf.get("category_names")
 
@@ -96,6 +152,12 @@ class Sh2MdFileWriter:
         return udef_path + "/" + outfile_name
 
     def main_write_md(self):
+        """
+        Perform the main routine of writing markdown files.
+
+        This routine organizes markdown files into subdirectories, processes
+        functions and aliases, and writes out the markdown file.
+        """
         full_outfile_path = self.organise_mdfiles_2subdirs()
 
         # if "/plugins/" in full_outfile_path:

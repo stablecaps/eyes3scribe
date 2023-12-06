@@ -1,4 +1,21 @@
-"""Gen-Bash-MkDoc main entrypoint"""
+"""
+This module contains the ShellSrcPreProcessor class. This class is used for
+preprocessing shell source files for documentation generation.
+
+The ShellSrcPreProcessor class provides methods to:
+- Extract function names
+- Process function definitions
+- Process "about" statements
+- Process alias definitions from shell source files
+
+It also provides a main routine to:
+- Create function text dictionaries
+- Process function dependencies
+- Convert shell files to markdown files
+
+Classes:
+    ShellSrcPreProcessor: Preprocesses shell source files for documentation.
+"""
 
 import logging
 import sys
@@ -12,30 +29,86 @@ LOG = logging.getLogger(__name__)
 
 
 class ShellSrcPreProcessor:
+    """Preprocesses shell source files for documentation generation."""
+
     def __init__(self, conf, cleaned_infiles, project_docs_dir, debug=False):
+        """
+        Initialize the ShellSrcPreProcessor.
+
+        Args:
+            conf (str): Configuration information.
+            cleaned_infiles (list): List of cleaned input file paths.
+            project_docs_dir (str): Directory path for project documentation.
+            debug (bool, optional): Enable debug mode. Defaults to False.
+
+        Example:
+            preprocessor = ShellSrcPreProcessor(conf="config",
+                                                cleaned_infiles=["file1", "file2"],
+                                                project_docs_dir="docs/",
+        """
         self.conf = conf
         self.cleaned_infiles = cleaned_infiles
         self.project_docs_dir = project_docs_dir
         self.debug = debug
 
     def dprint(self, myvar):
+        """
+        Print the value of a variable using rich if debug mode is enabled.
+
+        Args:
+            myvar: Variable to be printed.
+
+        Example:
+            preprocessor = ShellSrcPreProcessor(conf="config",
+                                                cleaned_infiles=["file1", "file2"],
+                                                project_docs_dir="docs/",
+                                                debug=True)
+            preprocessor.dprint("Hello, World!")
+        """
         if self.debug:
             print(f"{myvar = }")
             print("👉", locals())
 
     @staticmethod
     def get_function_name(line_str):
+        """
+        Extracts the function name from a line of shell script.
+
+        Args:
+            line_str (str): A line of shell script.
+
+        Returns:
+            str: The name of the function.
+
+        Example:
+            function_name = ShellSrcPreProcessor.get_function_name("function hello_world {")
+        """
         func_name = None
         if line_str.strip().endswith(("{", "}")):
-            # print("line:", line)
-
             function_header = line_str.split()
             func_name = function_header[1].strip("()")
             LOG.debug("func_name: %s", func_name)
         return func_name
 
     def create_func_text_dict(self, infile_path):
-        # 1. get names of all functions in file
+        """
+        Create a dictionary of function names and their corresponding code.
+
+        Args:
+            infile_path (str): Path to the input file.
+
+        Returns:
+            tuple: Tuple containing function name list, alias string list,
+                   about citation, and function text dictionary.
+
+        Example:
+            preprocessor = ShellSrcPreProcessor(conf="config",
+                                                cleaned_infiles=["file1", "file2"],
+                                                project_docs_dir="docs/",
+                                                debug=True)
+            func_name_list, alias_str_list, cite_about, func_text_dict =
+                preprocessor.create_func_text_dict("file1")
+        """
         func_name_list = []
         full_alias_str_list = []
         func_name = None
@@ -73,6 +146,25 @@ class ShellSrcPreProcessor:
         return func_name_list, full_alias_str_list, cite_about, func_text_dict
 
     def _process_function_line(self, line, func_name_list, func_text_dict):
+        """
+        Process a line of code containing a function definition.
+
+        Args:
+            line (str): Line of code.
+            func_name_list (list): List of function names.
+            func_text_dict (dict): Dictionary of function names and their code.
+
+        Returns:
+            str: Function name.
+
+        Example:
+            preprocessor = ShellSrcPreProcessor(conf="config",
+                                                cleaned_infiles=["file1", "file2"],
+                                                project_docs_dir="docs/",
+                                                debug=True)
+            func_name = preprocessor._process_function_line("function hello_world {",
+                                                            [], {})
+        """
         func_name = ShellSrcPreProcessor.get_function_name(line)
         if func_name is not None:
             func_name_list.append(func_name)
@@ -80,6 +172,22 @@ class ShellSrcPreProcessor:
         return func_name
 
     def _process_about_line(self, line):
+        """
+        Process a line of code containing an "about" statement.
+
+        Args:
+            line (str): Line of code.
+
+        Returns:
+            str: Processed about statement.
+
+        Example:
+            preprocessor = ShellSrcPreProcessor(conf="config",
+                                                cleaned_infiles=["file1", "file2"],
+                                                project_docs_dir="docs/",
+                                                debug=True)
+            about_statement = preprocessor._process_about_line("about-plugin 'This is a plugin'")
+        """
         return (
             line.replace("about-plugin", "")
             .replace("about-alias", "")
@@ -91,6 +199,22 @@ class ShellSrcPreProcessor:
         )
 
     def _process_alias_line(self, line):
+        """
+        Process a line of code containing an alias definition.
+
+        Args:
+            line (str): Line of code.
+
+        Returns:
+            str: Processed alias string.
+
+        Example:
+            preprocessor = ShellSrcPreProcessor(conf="config",
+                                                cleaned_infiles=["file1", "file2"],
+                                                project_docs_dir="docs/",
+                                                debug=True)
+            alias_string = preprocessor._process_alias_line("alias ls='ls -l' # List files")
+        """
         LOG.debug("line: %s", line)
 
         alias_list = line.replace("alias ", "").strip().split("=", 1)
@@ -111,12 +235,20 @@ class ShellSrcPreProcessor:
         return f"| **{alias_name}** | `{alias_cmd[1:-1]}` | {alias_comment}\n"
 
     def main_routine(self):
-        for infile_path in self.cleaned_infiles:
-            # if "/plugins/" in infile_path:
-            #     LOG.warning("infile_path: %s", infile_path)
-            #     sys.exit(42)
+        """
+        Perform the main routine of preprocessing shell source files.
 
-            # LOG.info("Create func_text_dict for file: %s", infile_path)
+        This routine creates function text dictionaries, processes function
+        dependencies, and converts shell files to markdown files.
+
+        Example:
+            preprocessor = ShellSrcPreProcessor(conf="config",
+                                                cleaned_infiles=["file1", "file2"],
+                                                project_docs_dir="docs/",
+                                                debug=True)
+            preprocessor.main_routine()
+        """
+        for infile_path in self.cleaned_infiles:
             (
                 func_name_list,
                 full_alias_str_list,
@@ -124,36 +256,11 @@ class ShellSrcPreProcessor:
                 func_text_dict,
             ) = self.create_func_text_dict(infile_path=infile_path)
 
-            # if "/plugins/" in infile_path:
-            #     LOG.warning("infile_path: %s", infile_path)
-            #     print("func_name_list = ", func_name_list)
-            #     print("func_text_dict = ", func_text_dict)
-            #     print("full_alias_str_list = ", full_alias_str_list)
-            #     print("cite_about = ", cite_about)
-
-            #     sys.exit(42)
-
-            # LOG.info("Create func_dep_dict for file: %s", infile_path)
             function_dependency_processor = FunctionDependencyProcessor(
                 func_name_list=func_name_list, func_text_dict=func_text_dict
             )
             func_dep_dict = function_dependency_processor.create_func_dep_dict()
 
-            # if "/plugins/" in infile_path:
-            #     print("func_dep_dict = ", func_dep_dict)
-            #     sys.exit(42)
-
-            # LOG.debug("func_dep_dict = %s", func_dep_dict)
-            # print("func_name_list = ", func_name_list)
-            # print("func_text_dict = ", func_text_dict)
-            # if len(func_dep_dict) > 1:
-            #     sys.exit(42)
-
-            # LOG.info("Print function data in func_dep_dict")
-            # for func_name, called_funcs in func_dep_dict.items():
-            #     print(func_name, len(called_funcs), called_funcs)
-
-            # LOG.info("Convert shell files to markdown files")
             Sh2MdFileWriter(
                 self.conf,
                 cite_about=cite_about,
