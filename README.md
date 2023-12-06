@@ -31,10 +31,10 @@ python gen_mkdocs_site.py --help
 ```
 
 ### Program options
-1. site_confname (str): The name of the site configuration.
-2. build_serve (bool): Whether to build and serve the local MkDocs site.
-3. check_singlefile (str): The path of a single shell source file to debug.
-4. debug (bool, optional): If True, debug information will be printed. Defaults to False.
+1. `--site_confname` (str): The name of the site configuration.
+2. `--build_serve` (bool): Whether to build and serve the local MkDocs site.
+3. `--check_singlefile` (str): The path of a single shell source file to debug.
+4. `--debug` (bool, optional): If True, debug information will be printed. Defaults to False.
 
 
 ## Contributing
