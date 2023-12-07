@@ -6,10 +6,16 @@ from ruamel.yaml import YAML
 
 yaml = YAML(typ="safe")
 
-from bashautodoc.helpo.hfile import (copy_clobber, copy_dir, copy_file,
-                                     dict2_yaml_file, dump_yaml_file,
-                                     load_yaml_file2dict, mkdir_if_notexists,
-                                     rmdir_if_exists)
+from bashautodoc.helpo.hfile import (
+    copy_clobber,
+    copy_dir,
+    copy_file,
+    dict2_yaml_file,
+    dump_yaml_file,
+    load_yaml_file2dict,
+    mkdir_if_notexists,
+    rmdir_if_exists,
+)
 
 
 def test_load_yaml_file2dict():
