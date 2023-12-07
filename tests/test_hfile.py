@@ -2,16 +2,14 @@ import os
 import tempfile
 
 import pytest
+from ruamel.yaml import YAML
 
-from bashautodoc.helpo.hfile import (
-    copy_clobber,
-    copy_dir,
-    copy_file,
-    dump_yaml_file,
-    load_yaml_file2dict,
-    mkdir_if_notexists,
-    rmdir_if_exists,
-)
+yaml = YAML(typ="safe")
+
+from bashautodoc.helpo.hfile import (copy_clobber, copy_dir, copy_file,
+                                     dict2_yaml_file, dump_yaml_file,
+                                     load_yaml_file2dict, mkdir_if_notexists,
+                                     rmdir_if_exists)
 
 
 def test_load_yaml_file2dict():
@@ -24,7 +22,9 @@ def test_load_yaml_file2dict():
     result = load_yaml_file2dict(temp_name)
 
     # Check the result
-    assert result == {"name": "Test"}, "Failed to load YAML file to dictionary"
+    assert result == {
+        "name": "Test"
+    }, "The loaded YAML data does not match the expected result"
 
     # Clean up
     os.remove(temp_name)
@@ -36,14 +36,37 @@ def test_dump_yaml_file():
         temp_name = temp.name
 
     # Dump data to the yaml file
-    dump_yaml_file(temp_name, "name: Test")
+    yaml_string = '"name": "Test"'
+    dump_yaml_file(temp_name, yaml_string)
 
     # Load the yaml file
     with open(temp_name, "r") as f:
-        result = f.read()
+        result = yaml.load(f)
 
     # Check the result
-    assert result == "name: Test\n", "Failed to dump data to YAML file"
+    expected_result = {"name": "Test"}
+    assert result == expected_result, f"Expected {expected_result}, but got {result}"
+
+    # Clean up
+    os.remove(temp_name)
+
+
+def test_dict2_yaml_file():
+    # Create a temporary yaml file
+    with tempfile.NamedTemporaryFile(suffix=".yaml", delete=False) as temp:
+        temp_name = temp.name
+
+    # Write a dictionary to the yaml file
+    yaml_dict = {"name": "Test"}
+    dict2_yaml_file(temp_name, yaml_dict)
+
+    # Load the yaml file
+    with open(temp_name, "r") as f:
+        result = yaml.load(f)
+
+    # Check the result
+    expected_result = {"name": "Test"}
+    assert result == expected_result, f"Expected {expected_result}, but got {result}"
 
     # Clean up
     os.remove(temp_name)

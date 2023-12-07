@@ -16,19 +16,20 @@ yaml = YAML(typ="safe")
 
 def load_yaml_file2dict(file_name):
     """
-    Load a YAML file and return its contents.
+    Load a YAML file into a dictionary.
 
     Args:
-        file_name (str): The name of the file to load.
+        file_name (str): The name of the YAML file.
 
     Returns:
-        dict: The contents of the YAML file.
+        dict: The loaded YAML data.
+
+    Example:
+        yaml_data = load_yaml_file2dict("config.yaml")
     """
     with open(file_name, "r", encoding="iso-8859-1") as yaml_path:
         yaml_data = yaml.load(yaml_path)
         LOG.info("yaml_data: %s", yaml_data)
-        # sys.exit(42)
-
     return yaml_data
 
 
@@ -37,14 +38,14 @@ def dump_yaml_file(
     yaml_string,
 ):
     """
-    Writes data to a YAML file.
+    Dump a YAML string into a file.
 
     Args:
         file_name (str): The name of the file to write to.
-        data (dict): The data to write to the file.
+        yaml_string (str): The YAML string to write.
 
-    Returns:
-        None
+    Example:
+        dump_yaml_file("config.yaml", "key: value")
     """
     yaml_data = yaml.load(yaml_string)
     with open(file_name, "w") as yaml_path:
@@ -57,6 +58,16 @@ def dict2_yaml_file(
     file_name,
     yaml_dict,
 ):
+    """
+    Write a dictionary to a file in YAML format.
+
+    Args:
+        file_name (str): The name of the file to write to.
+        yaml_dict (dict): The dictionary to write.
+
+    Example:
+        dict2_yaml_file("config.yaml", {"key": "value"})
+    """
     with open(file_name, "w") as yaml_path:
         print("Writing yaml data to file name", file_name)
         LOG.debug("yaml_dict: %s", yaml_dict)
