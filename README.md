@@ -3,6 +3,9 @@
 [![DeepSource](https://app.deepsource.com/gh/stablecaps/bash-auto-doc.svg/?label=active+issues&show_trend=true&token=JveipNb_ClaKjk0YBBKrG-32)](https://app.deepsource.com/gh/stablecaps/bash-auto-doc/)
 [![DeepSource](https://app.deepsource.com/gh/stablecaps/bash-auto-doc.svg/?label=resolved+issues&show_trend=true&token=JveipNb_ClaKjk0YBBKrG-32)](https://app.deepsource.com/gh/stablecaps/bash-auto-doc/)
 
+[![Test Bash-auto-doc](https://github.com/stablecaps/bash-auto-doc/actions/workflows/test-python-app.yml/badge.svg)](https://github.com/stablecaps/bash-auto-doc/actions/workflows/test-python-app.yml)
+
+[![github-repo-stats](https://github.com/stablecaps/bash-auto-doc/actions/workflows/github-repo-stats.yml/badge.svg)](https://github.com/stablecaps/bash-auto-doc/actions/workflows/github-repo-stats.yml)
 
 ### Broken badges
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
@@ -74,7 +77,7 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
     1. finish generating docstrings
     2. feed test data into docstrings (run tests on docstrings to check vailidity?)
     3. add contributing.md
-    4. create GHA to auto generate BASH documentation
+    4. create GHA to auto generate BASH documentation for users
 
 3. **Testing**
     1. finish tests using better data sources
@@ -102,6 +105,7 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
 1. create python documentation website:
     1. investigate using mkdocstrings
     2. investigate using subsets of callgraph for viz
+    3. create GHA to auto generate python documentation for nash-auto-doc repo
 
 8. **Miscellaneous**
     1. amend readme to take into account poetry & also list instructions for standalone binary

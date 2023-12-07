@@ -129,68 +129,6 @@ def copy_file(source, target):
     LOG.info("Copied: %s --> %s", source, target)
 
 
-def files_and_dirs_lister(mypathstr="./", mode="file", suf_pre="", exclude_list=None):
-    """
-    Lists files and directories based on the provided mode.
-
-    Args:
-        mypathstr (str, optional): The directory to search. Defaults to "./".
-        mode (str, optional): The mode to use for listing ("folder", "file", "suffix", "prefix"). Defaults to "file".
-        suf_pre (str, optional): The suffix or prefix to filter by. Only used if mode is "suffix" or "prefix". Defaults to "".
-        exclude_list (list, optional): A list of files or directories to exclude. Defaults to [].
-
-    Returns:
-        list: A list of all matching files or directories.
-
-    Examples:
-        >>> hfile.files_and_dirs_lister(mypathstr="./", mode="file", suf_pre="", exclude_list=[])
-        >>> hfile.files_and_dirs_lister(mypathstr="./", mode="folder", suf_pre="", exclude_list=[])
-        >>> hfile.files_and_dirs_lister(mypathstr="./", mode="suffix", suf_pre=".sh", exclude_list=[])
-        >>> hfile.files_and_dirs_lister(mypathstr="./", mode="prefix", suf_pre="gen_", exclude_list=[])
-    """
-    if exclude_list is None:
-        exclude_list = []
-
-    if mode == "folder":
-        os_object_list = [
-            object
-            for object in os.listdir(mypathstr)
-            if os.path.isdir(object)
-            if object not in exclude_list
-        ]
-
-    elif mode == "file":
-        os_object_list = [
-            object
-            for object in os.listdir(mypathstr)
-            if os.path.isfile(object)
-            if object not in exclude_list
-        ]
-
-    elif mode == "suffix":
-        os_object_list = [
-            object
-            for object in os.listdir(mypathstr)
-            if object.endswith(suf_pre)
-            if object not in exclude_list
-        ]
-
-    elif mode == "prefix":
-        os_object_list = [
-            object
-            for object in os.listdir(mypathstr)
-            if object.startswith(suf_pre)
-            if object not in exclude_list
-        ]
-
-    else:
-        LOG.critical("Incorrect mode: %s", mode)
-
-        sys.exit(0)
-
-    return os_object_list
-
-
 def files_and_dirs_recursive_lister(mypathstr="./", myglob="*.sh"):
     """
     Lists all files in a directory and its subdirectories that match a given glob.
