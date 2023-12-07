@@ -1,62 +1,102 @@
-# import pytest
+from textwrap import dedent
 
-# from bashautodoc.function_dependency_processor import FunctionDependencyProcessor
+import pytest
+
+from bashautodoc.function_dependency_processor import FunctionDependencyProcessor
 
 
-# @pytest.fixture
-# def setup_function():
-#     func_name_list = [
-#         "_check_integer",
-#         "_check_theme_range",
-#         "colsw",
-#         "colsw_path",
-#         "col_set_prompt_style",
-#         "csp1",
-#         "csp2",
-#         "csp3",
-#         "col_cp_root",
-#         "col_ssh",
-#         "_virtualenv_info",
-#         "_virtualenv_min_info",
-#         "_ssh_info",
-#         "_aws_info",
-#         "_pwdtail",
-#     ]
-#     func_text_dict = {}  # You need to provide function definitions here
+def test_init():
+    func_name_list = ["func1", "func2"]
+    func_text_dict = {"func1": "def func1(): pass", "func2": "def func2(): pass"}
+    processor = FunctionDependencyProcessor(func_name_list, func_text_dict)
+    assert (
+        processor.func_name_list == func_name_list
+    ), "func_name_list not initialized correctly"
+    assert (
+        processor.func_text_dict == func_text_dict
+    ), "func_text_dict not initialized correctly"
+    assert processor.func_dep_dict == {}, "func_dep_dict not initialized correctly"
+
+
+def test_remove_comment_lines():
+    processor = FunctionDependencyProcessor([], {})
+    cleaned = processor._remove_comment_lines(
+        "# This is a comment\nThis is not a comment"
+    )
+    assert cleaned == "This is not a comment", "Failed to remove comment lines  - test1"
+
+
+def test_remove_comment_lines2():
+    processor = FunctionDependencyProcessor([], {})
+    triple_var = """
+    # This is a comment
+    This is not a comment
+    """
+    cleaned = processor._remove_comment_lines(dedent(triple_var))
+    assert cleaned == "This is not a comment", "Failed to remove comment lines - test2"
+
+
+# def test_remove_comment_lines3():
+#     processor = FunctionDependencyProcessor([], {})
+#     triple_var = """
+#     # This is a comment
+#     This is not a comment
+#     This is still not a comment
+
+#     i left a blank line above which will not show up
+#     """
+#     cleaned = processor._remove_comment_lines(dedent(triple_var))
+#     assert cleaned == dedent(
+#         """
+#         This is not a comment
+#         This is still not a comment
+#         i left a blank line above which will not show
+#         """
+#     ), "Failed to remove comment lines - test3"
+
+
+def test_isfunc_name_in_multiline_fdef():
+    processor = FunctionDependencyProcessor([], {})
+    is_in_def = processor._isfunc_name_in_multiline_fdef(
+        "my_amazing_func", "function func1()\n echo $(my_amazing_func)"
+    )
+    assert is_in_def, "Failed to find function name in multiline function definition"
+
+
+def test_isfunc_name_in_multiline_fdef2():
+    processor = FunctionDependencyProcessor([], {})
+    is_in_def = processor._isfunc_name_in_multiline_fdef(
+        "my_amazing_func", "function func1()\n echo 'my_amazing_func '"
+    )
+    assert is_in_def, "Failed to find function name in multiline function definition 2"
+
+
+def test_add_funcname_to_dep_dict():
+    processor = FunctionDependencyProcessor([], {})
+    processor._add_funcname_to_dep_dict("parent_func1", "child_func2")
+    assert processor.func_dep_dict == {
+        "parent_func1": ["child_func2"]
+    }, "Failed to add function name to dependency dictionary"
+
+
+# def test_process_func_def():
+#     func_name_list = ["func1", "func2"]
+#     func_text_dict = {"func1": "def func1(): pass", "func2": "def func2(): pass"}
 #     processor = FunctionDependencyProcessor(func_name_list, func_text_dict)
-#     return processor
+#     processor._process_func_def("def func1(): func2()", "func1")
+#     assert processor.func_dep_dict == {
+#         "func1": ["func2"]
+#     }, "Failed to process function definition"
 
 
-# def test_create_func_dep_dict_case1(setup_function):
-#     expected = {
-#         "colsw": ["_check_integer", "_check_theme_range"],
-#         "colsw_path": ["_check_integer", "_check_theme_range"],
-#         "csp1": ["col_set_prompt_style"],
-#         "csp2": ["col_set_prompt_style"],
-#         "_virtualenv_info": ["_virtualenv_min_info"],
-#     }
-#     result = setup_function.create_func_dep_dict()
-#     assert (
-#         result == expected
-#     ), "Failed to create function dependency dictionary for case 1"
-
-
-# def test_create_func_dep_dict_case2(setup_function):
-#     setup_function.func_name_list = []
-#     expected = {}
-#     result = setup_function.create_func_dep_dict()
-#     assert (
-#         result == expected
-#     ), "Failed to create function dependency dictionary for case 2"
-
-
-# def test_create_func_dep_dict_case3(setup_function):
-#     setup_function.func_name_list = ["check_alias_clashes", "mkcd", "up"]
-#     expected = {"check_alias_clashes": ["up"], "mkcd": ["up"]}
-#     result = setup_function.create_func_dep_dict()
-#     assert (
-#         result == expected
-#     ), "Failed to create function dependency dictionary for case 3"
+# def test_create_func_dep_dict():
+#     func_name_list = ["func1", "func2"]
+#     func_text_dict = {"func1": "def func1(): func2()", "func2": "def func2(): pass"}
+#     processor = FunctionDependencyProcessor(func_name_list, func_text_dict)
+#     func_dep_dict = processor.create_func_dep_dict()
+#     assert func_dep_dict == {
+#         "func1": ["func2"]
+#     }, "Failed to create function dependency dictionary"
 
 
 # # generate tests for selected file using pytest and the following data structures for different test cases:

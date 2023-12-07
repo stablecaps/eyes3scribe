@@ -73,11 +73,30 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
         "world!"
     """
     out_str = ""
-    for line in multiline_str.split("\n"):
-        if false_when_str_starts_with_pattern(line, rm_patt_list):
-            out_str += f"{line}\n"
+    multiline_str_list = multiline_str.split("\n")
+    print("multiline_str_list", multiline_str_list)
+    filtered_multiline_str_list = [
+        line
+        for line in multiline_str_list
+        if false_when_str_starts_with_pattern(line, rm_patt_list) and line != ""
+    ]
 
-    return out_str
+    print("filtered_multiline_str_list", filtered_multiline_str_list)
+
+    cleaned_out_str = "\n".join(filtered_multiline_str_list)
+    print("cleaned_out_str", cleaned_out_str)
+
+    # multiline_str_list_len = len(multiline_str_list)
+    # idx = 0
+    # for line in multiline_str_list:
+    #     if false_when_str_starts_with_pattern(line, rm_patt_list):
+    #         if idx == multiline_str_list_len - 1:
+    #             out_str += f"{line}"
+    #         else:
+    #             out_str += f"{line}\n"
+    #     idx += 1
+
+    return cleaned_out_str
 
 
 def str_multi_replace(input_str, rm_patt_list, replace_str):

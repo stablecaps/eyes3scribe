@@ -65,7 +65,7 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
 1. **Setup and Configuration**
     1. use poetry to setup package & standalone app
     2. ~~set up python test coverage (link with deep source)~~
-    3. set up pre-commit hooks
+    ~~3. set up pre-commit hooks~~
     4. add create callgen to pre-commit hook
     5. ~~protect master branch~~
     6. package for pip
@@ -80,7 +80,7 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
     1. finish tests using better data sources
 
 4. **Project Management**
-    1. write scripts to autogenerate template python repo
+    1. write scripts to autogenerate template python repo (cookie-cutter)
     2. add badges
     3. create repo avatar image
 
