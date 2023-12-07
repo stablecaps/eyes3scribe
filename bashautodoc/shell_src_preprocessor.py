@@ -224,6 +224,7 @@ class ShellSrcPreProcessor:
             preprocessor.main_routine()
         """
         for srcfile_relpath in self.cleaned_srcfiles_relpath:
+            ### These are being processed on a file-by-file basis
             (
                 func_name_list,
                 full_alias_str_list,
@@ -242,6 +243,5 @@ class ShellSrcPreProcessor:
                 func_text_dict=func_text_dict,
                 func_dep_dict=func_dep_dict,
                 full_alias_str_list=full_alias_str_list,
-                srcfile_path=srcfile_relpath,
-                project_docs_dir=self.project_docs_dir,
+                srcfile_relpath=srcfile_relpath,
             )

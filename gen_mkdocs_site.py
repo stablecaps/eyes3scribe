@@ -55,13 +55,6 @@ class GenMkdocsSite:
 
         LOG.info("Loading config: %s", site_confname)
         self.conf = hfile.load_yaml_file2dict(file_name=site_confname)
-        self.conf_bashautodoc_keys = [
-            "shell_srcdir",
-            "shell_glob_patterns",
-            "exclude_patterns",
-            "additional_mdfiles",
-            "category_names",
-        ]
 
         LOG.info("conf: %s", self.conf)
 
@@ -76,17 +69,38 @@ class GenMkdocsSite:
         ### Set paths
         self.program_root_dir = os.path.abspath(".")
         # TODO: allow project_dir to be initiated anywhere
-        self.project_dir = os.path.abspath(self.conf.get("project_name"))
+        self.project_name = self.conf.get("project_name")
+        self.project_dir = os.path.abspath(self.project_name)
         self.project_docs_dir = f"{self.project_dir}/docs"
         self.project_css_dir = f"{self.project_docs_dir}/custom_css/"
+        self.udef_category_relpath = f"{self.project_docs_dir}/undef"
 
+        self.conf["program_root_dir"] = self.program_root_dir
+        self.conf["project_dir"] = self.project_dir
         self.conf["project_docs_dir"] = self.project_docs_dir
         self.conf["project_css_dir"] = self.project_css_dir
+        self.conf["udef_category_relpath"] = f"./{self.project_name}/docs/undef"
+        self.conf["category_names"].append("undef")
 
+        self.conf_bashautodoc_keys = [
+            "program_root_dir",
+            "project_dir",
+            "project_docs_dir",
+            "project_css_dir",
+            "udef_category_relpath",
+            "shell_srcdir",
+            "shell_glob_patterns",
+            "exclude_patterns",
+            "additional_mdfiles",
+            "category_names",
+        ]
+
+        LOG.info("project_name: %s", self.project_name)
         LOG.info("program_root_dir: %s", self.program_root_dir)
         LOG.info("project_dir: %s", self.project_dir)
         LOG.info("project_docs_dir: %s", self.project_docs_dir)
         LOG.info("project_css_dir: %s", self.project_css_dir)
+        LOG.info("udef_category_relpath: %s", self.udef_category_relpath)
 
     def dprint(self, myvar):
         """
@@ -136,6 +150,9 @@ class GenMkdocsSite:
         """
         hfile.rmdir_if_exists(target=self.project_docs_dir)
         hfile.mkdir_if_notexists(target=self.project_docs_dir)
+
+        ### make undefined category directory
+        hfile.mkdir_if_notexists(target=self.udef_category_relpath)
 
         hfile.copy_dir(
             source="custom_assets/custom_css",
