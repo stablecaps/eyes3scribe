@@ -86,9 +86,13 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
 
 5. **Bug Fixes and Improvements**
     1. fix paths so it works with windows - use Pathlib
-    2. move undefined md pages to undef category
+    ~~2. move undefined md pages to undef category~~
     3. fix orphan single quote on value for about, param, etc
     4. Add features to jump to github code file from website
+    5. List function calls across files?
+    6. List function references across files?
+    ~~7. Organise sidebar entries alphabetically~~
+
 
 6. Mkdocs
     1. fix mkdocs search

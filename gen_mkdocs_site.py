@@ -83,6 +83,7 @@ class GenMkdocsSite:
         self.conf["category_names"].append("undef")
 
         self.conf_bashautodoc_keys = [
+            "project_name",
             "program_root_dir",
             "project_dir",
             "project_docs_dir",
@@ -162,7 +163,7 @@ class GenMkdocsSite:
             source=f'{self.conf.get("shell_srcdir")}', target=self.project_docs_dir
         )
 
-    def create_mkdocs_site(self):
+    def create_mkdocs_site(self, catname_2mdfile_dict):
         """
         Create a MkDocs site by copying additional markdown files and generating mkdocs yaml.
         """
@@ -178,23 +179,27 @@ class GenMkdocsSite:
         }
 
         for catname in self.conf.get("category_names"):
+            cat_mdoutfiles_relpaths = sorted(catname_2mdfile_dict.get(catname))
             catname_holder = []
 
-            mdinfiles = hfile.files_and_dirs_recursive_lister(
-                mypathstr=self.project_docs_dir, myglob="*.md"
-            )
+            # mdinfiles = hfile.files_and_dirs_recursive_lister(
+            #     mypathstr=self.project_docs_dir, myglob="*.md"
+            # )
 
-            LOG.debug("mdinfiles: %s", mdinfiles)
+            # LOG.debug("mdinfiles: %s", mdinfiles)
 
-            for md_filepath in mdinfiles:
+            for mdoutfile_relpath in cat_mdoutfiles_relpaths:
                 print("catname", catname)
-                print("md_filepath", md_filepath)
-                if f"/{catname}/" in md_filepath:
-                    print("TRUE\n")
-                    page_name = md_filepath.replace(".md", "").split("/")[-1]
-                    md_rel_filepath = md_filepath.replace(self.project_docs_dir, ".")
-                    page_path_map = {page_name: md_rel_filepath}
-                    catname_holder.append(page_path_map)
+                print("mdoutfile_relpath", mdoutfile_relpath)
+                page_name = mdoutfile_relpath.replace(".md", "").split("/")[-1]
+                mdoutfile_routepath = mdoutfile_relpath.replace(
+                    f"./{self.project_name}/docs", "."
+                )
+                print("self.project_name", self.project_name)
+                print("mdoutfile_routepath", mdoutfile_routepath)
+                # sys.exit(42)
+                page_path_map = {page_name: mdoutfile_routepath}
+                catname_holder.append(page_path_map)
 
             yaml_dict["nav"].append({catname: catname_holder})
 
@@ -238,9 +243,9 @@ class GenMkdocsSite:
             self.project_docs_dir,
             debug=self.debug,
         )
-        shell_src_preprocessor.main_routine()
+        catname_2mdfile_dict = shell_src_preprocessor.main_routine()
 
-        self.create_mkdocs_site()
+        self.create_mkdocs_site(catname_2mdfile_dict)
 
         if self.build_serve:
             LOG.warning("Building and serving local docs site")

@@ -19,6 +19,7 @@ Classes:
 
 import logging
 import sys
+from collections import defaultdict
 
 from rich import print as print
 
@@ -50,6 +51,8 @@ class ShellSrcPreProcessor:
         self.cleaned_srcfiles_relpath = cleaned_srcfiles_relpath
         self.project_docs_dir = project_docs_dir
         self.debug = debug
+
+        self.catname_2mdfile_dict = defaultdict(list)
 
     def dprint(self, myvar):
         """
@@ -237,7 +240,7 @@ class ShellSrcPreProcessor:
             )
             func_dep_dict = function_dependency_processor.create_func_dep_dict()
 
-            Sh2MdFileWriter(
+            sh2_md_file_writer = Sh2MdFileWriter(
                 self.conf,
                 cite_about=cite_about,
                 func_text_dict=func_text_dict,
@@ -245,3 +248,7 @@ class ShellSrcPreProcessor:
                 full_alias_str_list=full_alias_str_list,
                 srcfile_relpath=srcfile_relpath,
             )
+            catname, mdoutfile_relpath = sh2_md_file_writer.main_write_md()
+
+            self.catname_2mdfile_dict[catname].append(mdoutfile_relpath)
+        return self.catname_2mdfile_dict

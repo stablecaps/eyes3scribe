@@ -89,8 +89,6 @@ class Sh2MdFileWriter:
         #     ">***example***": 3,
         # }
 
-        self.main_write_md()
-
     def write_aliases_section(self):
         """
         Write the aliases section to the markdown file.
@@ -116,49 +114,6 @@ class Sh2MdFileWriter:
             mytable += myalias  # "| **" + ppass + "** | " + pp_dict[stack] + " |\n"
 
         self.mdFile.new_paragraph(mytable)
-
-    # # TODO: change this function anme to make it more descriptive
-    # def organise_mdfiles_2subdirs(self):
-    #     """
-    #     Organize markdown files into subdirectories.
-    #     """
-    #     # probably only does one level
-    #     category_names = self.conf.get("category_names")
-
-    #     srcfile_path_split = self.srcfile_relpath.split("/")
-    #     LOG.debug("srcfile_path_split: %s", srcfile_path_split)
-
-    #     LOG.debug("shell_glob_patterns: %s", self.conf.get("shell_glob_patterns"))
-
-    #     mdoutfile_name = str_multi_replace(
-    #         input_str=srcfile_path_split[-1],
-    #         rm_patt_list=self.conf.get("shell_glob_patterns"),
-    #         replace_str=".md",
-    #     )
-    #     LOG.debug("mdoutfile_name: %s", mdoutfile_name)
-
-    #     srcfile_relpath = self.srcfile_relpath.replace(
-    #         self.conf.get("project_docs_dir"), ""
-    #     )
-    #     LOG.debug("srcfile_relpath: %s", srcfile_relpath)
-
-    #     mdoutfile_relpath = None
-    #     for catname in category_names:
-    #         if f"/{catname}/" in srcfile_relpath:
-    #             # TODO: this is pointlessly inefficient - fix it
-    #             catdir_relpath = self.project_docs_dir + "/" + catname
-    #             mkdir_if_notexists(target=catdir_relpath)
-    #             mdoutfile_relpath = catdir_relpath + "/" + mdoutfile_name
-    #             LOG.debug("mdoutfile_relpath: %s", mdoutfile_relpath)
-    #             # sys.exit(42)
-
-    #             return mdoutfile_relpath
-
-    #     ### rule to undef if not in category_names
-    #     udef_path = self.project_docs_dir + "/" + "undef"
-    #     mkdir_if_notexists(target=udef_path)
-
-    #     return udef_path + "/" + mdoutfile_name
 
     def sort_mdfiles_into_category_directories(self):
         """
@@ -193,7 +148,7 @@ class Sh2MdFileWriter:
             and (func_dep_dict_len == 0)
             and (full_alias_str_list_len == 0)
         ):
-            return f"{self.udef_category_relpath}/{mdoutfile_name}"
+            return ("undef", f"{self.udef_category_relpath}/{mdoutfile_name}")
 
         ######################################################
         ### Check if category matches our desireted categories
@@ -206,12 +161,12 @@ class Sh2MdFileWriter:
                 LOG.debug("mdoutfile_relpath: %s", mdoutfile_relpath)
                 # sys.exit(42)
 
-                return mdoutfile_relpath
+                return (catname, mdoutfile_relpath)
 
         ### rule to undef if not in category_names
         # TDOD: use Pathlib
         ###  Category not found or not wanted?
-        return f"{self.udef_category_relpath}/{mdoutfile_name}"
+        return ("undef", f"{self.udef_category_relpath}/{mdoutfile_name}")
 
     def main_write_md(self):
         """
@@ -221,7 +176,7 @@ class Sh2MdFileWriter:
         functions and aliases, and writes out the markdown file.
         """
 
-        mdoutfile_relpath = self.sort_mdfiles_into_category_directories()
+        catname, mdoutfile_relpath = self.sort_mdfiles_into_category_directories()
 
         # if "/explain.plugin" in mdoutfile_relpath:
         #     print("func_text_dict = ", self.func_text_dict)
@@ -240,10 +195,10 @@ class Sh2MdFileWriter:
 
         self.mdFile = MdUtils(file_name=mdoutfile_relpath, title=self.cite_about)
 
-        mdoutfile_relpath = self.srcfile_relpath.replace(
-            self.conf.get("project_docs_dir"), ""
-        )
-        self.mdFile.new_paragraph(f"***(in {mdoutfile_relpath})***")
+        # mdoutfile_relpath = self.srcfile_relpath.replace(
+        #     self.conf.get("project_docs_dir"), ""
+        # )
+        self.mdFile.new_paragraph(f"***(in {self.srcfile_relpath})***")
 
         ### Process functions
         if len(self.func_text_dict) > 0:
@@ -261,3 +216,5 @@ class Sh2MdFileWriter:
 
         ### Write out .md file
         self.mdFile.create_md_file()
+
+        return (catname, mdoutfile_relpath)
