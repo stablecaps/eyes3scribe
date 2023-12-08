@@ -8,6 +8,8 @@ import logging
 import os
 import sys
 
+from rich import print as rprint
+
 from bashautodoc.helpo import hfile
 from bashautodoc.helpo.coloured_log_formatter import ColouredLogFormatter
 from bashautodoc.helpo.hstrops import false_when_str_contains_pattern
@@ -96,6 +98,8 @@ class GenMkdocsSite:
             "exclude_patterns",
             "additional_mdfiles",
             "category_names",
+            "nav_codedocs_as_ref_or_main",
+            "nav_codedocs_name",
         ]
 
         LOG.info("project_name: %s", self.project_name)
@@ -111,20 +115,22 @@ class GenMkdocsSite:
         """
         LOG.info("Checking config...")
 
-        expected_keys = [
-            "project_name",
-            "site_name",
-            "site_url",
-            "site_author",
-            "repo_url",
-            "nav",
-            "shell_srcdir",
-            "category_names",
-        ]
+        expected_keys = {
+            "project_name": None,
+            "site_name": None,
+            "site_url": None,
+            "site_author": None,
+            "repo_url": None,
+            "nav": None,
+            "shell_srcdir": None,
+            "category_names": None,
+            "nav_codedocs_as_ref_or_main": ["ref", "main"],
+        }
 
         current_conf_keys = list(self.conf.keys())
 
-        for ckey in expected_keys:
+        for ckey in list(expected_keys.keys()):
+            cvalue = self.conf.get(ckey)
             if ckey not in current_conf_keys:
                 LOG.error(
                     "Error: Missing key <%s> in config file: <%s>\nExiting..",
@@ -133,6 +139,19 @@ class GenMkdocsSite:
                 )
                 sys.exit(42)
 
+            expected_key_value = expected_keys.get(ckey)
+
+            if isinstance(expected_key_value, list):
+                if cvalue not in expected_key_value:
+                    LOG.error(
+                        "Error: Key <%s> in config file: <%s> has unexpected value <%s>\nOptions are: <%s>\nExiting..",
+                        ckey,
+                        self.site_confname,
+                        cvalue,
+                        expected_key_value,
+                    )
+                    sys.exit(42)
+
             if self.conf.get(ckey) is None:
                 LOG.error(
                     "Error: Key <%s> in config file: <%s> has no value\nExiting..",
@@ -140,17 +159,6 @@ class GenMkdocsSite:
                     self.site_confname,
                 )
                 sys.exit(42)
-
-    def dprint(self, myvar):
-        """
-        Print debug information if self.debug is True.
-
-        Args:
-            myvar (Any): The variable to print.
-        """
-        if self.debug:
-            print(f"{myvar = }")
-            print("👉", locals())
 
     def clean_srcfiles(self, srcfiles_abspath):
         strict_exclude_patterns = [
@@ -216,15 +224,36 @@ class GenMkdocsSite:
             if key not in self.conf_bashautodoc_keys
         }
 
+        LOG.info("Set generated code docs as main or ref")
+
+        ref_or_main_raw = self.conf.get("nav_codedocs_as_ref_or_main")
+        ref_or_main = ref_or_main_raw if ref_or_main_raw else "main"
+
+        nav_codedocs_name_raw = self.conf.get("nav_codedocs_name")
+        nav_codedocs_name = (
+            nav_codedocs_name_raw if self.conf.get("nav_codedocs_name") else "Code-Docs"
+        )
+
+        if ref_or_main == "main":
+            code_docs_parent = None
+        elif ref_or_main == "ref":
+            yaml_dict["nav"].append({nav_codedocs_name: []})
+            code_docs_parent = nav_codedocs_name
+        else:
+            LOG.error(
+                "Error: nav_codedocs_as_ref_or_main must be set to either 'main' or 'ref'"
+            )
+            sys.exit(42)
+
+        import yaml
+
+        print("yaml_dict", yaml.safe_dump(yaml_dict))
+        # sys.exit(42)
+
+        LOG.info("Add generated code docs to nav")
         for catname in self.conf.get("category_names"):
             cat_mdoutfiles_relpaths = sorted(catname_2mdfile_dict.get(catname))
             catname_holder = []
-
-            # mdinfiles = hfile.files_and_dirs_recursive_lister(
-            #     mypathstr=self.project_docs_dir, myglob="*.md"
-            # )
-
-            # LOG.debug("mdinfiles: %s", mdinfiles)
 
             for mdoutfile_relpath in cat_mdoutfiles_relpaths:
                 print("catname", catname)
@@ -239,7 +268,12 @@ class GenMkdocsSite:
                 page_path_map = {page_name: mdoutfile_routepath}
                 catname_holder.append(page_path_map)
 
-            yaml_dict["nav"].append({catname: catname_holder})
+            print("\n\nyaml_dict", yaml.safe_dump(yaml_dict), "\n\n")
+            rprint("xx", yaml_dict["nav"])
+            if code_docs_parent is None:
+                yaml_dict["nav"].append({catname: catname_holder})
+            else:
+                yaml_dict["nav"][1][code_docs_parent].append({catname: catname_holder})
 
         LOG.info("Writing mkdocs config yaml")
         hfile.dict2_yaml_file(
