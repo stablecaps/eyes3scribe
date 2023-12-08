@@ -34,21 +34,6 @@ class FunctionDependencyProcessor:
 
         self.func_dep_dict = {}
 
-    def _remove_comment_lines(self, multiline_str):
-        """
-        Removes comment lines from a multiline string.
-
-        Args:
-            multiline_str (str): The multiline string.
-
-        Returns:
-            str: The cleaned multiline string.
-
-        Example:
-            cleaned = self._remove_comment_lines(multiline_str)
-        """
-        return rm_lines_starting_with(multiline_str=multiline_str, rm_patt_list=["#"])
-
     def _isfunc_name_in_multiline_fdef(self, func_name, cleaned_parent_multiline_fdef):
         """
         Checks if a function name is in a multiline function definition.
@@ -121,13 +106,26 @@ class FunctionDependencyProcessor:
             func_dep_dict = self.create_func_dep_dict()
         """
         LOG.debug("func_name_list = %s", self.func_name_list)
+        LOG.debug("func_text_dict = %s", self.func_text_dict)
 
         for parent_funcname, multiline_fdef in self.func_text_dict.items():
-            cleaned_parent_multiline_fdef = self._remove_comment_lines(multiline_fdef)
+            cleaned_parent_multiline_fdef = rm_lines_starting_with(
+                multiline_str=multiline_fdef, rm_patt_list=["#"]
+            )
+
+            print("cleaned_parent_multiline_fdef", cleaned_parent_multiline_fdef)
 
             self._process_func_def(
                 cleaned_parent_multiline_fdef=cleaned_parent_multiline_fdef,
                 parent_funcname=parent_funcname,
             )
 
+        # if len(self.func_name_list) > 4:
+        #     print("parent_funcname", parent_funcname)
+        #     print("multiline_fdef", multiline_fdef)
+
+        #     print("self.func_dep_dict", self.func_dep_dict)
+        #     import sys
+
+        #     sys.exit(42)
         return self.func_dep_dict

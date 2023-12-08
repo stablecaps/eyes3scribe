@@ -95,14 +95,16 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
     5. List function calls across files?
     6. List function references across files?
     ~~7. Organise sidebar entries alphabetically~~
+    ~~8. Check input config file for errors~~
+    7. Process manually written docs & optionally put code generated stuff into a "reference" section
 
 
-6. Mkdocs
+6. **Mkdocs**
     1. fix mkdocs search
     ~~2. fix input yaml so it works better with arbitrary mkdocs yaml~~
     ~~3. allow arbitrary mkdocs themes to be used~~
 
-1. create python documentation website:
+1. **create python documentation website:**
     1. investigate using mkdocstrings
     2. investigate using subsets of callgraph for viz
     3. create GHA to auto generate python documentation for nash-auto-doc repo

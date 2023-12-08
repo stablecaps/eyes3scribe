@@ -49,12 +49,14 @@ class GenMkdocsSite:
             check_singlefile (str): The path of a single shell source file to debug.
             debug (bool, optional): If True, debug information will be printed. Defaults to False.
         """
+        self.site_confname = site_confname
         self.build_serve = build_serve
         self.check_singlefile = check_singlefile
         self.debug = debug
 
-        LOG.info("Loading config: %s", site_confname)
+        LOG.info("Loading config: %s", self.site_confname)
         self.conf = hfile.load_yaml_file2dict(file_name=site_confname)
+        self.check_config()
 
         LOG.info("conf: %s", self.conf)
 
@@ -102,6 +104,42 @@ class GenMkdocsSite:
         LOG.info("project_docs_dir: %s", self.project_docs_dir)
         LOG.info("project_css_dir: %s", self.project_css_dir)
         LOG.info("udef_category_relpath: %s", self.udef_category_relpath)
+
+    def check_config(self):
+        """
+        Check the configuration for errors.
+        """
+        LOG.info("Checking config...")
+
+        expected_keys = [
+            "project_name",
+            "site_name",
+            "site_url",
+            "site_author",
+            "repo_url",
+            "nav",
+            "shell_srcdir",
+            "category_names",
+        ]
+
+        current_conf_keys = list(self.conf.keys())
+
+        for ckey in expected_keys:
+            if ckey not in current_conf_keys:
+                LOG.error(
+                    "Error: Missing key <%s> in config file: <%s>\nExiting..",
+                    ckey,
+                    self.site_confname,
+                )
+                sys.exit(42)
+
+            if self.conf.get(ckey) is None:
+                LOG.error(
+                    "Error: Key <%s> in config file: <%s> has no value\nExiting..",
+                    ckey,
+                    self.site_confname,
+                )
+                sys.exit(42)
 
     def dprint(self, myvar):
         """

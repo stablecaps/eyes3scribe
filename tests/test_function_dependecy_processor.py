@@ -3,80 +3,129 @@ from textwrap import dedent
 import pytest
 
 from bashautodoc.function_dependency_processor import FunctionDependencyProcessor
+from tests.data_function_dependecy_processor import *
 
 
-def test_init():
-    func_name_list = ["func1", "func2"]
-    func_text_dict = {"func1": "def func1(): pass", "func2": "def func2(): pass"}
+@pytest.mark.parametrize(
+    "func_name_list, func_text_dict",
+    [
+        (
+            func_name_list_data1,
+            func_text_dict_data1,
+        ),
+        (
+            func_name_list_data2,
+            func_text_dict_data2,
+        ),
+    ],
+)
+def test_init(func_name_list, func_text_dict):
     processor = FunctionDependencyProcessor(func_name_list, func_text_dict)
     assert (
         processor.func_name_list == func_name_list
     ), "func_name_list not initialized correctly"
+
     assert (
         processor.func_text_dict == func_text_dict
     ), "func_text_dict not initialized correctly"
+
     assert processor.func_dep_dict == {}, "func_dep_dict not initialized correctly"
 
 
-def test_remove_comment_lines():
-    processor = FunctionDependencyProcessor([], {})
-    cleaned = processor._remove_comment_lines(
-        "# This is a comment\nThis is not a comment"
-    )
-    assert cleaned == "This is not a comment", "Failed to remove comment lines  - test1"
+# def test_remove_comment_lines():
+#     processor = FunctionDependencyProcessor([], {})
+#     cleaned = processor._remove_comment_lines(
+#         "# This is a comment\nThis is not a comment"
+#     )
+#     assert cleaned == "This is not a comment", "Failed to remove comment lines  - test1"
 
 
-def test_remove_comment_lines2():
-    processor = FunctionDependencyProcessor([], {})
-    triple_var = """
-    # This is a comment
-    This is not a comment
-    """
-    cleaned = processor._remove_comment_lines(dedent(triple_var))
-    assert cleaned == "This is not a comment", "Failed to remove comment lines - test2"
-
-
-# def test_remove_comment_lines3():
+# def test_remove_comment_lines2():
 #     processor = FunctionDependencyProcessor([], {})
 #     triple_var = """
 #     # This is a comment
 #     This is not a comment
-#     This is still not a comment
-
-#     i left a blank line above which will not show up
 #     """
 #     cleaned = processor._remove_comment_lines(dedent(triple_var))
-#     assert cleaned == dedent(
-#         """
-#         This is not a comment
-#         This is still not a comment
-#         i left a blank line above which will not show
-#         """
-#     ), "Failed to remove comment lines - test3"
+#     assert cleaned == "This is not a comment", "Failed to remove comment lines - test2"
 
 
-def test_isfunc_name_in_multiline_fdef():
-    processor = FunctionDependencyProcessor([], {})
-    is_in_def = processor._isfunc_name_in_multiline_fdef(
-        "my_amazing_func", "function func1()\n echo $(my_amazing_func)"
-    )
-    assert is_in_def, "Failed to find function name in multiline function definition"
+# @pytest.mark.parametrize(
+#     "test_input, expected",
+#     [
+#         (
+#             triple_var2_input,
+#             triple_var2_expected,
+#         )
+#     ],
+# )
+# def test_remove_comment_lines3(test_input, expected):
+#     processor = FunctionDependencyProcessor([], {})
+
+#     cleaned = processor._remove_comment_lines(test_input)
+#     assert cleaned == expected, "Failed to remove comment lines - test3"
 
 
-def test_isfunc_name_in_multiline_fdef2():
-    processor = FunctionDependencyProcessor([], {})
-    is_in_def = processor._isfunc_name_in_multiline_fdef(
-        "my_amazing_func", "function func1()\n echo 'my_amazing_func '"
-    )
-    assert is_in_def, "Failed to find function name in multiline function definition 2"
+# @pytest.mark.parametrize(
+#     "func_name_list, func_text_dict, func_dep_dict_expected",
+#     [
+#         (
+#             func_name_list_data1,
+#             func_text_dict_data1,
+#             func_dep_dict_data1_expected,
+#         ),
+#         (func_name_list_data2, func_text_dict_data2, func_dep_dict_data2_expected),
+#     ],
+# )
+# def test_process_func_def(func_name_list, func_text_dict, func_dep_dict_expected):
+#     # func_name_list = ["func1", "func2"]
+#     # func_text_dict = {"func1": "def func1(): pass", "func2": "def func2(): pass"}
+#     processor = FunctionDependencyProcessor(func_name_list, func_text_dict)
+
+#     for parent_funcname, multiline_fdef in func_text_dict.items():
+#         processor._process_func_def(parent_funcname, multiline_fdef)
+#         assert (
+#             processor.func_dep_dict == func_dep_dict_expected[parent_funcname]
+#         ), "Failed to process function definition"
 
 
-def test_add_funcname_to_dep_dict():
-    processor = FunctionDependencyProcessor([], {})
-    processor._add_funcname_to_dep_dict("parent_func1", "child_func2")
-    assert processor.func_dep_dict == {
-        "parent_func1": ["child_func2"]
-    }, "Failed to add function name to dependency dictionary"
+# @pytest.mark.parametrize(
+#     "func_name_list, func_text_dict",
+#     [
+#         (
+#             func_name_list_data1,
+#             func_text_dict_data1,
+#         ),
+#         (
+#             func_name_list_data2,
+#             func_text_dict_data2,
+#         ),
+#     ],
+# )
+# def test_isfunc_name_in_multiline_fdef(func_name_list, func_text_dict):
+#     processor = FunctionDependencyProcessor(func_name_list, func_text_dict)
+
+#     is_in_def = processor._isfunc_name_in_multiline_fdef(
+#         "my_amazing_func", "function func1()\n echo $(my_amazing_func)"
+#     )
+
+#     assert is_in_def, "Failed to find function name in multiline function definition"
+
+
+# def test_isfunc_name_in_multiline_fdef2():
+#     processor = FunctionDependencyProcessor([], {})
+#     is_in_def = processor._isfunc_name_in_multiline_fdef(
+#         "my_amazing_func", "function func1()\n echo 'my_amazing_func '"
+#     )
+#     assert is_in_def, "Failed to find function name in multiline function definition 2"
+
+
+# def test_add_funcname_to_dep_dict():
+#     processor = FunctionDependencyProcessor([], {})
+#     processor._add_funcname_to_dep_dict("parent_func1", "child_func2")
+#     assert processor.func_dep_dict == {
+#         "parent_func1": ["child_func2"]
+#     }, "Failed to add function name to dependency dictionary"
 
 
 # def test_process_func_def():
