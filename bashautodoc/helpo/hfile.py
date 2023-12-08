@@ -6,6 +6,8 @@ import sys
 
 from ruamel.yaml import YAML
 
+from bashautodoc.helpo.hstrops import false_when_str_contains_pattern
+
 # import yaml
 
 
@@ -150,3 +152,21 @@ def files_and_dirs_recursive_lister(mypathstr="./", myglob="*.sh"):
     ]
 
     return file_list
+
+
+def clean_abspaths_2relpaths(absolute_path_list, path_to_replace, exclusion_patterns):
+    LOG.debug("exclusion_patterns: %s", exclusion_patterns)
+
+    relative_paths = []
+    for file_abspath in absolute_path_list:
+        print("file_abspath", file_abspath)
+
+        file_relpath = file_abspath.replace(path_to_replace, ".")
+        print("file_relpath", file_relpath)
+
+        if false_when_str_contains_pattern(
+            input_str=file_relpath,
+            input_patt_li=exclusion_patterns,
+        ):
+            relative_paths.append(file_relpath)
+    return relative_paths

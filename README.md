@@ -96,7 +96,9 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
     6. List function references across files?
     ~~7. Organise sidebar entries alphabetically~~
     ~~8. Check input config file for errors~~
-    7. Process manually written docs & optionally put code generated stuff into a "reference" section
+    7. Process manually written docs
+    ~~8. optionally put code generated stuff into a "reference" section~~
+    9. Add facility to auto-publish and update hosted github pages
 
 
 6. **Mkdocs**

@@ -12,7 +12,6 @@ from rich import print as rprint
 
 from bashautodoc.helpo import hfile
 from bashautodoc.helpo.coloured_log_formatter import ColouredLogFormatter
-from bashautodoc.helpo.hstrops import false_when_str_contains_pattern
 from bashautodoc.shell_src_preprocessor import ShellSrcPreProcessor
 
 LOG = logging.getLogger(__name__)
@@ -95,12 +94,19 @@ class GenMkdocsSite:
             "udef_category_relpath",
             "shell_srcdir",
             "shell_glob_patterns",
-            "exclude_patterns",
+            "exclusion_patterns",
             "additional_mdfiles",
             "category_names",
             "nav_codedocs_as_ref_or_main",
             "nav_codedocs_name",
+            "handwritten_docs_srcdir",
         ]
+
+        self.yaml_dict = {
+            key: value
+            for (key, value) in self.conf.items()
+            if key not in self.conf_bashautodoc_keys
+        }
 
         LOG.info("project_name: %s", self.project_name)
         LOG.info("program_root_dir: %s", self.program_root_dir)
@@ -160,36 +166,6 @@ class GenMkdocsSite:
                 )
                 sys.exit(42)
 
-    def clean_srcfiles(self, srcfiles_abspath):
-        strict_exclude_patterns = [
-            f"/{patt}/" for patt in self.conf.get("exclude_patterns")
-        ]
-
-        LOG.debug("strict_exclude_patterns: %s", strict_exclude_patterns)
-        # TODO: would it be better to convert to relative path here?
-        # cleaned_srcfiles_relpath = [
-        #     infile
-        #     for infile in srcfiles_abspath
-        #     if false_when_str_contains_pattern(
-        #         input_str=infile.replace(self.project_docs_dir, ""),
-        #         input_patt_li=strict_exclude_patterns,
-        #     )
-        # ]
-        cleaned_srcfiles_relpath = []
-        for srcfile in srcfiles_abspath:
-            print("srcfile", srcfile)
-            # print("program_root_dir", self.program_root_dir)
-            srcfile_relpath = srcfile.replace(self.program_root_dir, ".")
-            print("srcfile_relpath", srcfile_relpath)
-            # sys.exit(42)
-
-            if false_when_str_contains_pattern(
-                input_str=srcfile_relpath,
-                input_patt_li=strict_exclude_patterns,
-            ):
-                cleaned_srcfiles_relpath.append(srcfile_relpath)
-        return cleaned_srcfiles_relpath
-
     def setup_docs_project(self):
         """
         Set up the docs project by copying shell source files and custom CSS
@@ -209,23 +185,44 @@ class GenMkdocsSite:
             source=f'{self.conf.get("shell_srcdir")}', target=self.project_docs_dir
         )
 
-    def create_mkdocs_site(self, catname_2mdfile_dict):
-        """
-        Create a MkDocs site by copying additional markdown files and generating mkdocs yaml.
-        """
-        LOG.info("Copying additional markdown files")
-        for mdsrc, mddest in self.conf.get("additional_mdfiles").items():
-            hfile.copy_file(source=mdsrc, target=f"{self.project_docs_dir}/{mddest}")
+    def mkdocs_add_handwrittendocs_to_nav(self):
+        if self.conf["handwritten_docs_srcdir"] is None:
+            pass
+        else:
+            handwritten_docs_srcdir = self.conf["handwritten_docs_srcdir"]
+            # handwritten_docs_srcdir_relpath = handwritten_docs_srcdir.replace(
+            #     self.program_root_dir, "."
+            # )
+            # handwritten_docs_srcdir_relpath = handwritten_docs_srcdir_relpath.replace(
+            #     "./", ""
+            # )
+            # handwritten_docs_srcdir_relpath = handwritten_docs_srcdir_relpath.replace(
+            #     "//", "/"
+            # )
 
-        LOG.info("Generating markdown yaml")
-        yaml_dict = {
-            key: value
-            for (key, value) in self.conf.items()
-            if key not in self.conf_bashautodoc_keys
-        }
+            # LOG.info("handwritten_docs_srcdir_relpath: %s", handwritten_docs_srcdir_relpath)
 
-        LOG.info("Set generated code docs as main or ref")
+            handwritten_docs_srcfiles = hfile.files_and_dirs_recursive_lister(
+                mypathstr=handwritten_docs_srcdir, myglob="*.md"
+            )
 
+            LOG.info("handwritten_docs_srcfiles: %s", handwritten_docs_srcfiles)
+
+            for mdfile in handwritten_docs_srcfiles:
+                mdfile_relpath = mdfile.replace(self.program_root_dir, ".")
+                mdfile_relpath = mdfile_relpath.replace("./", "")
+                mdfile_relpath = mdfile_relpath.replace("//", "/")
+
+                LOG.info("mdfile_relpath: %s", mdfile_relpath)
+
+                mdfile_name = mdfile_relpath.split("/")[-1]
+                mdfile_name = mdfile_name.replace(".md", "")
+
+                LOG.info("mdfile_name: %s", mdfile_name)
+
+                self.yaml_dict["nav"].append({mdfile_name: mdfile_relpath})
+
+    def mkdocs_add_codedocs_to_nav(self, catname_2mdfile_dict):
         ref_or_main_raw = self.conf.get("nav_codedocs_as_ref_or_main")
         ref_or_main = ref_or_main_raw if ref_or_main_raw else "main"
 
@@ -237,18 +234,13 @@ class GenMkdocsSite:
         if ref_or_main == "main":
             code_docs_parent = None
         elif ref_or_main == "ref":
-            yaml_dict["nav"].append({nav_codedocs_name: []})
+            self.yaml_dict["nav"].append({nav_codedocs_name: []})
             code_docs_parent = nav_codedocs_name
         else:
             LOG.error(
                 "Error: nav_codedocs_as_ref_or_main must be set to either 'main' or 'ref'"
             )
             sys.exit(42)
-
-        import yaml
-
-        print("yaml_dict", yaml.safe_dump(yaml_dict))
-        # sys.exit(42)
 
         LOG.info("Add generated code docs to nav")
         for catname in self.conf.get("category_names"):
@@ -268,17 +260,33 @@ class GenMkdocsSite:
                 page_path_map = {page_name: mdoutfile_routepath}
                 catname_holder.append(page_path_map)
 
-            print("\n\nyaml_dict", yaml.safe_dump(yaml_dict), "\n\n")
-            rprint("xx", yaml_dict["nav"])
             if code_docs_parent is None:
-                yaml_dict["nav"].append({catname: catname_holder})
+                self.yaml_dict["nav"].append({catname: catname_holder})
             else:
-                yaml_dict["nav"][1][code_docs_parent].append({catname: catname_holder})
+                self.yaml_dict["nav"][1][code_docs_parent].append(
+                    {catname: catname_holder}
+                )
+
+    def create_mkdocs_site(self, catname_2mdfile_dict):
+        """
+        Create a MkDocs site by copying additional markdown files and generating mkdocs yaml.
+        """
+        LOG.info("Copying additional markdown files")
+        for mdsrc, mddest in self.conf.get("additional_mdfiles").items():
+            hfile.copy_file(source=mdsrc, target=f"{self.project_docs_dir}/{mddest}")
+
+        LOG.info("Set generated code docs as main or ref")
+        self.mkdocs_add_codedocs_to_nav(catname_2mdfile_dict)
+
+        import yaml
+
+        LOG.debug("self.yaml_dict: %s", yaml.safe_dump(self.yaml_dict))
+        # sys.exit(42)
 
         LOG.info("Writing mkdocs config yaml")
         hfile.dict2_yaml_file(
             file_name=f"{self.project_dir}/mkdocs.yml",
-            yaml_dict=yaml_dict,
+            yaml_dict=self.yaml_dict,
         )
         # sys.exit(42)
 
@@ -292,20 +300,27 @@ class GenMkdocsSite:
         # os.chdir(self.project_dir)
 
         if self.check_singlefile is None:
-            srcfiles_abspath = []
+            srcabsolute_path_list = []
             for glob_patt in self.glob_patt_list:
-                srcfiles_abspath.extend(
+                srcabsolute_path_list.extend(
                     hfile.files_and_dirs_recursive_lister(
                         mypathstr=self.project_docs_dir, myglob=glob_patt
                     )
                 )
         else:
             LOG.warning("Checking single file")
-            srcfiles_abspath = [self.check_singlefile]
+            srcabsolute_path_list = [self.check_singlefile]
 
-        LOG.debug("srcfiles_abspath: %s", srcfiles_abspath)
+        LOG.debug("srcabsolute_path_list: %s", srcabsolute_path_list)
 
-        cleaned_srcfiles_relpath = self.clean_srcfiles(srcfiles_abspath)
+        strict_exclusion_patterns = [
+            f"/{patt}/" for patt in self.conf.get("exclusion_patterns")
+        ]
+        cleaned_srcfiles_relpath = hfile.clean_abspaths_2relpaths(
+            absolute_path_list=srcabsolute_path_list,
+            path_to_replace=self.program_root_dir,
+            exclusion_patterns=strict_exclusion_patterns,
+        )
         LOG.info("cleaned_srcfiles_relpath: %s", cleaned_srcfiles_relpath)
         # sys.exit(42)
 
@@ -368,7 +383,7 @@ if __name__ == "__main__":
     # parser.add_argument(
     #     "-x",
     #     "--exclude-files",
-    #     dest="exclude_patterns",
+    #     dest="exclusion_patterns",
     #     help="List of space seperated file path patterns to exclude",
     #     type=str,
     #     nargs="*",
