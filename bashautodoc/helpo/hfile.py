@@ -254,7 +254,7 @@ def get_src_reldir_and_filename(file_relpath, glob_patterns, replace_str):
     return file_path_split, srcdir_relpath, out_filename
 
 
-def make_category_dir_and_filepath(
+def get_categorydir_and_outfilepath(
     category_names,
     src_filepath_split,
     outdir_relpath,

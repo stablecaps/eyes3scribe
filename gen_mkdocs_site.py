@@ -77,13 +77,14 @@ class GenMkdocsSite:
 
         ### Set paths
         self.program_root_dir = os.path.abspath(".")
-        # TODO: allow project_dir to be initiated anywhere
+        # TODO: allow project_reldir to be initiated anywhere
         self.project_name = self.conf.get("project_name")
-        self.project_dir = os.path.abspath(self.project_name)
-        self.project_docs_dir = f"{self.project_dir}/docs"
+        self.project_absdir = os.path.abspath(self.project_name)
+        self.project_reldir = f"{os.path.relpath(self.project_name)}"
+        self.project_docs_dir = f"{self.project_reldir}/docs"
         self.project_css_dir = f"{self.project_docs_dir}/custom_css/"
-        self.udef_category_relpath = f"{self.project_docs_dir}/undef"
-        self.udef_category_hwdocs_relpath = f"./{self.project_name}/docs/docshw/undef"
+        self.undef_category_dir = f"{self.project_docs_dir}/undef"
+        self.undef_category_dir_hwdocs = f"./{self.project_name}/docs/docshw/undef"
         self.handwritten_docs_dir = self.conf["handwritten_docs_dir"]
         self.handwritten_docs_outdir = f"./{self.project_name}/docs/docshw"
 
@@ -91,22 +92,22 @@ class GenMkdocsSite:
         self.exclusion_patterns_docs = self.conf.get("exclusion_patterns_docs")
 
         self.conf["program_root_dir"] = self.program_root_dir
-        self.conf["project_dir"] = self.project_dir
+        self.conf["project_reldir"] = self.project_reldir
         self.conf["project_docs_dir"] = self.project_docs_dir
         self.conf["project_css_dir"] = self.project_css_dir
-        self.conf["udef_category_relpath"] = self.udef_category_relpath
-        self.conf["udef_category_hwdocs_relpath"] = self.udef_category_hwdocs_relpath
+        self.conf["undef_category_dir"] = self.undef_category_dir
+        self.conf["undef_category_dir_hwdocs"] = self.undef_category_dir_hwdocs
 
         self.conf["catnames_src"].append("undef")
 
         self.conf_bashautodoc_keys = [
             "project_name",
             "program_root_dir",
-            "project_dir",
+            "project_reldir",
             "project_docs_dir",
             "project_css_dir",
-            "udef_category_relpath",
-            "udef_category_hwdocs_relpath",
+            "undef_category_dir",
+            "undef_category_dir_hwdocs",
             "shell_srcdir",
             "shell_glob_patterns",
             "exclusion_patterns_src",
@@ -119,6 +120,13 @@ class GenMkdocsSite:
             "exclusion_patterns_docs",
         ]
 
+        self.conf["func_def_keywords"] = [
+            "about",
+            "group",
+            "param",
+            "example",
+        ]
+
         self.yaml_dict = {
             key: value
             for (key, value) in self.conf.items()
@@ -127,11 +135,14 @@ class GenMkdocsSite:
 
         LOG.info("project_name: %s", self.project_name)
         LOG.info("program_root_dir: %s", self.program_root_dir)
-        LOG.info("project_dir: %s", self.project_dir)
+        LOG.info("project_reldir: %s", self.project_reldir)
         LOG.info("project_docs_dir: %s", self.project_docs_dir)
         LOG.info("project_css_dir: %s", self.project_css_dir)
-        LOG.info("udef_category_relpath: %s", self.udef_category_relpath)
-        LOG.info("udef_category_hwdocs_relpath: %s", self.udef_category_hwdocs_relpath)
+        LOG.info("undef_category_dir: %s", self.undef_category_dir)
+        LOG.info(
+            "undef_category_dir_hwdocs: %s",
+            self.undef_category_dir_hwdocs,
+        )
 
         LOG.info("handwritten_docs_dir: %s", self.handwritten_docs_dir)
         LOG.info("handwritten_docs_outdir: %s", self.handwritten_docs_outdir)
@@ -200,8 +211,8 @@ class GenMkdocsSite:
         hfile.mkdir_if_notexists(target=self.project_docs_dir)
 
         ### make undefined category directory
-        hfile.mkdir_if_notexists(target=self.udef_category_relpath)
-        hfile.mkdir_if_notexists(target=self.udef_category_hwdocs_relpath)
+        hfile.mkdir_if_notexists(target=self.undef_category_dir)
+        hfile.mkdir_if_notexists(target=self.undef_category_dir_hwdocs)
 
         hfile.copy_dir(
             source="custom_assets/custom_css",
@@ -282,9 +293,9 @@ class GenMkdocsSite:
                 print("mdoutfile_relpath", mdoutfile_relpath)
                 page_name = mdoutfile_relpath.replace(".md", "").split("/")[-1]
                 mdoutfile_routepath = mdoutfile_relpath.replace(
-                    f"./{self.project_name}/docs", "."
+                    f"{self.project_docs_dir}", "."
                 )
-                print("self.project_name", self.project_name)
+                print("self.project_docs_dir", self.project_docs_dir)
                 print("mdoutfile_routepath", mdoutfile_routepath)
                 # sys.exit(42)
                 page_path_map = {page_name: mdoutfile_routepath}
@@ -320,7 +331,7 @@ class GenMkdocsSite:
 
         LOG.info("Writing mkdocs config yaml")
         hfile.dict2_yaml_file(
-            filename=f"{self.project_dir}/mkdocs.yml",
+            filename=f"{self.project_reldir}/mkdocs.yml",
             yaml_dict=self.yaml_dict,
         )
         # sys.exit(42)
@@ -332,7 +343,7 @@ class GenMkdocsSite:
         self.setup_docs_project()
 
         # TODO: sort out using arbitrary directory
-        # os.chdir(self.project_dir)
+        # os.chdir(self.project_reldir)
 
         if self.handwritten_docs_dir is not None:
             LOG.info("Processing handwritten doc files")
@@ -401,7 +412,7 @@ class GenMkdocsSite:
 
         if self.build_serve:
             LOG.warning("Building and serving local docs site")
-            os.chdir(self.project_dir)
+            os.chdir(self.project_reldir)
             # TODO: use subprocess
             os.system("mkdocs build")
             os.system("mkdocs serve")

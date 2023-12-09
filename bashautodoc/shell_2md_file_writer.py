@@ -22,9 +22,11 @@ import os
 import sys
 
 from mdutils.mdutils import MdUtils
+from rich import print as rprint
 
 import bashautodoc.helpo.hfile as hfile
 from bashautodoc.DocSectionWriterFunction import DocSectionWriterFunction
+from bashautodoc.helpo.hfilepath_datahandler import FilepathDatahandler
 
 # from bashautodoc.helpo.hstrops import str_multi_replace
 
@@ -71,18 +73,12 @@ class Sh2MdFileWriter:
         self.full_alias_str_list = full_alias_str_list
         self.srcfile_relpath = srcfile_relpath
         self.project_docs_dir = self.conf["project_docs_dir"]
-        self.udef_category_relpath = self.conf["udef_category_relpath"]
+        self.undef_category_dir = self.conf["undef_category_dir"]
 
         self.shell_glob_patterns = self.conf.get("shell_glob_patterns")
         self.catnames_src = self.conf.get("catnames_src")
 
-        self.sh2_md_file_writers = [
-            "about",
-            "group",
-            "param",
-            "example",
-        ]
-
+        self.func_def_keywords = self.conf.get("func_def_keywords")
         # self.cparam_sort_mapper = {
         #     ">***about***": 0,
         #     ">***group***": 1,
@@ -148,19 +144,19 @@ class Sh2MdFileWriter:
             and (func_dep_dict_len == 0)
             and (full_alias_str_list_len == 0)
         ):
-            return ("undef", f"{self.udef_category_relpath}/{mdoutfilename}")
+            return ("undef", f"{self.undef_category_dir}/{mdoutfilename}")
 
         ######################################################
-        ### Check if category matches our desireted categories
+        ### Check if category matches our desired categories
         (
             catname,
             output_file_relpath,
-        ) = hfile.make_category_dir_and_filepath(
+        ) = hfile.get_categorydir_and_outfilepath(
             category_names=self.catnames_src,
             src_filepath_split=srcfile_path_split,
             outdir_relpath=mdoutdir_relpath,
             out_filename=mdoutfilename,
-            undef_category_relpath=self.udef_category_relpath,
+            undef_category_relpath=self.undef_category_dir,
         )
 
         return (
@@ -176,24 +172,49 @@ class Sh2MdFileWriter:
         functions and aliases, and writes out the markdown file.
         """
 
-        catname, mdoutfile_relpath = self.sort_mdfiles_into_category_directories()
+        # catname, mdoutfile_relpath = self.sort_mdfiles_into_category_directories()
+        is_undef = False
+        func_text_dict_len = len(self.func_text_dict)
+        func_dep_dict_len = len(self.func_dep_dict)
+        full_alias_str_list_len = len(self.full_alias_str_list)
+        if (
+            (func_text_dict_len == 0)
+            and (func_dep_dict_len == 0)
+            and (full_alias_str_list_len == 0)
+        ):
+            is_undef = True
 
-        self.mdFile = MdUtils(
-            file_name=mdoutfile_relpath, title=self.cite_about.capitalize()
+        srcfile_data = FilepathDatahandler(
+            infile_relpath=self.srcfile_relpath,
+            glob_patterns=self.conf.get("shell_glob_patterns"),
+            replace_str=".md",
+            category_names=self.catnames_src,
+            undef_category_dir=self.undef_category_dir,
+            is_undef=is_undef,
         )
 
-        # mdoutfile_relpath = self.srcfile_relpath.replace(
-        #     self.conf.get("project_docs_dir"), ""
-        # )
+        # srcfile_data = fph.main()
+
+        # LOG.debug("fph %s", fph)
+        # LOG.debug("srcfile_data %s", srcfile_data)
+        rprint("srcfile_data %s", srcfile_data)
+        # if "autojump.plugin" in srcfile_data.outfile_relpath.lower():
+        #     sys.exit(42)
+        self.mdFile = MdUtils(
+            file_name=srcfile_data.outfile_relpath, title=self.cite_about.capitalize()
+        )
+
         self.mdFile.new_paragraph(f"***(in {self.srcfile_relpath})***")
 
         ### Process functions
+        LOG.debug("self.func_def_keywords %s", self.func_def_keywords)
+
         if len(self.func_text_dict) > 0:
             doc_section_writer_function = DocSectionWriterFunction(
                 mdFile=self.mdFile,
                 func_text_dict=self.func_text_dict,
                 func_dep_dict=self.func_dep_dict,
-                cite_parameters=self.sh2_md_file_writers,
+                cite_parameters=self.func_def_keywords,
             )
             doc_section_writer_function.write_func_section()
 
@@ -207,4 +228,4 @@ class Sh2MdFileWriter:
         # if "osx.plug" in mdoutfile_relpath.lower():
         #     sys.exit(42)
 
-        return (catname, mdoutfile_relpath)
+        return srcfile_data

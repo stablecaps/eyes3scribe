@@ -24,6 +24,7 @@ from collections import defaultdict
 from rich import print as print
 
 from bashautodoc.function_dependency_processor import FunctionDependencyProcessor
+from bashautodoc.helpo.hfilepath_datahandler import FilepathDatahandler
 from bashautodoc.shell_2md_file_writer import Sh2MdFileWriter
 
 LOG = logging.getLogger(__name__)
@@ -227,6 +228,7 @@ class ShellSrcPreProcessor:
             preprocessor.main_routine()
         """
         for srcfile_relpath in self.cleaned_srcfiles_relpaths:
+            # FilepathDatahandler(srcfile_relpath)
             ### These are being processed on a file-by-file basis
             (
                 func_name_list,
@@ -248,7 +250,9 @@ class ShellSrcPreProcessor:
                 full_alias_str_list=full_alias_str_list,
                 srcfile_relpath=srcfile_relpath,
             )
-            catname, mdoutfile_relpath = sh2_md_file_writer.main_write_md()
+            srcfile_data = sh2_md_file_writer.main_write_md()
 
-            self.catname_2mdfile_dict[catname].append(mdoutfile_relpath)
+            self.catname_2mdfile_dict[srcfile_data.outfile_catname].append(
+                srcfile_data.outfile_relpath
+            )
         return self.catname_2mdfile_dict
