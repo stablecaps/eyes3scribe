@@ -23,12 +23,10 @@ import sys
 
 from mdutils.mdutils import MdUtils
 
+import bashautodoc.helpo.hfile as hfile
 from bashautodoc.DocSectionWriterFunction import DocSectionWriterFunction
-from bashautodoc.helpo.hfile import (
-    generate_output_reldir_and_filename,
-    mkdir_if_notexists,
-)
-from bashautodoc.helpo.hstrops import str_multi_replace
+
+# from bashautodoc.helpo.hstrops import str_multi_replace
 
 LOG = logging.getLogger(__name__)
 
@@ -127,13 +125,11 @@ class Sh2MdFileWriter:
             srcfile_path_split,
             mdoutdir_relpath,
             mdoutfile_name,
-        ) = generate_output_reldir_and_filename(
+        ) = hfile.generate_output_reldir_and_filename(
             file_relpath=self.srcfile_relpath,
             glob_patterns=self.conf.get("shell_glob_patterns"),
             replace_str=".md",
         )
-
-        # sys.exit(42)
 
         # probably only does one level
         mdoutfile_relpath = None
@@ -155,10 +151,9 @@ class Sh2MdFileWriter:
             if catname in srcfile_path_split:
                 # TODO: this is pointlessly inefficient - fix it
                 catdir_relpath = f"{mdoutdir_relpath}/{catname}"
-                mkdir_if_notexists(target=catdir_relpath)
+                hfile.mkdir_if_notexists(target=catdir_relpath)
                 mdoutfile_relpath = f"{catdir_relpath}/{mdoutfile_name}"
                 LOG.debug("mdoutfile_relpath: %s", mdoutfile_relpath)
-                # sys.exit(42)
 
                 return (catname, mdoutfile_relpath)
 
@@ -176,21 +171,6 @@ class Sh2MdFileWriter:
         """
 
         catname, mdoutfile_relpath = self.sort_mdfiles_into_category_directories()
-
-        # if "/explain.plugin" in mdoutfile_relpath:
-        #     print("func_text_dict = ", self.func_text_dict)
-        #     print("func_dep_dict = ", self.func_dep_dict)
-        #     print("full_alias_str_list = ", self.full_alias_str_list)
-        #     print("mdoutfile_relpath = ", mdoutfile_relpath)
-
-        #     sys.exit(42)
-
-        # if "/plugins/" in mdoutfile_relpath:
-        #     print("mdoutfile_relpath = ", mdoutfile_relpath)
-        #     print("func_text_dict = ", self.func_text_dict)
-        #     print("func_dep_dict = ", self.func_dep_dict)
-        #     print("full_alias_str_list = ", self.full_alias_str_list)
-        #     sys.exit(42)
 
         self.mdFile = MdUtils(file_name=mdoutfile_relpath, title=self.cite_about)
 

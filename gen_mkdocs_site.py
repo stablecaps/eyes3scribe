@@ -235,7 +235,7 @@ class GenMkdocsSite:
 
                 self.yaml_dict["nav"].append({mdfile_name_noext: mdfile_relpath})
 
-    def mkdocs_add_codedocs_to_nav(self, catname_2mdfile_dict):
+    def mkdocs_add_srcdocs_to_nav(self, catname_2mdfile_dict):
         ref_or_main_raw = self.conf.get("nav_codedocs_as_ref_or_main")
         ref_or_main = ref_or_main_raw if ref_or_main_raw else "main"
 
@@ -292,8 +292,11 @@ class GenMkdocsSite:
         for mdsrc, mddest in self.conf.get("additional_mdfiles").items():
             hfile.copy_file(source=mdsrc, target=f"{self.project_docs_dir}/{mddest}")
 
-        LOG.info("Set generated code docs as main or ref")
-        self.mkdocs_add_codedocs_to_nav(catname_2mdfile_dict)
+        LOG.info("Set generated src docs to nav")
+        self.mkdocs_add_srcdocs_to_nav(catname_2mdfile_dict)
+
+        LOG.info("Set handwritten docs as main to nav")
+        # self.mkdocs_add_handwrittendocs_to_nav()
 
         import yaml
 
@@ -339,7 +342,7 @@ class GenMkdocsSite:
             LOG.debug("cleaned_hwdocs_relpaths: %s", cleaned_hwdocs_relpaths)
             # sys.exit(42)
 
-            # self.mkdocs_add_codedocs_to_nav(self, catname_2mdfile_dict)
+            # self.mkdocs_add_srcdocs_to_nav(self, catname_2mdfile_dict)
 
         LOG.info("Processing shell source files")
         if self.check_singlefile is None:
