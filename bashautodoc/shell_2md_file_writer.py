@@ -24,7 +24,10 @@ import sys
 from mdutils.mdutils import MdUtils
 
 from bashautodoc.DocSectionWriterFunction import DocSectionWriterFunction
-from bashautodoc.helpo.hfile import mkdir_if_notexists
+from bashautodoc.helpo.hfile import (
+    generate_output_reldir_and_filename,
+    mkdir_if_notexists,
+)
 from bashautodoc.helpo.hstrops import str_multi_replace
 
 LOG = logging.getLogger(__name__)
@@ -73,7 +76,7 @@ class Sh2MdFileWriter:
         self.udef_category_relpath = self.conf["udef_category_relpath"]
 
         self.shell_glob_patterns = self.conf.get("shell_glob_patterns")
-        self.category_names = self.conf.get("category_names")
+        self.category_names_src = self.conf.get("category_names_src")
 
         self.sh2_md_file_writers = [
             "about",
@@ -119,21 +122,17 @@ class Sh2MdFileWriter:
         """
         Organize markdown files into subdirectories.
         """
-        srcfile_path_split = self.srcfile_relpath.split("/")
-        srcfile_name = srcfile_path_split.pop()
-        mdoutdir_relpath = "/".join(srcfile_path_split)
 
-        mdoutfile_name = str_multi_replace(
-            input_str=srcfile_name,
-            rm_patt_list=self.conf.get("shell_glob_patterns"),
+        (
+            srcfile_path_split,
+            mdoutdir_relpath,
+            mdoutfile_name,
+        ) = generate_output_reldir_and_filename(
+            file_relpath=self.srcfile_relpath,
+            glob_patterns=self.conf.get("shell_glob_patterns"),
             replace_str=".md",
         )
 
-        LOG.debug("shell_glob_patterns: %s", self.conf.get("shell_glob_patterns"))
-        LOG.debug("srcfile_path_split: %s", srcfile_path_split)
-        LOG.debug("mdoutdir_relpath: %s", mdoutdir_relpath)
-        LOG.debug("mdoutfile_name: %s", mdoutfile_name)
-        LOG.debug("srcfile_relpath: %s", self.srcfile_relpath)
         # sys.exit(42)
 
         # probably only does one level
@@ -152,7 +151,7 @@ class Sh2MdFileWriter:
 
         ######################################################
         ### Check if category matches our desireted categories
-        for catname in self.category_names:
+        for catname in self.category_names_src:
             if catname in srcfile_path_split:
                 # TODO: this is pointlessly inefficient - fix it
                 catdir_relpath = f"{mdoutdir_relpath}/{catname}"
@@ -163,7 +162,7 @@ class Sh2MdFileWriter:
 
                 return (catname, mdoutfile_relpath)
 
-        ### rule to undef if not in category_names
+        ### rule to undef if not in category_names_src
         # TDOD: use Pathlib
         ###  Category not found or not wanted?
         return ("undef", f"{self.udef_category_relpath}/{mdoutfile_name}")

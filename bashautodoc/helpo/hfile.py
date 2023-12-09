@@ -6,7 +6,7 @@ import sys
 
 from ruamel.yaml import YAML
 
-from bashautodoc.helpo.hstrops import false_when_str_contains_pattern
+from bashautodoc.helpo.hstrops import does_string_contain_pattern, str_multi_replace
 
 # import yaml
 
@@ -154,9 +154,18 @@ def files_and_dirs_recursive_lister(mypathstr="./", myglob="*.sh"):
     return file_list
 
 
-def clean_abspaths_2relpaths(absolute_path_list, path_to_replace, exclusion_patterns):
-    LOG.debug("exclusion_patterns: %s", exclusion_patterns)
+def recursively_search_dir_with_globs(search_path, glob_patt_list):
+    absolute_path_list = []
+    for glob_patt in glob_patt_list:
+        absolute_path_list.extend(
+            files_and_dirs_recursive_lister(mypathstr=search_path, myglob=glob_patt)
+        )
 
+    LOG.debug("absolute_path_list: %s", absolute_path_list)
+    return absolute_path_list
+
+
+def convert_paths_to_relative(absolute_path_list, path_to_replace):
     relative_paths = []
     for file_abspath in absolute_path_list:
         print("file_abspath", file_abspath)
@@ -164,9 +173,98 @@ def clean_abspaths_2relpaths(absolute_path_list, path_to_replace, exclusion_patt
         file_relpath = file_abspath.replace(path_to_replace, ".")
         print("file_relpath", file_relpath)
 
-        if false_when_str_contains_pattern(
-            input_str=file_relpath,
-            input_patt_li=exclusion_patterns,
-        ):
-            relative_paths.append(file_relpath)
+        relative_paths.append(file_relpath)
     return relative_paths
+
+
+def filter_paths_excluding_patterns(path_list, exclusion_patterns_src):
+    LOG.debug("Exclusion patterns: %s", exclusion_patterns_src)
+
+    filtered_paths = []
+    for path in path_list:
+        print("Path", path)
+
+        if not does_string_contain_pattern(
+            input_str=path,
+            input_patt_li=exclusion_patterns_src,
+        ):
+            filtered_paths.append(path)
+    return filtered_paths
+
+
+def generate_output_reldir_and_filename(file_relpath, shell_glob_patterns, replace_str):
+    """
+    Generates the relative path of the output directory and the output filename.
+
+    Args:
+        file_relpath (str): The relative path of the file.
+        shell_glob_patterns (list): The list of shell glob patterns.
+        replace_str (str): The string to replace in the filename.
+
+    Returns:
+        tuple: The relative path of the output directory and the output filename.
+
+    Example:
+        outdir_relpath, outfilename = generate_output_reldir_and_filename(
+            "src/main.py", ["*.py"], ".md"
+        )
+    """
+    filepath_split = file_relpath.split("/")
+    filename = filepath_split.pop()
+    output_directory_relpath = "/".join(filepath_split)
+
+    output_file_name = str_multi_replace(
+        input_str=filename,
+        rm_patt_list=shell_glob_patterns,
+        replace_str=replace_str,
+    )
+
+    LOG.debug("shell_glob_patterns: %s", shell_glob_patterns)
+    LOG.debug("filepath_split: %s", filepath_split)
+    LOG.debug(
+        "output_directory_relpath: %s",
+        output_directory_relpath,
+    )
+    LOG.debug("output_file_name: %s", output_file_name)
+    LOG.debug("source_file_relative_path: %s", file_relpath)
+
+    return output_directory_relpath, output_file_name
+
+
+def generate_output_reldir_and_filename(file_relpath, glob_patterns, replace_str):
+    """
+    Generates the relative path of the output directory and the output filename.
+
+    Args:
+        file_relpath (str): The relative path of the file.
+        glob_patterns (list): The list of shell glob patterns.
+        replace_str (str): The string to replace in the filename.
+
+    Returns:
+        tuple: The file path split, the relative path of the output directory,
+        and the output filename.
+
+    Example:
+        file_path_split, output_directory_path, output_filename =
+        generate_output_reldir_and_filename("src/main.py", ["*.py"], ".md")
+    """
+    file_path_split = file_relpath.split("/")
+    file_name = file_path_split.pop()
+    outdir_relpath = "/".join(file_path_split)
+
+    output_file_name = str_multi_replace(
+        input_str=file_name,
+        rm_patt_list=glob_patterns,
+        replace_str=replace_str,
+    )
+
+    LOG.debug("glob_patterns: %s", glob_patterns)
+    LOG.debug("file_path_split: %s", file_path_split)
+    LOG.debug(
+        "outdir_relpath: %s",
+        outdir_relpath,
+    )
+    LOG.debug("output_file_name: %s", output_file_name)
+    LOG.debug("file_relpath: %s", file_relpath)
+
+    return file_path_split, outdir_relpath, output_file_name

@@ -32,23 +32,23 @@ LOG = logging.getLogger(__name__)
 class ShellSrcPreProcessor:
     """Preprocesses shell source files for documentation generation."""
 
-    def __init__(self, conf, cleaned_srcfiles_relpath, project_docs_dir, debug=False):
+    def __init__(self, conf, cleaned_srcfiles_relpaths, project_docs_dir, debug=False):
         """
         Initialize the ShellSrcPreProcessor.
 
         Args:
             conf (str): Configuration information.
-            cleaned_srcfiles_relpath (list): List of cleaned input file paths.
+            cleaned_srcfiles_relpaths (list): List of cleaned input file paths.
             project_docs_dir (str): Directory path for project documentation.
             debug (bool, optional): Enable debug mode. Defaults to False.
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_relpath=["file1", "file2"],
+                                                cleaned_srcfiles_relpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
         """
         self.conf = conf
-        self.cleaned_srcfiles_relpath = cleaned_srcfiles_relpath
+        self.cleaned_srcfiles_relpaths = cleaned_srcfiles_relpaths
         self.project_docs_dir = project_docs_dir
         self.debug = debug
 
@@ -63,7 +63,7 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_relpath=["file1", "file2"],
+                                                cleaned_srcfiles_relpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             preprocessor.dprint("Hello, World!")
@@ -106,7 +106,7 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_relpath=["file1", "file2"],
+                                                cleaned_srcfiles_relpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             func_name_list, alias_str_list, cite_about, func_text_dict =
@@ -161,7 +161,7 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_relpath=["file1", "file2"],
+                                                cleaned_srcfiles_relpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             about_statement = preprocessor._process_about_line("about-plugin 'This is a plugin'")
@@ -188,7 +188,7 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_relpath=["file1", "file2"],
+                                                cleaned_srcfiles_relpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             alias_string = preprocessor._process_alias_line("alias ls='ls -l' # List files")
@@ -221,12 +221,12 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_relpath=["file1", "file2"],
+                                                cleaned_srcfiles_relpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             preprocessor.main_routine()
         """
-        for srcfile_relpath in self.cleaned_srcfiles_relpath:
+        for srcfile_relpath in self.cleaned_srcfiles_relpaths:
             ### These are being processed on a file-by-file basis
             (
                 func_name_list,

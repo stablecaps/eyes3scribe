@@ -5,20 +5,19 @@ import logging
 LOG = logging.getLogger(__name__)
 
 
-def false_when_str_contains_pattern(input_str, input_patt_li):
+def does_string_contain_pattern(input_str, input_patt_li):
     """
-    Returns False when the test string contains any pattern from the list. Is case sensitive.
+    Checks if a string contains any pattern from a list of patterns.
 
     Args:
-        input_str (str): The string to test.
-        input_patt_li (list): The list of patterns to check for.
+        input_str (str): The input string to check.
+        input_patt_li (list): The list of patterns to search for.
 
     Returns:
-        bool: False if the test string contains any pattern, True otherwise.
+        bool: True if any pattern is found in the input string, False otherwise.
 
     Example:
-        >>> false_when_str_contains_pattern("Hello, world!", ["world", "!"])
-        False
+        contains_pattern = does_string_contain_pattern("Hello, world!", ["world", "!"])
     """
     for idx in range(len(input_patt_li)):
         cleaned_pattern = input_patt_li[idx].strip()
@@ -27,24 +26,23 @@ def false_when_str_contains_pattern(input_str, input_patt_li):
     input_str_clean = input_str.strip()
     for pattern in input_patt_li:
         if pattern in input_str_clean:
-            return False
-    return True
+            return True
+    return False
 
 
-def false_when_str_starts_with_pattern(input_str, input_patt_li):
+def does_string_starts_with_pattern(input_str, input_patt_li):
     """
-    Returns False when the test string starts with any pattern from the list. . Is case sensitive.
+    Checks if a string starts with any pattern from a list of patterns.
 
     Args:
-        input_str (str): The string to test.
-        input_patt_li (list): The list of patterns to check for.
+        input_str (str): The input string to check.
+        input_patt_li (list): The list of patterns to search for.
 
     Returns:
-        bool: False if the test string starts with any pattern, True otherwise.
+        bool: True if the input string starts with any pattern, False otherwise.
 
     Example:
-        >>> false_when_str_starts_with_pattern("Hello, world!", ["Hell", "world"])
-        False
+        starts_with_pattern = does_string_starts_with_pattern("Hello, world!", ["Hell", "world"])
     """
     for idx in range(len(input_patt_li)):
         cleaned_pattern = input_patt_li[idx].strip()
@@ -53,8 +51,8 @@ def false_when_str_starts_with_pattern(input_str, input_patt_li):
     input_str_clean = input_str.strip()
     for pattern in input_patt_li:
         if input_str_clean.startswith(pattern):
-            return False
-    return True
+            return True
+    return False
 
 
 def rm_lines_starting_with(multiline_str, rm_patt_list):
@@ -78,7 +76,7 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
     filtered_multiline_str_list = [
         line
         for line in multiline_str_list
-        if false_when_str_starts_with_pattern(line, rm_patt_list) and line != ""
+        if not does_string_starts_with_pattern(line, rm_patt_list) and line != ""
     ]
 
     print("filtered_multiline_str_list", filtered_multiline_str_list)
@@ -89,7 +87,7 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
     # multiline_str_list_len = len(multiline_str_list)
     # idx = 0
     # for line in multiline_str_list:
-    #     if false_when_str_starts_with_pattern(line, rm_patt_list):
+    #     if does_string_starts_with_pattern(line, rm_patt_list):
     #         if idx == multiline_str_list_len - 1:
     #             out_str += f"{line}"
     #         else:

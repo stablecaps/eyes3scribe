@@ -14,9 +14,8 @@ exclude_patterns:
   - "theme_settings_BACKUP"
 additional_mdfiles:
   /home/bsgt/stablecaps_bashrc/README.md: index.md
-category_names:
+category_names_src:
   - aliases
   - completion
   - modules
   - internal
-

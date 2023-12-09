@@ -61,13 +61,18 @@ class GenMkdocsSite:
 
         LOG.info("conf: %s", self.conf)
 
-        self.glob_patt_list = self.conf.get("shell_glob_patterns")
-
-        if self.glob_patt_list is None:
-            self.glob_patt_list = ["*.sh"]
+        self.shell_glob_patterns = self.conf.get("shell_glob_patterns")
+        if self.shell_glob_patterns is None:
+            self.shell_glob_patterns = ["*.sh"]
             self.conf["shell_glob_patterns"] = ["*.sh"]
 
-        LOG.info("Using shell_glob_patterns: %s", self.glob_patt_list)
+        self.docs_glob_patterns = self.conf.get("docs_glob_patterns")
+        if self.docs_glob_patterns is None:
+            self.shell_glob_patterns = ["*.md"]
+            self.conf["shell_gldocs_glob_patternsob_patterns"] = ["*.md"]
+
+        LOG.info("Using shell_glob_patterns: %s", self.shell_glob_patterns)
+        LOG.info("Using docs_glob_patterns: %s", self.docs_glob_patterns)
 
         ### Set paths
         self.program_root_dir = os.path.abspath(".")
@@ -77,13 +82,18 @@ class GenMkdocsSite:
         self.project_docs_dir = f"{self.project_dir}/docs"
         self.project_css_dir = f"{self.project_docs_dir}/custom_css/"
         self.udef_category_relpath = f"{self.project_docs_dir}/undef"
+        self.handwritten_docs_dir = self.conf["handwritten_docs_dir"]
+        self.handwritten_docs_outdir = f"./{self.project_name}/docs/docs_hw"
+
+        self.exclusion_patterns_src = self.conf.get("exclusion_patterns_src")
+        self.exclusion_patterns_docs = self.conf.get("exclusion_patterns_docs")
 
         self.conf["program_root_dir"] = self.program_root_dir
         self.conf["project_dir"] = self.project_dir
         self.conf["project_docs_dir"] = self.project_docs_dir
         self.conf["project_css_dir"] = self.project_css_dir
         self.conf["udef_category_relpath"] = f"./{self.project_name}/docs/undef"
-        self.conf["category_names"].append("undef")
+        self.conf["category_names_src"].append("undef")
 
         self.conf_bashautodoc_keys = [
             "project_name",
@@ -94,12 +104,14 @@ class GenMkdocsSite:
             "udef_category_relpath",
             "shell_srcdir",
             "shell_glob_patterns",
-            "exclusion_patterns",
+            "exclusion_patterns_src",
             "additional_mdfiles",
-            "category_names",
+            "category_names_src",
             "nav_codedocs_as_ref_or_main",
             "nav_codedocs_name",
-            "handwritten_docs_srcdir",
+            "handwritten_docs_dir",
+            "docs_glob_patterns",
+            "exclusion_patterns_docs",
         ]
 
         self.yaml_dict = {
@@ -114,6 +126,12 @@ class GenMkdocsSite:
         LOG.info("project_docs_dir: %s", self.project_docs_dir)
         LOG.info("project_css_dir: %s", self.project_css_dir)
         LOG.info("udef_category_relpath: %s", self.udef_category_relpath)
+        LOG.info("handwritten_docs_dir: %s", self.handwritten_docs_dir)
+        LOG.info("handwritten_docs_outdir: %s", self.handwritten_docs_outdir)
+        LOG.info("exclusion_patterns_src: %s", self.exclusion_patterns_src)
+        LOG.info("exclusion_patterns_docs: %s", self.exclusion_patterns_docs)
+
+        self.exclusion_patterns_docs
 
     def check_config(self):
         """
@@ -129,7 +147,7 @@ class GenMkdocsSite:
             "repo_url": None,
             "nav": None,
             "shell_srcdir": None,
-            "category_names": None,
+            "category_names_src": None,
             "nav_codedocs_as_ref_or_main": ["ref", "main"],
         }
 
@@ -185,42 +203,37 @@ class GenMkdocsSite:
             source=f'{self.conf.get("shell_srcdir")}', target=self.project_docs_dir
         )
 
-    def mkdocs_add_handwrittendocs_to_nav(self):
-        if self.conf["handwritten_docs_srcdir"] is None:
-            pass
-        else:
-            handwritten_docs_srcdir = self.conf["handwritten_docs_srcdir"]
-            # handwritten_docs_srcdir_relpath = handwritten_docs_srcdir.replace(
-            #     self.program_root_dir, "."
-            # )
-            # handwritten_docs_srcdir_relpath = handwritten_docs_srcdir_relpath.replace(
-            #     "./", ""
-            # )
-            # handwritten_docs_srcdir_relpath = handwritten_docs_srcdir_relpath.replace(
-            #     "//", "/"
-            # )
-
-            # LOG.info("handwritten_docs_srcdir_relpath: %s", handwritten_docs_srcdir_relpath)
-
-            handwritten_docs_srcfiles = hfile.files_and_dirs_recursive_lister(
-                mypathstr=handwritten_docs_srcdir, myglob="*.md"
+        if self.handwritten_docs_dir is not None:
+            hfile.copy_dir(
+                source=f'{self.conf.get("shell_srcdir")}',
+                target=self.handwritten_docs_outdir,
             )
 
-            LOG.info("handwritten_docs_srcfiles: %s", handwritten_docs_srcfiles)
+    def mkdocs_add_handwrittendocs_to_nav(self):
+        if self.conf["handwritten_docs_dir"] is None:
+            pass
+        else:
+            handwritten_docs_infiles = hfile.recursively_search_dir_with_globs(
+                mypathstr=self.handwritten_docs_outdir,
+                glob_patt_list=self.docs_glob_patterns,
+            )
 
-            for mdfile in handwritten_docs_srcfiles:
+            LOG.debug("handwritten_docs_infiles: %s", handwritten_docs_infiles)
+
+            for mdfile in handwritten_docs_infiles:
                 mdfile_relpath = mdfile.replace(self.program_root_dir, ".")
                 mdfile_relpath = mdfile_relpath.replace("./", "")
                 mdfile_relpath = mdfile_relpath.replace("//", "/")
 
-                LOG.info("mdfile_relpath: %s", mdfile_relpath)
+                LOG.debug("mdfile_relpath: %s", mdfile_relpath)
 
                 mdfile_name = mdfile_relpath.split("/")[-1]
-                mdfile_name = mdfile_name.replace(".md", "")
+                mdfile_name_noext = mdfile_name.replace(".md", "")
 
-                LOG.info("mdfile_name: %s", mdfile_name)
+                LOG.debug("mdfile_name: %s", mdfile_name)
+                LOG.debug("mdfile_name_noext: %s", mdfile_name_noext)
 
-                self.yaml_dict["nav"].append({mdfile_name: mdfile_relpath})
+                self.yaml_dict["nav"].append({mdfile_name_noext: mdfile_relpath})
 
     def mkdocs_add_codedocs_to_nav(self, catname_2mdfile_dict):
         ref_or_main_raw = self.conf.get("nav_codedocs_as_ref_or_main")
@@ -243,7 +256,10 @@ class GenMkdocsSite:
             sys.exit(42)
 
         LOG.info("Add generated code docs to nav")
-        for catname in self.conf.get("category_names"):
+        rprint("catname_2mdfile_dict", catname_2mdfile_dict)
+
+        for catname in self.conf.get("category_names_src"):
+            print("catname", catname)
             cat_mdoutfiles_relpaths = sorted(catname_2mdfile_dict.get(catname))
             catname_holder = []
 
@@ -271,6 +287,7 @@ class GenMkdocsSite:
         """
         Create a MkDocs site by copying additional markdown files and generating mkdocs yaml.
         """
+        # TODO: move Copying additional files to main routine?
         LOG.info("Copying additional markdown files")
         for mdsrc, mddest in self.conf.get("additional_mdfiles").items():
             hfile.copy_file(source=mdsrc, target=f"{self.project_docs_dir}/{mddest}")
@@ -299,34 +316,63 @@ class GenMkdocsSite:
         # TODO: sort out using arbitrary directory
         # os.chdir(self.project_dir)
 
+        if self.handwritten_docs_dir is not None:
+            LOG.info("Processing handwritten doc files")
+            hwdocs_relpaths = hfile.recursively_search_dir_with_globs(
+                search_path=self.handwritten_docs_outdir,
+                glob_patt_list=self.docs_glob_patterns,
+            )
+            LOG.debug("hwdocs_relpaths: %s", hwdocs_relpaths)
+
+            # TODO: move exclusion_patterns_src into class init
+            strict_exclusion_patterns_docs = [
+                patt for patt in self.exclusion_patterns_docs
+            ]
+            LOG.debug(
+                "strict_exclusion_patterns_docs: %s", strict_exclusion_patterns_docs
+            )
+
+            cleaned_hwdocs_relpaths = hfile.filter_paths_excluding_patterns(
+                path_list=hwdocs_relpaths,
+                exclusion_patterns_src=strict_exclusion_patterns_docs,
+            )
+            LOG.debug("cleaned_hwdocs_relpaths: %s", cleaned_hwdocs_relpaths)
+            # sys.exit(42)
+
+            # self.mkdocs_add_codedocs_to_nav(self, catname_2mdfile_dict)
+
+        LOG.info("Processing shell source files")
         if self.check_singlefile is None:
-            srcabsolute_path_list = []
-            for glob_patt in self.glob_patt_list:
-                srcabsolute_path_list.extend(
-                    hfile.files_and_dirs_recursive_lister(
-                        mypathstr=self.project_docs_dir, myglob=glob_patt
-                    )
-                )
+            src_absolute_path_list = hfile.recursively_search_dir_with_globs(
+                search_path=self.project_docs_dir,
+                glob_patt_list=self.shell_glob_patterns,
+            )
         else:
             LOG.warning("Checking single file")
-            srcabsolute_path_list = [self.check_singlefile]
+            src_absolute_path_list = [self.check_singlefile]
 
-        LOG.debug("srcabsolute_path_list: %s", srcabsolute_path_list)
+        LOG.debug("src_absolute_path_list: %s", src_absolute_path_list)
 
-        strict_exclusion_patterns = [
-            f"/{patt}/" for patt in self.conf.get("exclusion_patterns")
+        strict_exclusion_patterns_src = [
+            f"/{patt}/" for patt in self.conf.get("exclusion_patterns_src")
         ]
-        cleaned_srcfiles_relpath = hfile.clean_abspaths_2relpaths(
-            absolute_path_list=srcabsolute_path_list,
+        LOG.debug("strict_exclusion_patterns_src: %s", strict_exclusion_patterns_src)
+
+        srcfiles_relpath = hfile.convert_paths_to_relative(
+            absolute_path_list=src_absolute_path_list,
             path_to_replace=self.program_root_dir,
-            exclusion_patterns=strict_exclusion_patterns,
         )
-        LOG.info("cleaned_srcfiles_relpath: %s", cleaned_srcfiles_relpath)
-        # sys.exit(42)
+        LOG.info("srcfiles_relpath: %s", srcfiles_relpath)
+
+        cleaned_srcfiles_relpaths = hfile.filter_paths_excluding_patterns(
+            path_list=srcfiles_relpath,
+            exclusion_patterns_src=strict_exclusion_patterns_src,
+        )
+        LOG.debug("cleaned_srcfiles_relpaths: %s", cleaned_srcfiles_relpaths)
 
         shell_src_preprocessor = ShellSrcPreProcessor(
             self.conf,
-            cleaned_srcfiles_relpath,
+            cleaned_srcfiles_relpaths,
             self.project_docs_dir,
             debug=self.debug,
         )
@@ -383,7 +429,7 @@ if __name__ == "__main__":
     # parser.add_argument(
     #     "-x",
     #     "--exclude-files",
-    #     dest="exclusion_patterns",
+    #     dest="exclusion_patterns_src",
     #     help="List of space seperated file path patterns to exclude",
     #     type=str,
     #     nargs="*",
