@@ -15,7 +15,7 @@ Example:
                              full_alias_str_list=[],
                              srcfile_path="file1",
                              project_docs_dir="docs/")
-    writer.main_write_md()
+    writer.write_md()
 """
 import logging
 import os
@@ -26,7 +26,7 @@ from rich import print as rprint
 
 import bashautodoc.helpo.hfile as hfile
 from bashautodoc.DocSectionWriterFunction import DocSectionWriterFunction
-from bashautodoc.helpo.hfilepath_datahandler import FilepathDatahandler
+from bashautodoc.models.filepath_datahandler import FilepathDatahandler
 
 # from bashautodoc.helpo.hstrops import str_multi_replace
 
@@ -115,7 +115,7 @@ class Sh2MdFileWriter:
 
         self.mdFile.new_paragraph(mytable)
 
-    def main_write_md(self):
+    def write_md(self):
         """
         Perform the main routine of writing markdown files.
 

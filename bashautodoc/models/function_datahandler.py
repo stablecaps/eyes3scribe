@@ -28,7 +28,7 @@ class FunctionDatahandler:
         return cls.main()
 
     @staticmethod
-    def get_function_name(line_str):
+    def _get_function_name(line_str):
         """
         Extracts the function name from a line of shell script.
 
@@ -39,7 +39,7 @@ class FunctionDatahandler:
             str: The name of the function.
 
         Example:
-            function_name = ShellSrcPreProcessor.get_function_name("function hello_world {")
+            function_name = ShellSrcPreProcessor._get_function_name("function hello_world {")
         """
         func_name = None
         if line_str.strip().endswith(("{", "}")):
@@ -114,7 +114,7 @@ class FunctionDatahandler:
         return f"| **{alias_name}** | `{alias_cmd[1:-1]}` | {alias_comment}\n"
 
     @classmethod
-    def create_func_text_dict(cls):
+    def _create_func_text_dict(cls):
         """
         Create a dictionary of function names and their corresponding code.
 
@@ -131,7 +131,7 @@ class FunctionDatahandler:
                                                 project_docs_dir="docs/",
                                                 debug=True)
             func_name_list, alias_str_list, cite_about, func_text_dict =
-                preprocessor.create_func_text_dict("file1")
+                preprocessor._create_func_text_dict("file1")
         """
         func_name_list = []
         full_alias_str_list = []
@@ -146,7 +146,7 @@ class FunctionDatahandler:
 
             for line in src_text.split("\n"):
                 if line.startswith("function"):
-                    func_name = FunctionDatahandler.get_function_name(line)
+                    func_name = FunctionDatahandler._get_function_name(line)
                     if func_name is not None:
                         func_name_list.append(func_name)
                         func_text_dict[func_name] = line
@@ -177,7 +177,7 @@ class FunctionDatahandler:
 
     @classmethod
     def main(cls):
-        cls.create_func_text_dict()
+        cls._create_func_text_dict()
 
         func_dep_processor = FunctionDependencyProcessor(
             func_name_list=cls.funcdata.func_name_list,

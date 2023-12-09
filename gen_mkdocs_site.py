@@ -281,7 +281,8 @@ class GenMkdocsSite:
             sys.exit(42)
 
         LOG.info("Add generated code docs to nav")
-        rprint("catname_2mdfile_dict", catname_2mdfile_dict)
+        rprint("catname_2mdfile_dict", sorted(catname_2mdfile_dict["undef"]))
+        # sys.exit(42)
 
         for catname in self.conf.get("catnames_src"):
             print("catname", catname)
@@ -308,7 +309,7 @@ class GenMkdocsSite:
                     {catname: catname_holder}
                 )
 
-    def create_mkdocs_site(self, catname_2mdfile_dict):
+    def create_mkdocs_yaml(self, catname_2mdfile_dict):
         """
         Create a MkDocs site by copying additional markdown files and generating mkdocs yaml.
         """
@@ -336,7 +337,7 @@ class GenMkdocsSite:
         )
         # sys.exit(42)
 
-    def main_routine(self):
+    def main(self):
         """
         Main routine for setting up the docs project, processing shell files, and creating the MkDocs site.
         """
@@ -406,9 +407,9 @@ class GenMkdocsSite:
             self.project_docs_dir,
             debug=self.debug,
         )
-        catname_2mdfile_dict = shell_src_preprocessor.main_routine()
+        catname_2mdfile_dict = shell_src_preprocessor.run()
 
-        self.create_mkdocs_site(catname_2mdfile_dict)
+        self.create_mkdocs_yaml(catname_2mdfile_dict)
 
         if self.build_serve:
             LOG.warning("Building and serving local docs site")
@@ -463,6 +464,6 @@ if __name__ == "__main__":
         check_singlefile=args.check_singlefile,
         debug=args.debug,
     )
-    gen_mkdocs_site.main_routine()
+    gen_mkdocs_site.main()
 
     LOG.info("Program Finished")

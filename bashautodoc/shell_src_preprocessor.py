@@ -8,7 +8,7 @@ The ShellSrcPreProcessor class provides methods to:
 - Process "about" statements
 - Process alias definitions from shell source files
 
-It also provides a main routine to:
+It also provides a run routine to:
 - Create function text dictionaries
 - Process function dependencies
 - Convert shell files to markdown files
@@ -21,11 +21,11 @@ import logging
 import sys
 from collections import defaultdict
 
-from rich import print as print
+from rich import print as rprint
 
 from bashautodoc.function_dependency_processor import FunctionDependencyProcessor
-from bashautodoc.helpo.hfilepath_datahandler import FilepathDatahandler
-from bashautodoc.helpo.hfunction_datahandler import FunctionDatahandler
+from bashautodoc.models.filepath_datahandler import FilepathDatahandler
+from bashautodoc.models.function_datahandler import FunctionDatahandler
 from bashautodoc.shell_2md_file_writer import Sh2MdFileWriter
 
 LOG = logging.getLogger(__name__)
@@ -61,9 +61,9 @@ class ShellSrcPreProcessor:
 
         self.catname_2mdfile_dict = defaultdict(list)
 
-    def main_routine(self):
+    def run(self):
         """
-        Perform the main routine of preprocessing shell source files.
+        Perform the run routine of preprocessing shell source files.
 
         This routine creates function text dictionaries, processes function
         dependencies, and converts shell files to markdown files.
@@ -73,7 +73,7 @@ class ShellSrcPreProcessor:
                                                 cleaned_srcfiles_relpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
-            preprocessor.main_routine()
+            preprocessor.run()
         """
         for srcfile_relpath in self.cleaned_srcfiles_relpaths:
             ### These are being processed on a file-by-file basis
@@ -102,6 +102,10 @@ class ShellSrcPreProcessor:
                 is_undef=is_undef,
             )
 
+            # if is_undef:
+            #     rprint("srcdata %s", srcdata)
+            #     sys.exit(42)
+
             ##################################################
             sh2_md_file_writer = Sh2MdFileWriter(
                 conf=self.conf,
@@ -109,7 +113,7 @@ class ShellSrcPreProcessor:
                 srcdata=srcdata,
                 srcfile_relpath=srcfile_relpath,
             )
-            sh2_md_file_writer.main_write_md()
+            sh2_md_file_writer.write_md()
 
             ##################################################
             self.catname_2mdfile_dict[srcdata.outfile_catname].append(

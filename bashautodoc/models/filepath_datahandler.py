@@ -55,7 +55,7 @@ class FilepathDatahandler:
         return cls.main()
 
     @classmethod
-    def get_out_filename(cls):
+    def _get_outfilename(cls):
         cls.dh.out_filename = str_multi_replace(
             input_str=cls.dh.infile_filename,
             rm_patt_list=cls.dh.glob_patterns,
@@ -63,7 +63,7 @@ class FilepathDatahandler:
         )
 
     @classmethod
-    def get_categorydir_and_outfilepath(cls):
+    def _get_categorydir_and_outfilepath(cls):
         ### If no functions or aliases, then send to undef so user can fix
 
         if cls.is_undef:
@@ -83,7 +83,7 @@ class FilepathDatahandler:
 
     @classmethod
     def main(cls):
-        cls.get_out_filename()
+        cls._get_outfilename()
 
         # LOG.debug("infile_relpath: %s", cls.dh.infile_relpath)
         # LOG.debug("infile_path_split: %s", cls.dh.infile_path_split)
@@ -103,7 +103,7 @@ class FilepathDatahandler:
         (
             cls.dh.outfile_catname,
             cls.dh.outfile_relpath,
-        ) = cls.get_categorydir_and_outfilepath()
+        ) = cls._get_categorydir_and_outfilepath()
 
         LOG.debug("catname: %s", cls.dh.outfile_catname)
         LOG.debug("outfile_relpath: %s", cls.dh.outfile_relpath)
