@@ -112,57 +112,57 @@ class Sh2MdFileWriter:
 
         self.mdFile.new_paragraph(mytable)
 
-    def sort_mdfiles_into_category_directories(self):
-        """
-        Organize markdown files into subdirectories.
-        """
+    # def sort_mdfiles_into_category_directories(self):
+    #     """
+    #     Organize markdown files into subdirectories.
+    #     """
 
-        (
-            srcfile_path_split,
-            mdoutdir_relpath,
-            mdoutfilename,
-        ) = hfile.get_src_reldir_and_filename(
-            file_relpath=self.srcfile_relpath,
-            glob_patterns=self.conf.get("shell_glob_patterns"),
-            replace_str=".md",
-        )
+    #     (
+    #         srcfile_path_split,
+    #         mdoutdir_relpath,
+    #         mdoutfilename,
+    #     ) = hfile.get_src_reldir_and_filename(
+    #         file_relpath=self.srcfile_relpath,
+    #         glob_patterns=self.conf.get("shell_glob_patterns"),
+    #         replace_str=".md",
+    #     )
 
-        LOG.debug("srcfile_path_split: %s", srcfile_path_split)
-        LOG.debug("mdoutdir_relpath: %s", mdoutdir_relpath)
-        LOG.debug("mdoutfilename: %s", mdoutfilename)
-        # sys.exit(42)
+    #     LOG.debug("srcfile_path_split: %s", srcfile_path_split)
+    #     LOG.debug("mdoutdir_relpath: %s", mdoutdir_relpath)
+    #     LOG.debug("mdoutfilename: %s", mdoutfilename)
+    #     # sys.exit(42)
 
-        # probably only does one level
-        mdoutfile_relpath = None
-        ######################################################
-        ### If no functions or aliases, then send to undef so user can fix
-        func_text_dict_len = len(self.func_text_dict)
-        func_dep_dict_len = len(self.func_dep_dict)
-        full_alias_str_list_len = len(self.full_alias_str_list)
-        if (
-            (func_text_dict_len == 0)
-            and (func_dep_dict_len == 0)
-            and (full_alias_str_list_len == 0)
-        ):
-            return ("undef", f"{self.undef_category_dir}/{mdoutfilename}")
+    #     # probably only does one level
+    #     mdoutfile_relpath = None
+    #     ######################################################
+    #     ### If no functions or aliases, then send to undef so user can fix
+    #     func_text_dict_len = len(self.func_text_dict)
+    #     func_dep_dict_len = len(self.func_dep_dict)
+    #     full_alias_str_list_len = len(self.full_alias_str_list)
+    #     if (
+    #         (func_text_dict_len == 0)
+    #         and (func_dep_dict_len == 0)
+    #         and (full_alias_str_list_len == 0)
+    #     ):
+    #         return ("undef", f"{self.undef_category_dir}/{mdoutfilename}")
 
-        ######################################################
-        ### Check if category matches our desired categories
-        (
-            catname,
-            output_file_relpath,
-        ) = hfile.get_categorydir_and_outfilepath(
-            category_names=self.catnames_src,
-            src_filepath_split=srcfile_path_split,
-            outdir_relpath=mdoutdir_relpath,
-            out_filename=mdoutfilename,
-            undef_category_relpath=self.undef_category_dir,
-        )
+    #     ######################################################
+    #     ### Check if category matches our desired categories
+    #     (
+    #         catname,
+    #         output_file_relpath,
+    #     ) = hfile.get_categorydir_and_outfilepath(
+    #         category_names=self.catnames_src,
+    #         src_filepath_split=srcfile_path_split,
+    #         outdir_relpath=mdoutdir_relpath,
+    #         out_filename=mdoutfilename,
+    #         undef_category_relpath=self.undef_category_dir,
+    #     )
 
-        return (
-            catname,
-            output_file_relpath,
-        )
+    #     return (
+    #         catname,
+    #         output_file_relpath,
+    #     )
 
     def main_write_md(self):
         """

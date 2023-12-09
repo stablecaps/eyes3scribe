@@ -231,43 +231,43 @@ def filter_paths_excluding_patterns(path_list, exclusion_patterns_src):
 #     return outdir_relpath, out_filename
 
 
-def get_src_reldir_and_filename(file_relpath, glob_patterns, replace_str):
-    file_path_split = file_relpath.split("/")
-    filename = file_path_split.pop()
-    srcdir_relpath = "/".join(file_path_split)
+# def get_src_reldir_and_filename(file_relpath, glob_patterns, replace_str):
+#     file_path_split = file_relpath.split("/")
+#     filename = file_path_split.pop()
+#     srcdir_relpath = "/".join(file_path_split)
 
-    out_filename = str_multi_replace(
-        input_str=filename,
-        rm_patt_list=glob_patterns,
-        replace_str=replace_str,
-    )
+#     out_filename = str_multi_replace(
+#         input_str=filename,
+#         rm_patt_list=glob_patterns,
+#         replace_str=replace_str,
+#     )
 
-    LOG.debug("glob_patterns: %s", glob_patterns)
-    LOG.debug("file_path_split: %s", file_path_split)
-    LOG.debug(
-        "srcdir_relpath: %s",
-        srcdir_relpath,
-    )
-    LOG.debug("out_filename: %s", out_filename)
-    LOG.debug("file_relpath: %s", file_relpath)
+#     LOG.debug("glob_patterns: %s", glob_patterns)
+#     LOG.debug("file_path_split: %s", file_path_split)
+#     LOG.debug(
+#         "srcdir_relpath: %s",
+#         srcdir_relpath,
+#     )
+#     LOG.debug("out_filename: %s", out_filename)
+#     LOG.debug("file_relpath: %s", file_relpath)
 
-    return file_path_split, srcdir_relpath, out_filename
+#     return file_path_split, srcdir_relpath, out_filename
 
 
-def get_categorydir_and_outfilepath(
-    category_names,
-    src_filepath_split,
-    outdir_relpath,
-    out_filename,
-    undef_category_relpath,
-):
-    for catname in category_names:
-        if catname in src_filepath_split:
-            catdir_relpath = f"{outdir_relpath}/{catname}"
-            mkdir_if_notexists(target=catdir_relpath)
-            output_file_relpath = f"{catdir_relpath}/{out_filename}"
-            LOG.debug("output_file_relpath: %s", output_file_relpath)
+# def get_categorydir_and_outfilepath(
+#     category_names,
+#     src_filepath_split,
+#     outdir_relpath,
+#     out_filename,
+#     undef_category_relpath,
+# ):
+#     for catname in category_names:
+#         if catname in src_filepath_split:
+#             catdir_relpath = f"{outdir_relpath}/{catname}"
+#             mkdir_if_notexists(target=catdir_relpath)
+#             output_file_relpath = f"{catdir_relpath}/{out_filename}"
+#             LOG.debug("output_file_relpath: %s", output_file_relpath)
 
-            return (catname, output_file_relpath)
+#             return (catname, output_file_relpath)
 
-    return ("undef", f"{undef_category_relpath}/{out_filename}")
+#     return ("undef", f"{undef_category_relpath}/{out_filename}")
