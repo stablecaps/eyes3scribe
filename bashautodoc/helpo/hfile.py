@@ -268,3 +268,35 @@ def generate_output_reldir_and_filename(file_relpath, glob_patterns, replace_str
     LOG.debug("file_relpath: %s", file_relpath)
 
     return file_path_split, outdir_relpath, output_file_name
+
+
+def generate_category_and_output_filepath(
+    category_names,
+    source_file_path_parts,
+    output_directory_relpath,
+    output_file_name,
+    undefined_category_relpath,
+):
+    """
+    Generates the category name and the relative path of the output file.
+
+    Args:
+        category_names (list): The list of desired category names.
+        source_file_path_parts (list): The list of parts of the source file path.
+        output_directory_relpath (str): The relative path of the output directory.
+        output_file_name (str): The name of the output file.
+        undefined_category_relpath (str): The relative path of the undefined category.
+
+    Returns:
+        tuple: The category name and the relative path of the output file.
+    """
+    for category_name in category_names:
+        if category_name in source_file_path_parts:
+            category_directory_relpath = f"{output_directory_relpath}/{category_name}"
+            mkdir_if_notexists(target=category_directory_relpath)
+            output_file_relpath = f"{category_directory_relpath}/{output_file_name}"
+            LOG.debug("output_file_relpath: %s", output_file_relpath)
+
+            return (category_name, output_file_relpath)
+
+    return ("undef", f"{undefined_category_relpath}/{output_file_name}")

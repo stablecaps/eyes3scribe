@@ -12,6 +12,7 @@ from rich import print as rprint
 
 from bashautodoc.helpo import hfile
 from bashautodoc.helpo.coloured_log_formatter import ColouredLogFormatter
+from bashautodoc.helpo.hstrops import str_multi_replace
 from bashautodoc.shell_src_preprocessor import ShellSrcPreProcessor
 
 LOG = logging.getLogger(__name__)
@@ -82,8 +83,9 @@ class GenMkdocsSite:
         self.project_docs_dir = f"{self.project_dir}/docs"
         self.project_css_dir = f"{self.project_docs_dir}/custom_css/"
         self.udef_category_relpath = f"{self.project_docs_dir}/undef"
+        self.udef_category_hwdocs_relpath = f"./{self.project_name}/docs/docshw/undef"
         self.handwritten_docs_dir = self.conf["handwritten_docs_dir"]
-        self.handwritten_docs_outdir = f"./{self.project_name}/docs/docs_hw"
+        self.handwritten_docs_outdir = f"./{self.project_name}/docs/docshw"
 
         self.exclusion_patterns_src = self.conf.get("exclusion_patterns_src")
         self.exclusion_patterns_docs = self.conf.get("exclusion_patterns_docs")
@@ -92,7 +94,9 @@ class GenMkdocsSite:
         self.conf["project_dir"] = self.project_dir
         self.conf["project_docs_dir"] = self.project_docs_dir
         self.conf["project_css_dir"] = self.project_css_dir
-        self.conf["udef_category_relpath"] = f"./{self.project_name}/docs/undef"
+        self.conf["udef_category_relpath"] = self.udef_category_relpath
+        self.conf["udef_category_hwdocs_relpath"] = self.udef_category_hwdocs_relpath
+
         self.conf["category_names_src"].append("undef")
 
         self.conf_bashautodoc_keys = [
@@ -102,6 +106,7 @@ class GenMkdocsSite:
             "project_docs_dir",
             "project_css_dir",
             "udef_category_relpath",
+            "udef_category_hwdocs_relpath",
             "shell_srcdir",
             "shell_glob_patterns",
             "exclusion_patterns_src",
@@ -126,6 +131,8 @@ class GenMkdocsSite:
         LOG.info("project_docs_dir: %s", self.project_docs_dir)
         LOG.info("project_css_dir: %s", self.project_css_dir)
         LOG.info("udef_category_relpath: %s", self.udef_category_relpath)
+        LOG.info("udef_category_hwdocs_relpath: %s", self.udef_category_hwdocs_relpath)
+
         LOG.info("handwritten_docs_dir: %s", self.handwritten_docs_dir)
         LOG.info("handwritten_docs_outdir: %s", self.handwritten_docs_outdir)
         LOG.info("exclusion_patterns_src: %s", self.exclusion_patterns_src)
@@ -194,6 +201,7 @@ class GenMkdocsSite:
 
         ### make undefined category directory
         hfile.mkdir_if_notexists(target=self.udef_category_relpath)
+        hfile.mkdir_if_notexists(target=self.udef_category_hwdocs_relpath)
 
         hfile.copy_dir(
             source="custom_assets/custom_css",
@@ -210,32 +218,38 @@ class GenMkdocsSite:
             )
 
     def mkdocs_add_handwrittendocs_to_nav(self):
-        if self.conf["handwritten_docs_dir"] is None:
-            pass
-        else:
-            handwritten_docs_infiles = hfile.recursively_search_dir_with_globs(
-                mypathstr=self.handwritten_docs_outdir,
-                glob_patt_list=self.docs_glob_patterns,
+        handwritten_docs_infiles = hfile.recursively_search_dir_with_globs(
+            search_path=self.handwritten_docs_outdir,
+            glob_patt_list=self.docs_glob_patterns,
+        )
+
+        LOG.debug("handwritten_docs_infiles: %s", handwritten_docs_infiles)
+        # sys.exit(42)
+
+        for catname in self.conf.get("category_names_docs"):
+            LOG.debug("catname: %s", catname)
+            sys.exit(42)
+
+            (
+                docfile_path_split,
+                docoutdir_relpath,
+                docfile_name,
+            ) = hfile.generate_output_reldir_and_filename(
+                file_relpath=docfile_relpath,
+                glob_patterns=self.conf.get("docs_glob_patterns"),
+                replace_str=".md",
             )
 
-            LOG.debug("handwritten_docs_infiles: %s", handwritten_docs_infiles)
+            LOG.debug("docfile_name: %s", docfile_name)
+            # LOG.debug("docfile_name_noext: %s", docfile_name_noext)
 
-            for mdfile in handwritten_docs_infiles:
-                mdfile_relpath = mdfile.replace(self.program_root_dir, ".")
-                mdfile_relpath = mdfile_relpath.replace("./", "")
-                mdfile_relpath = mdfile_relpath.replace("//", "/")
-
-                LOG.debug("mdfile_relpath: %s", mdfile_relpath)
-
-                mdfile_name = mdfile_relpath.split("/")[-1]
-                mdfile_name_noext = mdfile_name.replace(".md", "")
-
-                LOG.debug("mdfile_name: %s", mdfile_name)
-                LOG.debug("mdfile_name_noext: %s", mdfile_name_noext)
-
-                self.yaml_dict["nav"].append({mdfile_name_noext: mdfile_relpath})
+            # TODOD: change docfile_name --> docfile_name_noext
+            self.yaml_dict["nav"].append({docfile_name: docfile_relpath})
 
     def mkdocs_add_srcdocs_to_nav(self, catname_2mdfile_dict):
+        rprint("catname_2mdfile_dict", catname_2mdfile_dict)
+        # sys.exit(42)
+
         ref_or_main_raw = self.conf.get("nav_codedocs_as_ref_or_main")
         ref_or_main = ref_or_main_raw if ref_or_main_raw else "main"
 
@@ -295,8 +309,9 @@ class GenMkdocsSite:
         LOG.info("Set generated src docs to nav")
         self.mkdocs_add_srcdocs_to_nav(catname_2mdfile_dict)
 
-        LOG.info("Set handwritten docs as main to nav")
-        # self.mkdocs_add_handwrittendocs_to_nav()
+        if self.conf["handwritten_docs_dir"] is not None:
+            LOG.info("Set handwritten docs as main to nav")
+            # self.mkdocs_add_handwrittendocs_to_nav()
 
         import yaml
 
@@ -356,6 +371,7 @@ class GenMkdocsSite:
 
         LOG.debug("src_absolute_path_list: %s", src_absolute_path_list)
 
+        # TODO: move exclusion_patterns_src into class init
         strict_exclusion_patterns_src = [
             f"/{patt}/" for patt in self.conf.get("exclusion_patterns_src")
         ]
@@ -428,16 +444,6 @@ if __name__ == "__main__":
     parser.add_argument(
         "-d", "--debug", dest="debug", help="Turn debug logging on", action="store_true"
     )
-
-    # parser.add_argument(
-    #     "-x",
-    #     "--exclude-files",
-    #     dest="exclusion_patterns_src",
-    #     help="List of space seperated file path patterns to exclude",
-    #     type=str,
-    #     nargs="*",
-    #     default=[],
-    # )
 
     args = parser.parse_args()
     gen_mkdocs_site = GenMkdocsSite(

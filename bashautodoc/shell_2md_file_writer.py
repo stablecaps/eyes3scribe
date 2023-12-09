@@ -147,20 +147,21 @@ class Sh2MdFileWriter:
 
         ######################################################
         ### Check if category matches our desireted categories
-        for catname in self.category_names_src:
-            if catname in srcfile_path_split:
-                # TODO: this is pointlessly inefficient - fix it
-                catdir_relpath = f"{mdoutdir_relpath}/{catname}"
-                hfile.mkdir_if_notexists(target=catdir_relpath)
-                mdoutfile_relpath = f"{catdir_relpath}/{mdoutfile_name}"
-                LOG.debug("mdoutfile_relpath: %s", mdoutfile_relpath)
+        (
+            category_name,
+            output_file_relpath,
+        ) = hfile.generate_category_and_output_filepath(
+            category_names=self.category_names_src,
+            source_file_path_parts=srcfile_path_split,
+            output_directory_relpath=mdoutdir_relpath,
+            output_file_name=mdoutfile_name,
+            undefined_category_relpath=self.udef_category_relpath,
+        )
 
-                return (catname, mdoutfile_relpath)
-
-        ### rule to undef if not in category_names_src
-        # TDOD: use Pathlib
-        ###  Category not found or not wanted?
-        return ("undef", f"{self.udef_category_relpath}/{mdoutfile_name}")
+        return (
+            category_name,
+            output_file_relpath,
+        )
 
     def main_write_md(self):
         """
