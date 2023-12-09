@@ -90,7 +90,7 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
 5. **Bug Fixes and Improvements**
     1. fix paths so it works with windows - use Pathlib
     ~~2. move undefined md pages to undef category~~
-    3. fix orphan single quote on value for about, param, etc
+    ~~3. fix orphan single quote on value for about, param, etc~~
     4. Add features to jump to github code file from website
     5. List function calls across files?
     6. List function references across files?
@@ -99,6 +99,10 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
     7. Process manually written docs
     ~~8. optionally put code generated stuff into a "reference" section~~
     9. Add facility to auto-publish and update hosted github pages
+    ~~10. Capitalise title first letter~~
+    11. correct "(in ./docs_bash-it/docs/docshw/plugins/available/osx.plugin.bash)" to point at relative repo src file, not temp
+    12. embed hyperlinks in function index (currently a code block)
+    13. think about putting function names inm navbar? too messy?
 
 
 6. **Mkdocs**

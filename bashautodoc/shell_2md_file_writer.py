@@ -74,7 +74,7 @@ class Sh2MdFileWriter:
         self.udef_category_relpath = self.conf["udef_category_relpath"]
 
         self.shell_glob_patterns = self.conf.get("shell_glob_patterns")
-        self.category_names_src = self.conf.get("category_names_src")
+        self.catnames_src = self.conf.get("catnames_src")
 
         self.sh2_md_file_writers = [
             "about",
@@ -124,17 +124,22 @@ class Sh2MdFileWriter:
         (
             srcfile_path_split,
             mdoutdir_relpath,
-            mdoutfile_name,
-        ) = hfile.generate_output_reldir_and_filename(
+            mdoutfilename,
+        ) = hfile.get_src_reldir_and_filename(
             file_relpath=self.srcfile_relpath,
             glob_patterns=self.conf.get("shell_glob_patterns"),
             replace_str=".md",
         )
 
+        LOG.debug("srcfile_path_split: %s", srcfile_path_split)
+        LOG.debug("mdoutdir_relpath: %s", mdoutdir_relpath)
+        LOG.debug("mdoutfilename: %s", mdoutfilename)
+        # sys.exit(42)
+
         # probably only does one level
         mdoutfile_relpath = None
         ######################################################
-        ### If no functions or aliases, then send to undef so usert can fix
+        ### If no functions or aliases, then send to undef so user can fix
         func_text_dict_len = len(self.func_text_dict)
         func_dep_dict_len = len(self.func_dep_dict)
         full_alias_str_list_len = len(self.full_alias_str_list)
@@ -143,23 +148,23 @@ class Sh2MdFileWriter:
             and (func_dep_dict_len == 0)
             and (full_alias_str_list_len == 0)
         ):
-            return ("undef", f"{self.udef_category_relpath}/{mdoutfile_name}")
+            return ("undef", f"{self.udef_category_relpath}/{mdoutfilename}")
 
         ######################################################
         ### Check if category matches our desireted categories
         (
-            category_name,
+            catname,
             output_file_relpath,
-        ) = hfile.generate_category_and_output_filepath(
-            category_names=self.category_names_src,
-            source_file_path_parts=srcfile_path_split,
-            output_directory_relpath=mdoutdir_relpath,
-            output_file_name=mdoutfile_name,
-            undefined_category_relpath=self.udef_category_relpath,
+        ) = hfile.make_category_dir_and_filepath(
+            category_names=self.catnames_src,
+            src_filepath_split=srcfile_path_split,
+            outdir_relpath=mdoutdir_relpath,
+            out_filename=mdoutfilename,
+            undef_category_relpath=self.udef_category_relpath,
         )
 
         return (
-            category_name,
+            catname,
             output_file_relpath,
         )
 
@@ -173,7 +178,9 @@ class Sh2MdFileWriter:
 
         catname, mdoutfile_relpath = self.sort_mdfiles_into_category_directories()
 
-        self.mdFile = MdUtils(file_name=mdoutfile_relpath, title=self.cite_about)
+        self.mdFile = MdUtils(
+            file_name=mdoutfile_relpath, title=self.cite_about.capitalize()
+        )
 
         # mdoutfile_relpath = self.srcfile_relpath.replace(
         #     self.conf.get("project_docs_dir"), ""
@@ -196,5 +203,8 @@ class Sh2MdFileWriter:
 
         ### Write out .md file
         self.mdFile.create_md_file()
+
+        # if "osx.plug" in mdoutfile_relpath.lower():
+        #     sys.exit(42)
 
         return (catname, mdoutfile_relpath)

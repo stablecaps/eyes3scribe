@@ -57,7 +57,7 @@ class GenMkdocsSite:
         self.debug = debug
 
         LOG.info("Loading config: %s", self.site_confname)
-        self.conf = hfile.load_yaml_file2dict(file_name=site_confname)
+        self.conf = hfile.load_yaml_file2dict(filename=site_confname)
         self.check_config()
 
         LOG.info("conf: %s", self.conf)
@@ -97,7 +97,7 @@ class GenMkdocsSite:
         self.conf["udef_category_relpath"] = self.udef_category_relpath
         self.conf["udef_category_hwdocs_relpath"] = self.udef_category_hwdocs_relpath
 
-        self.conf["category_names_src"].append("undef")
+        self.conf["catnames_src"].append("undef")
 
         self.conf_bashautodoc_keys = [
             "project_name",
@@ -111,7 +111,7 @@ class GenMkdocsSite:
             "shell_glob_patterns",
             "exclusion_patterns_src",
             "additional_mdfiles",
-            "category_names_src",
+            "catnames_src",
             "nav_codedocs_as_ref_or_main",
             "nav_codedocs_name",
             "handwritten_docs_dir",
@@ -154,7 +154,7 @@ class GenMkdocsSite:
             "repo_url": None,
             "nav": None,
             "shell_srcdir": None,
-            "category_names_src": None,
+            "catnames_src": None,
             "nav_codedocs_as_ref_or_main": ["ref", "main"],
         }
 
@@ -226,25 +226,25 @@ class GenMkdocsSite:
         LOG.debug("handwritten_docs_infiles: %s", handwritten_docs_infiles)
         # sys.exit(42)
 
-        for catname in self.conf.get("category_names_docs"):
+        for catname in self.conf.get("catnames_docs"):
             LOG.debug("catname: %s", catname)
-            sys.exit(42)
 
-            (
-                docfile_path_split,
-                docoutdir_relpath,
-                docfile_name,
-            ) = hfile.generate_output_reldir_and_filename(
-                file_relpath=docfile_relpath,
-                glob_patterns=self.conf.get("docs_glob_patterns"),
-                replace_str=".md",
-            )
+            # (
+            #     docfile_path_split,
+            #     docoutdir_relpath,
+            #     docfilename,
+            # ) = hfile.get_src_reldir_and_filename(
+            #     file_relpath=docfile_relpath,
+            #     glob_patterns=self.conf.get("docs_glob_patterns"),
+            #     replace_str=".md",
+            # )
 
-            LOG.debug("docfile_name: %s", docfile_name)
-            # LOG.debug("docfile_name_noext: %s", docfile_name_noext)
+            # LOG.debug("docfilename: %s", docfilename)
+            # # LOG.debug("docfilename_noext: %s", docfilename_noext)
+            # sys.exit(42)
 
-            # TODOD: change docfile_name --> docfile_name_noext
-            self.yaml_dict["nav"].append({docfile_name: docfile_relpath})
+            # # TODOD: change docfilename --> docfilename_noext
+            # self.yaml_dict["nav"].append({docfilename: docfile_relpath})
 
     def mkdocs_add_srcdocs_to_nav(self, catname_2mdfile_dict):
         rprint("catname_2mdfile_dict", catname_2mdfile_dict)
@@ -272,7 +272,7 @@ class GenMkdocsSite:
         LOG.info("Add generated code docs to nav")
         rprint("catname_2mdfile_dict", catname_2mdfile_dict)
 
-        for catname in self.conf.get("category_names_src"):
+        for catname in self.conf.get("catnames_src"):
             print("catname", catname)
             cat_mdoutfiles_relpaths = sorted(catname_2mdfile_dict.get(catname))
             catname_holder = []
@@ -311,7 +311,7 @@ class GenMkdocsSite:
 
         if self.conf["handwritten_docs_dir"] is not None:
             LOG.info("Set handwritten docs as main to nav")
-            # self.mkdocs_add_handwrittendocs_to_nav()
+            self.mkdocs_add_handwrittendocs_to_nav()
 
         import yaml
 
@@ -320,7 +320,7 @@ class GenMkdocsSite:
 
         LOG.info("Writing mkdocs config yaml")
         hfile.dict2_yaml_file(
-            file_name=f"{self.project_dir}/mkdocs.yml",
+            filename=f"{self.project_dir}/mkdocs.yml",
             yaml_dict=self.yaml_dict,
         )
         # sys.exit(42)

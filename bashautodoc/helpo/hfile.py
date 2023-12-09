@@ -16,12 +16,12 @@ LOG = logging.getLogger(__name__)
 yaml = YAML(typ="safe")
 
 
-def load_yaml_file2dict(file_name):
+def load_yaml_file2dict(filename):
     """
     Load a YAML file into a dictionary.
 
     Args:
-        file_name (str): The name of the YAML file.
+        filename (str): The name of the YAML file.
 
     Returns:
         dict: The loaded YAML data.
@@ -29,49 +29,49 @@ def load_yaml_file2dict(file_name):
     Example:
         yaml_data = load_yaml_file2dict("config.yaml")
     """
-    with open(file_name, "r", encoding="iso-8859-1") as yaml_path:
+    with open(filename, "r", encoding="iso-8859-1") as yaml_path:
         yaml_data = yaml.load(yaml_path)
         LOG.info("yaml_data: %s", yaml_data)
     return yaml_data
 
 
 def dump_yaml_file(
-    file_name,
+    filename,
     yaml_string,
 ):
     """
     Dump a YAML string into a file.
 
     Args:
-        file_name (str): The name of the file to write to.
+        filename (str): The name of the file to write to.
         yaml_string (str): The YAML string to write.
 
     Example:
         dump_yaml_file("config.yaml", "key: value")
     """
     yaml_data = yaml.load(yaml_string)
-    with open(file_name, "w") as yaml_path:
-        print("Writing yaml data to file name", file_name)
+    with open(filename, "w") as yaml_path:
+        print("Writing yaml data to file name", filename)
         LOG.debug("yaml_data: %s", yaml_data)
         yaml.dump(yaml_data, yaml_path)
 
 
 def dict2_yaml_file(
-    file_name,
+    filename,
     yaml_dict,
 ):
     """
     Write a dictionary to a file in YAML format.
 
     Args:
-        file_name (str): The name of the file to write to.
+        filename (str): The name of the file to write to.
         yaml_dict (dict): The dictionary to write.
 
     Example:
         dict2_yaml_file("config.yaml", {"key": "value"})
     """
-    with open(file_name, "w") as yaml_path:
-        print("Writing yaml data to file name", file_name)
+    with open(filename, "w") as yaml_path:
+        print("Writing yaml data to file name", filename)
         LOG.debug("yaml_dict: %s", yaml_dict)
         yaml.dump(yaml_dict, yaml_path)
 
@@ -192,68 +192,52 @@ def filter_paths_excluding_patterns(path_list, exclusion_patterns_src):
     return filtered_paths
 
 
-def generate_output_reldir_and_filename(file_relpath, shell_glob_patterns, replace_str):
-    """
-    Generates the relative path of the output directory and the output filename.
+# def get_src_reldir_and_filename(file_relpath, shell_glob_patterns, replace_str):
+#     """
+#     Generates the relative path of the output directory and the output filename.
 
-    Args:
-        file_relpath (str): The relative path of the file.
-        shell_glob_patterns (list): The list of shell glob patterns.
-        replace_str (str): The string to replace in the filename.
+#     Args:
+#         file_relpath (str): The relative path of the file.
+#         shell_glob_patterns (list): The list of shell glob patterns.
+#         replace_str (str): The string to replace in the filename.
 
-    Returns:
-        tuple: The relative path of the output directory and the output filename.
+#     Returns:
+#         tuple: The relative path of the output directory and the output filename.
 
-    Example:
-        outdir_relpath, outfilename = generate_output_reldir_and_filename(
-            "src/main.py", ["*.py"], ".md"
-        )
-    """
-    filepath_split = file_relpath.split("/")
-    filename = filepath_split.pop()
-    output_directory_relpath = "/".join(filepath_split)
+#     Example:
+#         srcdir_relpath, outfilename = get_src_reldir_and_filename(
+#             "src/main.py", ["*.py"], ".md"
+#         )
+#     """
+#     filepath_split = file_relpath.split("/")
+#     filename = filepath_split.pop()
+#     outdir_relpath = "/".join(filepath_split)
 
-    output_file_name = str_multi_replace(
-        input_str=filename,
-        rm_patt_list=shell_glob_patterns,
-        replace_str=replace_str,
-    )
+#     out_filename = str_multi_replace(
+#         input_str=filename,
+#         rm_patt_list=shell_glob_patterns,
+#         replace_str=replace_str,
+#     )
 
-    LOG.debug("shell_glob_patterns: %s", shell_glob_patterns)
-    LOG.debug("filepath_split: %s", filepath_split)
-    LOG.debug(
-        "output_directory_relpath: %s",
-        output_directory_relpath,
-    )
-    LOG.debug("output_file_name: %s", output_file_name)
-    LOG.debug("source_file_relative_path: %s", file_relpath)
+#     LOG.debug("shell_glob_patterns: %s", shell_glob_patterns)
+#     LOG.debug("filepath_split: %s", filepath_split)
+#     LOG.debug(
+#         "outdir_relpath: %s",
+#         outdir_relpath,
+#     )
+#     LOG.debug("out_filename: %s", out_filename)
+#     LOG.debug("source_file_relative_path: %s", file_relpath)
 
-    return output_directory_relpath, output_file_name
+#     return outdir_relpath, out_filename
 
 
-def generate_output_reldir_and_filename(file_relpath, glob_patterns, replace_str):
-    """
-    Generates the relative path of the output directory and the output filename.
-
-    Args:
-        file_relpath (str): The relative path of the file.
-        glob_patterns (list): The list of shell glob patterns.
-        replace_str (str): The string to replace in the filename.
-
-    Returns:
-        tuple: The file path split, the relative path of the output directory,
-        and the output filename.
-
-    Example:
-        file_path_split, output_directory_path, output_filename =
-        generate_output_reldir_and_filename("src/main.py", ["*.py"], ".md")
-    """
+def get_src_reldir_and_filename(file_relpath, glob_patterns, replace_str):
     file_path_split = file_relpath.split("/")
-    file_name = file_path_split.pop()
-    outdir_relpath = "/".join(file_path_split)
+    filename = file_path_split.pop()
+    srcdir_relpath = "/".join(file_path_split)
 
-    output_file_name = str_multi_replace(
-        input_str=file_name,
+    out_filename = str_multi_replace(
+        input_str=filename,
         rm_patt_list=glob_patterns,
         replace_str=replace_str,
     )
@@ -261,42 +245,29 @@ def generate_output_reldir_and_filename(file_relpath, glob_patterns, replace_str
     LOG.debug("glob_patterns: %s", glob_patterns)
     LOG.debug("file_path_split: %s", file_path_split)
     LOG.debug(
-        "outdir_relpath: %s",
-        outdir_relpath,
+        "srcdir_relpath: %s",
+        srcdir_relpath,
     )
-    LOG.debug("output_file_name: %s", output_file_name)
+    LOG.debug("out_filename: %s", out_filename)
     LOG.debug("file_relpath: %s", file_relpath)
 
-    return file_path_split, outdir_relpath, output_file_name
+    return file_path_split, srcdir_relpath, out_filename
 
 
-def generate_category_and_output_filepath(
+def make_category_dir_and_filepath(
     category_names,
-    source_file_path_parts,
-    output_directory_relpath,
-    output_file_name,
-    undefined_category_relpath,
+    src_filepath_split,
+    outdir_relpath,
+    out_filename,
+    undef_category_relpath,
 ):
-    """
-    Generates the category name and the relative path of the output file.
-
-    Args:
-        category_names (list): The list of desired category names.
-        source_file_path_parts (list): The list of parts of the source file path.
-        output_directory_relpath (str): The relative path of the output directory.
-        output_file_name (str): The name of the output file.
-        undefined_category_relpath (str): The relative path of the undefined category.
-
-    Returns:
-        tuple: The category name and the relative path of the output file.
-    """
-    for category_name in category_names:
-        if category_name in source_file_path_parts:
-            category_directory_relpath = f"{output_directory_relpath}/{category_name}"
-            mkdir_if_notexists(target=category_directory_relpath)
-            output_file_relpath = f"{category_directory_relpath}/{output_file_name}"
+    for catname in category_names:
+        if catname in src_filepath_split:
+            catdir_relpath = f"{outdir_relpath}/{catname}"
+            mkdir_if_notexists(target=catdir_relpath)
+            output_file_relpath = f"{catdir_relpath}/{out_filename}"
             LOG.debug("output_file_relpath: %s", output_file_relpath)
 
-            return (category_name, output_file_relpath)
+            return (catname, output_file_relpath)
 
-    return ("undef", f"{undefined_category_relpath}/{output_file_name}")
+    return ("undef", f"{undef_category_relpath}/{out_filename}")

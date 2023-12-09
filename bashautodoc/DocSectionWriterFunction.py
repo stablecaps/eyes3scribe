@@ -64,10 +64,11 @@ class DocSectionWriterFunction:
         """
         cite_li = []
         for line in func_str.split("\n"):
+            print("line", line)
             for cparam in self.sh2_md_file_writers:
                 max_str_prefix_len = 11
                 if cparam in line.strip()[0:max_str_prefix_len]:
-                    stripped_line = line.strip()
+                    stripped_line = line.strip().replace(f"{cparam} '", f"{cparam} ")
                     LOG.debug(
                         "*!! %s, %s, %s, %s",
                         line.strip()[0:max_str_prefix_len],
@@ -107,8 +108,10 @@ class DocSectionWriterFunction:
             writer._add_about_param_example_etc('my_function')
         """
         cite_li = self._gen_cite_parameter_strings(func_str=func_str)
-        LOG.debug("cite_li %s", cite_li)
-        if cite_li is not None:
+        # if cite_li is not None:
+        if len(cite_li) > 0:
+            LOG.debug("cite_li %s", cite_li)
+            # sys.exit(42)
             for cparam_str in cite_li:
                 self.mdFile.new_paragraph(cparam_str)
 

@@ -6,10 +6,16 @@ from ruamel.yaml import YAML
 
 yaml = YAML(typ="safe")
 
-from bashautodoc.helpo.hfile import (copy_clobber, copy_dir, copy_file,
-                                     dict2_yaml_file, dump_yaml_file,
-                                     load_yaml_file2dict, mkdir_if_notexists,
-                                     rmdir_if_exists)
+from bashautodoc.helpo.hfile import (
+    copy_clobber,
+    copy_dir,
+    copy_file,
+    dict2_yaml_file,
+    dump_yaml_file,
+    load_yaml_file2dict,
+    mkdir_if_notexists,
+    rmdir_if_exists,
+)
 
 
 def test_load_yaml_file2dict():
@@ -134,16 +140,16 @@ def test_copy_file():
     # Create a source and target file
     with tempfile.NamedTemporaryFile(delete=False) as source_file:
         source_file.write(b"Test")
-        source_file_name = source_file.name
+        source_filename = source_file.name
     with tempfile.NamedTemporaryFile(delete=False) as target_file:
-        target_file_name = target_file.name
+        target_filename = target_file.name
 
     # Copy the source to the target
-    copy_file(source_file_name, target_file_name)
+    copy_file(source_filename, target_filename)
 
     # Check the target file exists
-    assert os.path.exists(target_file_name), "Failed to copy the file"
+    assert os.path.exists(target_filename), "Failed to copy the file"
 
     # Clean up
-    os.remove(source_file_name)
-    os.remove(target_file_name)
+    os.remove(source_filename)
+    os.remove(target_filename)

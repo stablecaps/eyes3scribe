@@ -35,7 +35,7 @@ exclusion_patterns_src:
   - Thumbs.db
   - .DS_Store
   - venv
-category_names_src:
+catnames_src:
   - aliases
   - completion
   - plugins
@@ -51,7 +51,7 @@ exclusion_patterns_docs:
   - Thumbs.db
   - .DS_Store
   - venv
-category_names_docs:
+catnames_docs:
   - commands
   - themes-list
   - ./

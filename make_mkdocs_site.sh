@@ -42,17 +42,17 @@ echo $all_md_files
 
 ##############################################
 #for mymd in $all_md_files; do
-for category_name in "aliases" "completion" "modules" "internal" ; do
+for catname in "aliases" "completion" "modules" "internal" ; do
 cat<<BACON >> mkdocs.yml
-    - ${category_name}:
+    - ${catname}:
 BACON
 
-    grouped_categ_info=$(echo "$all_md_files" | grep "$category_name" | sed 's|.md||g' | tr "/" " ")
-    grouped_categ_pages=$(echo "$all_md_files" | grep "$category_name")
+    grouped_categ_info=$(echo "$all_md_files" | grep "$catname" | sed 's|.md||g' | tr "/" " ")
+    grouped_categ_pages=$(echo "$all_md_files" | grep "$catname")
 
     for page_path in $grouped_categ_pages; do
         echo "z $page_path"
-        page_name=$(echo "$page_path" | grep "$category_name" | sed 's|.md||g' | tr "/" " " | awk '{print $3}')
+        page_name=$(echo "$page_path" | grep "$catname" | sed 's|.md||g' | tr "/" " " | awk '{print $3}')
         echo "mymd: $page_name $page_path"
         #exit 1
 

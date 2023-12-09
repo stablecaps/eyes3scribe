@@ -81,8 +81,8 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
 
     print("filtered_multiline_str_list", filtered_multiline_str_list)
 
-    cleaned_out_str = "\n".join(filtered_multiline_str_list)
-    print("cleaned_out_str", cleaned_out_str)
+    cleaned_outstr = "\n".join(filtered_multiline_str_list)
+    print("cleaned_outstr", cleaned_outstr)
 
     # multiline_str_list_len = len(multiline_str_list)
     # idx = 0
@@ -94,7 +94,7 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
     #             out_str += f"{line}\n"
     #     idx += 1
 
-    return cleaned_out_str
+    return cleaned_outstr
 
 
 def str_multi_replace(input_str, rm_patt_list, replace_str):
