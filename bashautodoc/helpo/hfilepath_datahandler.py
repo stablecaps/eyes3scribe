@@ -28,23 +28,6 @@ class FileDataHolder:
 
 
 class FilepathDatahandler:
-    def __init__(self):
-        print("never called in this case")
-        # self.dh = FileDataHolder()
-        # #
-        # self.dh.infile_relpath = infile_relpath
-        # self.dh.infile_path_split = infile_relpath.split("/")
-        # self.dh.infile_filename = self.dh.infile_path_split.pop()
-        # #
-        # self.dh.glob_patterns = glob_patterns
-        # self.dh.replace_str = replace_str
-
-        # ###
-        # self.dh.category_names = category_names
-        # self.dh.undef_category_dir = undef_category_dir
-
-        ###
-
     def __new__(
         cls,
         infile_relpath: str,
