@@ -14,253 +14,234 @@ subgraph legend{
         <tr><td>Function call</td><td><font color='black'>&#8594;</font></td></tr>
         </table></td></tr></table>
         >];
-}node_e0731fb4 [label="14: __init__()" name="DocSectionWriterFunction::DocSectionWriterFunction.__init__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_50f25b4f [label="100: _add_about_param_example_etc()" name="DocSectionWriterFunction::DocSectionWriterFunction._add_about_param_example_etc" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_3008a0c1 [label="138: _add_function_code_block()" name="DocSectionWriterFunction::DocSectionWriterFunction._add_function_code_block" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_b55f8e1b [label="188: _add_function_dependency_block()" name="DocSectionWriterFunction::DocSectionWriterFunction._add_function_dependency_block" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_6eb765bc [label="52: _gen_cite_parameter_strings()" name="DocSectionWriterFunction::DocSectionWriterFunction._gen_cite_parameter_strings" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_20cb6265 [label="217: _generate_markdown_code_from_function_signature()" name="DocSectionWriterFunction::DocSectionWriterFunction._generate_markdown_code_from_function_signature" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_0ea37c18 [label="20: _write_function_index()" name="DocSectionWriterFunction::DocSectionWriterFunction._write_function_index" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_9c6ff55a [label="37: _write_page_header()" name="DocSectionWriterFunction::DocSectionWriterFunction._write_page_header" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_e7748ef6 [label="118: clean_func_str()" name="DocSectionWriterFunction::DocSectionWriterFunction.clean_func_str" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_41c84684 [label="153: gen_func_dependent_str()" name="DocSectionWriterFunction::DocSectionWriterFunction.gen_func_dependent_str" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_43edd469 [label="231: write_func_section()" name="DocSectionWriterFunction::DocSectionWriterFunction.write_func_section" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_1fbcfdf3 [label="24: format()" name="coloured_log_formatter::ColouredLogFormatter.format" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_de90dda7 [label="0: (global)()" name="function_call_tree::(global)" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_5ad9eb20 [label="41: __init__()" name="function_call_tree::Node.__init__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_d6d643cd [label="107: __init__()" name="function_call_tree::Track.__init__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_83509db2 [label="57: _int_draw_tree()" name="function_call_tree::_int_draw_tree" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_fab096df [label="157: draw_tree()" name="function_call_tree::draw_tree" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_72b8ca85 [label="118: parser()" name="function_call_tree::parser" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_3bf67ede [label="24: __init__()" name="function_dependency_processor::FunctionDependencyProcessor.__init__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_bdc62d31 [label="57: _add_funcname_to_dep_dict()" name="function_dependency_processor::FunctionDependencyProcessor._add_funcname_to_dep_dict" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_c009f568 [label="37: _isfunc_name_in_multiline_fdef()" name="function_dependency_processor::FunctionDependencyProcessor._isfunc_name_in_multiline_fdef" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_9e6d7d30 [label="77: _process_func_def()" name="function_dependency_processor::FunctionDependencyProcessor._process_func_def" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_c1f2851c [label="98: create_func_dep_dict()" name="function_dependency_processor::FunctionDependencyProcessor.create_func_dep_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_cc51e553 [label="0: (global)()" name="gen_mkdocs_site::(global)" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_44b9c667 [label="44: __init__()" name="gen_mkdocs_site::GenMkdocsSite.__init__" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_f46ee68a [label="154: check_config()" name="gen_mkdocs_site::GenMkdocsSite.check_config" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_5546b871 [label="312: create_mkdocs_yaml()" name="gen_mkdocs_site::GenMkdocsSite.create_mkdocs_yaml" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_78b7b53b [label="340: main()" name="gen_mkdocs_site::GenMkdocsSite.main" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_4b1e3452 [label="231: mkdocs_add_handwrittendocs_to_nav()" name="gen_mkdocs_site::GenMkdocsSite.mkdocs_add_handwrittendocs_to_nav" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_6b1113a0 [label="260: mkdocs_add_srcdocs_to_nav()" name="gen_mkdocs_site::GenMkdocsSite.mkdocs_add_srcdocs_to_nav" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_d1a1ee93 [label="205: setup_docs_project()" name="gen_mkdocs_site::GenMkdocsSite.setup_docs_project" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_1de77e9e [label="105: copy_clobber()" name="hfile::copy_clobber" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_ae69119a [label="134: files_and_dirs_recursive_lister()" name="hfile::files_and_dirs_recursive_lister" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_3973ef64 [label="180: filter_paths_excluding_patterns()" name="hfile::filter_paths_excluding_patterns" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_3fa7119d [label="93: mkdir_if_notexists()" name="hfile::mkdir_if_notexists" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_2c6efc6e [label="157: recursively_search_dir_with_globs()" name="hfile::recursively_search_dir_with_globs" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_2e6cf5a5 [label="79: rmdir_if_exists()" name="hfile::rmdir_if_exists" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_d4be72c9 [label="31: __new__()" name="hfilepath_datahandler::FilepathDatahandler.__new__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_7c074594 [label="66: get_categorydir_and_outfilepath()" name="hfilepath_datahandler::FilepathDatahandler.get_categorydir_and_outfilepath" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_65e35f9e [label="58: get_out_filename()" name="hfilepath_datahandler::FilepathDatahandler.get_out_filename" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_83aa7263 [label="85: main()" name="hfilepath_datahandler::FilepathDatahandler.main" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_fa7c75c0 [label="23: __new__()" name="hfunction_datahandler::FunctionDatahandler.__new__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_522f91ae [label="52: _process_about_line()" name="hfunction_datahandler::FunctionDatahandler._process_about_line" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_559fe11c [label="80: _process_alias_line()" name="hfunction_datahandler::FunctionDatahandler._process_alias_line" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_02a6c151 [label="117: create_func_text_dict()" name="hfunction_datahandler::FunctionDatahandler.create_func_text_dict" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_c9e7b9b6 [label="31: get_function_name()" name="hfunction_datahandler::FunctionDatahandler.get_function_name" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_b9f0154a [label="179: main()" name="hfunction_datahandler::FunctionDatahandler.main" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
-node_a8321e11 [label="8: does_string_contain_pattern()" name="hstrops::does_string_contain_pattern" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_cac17ec0 [label="33: does_string_starts_with_pattern()" name="hstrops::does_string_starts_with_pattern" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_da9db957 [label="58: rm_lines_starting_with()" name="hstrops::rm_lines_starting_with" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_91874a6b [label="100: str_multi_replace()" name="hstrops::str_multi_replace" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_7905d334 [label="39: __init__()" name="shell_2md_file_writer::Sh2MdFileWriter.__init__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_9397e3da [label="92: write_aliases_section()" name="shell_2md_file_writer::Sh2MdFileWriter.write_aliases_section" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_fa171f6e [label="118: write_md()" name="shell_2md_file_writer::Sh2MdFileWriter.write_md" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_08ad4c67 [label="37: __init__()" name="shell_src_preprocessor::ShellSrcPreProcessor.__init__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
-node_127cea25 [label="64: run()" name="shell_src_preprocessor::ShellSrcPreProcessor.run" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
-node_50f25b4f -> node_6eb765bc [color="#CC79A7" penwidth="2"];
-node_3008a0c1 -> node_e7748ef6 [color="#E69F00" penwidth="2"];
-node_b55f8e1b -> node_41c84684 [color="#009E73" penwidth="2"];
-node_b55f8e1b -> node_fab096df [color="#009E73" penwidth="2"];
-node_b55f8e1b -> node_72b8ca85 [color="#009E73" penwidth="2"];
-node_20cb6265 -> node_50f25b4f [color="#0072B2" penwidth="2"];
-node_20cb6265 -> node_3008a0c1 [color="#0072B2" penwidth="2"];
-node_20cb6265 -> node_b55f8e1b [color="#0072B2" penwidth="2"];
-node_20cb6265 -> node_9c6ff55a [color="#0072B2" penwidth="2"];
-node_e7748ef6 -> node_da9db957 [color="#D55E00" penwidth="2"];
-node_43edd469 -> node_20cb6265 [color="#E69F00" penwidth="2"];
-node_43edd469 -> node_0ea37c18 [color="#E69F00" penwidth="2"];
-node_1fbcfdf3 -> node_1fbcfdf3 [color="#009E73" penwidth="2"];
-node_de90dda7 -> node_fab096df [color="#CC79A7" penwidth="2"];
-node_de90dda7 -> node_72b8ca85 [color="#CC79A7" penwidth="2"];
-node_83509db2 -> node_1fbcfdf3 [color="#56B4E9" penwidth="2"];
-node_83509db2 -> node_1fbcfdf3 [color="#56B4E9" penwidth="2"];
-node_83509db2 -> node_83509db2 [color="#56B4E9" penwidth="2"];
-node_83509db2 -> node_83509db2 [color="#56B4E9" penwidth="2"];
-node_fab096df -> node_83509db2 [color="#CC79A7" penwidth="2"];
-node_fab096df -> node_83509db2 [color="#CC79A7" penwidth="2"];
-node_72b8ca85 -> node_5ad9eb20 [color="#0072B2" penwidth="2"];
-node_72b8ca85 -> node_d6d643cd [color="#0072B2" penwidth="2"];
-node_9e6d7d30 -> node_bdc62d31 [color="#000000" penwidth="2"];
-node_9e6d7d30 -> node_c009f568 [color="#000000" penwidth="2"];
-node_c1f2851c -> node_9e6d7d30 [color="#F0E442" penwidth="2"];
-node_c1f2851c -> node_da9db957 [color="#F0E442" penwidth="2"];
-node_cc51e553 -> node_44b9c667 [color="#009E73" penwidth="2"];
-node_cc51e553 -> node_78b7b53b [color="#009E73" penwidth="2"];
-node_44b9c667 -> node_f46ee68a [color="#CC79A7" penwidth="2"];
-node_5546b871 -> node_4b1e3452 [color="#E69F00" penwidth="2"];
-node_5546b871 -> node_6b1113a0 [color="#E69F00" penwidth="2"];
-node_78b7b53b -> node_5546b871 [color="#009E73" penwidth="2"];
-node_78b7b53b -> node_d1a1ee93 [color="#009E73" penwidth="2"];
-node_78b7b53b -> node_08ad4c67 [color="#009E73" penwidth="2"];
-node_78b7b53b -> node_127cea25 [color="#009E73" penwidth="2"];
-node_1de77e9e -> node_2e6cf5a5 [color="#D55E00" penwidth="2"];
-node_3973ef64 -> node_a8321e11 [color="#F0E442" penwidth="2"];
-node_2c6efc6e -> node_ae69119a [color="#D55E00" penwidth="2"];
-node_7c074594 -> node_3fa7119d [color="#F0E442" penwidth="2"];
-node_65e35f9e -> node_91874a6b [color="#D55E00" penwidth="2"];
-node_83aa7263 -> node_7c074594 [color="#009E73" penwidth="2"];
-node_83aa7263 -> node_65e35f9e [color="#009E73" penwidth="2"];
-node_02a6c151 -> node_522f91ae [color="#E69F00" penwidth="2"];
-node_02a6c151 -> node_559fe11c [color="#E69F00" penwidth="2"];
-node_02a6c151 -> node_c9e7b9b6 [color="#E69F00" penwidth="2"];
-node_b9f0154a -> node_3bf67ede [color="#56B4E9" penwidth="2"];
-node_b9f0154a -> node_c1f2851c [color="#56B4E9" penwidth="2"];
-node_b9f0154a -> node_02a6c151 [color="#56B4E9" penwidth="2"];
-node_da9db957 -> node_cac17ec0 [color="#CC79A7" penwidth="2"];
-node_fa171f6e -> node_e0731fb4 [color="#D55E00" penwidth="2"];
-node_fa171f6e -> node_43edd469 [color="#D55E00" penwidth="2"];
-node_fa171f6e -> node_9397e3da [color="#D55E00" penwidth="2"];
-node_127cea25 -> node_d4be72c9 [color="#0072B2" penwidth="2"];
-node_127cea25 -> node_fa7c75c0 [color="#0072B2" penwidth="2"];
-node_127cea25 -> node_7905d334 [color="#0072B2" penwidth="2"];
-node_127cea25 -> node_fa171f6e [color="#0072B2" penwidth="2"];
-subgraph cluster_b3e1d48b {
+}node_f27213c5 [label="14: __init__()" name="DocSectionWriterFunction::DocSectionWriterFunction.__init__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_7846aab5 [label="100: _add_about_param_example_etc()" name="DocSectionWriterFunction::DocSectionWriterFunction._add_about_param_example_etc" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_18cf86e1 [label="138: _add_function_code_block()" name="DocSectionWriterFunction::DocSectionWriterFunction._add_function_code_block" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_444e8ea8 [label="188: _add_function_dependency_block()" name="DocSectionWriterFunction::DocSectionWriterFunction._add_function_dependency_block" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_b59a9a70 [label="52: _gen_cite_parameter_strings()" name="DocSectionWriterFunction::DocSectionWriterFunction._gen_cite_parameter_strings" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_17cfcffe [label="217: _generate_markdown_code_from_function_signature()" name="DocSectionWriterFunction::DocSectionWriterFunction._generate_markdown_code_from_function_signature" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_b301c108 [label="20: _write_function_index()" name="DocSectionWriterFunction::DocSectionWriterFunction._write_function_index" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_2b863ad2 [label="37: _write_page_header()" name="DocSectionWriterFunction::DocSectionWriterFunction._write_page_header" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_1c431c2e [label="118: clean_func_str()" name="DocSectionWriterFunction::DocSectionWriterFunction.clean_func_str" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_162735d0 [label="153: gen_func_dependent_str()" name="DocSectionWriterFunction::DocSectionWriterFunction.gen_func_dependent_str" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_2199e37c [label="231: write_func_section()" name="DocSectionWriterFunction::DocSectionWriterFunction.write_func_section" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_1d798aec [label="24: format()" name="coloured_log_formatter::ColouredLogFormatter.format" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_e06c266c [label="0: (global)()" name="function_call_tree::(global)" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_2bd60c37 [label="41: __init__()" name="function_call_tree::Node.__init__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_02ef7429 [label="107: __init__()" name="function_call_tree::Track.__init__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_42899f58 [label="57: _int_draw_tree()" name="function_call_tree::_int_draw_tree" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_56fdba01 [label="157: draw_tree()" name="function_call_tree::draw_tree" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_7c8cfd48 [label="118: parser()" name="function_call_tree::parser" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_861ba7b0 [label="57: _add_funcname_to_dep_dict()" name="function_dependency_processor::FunctionDependencyProcessor._add_funcname_to_dep_dict" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_de67a06a [label="37: _isfunc_name_in_multiline_fdef()" name="function_dependency_processor::FunctionDependencyProcessor._isfunc_name_in_multiline_fdef" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_25ef6d80 [label="77: _process_func_def()" name="function_dependency_processor::FunctionDependencyProcessor._process_func_def" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_2f0589ec [label="98: create_func_dep_dict()" name="function_dependency_processor::FunctionDependencyProcessor.create_func_dep_dict" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_59ca2c9b [label="17: __init__()" name="gen_hwdocs::CreateHandwrittenDocs.__init__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_5aba28c1 [label="28: convert_rst2md()" name="gen_hwdocs::CreateHandwrittenDocs.convert_rst2md" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_9d262772 [label="43: create_hwdocs()" name="gen_hwdocs::CreateHandwrittenDocs.create_hwdocs" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_35efcb1e [label="0: (global)()" name="gen_mkdocs_site::(global)" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_349f5ab7 [label="45: __init__()" name="gen_mkdocs_site::GenMkdocsSite.__init__" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_3cbde1ee [label="158: check_config()" name="gen_mkdocs_site::GenMkdocsSite.check_config" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_db794f86 [label="342: create_mkdocs_yaml()" name="gen_mkdocs_site::GenMkdocsSite.create_mkdocs_yaml" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_7a05ff52 [label="366: main()" name="gen_mkdocs_site::GenMkdocsSite.main" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_8cce61b5 [label="239: mkdocs_add_handwrittendocs_to_nav()" name="gen_mkdocs_site::GenMkdocsSite.mkdocs_add_handwrittendocs_to_nav" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_d5e2c0c2 [label="290: mkdocs_add_srcdocs_to_nav()" name="gen_mkdocs_site::GenMkdocsSite.mkdocs_add_srcdocs_to_nav" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_72fadbc0 [label="209: setup_docs_project()" name="gen_mkdocs_site::GenMkdocsSite.setup_docs_project" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_4a6d6950 [label="111: copy_clobber()" name="hfile::copy_clobber" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_3d9b37c0 [label="140: files_and_dirs_recursive_lister()" name="hfile::files_and_dirs_recursive_lister" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_9a3607ef [label="186: filter_paths_excluding_patterns()" name="hfile::filter_paths_excluding_patterns" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_caa5e052 [label="163: recursively_search_dir_with_globs()" name="hfile::recursively_search_dir_with_globs" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_1e77caab [label="85: rmdir_if_exists()" name="hfile::rmdir_if_exists" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_d71a0fe3 [label="8: does_string_contain_pattern()" name="hstrops::does_string_contain_pattern" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_22f753ba [label="33: does_string_starts_with_pattern()" name="hstrops::does_string_starts_with_pattern" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_dd6aab88 [label="58: rm_lines_starting_with()" name="hstrops::rm_lines_starting_with" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_0c95c4b1 [label="38: run_cmd_with_errorcode()" name="hsubprocess::run_cmd_with_errorcode" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_2f89dd68 [label="21: run_cmd_with_output()" name="hsubprocess::run_cmd_with_output" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_f3a5dfbb [label="8: shlex_convert_str_2list()" name="hsubprocess::shlex_convert_str_2list" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_6992c448 [label="39: __init__()" name="shell_2md_file_writer::Sh2MdFileWriter.__init__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_6b8a9223 [label="92: write_aliases_section()" name="shell_2md_file_writer::Sh2MdFileWriter.write_aliases_section" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_f5d5ee11 [label="118: write_md()" name="shell_2md_file_writer::Sh2MdFileWriter.write_md" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_49e5494e [label="37: __init__()" name="shell_src_preprocessor::ShellSrcPreProcessor.__init__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_6d99eb72 [label="64: run()" name="shell_src_preprocessor::ShellSrcPreProcessor.run" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_7846aab5 -> node_b59a9a70 [color="#0072B2" penwidth="2"];
+node_18cf86e1 -> node_1c431c2e [color="#E69F00" penwidth="2"];
+node_444e8ea8 -> node_162735d0 [color="#000000" penwidth="2"];
+node_444e8ea8 -> node_56fdba01 [color="#000000" penwidth="2"];
+node_444e8ea8 -> node_7c8cfd48 [color="#000000" penwidth="2"];
+node_17cfcffe -> node_7846aab5 [color="#D55E00" penwidth="2"];
+node_17cfcffe -> node_18cf86e1 [color="#D55E00" penwidth="2"];
+node_17cfcffe -> node_444e8ea8 [color="#D55E00" penwidth="2"];
+node_17cfcffe -> node_2b863ad2 [color="#D55E00" penwidth="2"];
+node_1c431c2e -> node_dd6aab88 [color="#D55E00" penwidth="2"];
+node_2199e37c -> node_17cfcffe [color="#F0E442" penwidth="2"];
+node_2199e37c -> node_b301c108 [color="#F0E442" penwidth="2"];
+node_1d798aec -> node_1d798aec [color="#F0E442" penwidth="2"];
+node_e06c266c -> node_56fdba01 [color="#F0E442" penwidth="2"];
+node_e06c266c -> node_7c8cfd48 [color="#F0E442" penwidth="2"];
+node_42899f58 -> node_1d798aec [color="#000000" penwidth="2"];
+node_42899f58 -> node_1d798aec [color="#000000" penwidth="2"];
+node_42899f58 -> node_42899f58 [color="#000000" penwidth="2"];
+node_42899f58 -> node_42899f58 [color="#000000" penwidth="2"];
+node_56fdba01 -> node_42899f58 [color="#E69F00" penwidth="2"];
+node_56fdba01 -> node_42899f58 [color="#E69F00" penwidth="2"];
+node_7c8cfd48 -> node_2bd60c37 [color="#000000" penwidth="2"];
+node_7c8cfd48 -> node_02ef7429 [color="#000000" penwidth="2"];
+node_25ef6d80 -> node_861ba7b0 [color="#000000" penwidth="2"];
+node_25ef6d80 -> node_de67a06a [color="#000000" penwidth="2"];
+node_2f0589ec -> node_25ef6d80 [color="#F0E442" penwidth="2"];
+node_2f0589ec -> node_dd6aab88 [color="#F0E442" penwidth="2"];
+node_5aba28c1 -> node_2f89dd68 [color="#E69F00" penwidth="2"];
+node_9d262772 -> node_5aba28c1 [color="#56B4E9" penwidth="2"];
+node_35efcb1e -> node_349f5ab7 [color="#D55E00" penwidth="2"];
+node_35efcb1e -> node_7a05ff52 [color="#D55E00" penwidth="2"];
+node_349f5ab7 -> node_3cbde1ee [color="#CC79A7" penwidth="2"];
+node_db794f86 -> node_8cce61b5 [color="#D55E00" penwidth="2"];
+node_db794f86 -> node_d5e2c0c2 [color="#D55E00" penwidth="2"];
+node_7a05ff52 -> node_db794f86 [color="#56B4E9" penwidth="2"];
+node_7a05ff52 -> node_72fadbc0 [color="#56B4E9" penwidth="2"];
+node_7a05ff52 -> node_49e5494e [color="#56B4E9" penwidth="2"];
+node_7a05ff52 -> node_6d99eb72 [color="#56B4E9" penwidth="2"];
+node_8cce61b5 -> node_59ca2c9b [color="#0072B2" penwidth="2"];
+node_8cce61b5 -> node_9d262772 [color="#0072B2" penwidth="2"];
+node_4a6d6950 -> node_1e77caab [color="#000000" penwidth="2"];
+node_9a3607ef -> node_d71a0fe3 [color="#CC79A7" penwidth="2"];
+node_caa5e052 -> node_3d9b37c0 [color="#56B4E9" penwidth="2"];
+node_dd6aab88 -> node_22f753ba [color="#000000" penwidth="2"];
+node_0c95c4b1 -> node_f3a5dfbb [color="#E69F00" penwidth="2"];
+node_2f89dd68 -> node_f3a5dfbb [color="#000000" penwidth="2"];
+node_f5d5ee11 -> node_f27213c5 [color="#E69F00" penwidth="2"];
+node_f5d5ee11 -> node_2199e37c [color="#E69F00" penwidth="2"];
+node_f5d5ee11 -> node_6b8a9223 [color="#E69F00" penwidth="2"];
+node_6d99eb72 -> node_6992c448 [color="#56B4E9" penwidth="2"];
+node_6d99eb72 -> node_f5d5ee11 [color="#56B4E9" penwidth="2"];
+subgraph cluster_e8bd0f84 {
     label="File: DocSectionWriterFunction";
     name="DocSectionWriterFunction";
     style="filled";
     graph[style=dotted];
-    subgraph cluster_100eab58 {
-        node_e0731fb4 node_0ea37c18 node_9c6ff55a node_6eb765bc node_50f25b4f node_e7748ef6 node_3008a0c1 node_41c84684 node_b55f8e1b node_20cb6265 node_43edd469;
+    subgraph cluster_5a63418f {
+        node_f27213c5 node_b301c108 node_2b863ad2 node_b59a9a70 node_7846aab5 node_1c431c2e node_18cf86e1 node_162735d0 node_444e8ea8 node_17cfcffe node_2199e37c;
         label="Class: DocSectionWriterFunction";
         name="DocSectionWriterFunction";
         style="filled";
         graph[style=dotted];
     };
 };
-subgraph cluster_4d0e628a {
+subgraph cluster_b637b4fd {
     label="File: coloured_log_formatter";
     name="coloured_log_formatter";
     style="filled";
     graph[style=dotted];
-    subgraph cluster_09a26c50 {
-        node_1fbcfdf3;
+    subgraph cluster_481b850b {
+        node_1d798aec;
         label="Class: ColouredLogFormatter";
         name="ColouredLogFormatter";
         style="filled";
         graph[style=dotted];
     };
 };
-subgraph cluster_552ee074 {
-    node_83509db2 node_72b8ca85 node_fab096df node_de90dda7;
+subgraph cluster_9c05a41b {
+    node_42899f58 node_7c8cfd48 node_56fdba01 node_e06c266c;
     label="File: function_call_tree";
     name="function_call_tree";
     style="filled";
     graph[style=dotted];
-    subgraph cluster_f44b88fa {
-        node_5ad9eb20;
+    subgraph cluster_f5c7b531 {
+        node_2bd60c37;
         label="Class: Node";
         name="Node";
         style="filled";
         graph[style=dotted];
     };
-    subgraph cluster_3e0a667c {
-        node_d6d643cd;
+    subgraph cluster_c5c58723 {
+        node_02ef7429;
         label="Class: Track";
         name="Track";
         style="filled";
         graph[style=dotted];
     };
 };
-subgraph cluster_f00ea806 {
+subgraph cluster_84a43930 {
     label="File: function_dependency_processor";
     name="function_dependency_processor";
     style="filled";
     graph[style=dotted];
-    subgraph cluster_e71c7226 {
-        node_3bf67ede node_c009f568 node_bdc62d31 node_9e6d7d30 node_c1f2851c;
+    subgraph cluster_00b46b4c {
+        node_de67a06a node_861ba7b0 node_25ef6d80 node_2f0589ec;
         label="Class: FunctionDependencyProcessor";
         name="FunctionDependencyProcessor";
         style="filled";
         graph[style=dotted];
     };
 };
-subgraph cluster_a0ef3e69 {
-    node_cc51e553;
+subgraph cluster_523ee3af {
+    label="File: gen_hwdocs";
+    name="gen_hwdocs";
+    style="filled";
+    graph[style=dotted];
+    subgraph cluster_19865cb0 {
+        node_59ca2c9b node_5aba28c1 node_9d262772;
+        label="Class: CreateHandwrittenDocs";
+        name="CreateHandwrittenDocs";
+        style="filled";
+        graph[style=dotted];
+    };
+};
+subgraph cluster_f113fcec {
+    node_35efcb1e;
     label="File: gen_mkdocs_site";
     name="gen_mkdocs_site";
     style="filled";
     graph[style=dotted];
-    subgraph cluster_b81f8c3a {
-        node_44b9c667 node_f46ee68a node_d1a1ee93 node_4b1e3452 node_6b1113a0 node_5546b871 node_78b7b53b;
+    subgraph cluster_e73b074e {
+        node_349f5ab7 node_3cbde1ee node_72fadbc0 node_8cce61b5 node_d5e2c0c2 node_db794f86 node_7a05ff52;
         label="Class: GenMkdocsSite";
         name="GenMkdocsSite";
         style="filled";
         graph[style=dotted];
     };
 };
-subgraph cluster_92fc65de {
-    node_2e6cf5a5 node_3fa7119d node_1de77e9e node_ae69119a node_2c6efc6e node_3973ef64;
+subgraph cluster_ae5bf9bf {
+    node_1e77caab node_4a6d6950 node_3d9b37c0 node_caa5e052 node_9a3607ef;
     label="File: hfile";
     name="hfile";
     style="filled";
     graph[style=dotted];
 };
-subgraph cluster_e30f8532 {
-    label="File: hfilepath_datahandler";
-    name="hfilepath_datahandler";
-    style="filled";
-    graph[style=dotted];
-    subgraph cluster_566fdba3 {
-        node_d4be72c9 node_65e35f9e node_7c074594 node_83aa7263;
-        label="Class: FilepathDatahandler";
-        name="FilepathDatahandler";
-        style="filled";
-        graph[style=dotted];
-    };
-};
-subgraph cluster_96536166 {
-    label="File: hfunction_datahandler";
-    name="hfunction_datahandler";
-    style="filled";
-    graph[style=dotted];
-    subgraph cluster_9f63a55c {
-        node_fa7c75c0 node_c9e7b9b6 node_522f91ae node_559fe11c node_02a6c151 node_b9f0154a;
-        label="Class: FunctionDatahandler";
-        name="FunctionDatahandler";
-        style="filled";
-        graph[style=dotted];
-    };
-};
-subgraph cluster_d12eb7fb {
-    node_a8321e11 node_cac17ec0 node_da9db957 node_91874a6b;
+subgraph cluster_dae2a847 {
+    node_d71a0fe3 node_22f753ba node_dd6aab88;
     label="File: hstrops";
     name="hstrops";
     style="filled";
     graph[style=dotted];
 };
-subgraph cluster_136d93bd {
+subgraph cluster_29daa514 {
+    node_f3a5dfbb node_2f89dd68 node_0c95c4b1;
+    label="File: hsubprocess";
+    name="hsubprocess";
+    style="filled";
+    graph[style=dotted];
+};
+subgraph cluster_3e5f66d9 {
     label="File: shell_2md_file_writer";
     name="shell_2md_file_writer";
     style="filled";
     graph[style=dotted];
-    subgraph cluster_40ea053a {
-        node_7905d334 node_9397e3da node_fa171f6e;
+    subgraph cluster_b897ea71 {
+        node_6992c448 node_6b8a9223 node_f5d5ee11;
         label="Class: Sh2MdFileWriter";
         name="Sh2MdFileWriter";
         style="filled";
         graph[style=dotted];
     };
 };
-subgraph cluster_556ca377 {
+subgraph cluster_6602d515 {
     label="File: shell_src_preprocessor";
     name="shell_src_preprocessor";
     style="filled";
     graph[style=dotted];
-    subgraph cluster_d66a4758 {
-        node_08ad4c67 node_127cea25;
+    subgraph cluster_95ed1b91 {
+        node_49e5494e node_6d99eb72;
         label="Class: ShellSrcPreProcessor";
         name="ShellSrcPreProcessor";
         style="filled";
