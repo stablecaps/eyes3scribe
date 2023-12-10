@@ -102,8 +102,10 @@ class ShellSrcPreProcessor:
                 is_undef=is_undef,
             )
 
-            # if is_undef:
-            #     rprint("srcdata %s", srcdata)
+            # if "aliases" in srcdata.outfile_relpath:
+            #     rprint("srcdata", srcdata)
+            #     import sys
+
             #     sys.exit(42)
 
             ##################################################

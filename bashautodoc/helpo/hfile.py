@@ -76,6 +76,12 @@ def dict2_yaml_file(
         yaml.dump(yaml_dict, yaml_path)
 
 
+def read_file_2string(filepath):
+    with open(filepath, "r") as infile:
+        file_string = infile.read()
+    return file_string
+
+
 def rmdir_if_exists(target):
     """
     Remove a directory if it exists.

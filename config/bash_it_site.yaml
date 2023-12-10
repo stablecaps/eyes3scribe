@@ -51,9 +51,9 @@ exclusion_patterns_docs:
   - Thumbs.db
   - .DS_Store
   - venv
+rst2myst_configfile: ./config/rst2myst_configfile.yaml
 catnames_docs:
   - commands
   - themes-list
-  - ./
 additional_mdfiles:
   /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-it/docs/README.md: index.md

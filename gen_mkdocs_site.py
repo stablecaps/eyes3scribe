@@ -10,6 +10,7 @@ import sys
 
 from rich import print as rprint
 
+from bashautodoc.gen_hwdocs import CreateHandwrittenDocs
 from bashautodoc.helpo import hfile
 from bashautodoc.helpo.coloured_log_formatter import ColouredLogFormatter
 from bashautodoc.helpo.hstrops import str_multi_replace
@@ -84,9 +85,9 @@ class GenMkdocsSite:
         self.project_docs_dir = f"{self.project_reldir}/docs"
         self.project_css_dir = f"{self.project_docs_dir}/custom_css/"
         self.undef_category_dir = f"{self.project_docs_dir}/undef"
-        self.undef_category_dir_hwdocs = f"./{self.project_name}/docs/docshw/undef"
+        self.undef_category_dir_hwdocs = f"{self.project_docs_dir}/docshw/undef"
         self.handwritten_docs_dir = self.conf["handwritten_docs_dir"]
-        self.handwritten_docs_outdir = f"./{self.project_name}/docs/docshw"
+        self.handwritten_docs_outdir = f"./{self.project_docs_dir}/docshw"
 
         self.exclusion_patterns_src = self.conf.get("exclusion_patterns_src")
         self.exclusion_patterns_docs = self.conf.get("exclusion_patterns_docs")
@@ -99,6 +100,7 @@ class GenMkdocsSite:
         self.conf["undef_category_dir_hwdocs"] = self.undef_category_dir_hwdocs
 
         self.conf["catnames_src"].append("undef")
+        self.conf["catnames_docs"].append("undef")
 
         self.conf_bashautodoc_keys = [
             "project_name",
@@ -113,11 +115,13 @@ class GenMkdocsSite:
             "exclusion_patterns_src",
             "additional_mdfiles",
             "catnames_src",
+            "catnames_docs",
             "nav_codedocs_as_ref_or_main",
             "nav_codedocs_name",
             "handwritten_docs_dir",
             "docs_glob_patterns",
             "exclusion_patterns_docs",
+            "rst2myst_configfile",
         ]
 
         self.conf["func_def_keywords"] = [
@@ -222,23 +226,49 @@ class GenMkdocsSite:
             source=f'{self.conf.get("shell_srcdir")}', target=self.project_docs_dir
         )
 
+        LOG.info("Copying additional markdown files")
+        for mdsrc, mddest in self.conf.get("additional_mdfiles").items():
+            hfile.copy_file(source=mdsrc, target=f"{self.project_docs_dir}/{mddest}")
+
         if self.handwritten_docs_dir is not None:
             hfile.copy_dir(
-                source=f'{self.conf.get("shell_srcdir")}',
+                source=f'{self.conf.get("handwritten_docs_dir")}',
                 target=self.handwritten_docs_outdir,
             )
 
     def mkdocs_add_handwrittendocs_to_nav(self):
-        handwritten_docs_infiles = hfile.recursively_search_dir_with_globs(
-            search_path=self.handwritten_docs_outdir,
-            glob_patt_list=self.docs_glob_patterns,
+        create_hwdocs = CreateHandwrittenDocs(
+            conf=self.conf, handwritten_docs_dir=self.handwritten_docs_outdir
         )
-
-        LOG.debug("handwritten_docs_infiles: %s", handwritten_docs_infiles)
+        catname_2mdfile_dict = create_hwdocs.create_hwdocs()
+        rprint("catname_2mdfile_dict", catname_2mdfile_dict)
         # sys.exit(42)
 
         for catname in self.conf.get("catnames_docs"):
             LOG.debug("catname: %s", catname)
+
+            cat_mdoutfiles_relpaths = sorted(catname_2mdfile_dict.get(catname))
+            catname_holder = []
+            for mdoutfile_relpath in cat_mdoutfiles_relpaths:
+                print("catname", catname)
+                print("mdoutfile_relpath", mdoutfile_relpath)
+                page_name = mdoutfile_relpath.replace(".md", "").split("/")[-1]
+                mdoutfile_routepath = mdoutfile_relpath.replace(
+                    f"{self.project_docs_dir}", "."
+                )
+                print("self.project_docs_dir", self.project_docs_dir)
+                print("mdoutfile_routepath", mdoutfile_routepath)
+                # sys.exit(42)
+                page_path_map = {page_name: mdoutfile_routepath}
+                catname_holder.append(page_path_map)
+
+            code_docs_parent = None
+            if code_docs_parent is None:
+                self.yaml_dict["nav"].append({catname: catname_holder})
+            else:
+                self.yaml_dict["nav"][1][code_docs_parent].append(
+                    {catname: catname_holder}
+                )
 
             # (
             #     docfile_path_split,
@@ -251,7 +281,7 @@ class GenMkdocsSite:
             # )
 
             # LOG.debug("docfilename: %s", docfilename)
-            # # LOG.debug("docfilename_noext: %s", docfilename_noext)
+            # LOG.debug("docfilename_noext: %s", docfilename_noext)
             # sys.exit(42)
 
             # # TODOD: change docfilename --> docfilename_noext
@@ -313,10 +343,6 @@ class GenMkdocsSite:
         """
         Create a MkDocs site by copying additional markdown files and generating mkdocs yaml.
         """
-        # TODO: move Copying additional files to main routine?
-        LOG.info("Copying additional markdown files")
-        for mdsrc, mddest in self.conf.get("additional_mdfiles").items():
-            hfile.copy_file(source=mdsrc, target=f"{self.project_docs_dir}/{mddest}")
 
         LOG.info("Set generated src docs to nav")
         self.mkdocs_add_srcdocs_to_nav(catname_2mdfile_dict)
