@@ -20,6 +20,7 @@
 This project is a Python application that uses pip for package management. The main entry point for the application is gen_mkdocs_site.py.
 
 **Features:**
+
 0. Uses mkdocs to create websites with any mkdocs theme
 1. Auto-generates BASH shell script documentation from src code that are marked with composure annotations.
 2. Create alias tables from shell code
