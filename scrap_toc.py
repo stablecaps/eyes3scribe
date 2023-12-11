@@ -1,4 +1,5 @@
 import logging
+import re
 import sys
 from collections import defaultdict
 
@@ -9,6 +10,8 @@ import bashautodoc.helpo.hfile as hfile
 # from bashautodoc.helpo.hstrops import search_list_4pattern
 from bashautodoc.helpo.hsubprocess import run_cmd_with_output
 from bashautodoc.models.filepath_datahandler import FilepathDatahandler
+
+toclinks_dict = {}
 
 
 def extract_lines_between_tags(filetext):
@@ -52,7 +55,7 @@ def clean_rst_toc_list(toc_list):
     cleaned_toc_list = [
         line
         for line in toc_list
-        if line != "" and "maxdepth:" not in line and "```" not in line
+        if (line != "") and ("maxdepth:" not in line) and ("```" not in line)
     ]
     return cleaned_toc_list
 
@@ -82,6 +85,9 @@ def generate_md_toclink_list(toc_list_cleaned, toc_root):
         md_rel_link_cleaned = file_link_list[0]
         md_rel_link = f"- [**{toc_link_name.capitalize().replace('/index', '')}**]({md_rel_link_cleaned})"
         md_toc_link_list.append(md_rel_link)
+
+        ###
+        toclinks_dict[toc_link_name.replace("/index", "")] = md_rel_link_cleaned
 
     return md_toc_link_list
 
@@ -149,11 +155,34 @@ def convert_rst_2md_toclinks(search_path, glob_pattern_list):
                 md_toclinks=joined_md_toclinks,
             )
             print("replaced_filetext\n", replaced_filetext)
-            sys.exit(42)
+            # sys.exit(42)
+
+            return replaced_filetext
 
 
 ###########
+
+ref_patt = re.compile(r"({ref})(`[a-zA-Z0-9-. ]*)(<[a-zA-Z`]*>)")
 if __name__ == "__main__":
-    convert_rst_2md_toclinks(
+    mdtext_replacedtoc = convert_rst_2md_toclinks(
         search_path="./docs_bash-it/docs/docshw/", glob_pattern_list=["*.md"]
     )
+
+    print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
+
+    ## replace {ref} label <markdown link> with "[markdown link](markdown link)"
+    for key, value in toclinks_dict.items():
+        print("   >>", key + ":\t", value)
+
+    for line in mdtext_replacedtoc.split("\n"):
+        if "{ref}" in line:
+            print("line", line)
+            ref_match = re.search(ref_patt, line)  # ref_patt.match(line)
+            print("ref_match", ref_match)
+            if ref_match is not None:
+                print(ref_match.group(1))
+                print(ref_match.group(2))
+                print(ref_match.group(3))
+            sys.exit(42)
+
+        print(line)
