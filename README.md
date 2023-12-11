@@ -31,7 +31,7 @@ This project is a Python application that uses pip for package management. The m
 
 ### Prerequisites
 * Python 3.x
-* pip
+* poetry/pip
 
 ## Installation
 
