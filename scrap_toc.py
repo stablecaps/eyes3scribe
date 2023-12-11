@@ -60,7 +60,7 @@ def clean_rst_toc_list(toc_list):
     return cleaned_toc_list
 
 
-def generate_md_toclink_list(toc_list_cleaned, toc_root):
+def generate_md_toclink_data(toc_list_cleaned, toc_root):
     """
     Generates the markdown table of contents link list.
 
@@ -71,7 +71,8 @@ def generate_md_toclink_list(toc_list_cleaned, toc_root):
     Returns:
         list: The markdown table of contents link list.
     """
-    md_toc_link_list = []
+    toclinks_dict = {}
+    md_toclink_list = []
     for toc_link_name in toc_list_cleaned:
         file_link_list = hfile.list_matching_files_recursively(
             search_path=toc_root,
@@ -84,28 +85,12 @@ def generate_md_toclink_list(toc_list_cleaned, toc_root):
 
         md_rel_link_cleaned = file_link_list[0]
         md_rel_link = f"- [**{toc_link_name.capitalize().replace('/index', '')}**]({md_rel_link_cleaned})"
-        md_toc_link_list.append(md_rel_link)
+        md_toclink_list.append(md_rel_link)
 
         ###
         toclinks_dict[toc_link_name.replace("/index", "")] = md_rel_link_cleaned
 
-    return md_toc_link_list
-
-
-def replace_original_toclinks_with_new_ones(file_text, original_toclinks, md_toclinks):
-    """
-    Replaces the original table of contents links with the new ones in the file text.
-
-    Args:
-        file_text (str): The text of the file.
-        original_toclinks (str): The original table of contents links.
-        new_toclinks (str): The new table of contents links.
-
-    Returns:
-        str: The text of the file with the original table of contents links replaced with the new ones.
-    """
-    replaced_file_text = file_text.replace(original_toclinks, md_toclinks)
-    return replaced_file_text
+    return (toclinks_dict, md_toclink_list)
 
 
 def convert_rst_2md_toclinks(search_path, glob_pattern_list):
@@ -113,76 +98,124 @@ def convert_rst_2md_toclinks(search_path, glob_pattern_list):
         search_path=search_path,
         glob_patt_list=glob_pattern_list,
     )
-
     rprint("hwdoc_relpaths: %s", hwdoc_relpaths)
 
     for hwdoc_relpath in hwdoc_relpaths:
-        rprint("\nhwdoc_relpath", hwdoc_relpath)
         hwdoc_root, hwdoc_extension = hwdoc_relpath.rsplit("/", 1)
+        rprint("\nhwdoc_relpath", hwdoc_relpath)
         rprint("\nhwdoc_root", hwdoc_root, hwdoc_extension)
-        # sys.exit(42)
         if "index" in hwdoc_relpath:
             rprint("\nhwdoc_relpath", hwdoc_relpath)
             filetext = hfile.read_file_2string(filepath=hwdoc_relpath)
             # rprint("\nfiletext: %s", filetext)
-
             rprint("\n\n")
 
             toc_list = extract_lines_between_tags(filetext=filetext)
-            rprint("\ntoc_list: %s", toc_list)
-
             toc_list_cleaned = clean_rst_toc_list(toc_list)
+            rprint("\ntoc_list: %s", toc_list)
             print("toc_list_cleaned", toc_list_cleaned)
-            # sys.exit(42)
 
-            md_toclink_list = generate_md_toclink_list(
+            toclinks_dict, md_toclink_list = generate_md_toclink_data(
                 toc_list_cleaned=toc_list_cleaned, toc_root=hwdoc_root
             )
             print("md_toclink_list", md_toclink_list)
 
             joined_original_toclinks = "\n".join(toc_list)
-            rprint("\njoined_original_toclinks\n", joined_original_toclinks)
-
             joined_md_toclinks = "\n".join(md_toclink_list)
+            rprint("\njoined_original_toclinks\n", joined_original_toclinks)
             rprint("\njoined_md_toclinks\n", joined_md_toclinks)
-            # sys.exit(42)
-
             print("\n\n")
 
-            replaced_filetext = replace_original_toclinks_with_new_ones(
-                file_text=filetext,
-                original_toclinks=joined_original_toclinks,
-                md_toclinks=joined_md_toclinks,
+            mdtext_replacedtoc = filetext.replace(
+                joined_original_toclinks, joined_md_toclinks
             )
-            print("replaced_filetext\n", replaced_filetext)
-            # sys.exit(42)
+            print("mdtext_replacedtoc\n", mdtext_replacedtoc)
 
-            return replaced_filetext
+            return toclinks_dict, mdtext_replacedtoc
 
 
 ###########
+def generate_ref_sub_tuplist(mdtext_replacedtoc, ref_patt, toclinks_dict):
+    """
+    Generates a list of tuples for ref sub.
 
-ref_patt = re.compile(r"({ref})(`[a-zA-Z0-9-. ]*)(<[a-zA-Z`]*>)")
+    Args:
+        mdtext_replacedtoc (str): The text with replaced table of contents links.
+        ref_patt (re.Pattern): The compiled regular expression pattern for refs.
+        toclinks_dict (dict): The dictionary of table of contents links.
+
+    Returns:
+        list: The list of tuples for ref sub.
+    """
+
+    ref_sub_tuplist = []
+    for line in mdtext_replacedtoc.split("\n"):
+        if "{ref}" in line:
+            ref_match = re.search(ref_patt, line)
+            if ref_match is not None:
+                # ref_anchor = ref_match.group(1).strip()
+                ref_title = ref_match.group(2).replace("`", "").strip()
+                toc_link_key = (
+                    ref_match.group(3)
+                    .replace("`", "")
+                    .replace("<", "")
+                    .replace(">", "")
+                    .strip()
+                )
+                rst_ref_string = (
+                    f"{ref_match.group(1)}{ref_match.group(2)}{ref_match.group(3)}"
+                )
+
+                if toclinks_dict.get(toc_link_key) is None:
+                    print("ERROR: toc_link_key not found")
+                    sys.exit(42)
+                else:
+                    toc_link_value = toclinks_dict[toc_link_key]
+                    md_ref_link = f"[{ref_title}]({toc_link_value})"
+                    ref_sub_tuplist.append((rst_ref_string, md_ref_link))
+
+    return ref_sub_tuplist
+
+
+def replace_refs_with_links(mdtext_replacedtoc, ref_sub_tuplist):
+    """
+    Replaces refs with links in the text with replaced table of contents links.
+
+    Args:
+        mdtext_replacedtoc (str): The text with replaced table of contents links.
+        ref_sub_tuplist (list): The list of tuples for ref sub.
+
+    Returns:
+        str: The text with refs replaced with links.
+    """
+    mdtext_replacedrefs = mdtext_replacedtoc
+    for rst_ref_string, md_ref_link in ref_sub_tuplist:
+        mdtext_replacedrefs = mdtext_replacedrefs.replace(rst_ref_string, md_ref_link)
+
+    return mdtext_replacedrefs
+
+
 if __name__ == "__main__":
-    mdtext_replacedtoc = convert_rst_2md_toclinks(
+    ref_patt = re.compile(r"({ref})(`[a-zA-Z0-9-. ]*)(<[a-zA-Z`]*>`)")
+    toclinks_dict, mdtext_replacedtoc = convert_rst_2md_toclinks(
         search_path="./docs_bash-it/docs/docshw/", glob_pattern_list=["*.md"]
     )
 
     print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
 
-    ## replace {ref} label <markdown link> with "[markdown link](markdown link)"
-    for key, value in toclinks_dict.items():
-        print("   >>", key + ":\t", value)
+    ref_sub_tuplist = generate_ref_sub_tuplist(
+        mdtext_replacedtoc=mdtext_replacedtoc,
+        ref_patt=ref_patt,
+        toclinks_dict=toclinks_dict,
+    )
 
-    for line in mdtext_replacedtoc.split("\n"):
-        if "{ref}" in line:
-            print("line", line)
-            ref_match = re.search(ref_patt, line)  # ref_patt.match(line)
-            print("ref_match", ref_match)
-            if ref_match is not None:
-                print(ref_match.group(1))
-                print(ref_match.group(2))
-                print(ref_match.group(3))
-            sys.exit(42)
+    for toclink_key, toclink_val in toclinks_dict.items():
+        print("   >>", toclink_key + ":\t", toclink_val)
 
-        print(line)
+    print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
+    mdtext_replacedrefs = replace_refs_with_links(
+        mdtext_replacedtoc=mdtext_replacedtoc, ref_sub_tuplist=ref_sub_tuplist
+    )
+
+    print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
+    print("mdtext_replacedrefs\n", mdtext_replacedrefs)
