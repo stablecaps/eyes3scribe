@@ -10,7 +10,7 @@ import sys
 
 from rich import print as rprint
 
-from bashautodoc.gen_hwdocs import CreateHandwrittenDocs
+from bashautodoc.create_handwritten_docs import CreateHandwrittenDocs
 from bashautodoc.helpo import hfile
 from bashautodoc.helpo.coloured_log_formatter import ColouredLogFormatter
 from bashautodoc.helpo.hstrops import str_multi_replace
@@ -244,7 +244,7 @@ class GenMkdocsSite:
         rprint("catname_2mdfile_dict", catname_2mdfile_dict)
         # sys.exit(42)
 
-        for catname in self.conf.get("catnames_docs"):
+        for catname in ["docshw"]:  # self.conf.get("catnames_docs"):
             LOG.debug("catname: %s", catname)
 
             cat_mdoutfiles_relpaths = sorted(catname_2mdfile_dict.get(catname))
@@ -374,7 +374,7 @@ class GenMkdocsSite:
 
         if self.handwritten_docs_dir is not None:
             LOG.info("Processing handwritten doc files")
-            hwdocs_relpaths = hfile.recursively_search_dir_with_globs(
+            hwdocs_relpaths = hfile.search_directory_with_multiple_globs(
                 search_path=self.handwritten_docs_outdir,
                 glob_patt_list=self.docs_glob_patterns,
             )
@@ -399,7 +399,7 @@ class GenMkdocsSite:
 
         LOG.info("Processing shell source files")
         if self.check_singlefile is None:
-            src_absolute_path_list = hfile.recursively_search_dir_with_globs(
+            src_absolute_path_list = hfile.search_directory_with_multiple_globs(
                 search_path=self.project_docs_dir,
                 glob_patt_list=self.shell_glob_patterns,
             )

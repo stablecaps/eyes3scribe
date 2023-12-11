@@ -51,7 +51,7 @@ class CreateHandwrittenDocs:
         self.convert_rst2md()
 
         ##################################################
-        hwdocs_infiles = hfile.recursively_search_dir_with_globs(
+        hwdocs_infiles = hfile.search_directory_with_multiple_globs(
             search_path=self.handwritten_docs_dir,
             glob_patt_list=["*.md"],
         )
@@ -71,23 +71,24 @@ class CreateHandwrittenDocs:
                 category_names=self.conf.get("catnames_docs"),
                 undef_category_dir=self.conf.get("undef_category_dir_hwdocs"),
                 is_undef=None,
+                leave_original_dir_structure=True,
             )
 
-            hfile.copy_file(
-                source=docdata.infile_relpath,
-                target=docdata.outfile_relpath,
-            )
+            # hfile.move_file(
+            #     source=docdata.infile_relpath,
+            #     target=docdata.outfile_relpath,
+            # )
 
-            # if "commands" in docdata.outfile_relpath:
-            #     rprint("docdata", docdata)
+            if "contributing" in docdata.outfile_relpath:
+                rprint("docdata", docdata)
 
-            #     ##################################################
-            #     # rst_and_md2_md_file_writer = RstandM2MdFileWriter(
-            #     #     conf=self.conf,
-            #     #     docdata=docdata,
-            #     # )
-            #     # rst_and_md2_md_file_writer.process_hwdocs()
-            #     sys.exit(42)
+                ##################################################
+                # rst_and_md2_md_file_writer = RstandM2MdFileWriter(
+                #     conf=self.conf,
+                #     docdata=docdata,
+                # )
+                # rst_and_md2_md_file_writer.process_hwdocs()
+                sys.exit(42)
 
             ##################################################
             self.catname_2mdfile_dict[docdata.outfile_catname].append(

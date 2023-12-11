@@ -114,3 +114,11 @@ def str_multi_replace(input_str, rm_patt_list, replace_str):
         print("patt_cleaned", patt_cleaned)
         input_str = input_str.replace(patt_cleaned, replace_str)
     return input_str
+
+
+# def search_list_4pattern(input_list, search_patt):
+#     matched_items = []
+#     for item in input_list:
+#         if search_patt in item:
+#             matched_items.append(item)
+#     return matched_items

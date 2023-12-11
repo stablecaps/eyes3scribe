@@ -100,6 +100,7 @@ class ShellSrcPreProcessor:
                 category_names=self.catnames_src,
                 undef_category_dir=self.undef_category_dir,
                 is_undef=is_undef,
+                leave_original_dir_structure=False,
             )
 
             # if "aliases" in srcdata.outfile_relpath:

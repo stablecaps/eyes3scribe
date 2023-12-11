@@ -137,21 +137,14 @@ def copy_file(source, target):
     LOG.info("Copied: %s --> %s", source, target)
 
 
-def files_and_dirs_recursive_lister(mypathstr="./", myglob="*.sh"):
-    """
-    Lists all files in a directory and its subdirectories that match a given glob.
+def move_file(source, target):
+    shutil.move(source, target)
 
-    Args:
-        mypathstr (str, optional): The directory to search. Defaults to "./".
-        myglob (str, optional): The glob to match files against. Defaults to "*.sh".
+    LOG.info("Moved: %s --> %s", source, target)
 
-    Returns:
-        list: A list of all matching files.
 
-    Example:
-            >>> files_and_dirs_recursive_lister(mypathstr="/home/user", myglob="*.txt")
-    """
-    mypath = pathlib.Path(mypathstr)
+def list_matching_files_recursively(search_path="./", myglob="*.sh"):
+    mypath = pathlib.Path(search_path)
 
     file_list = [
         object.as_posix() for object in mypath.rglob(myglob) if object.is_file()
@@ -160,11 +153,11 @@ def files_and_dirs_recursive_lister(mypathstr="./", myglob="*.sh"):
     return file_list
 
 
-def recursively_search_dir_with_globs(search_path, glob_patt_list):
+def search_directory_with_multiple_globs(search_path, glob_patt_list):
     absolute_path_list = []
     for glob_patt in glob_patt_list:
         absolute_path_list.extend(
-            files_and_dirs_recursive_lister(mypathstr=search_path, myglob=glob_patt)
+            list_matching_files_recursively(search_path=search_path, myglob=glob_patt)
         )
 
     LOG.debug("absolute_path_list: %s", absolute_path_list)

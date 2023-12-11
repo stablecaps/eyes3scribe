@@ -1,0 +1,41 @@
+{
+	"folders": [
+		{
+			"name": "bash-auto-doc",
+			"path": "."
+		}
+	],
+	"settings": {
+		"workbench.colorCustomizations": {
+			"activityBar.activeBackground": "#a19295",
+			"activityBar.activeBorder": "#c1e7b7",
+			"activityBar.background": "#a19295",
+			"activityBar.foreground": "#15202b",
+			"activityBar.inactiveForeground": "#15202b99",
+			"activityBarBadge.background": "#c1e7b7",
+			"activityBarBadge.foreground": "#15202b",
+			"statusBar.background": "#89777b",
+			"statusBar.foreground": "#e7e7e7",
+			"statusBarItem.hoverBackground": "#a19295",
+			"titleBar.activeBackground": "#89777b",
+			"titleBar.activeForeground": "#e7e7e7",
+			"titleBar.inactiveBackground": "#89777b99",
+			"titleBar.inactiveForeground": "#e7e7e799",
+			"commandCenter.border": "#e7e7e799",
+			"sash.hoverBorder": "#a19295",
+			"statusBarItem.remoteBackground": "#89777b",
+			"statusBarItem.remoteForeground": "#e7e7e7"
+		},
+		"peacock.color": "#89777b",
+		"[python]": {
+			"editor.defaultFormatter": "ms-python.black-formatter"
+		},
+		"taipyStudio.gUI.elementsFilePaths": [],
+		"taipyStudio.config.mainPythonFile": "gen_mkdocs_site.py",
+		"python.testing.pytestArgs": [
+			"tests"
+		],
+		"python.testing.unittestEnabled": false,
+		"python.testing.pytestEnabled": true
+	}
+}

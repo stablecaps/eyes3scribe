@@ -36,6 +36,7 @@ class FilepathDatahandler:
         category_names: list[str],
         undef_category_dir: str,
         is_undef: bool = False,
+        leave_original_dir_structure: bool = False,
     ):
         # https://stackoverflow.com/questions/2491819/how-to-return-a-value-from-init-in-python
         cls.dh = FileDataHolder()
@@ -52,6 +53,7 @@ class FilepathDatahandler:
         cls.dh.category_names = category_names
         cls.dh.undef_category_dir = undef_category_dir
         cls.is_undef = is_undef
+        cls.leave_original_dir_structure = leave_original_dir_structure
         return cls.main()
 
     @classmethod
@@ -82,6 +84,23 @@ class FilepathDatahandler:
         return ("undef", undef_outfile_relpath)
 
     @classmethod
+    def _get_original_outfilepath(cls):
+        # if cls.is_undef:
+        #     return ("undef", f"{cls.dh.undef_category_dir}/{cls.dh.out_filename}")
+
+        # for catname in cls.dh.category_names:
+        #     if catname in cls.dh.infile_path_split:
+        # catdir_relpath = f"{cls.dh.indir_relpath}/{catname}"
+        # mkdir_if_notexists(target=catdir_relpath)
+        outfile_relpath = cls.dh.infile_relpath
+        LOG.debug("outfile_relpath: %s", outfile_relpath)
+
+        return ("docshw", outfile_relpath)
+
+        # undef_outfile_relpath = f"{cls.dh.undef_category_dir}/{cls.dh.out_filename}"
+        # return ("undef", undef_outfile_relpath)
+
+    @classmethod
     def main(cls):
         cls._get_outfilename()
 
@@ -100,10 +119,17 @@ class FilepathDatahandler:
         # LOG.debug("undef_category_dir: %s", cls.dh.undef_category_dir)
 
         #############################################
-        (
-            cls.dh.outfile_catname,
-            cls.dh.outfile_relpath,
-        ) = cls._get_categorydir_and_outfilepath()
+
+        if FilepathDatahandler.leave_original_dir_structure:
+            (
+                cls.dh.outfile_catname,
+                cls.dh.outfile_relpath,
+            ) = cls._get_original_outfilepath()
+        else:
+            (
+                cls.dh.outfile_catname,
+                cls.dh.outfile_relpath,
+            ) = cls._get_categorydir_and_outfilepath()
 
         LOG.debug("catname: %s", cls.dh.outfile_catname)
         LOG.debug("outfile_relpath: %s", cls.dh.outfile_relpath)
