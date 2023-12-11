@@ -19,6 +19,14 @@
 ## Overview
 This project is a Python application that uses pip for package management. The main entry point for the application is gen_mkdocs_site.py.
 
+**Features:**
+0. Uses mkdocs to create websites with any mkdocs theme
+1. Auto-generates BASH shell script documentation from src code that are marked with composure annotations.
+2. Create alias tables from shell code
+3. Preserves handwritten documentation (TBD)
+4. Converts existing RST docs --> Markdown docs (TBD)
+5. Auto-generates Python documentation from source code (TBD)
+
 ## Getting Started
 
 ### Prerequisites
@@ -102,7 +110,7 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
     ~~10. Capitalise title first letter~~
     11. correct "(in ./docs_bash-it/docs/docshw/plugins/available/osx.plugin.bash)" to point at relative repo src file, not temp
     12. embed hyperlinks in function index (currently a code block)
-    13. think about putting function names inm navbar? too messy?
+    13. think about putting function names in navbar? too messy?
 
 
 6. **Mkdocs**
