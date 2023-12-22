@@ -78,8 +78,14 @@ def dict2_yaml_file(
 
 def read_file_2string(filepath):
     with open(filepath, "r") as infile:
-        file_string = infile.read()
-    return file_string
+        file_text = infile.read()
+    return file_text
+
+
+def write_string_2file(filepath, file_text):
+    with open(filepath, "w") as outfile:
+        LOG.debug("Writing file: %s", filepath)
+        outfile.write(file_text)
 
 
 def rmdir_if_exists(target):
