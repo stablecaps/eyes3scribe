@@ -247,13 +247,13 @@ class GenMkdocsSite:
         for catname in ["docshw"]:  # self.conf.get("catnames_docs"):
             LOG.debug("catname: %s", catname)
 
-            cat_mdoutfiles_relpaths = sorted(catname_2mdfile_dict.get(catname))
+            cat_mdoutfiles_rpaths = sorted(catname_2mdfile_dict.get(catname))
             catname_holder = []
-            for mdoutfile_relpath in cat_mdoutfiles_relpaths:
+            for mdoutfile_rpath in cat_mdoutfiles_rpaths:
                 print("catname", catname)
-                print("mdoutfile_relpath", mdoutfile_relpath)
-                page_name = mdoutfile_relpath.replace(".md", "").split("/")[-1]
-                mdoutfile_routepath = mdoutfile_relpath.replace(
+                print("mdoutfile_rpath", mdoutfile_rpath)
+                page_name = mdoutfile_rpath.replace(".md", "").split("/")[-1]
+                mdoutfile_routepath = mdoutfile_rpath.replace(
                     f"{self.project_docs_dir}", "."
                 )
                 print("self.project_docs_dir", self.project_docs_dir)
@@ -272,10 +272,10 @@ class GenMkdocsSite:
 
             # (
             #     docfile_path_split,
-            #     docoutdir_relpath,
+            #     docoutdir_rpath,
             #     docfilename,
             # ) = hfile.get_src_reldir_and_filename(
-            #     file_relpath=docfile_relpath,
+            #     file_rpath=docfile_rpath,
             #     glob_patterns=self.conf.get("docs_glob_patterns"),
             #     replace_str=".md",
             # )
@@ -285,7 +285,7 @@ class GenMkdocsSite:
             # sys.exit(42)
 
             # # TODOD: change docfilename --> docfilename_noext
-            # self.yaml_dict["nav"].append({docfilename: docfile_relpath})
+            # self.yaml_dict["nav"].append({docfilename: docfile_rpath})
 
     def mkdocs_add_srcdocs_to_nav(self, catname_2mdfile_dict):
         rprint("catname_2mdfile_dict", catname_2mdfile_dict)
@@ -316,14 +316,14 @@ class GenMkdocsSite:
 
         for catname in self.conf.get("catnames_src"):
             print("catname", catname)
-            cat_mdoutfiles_relpaths = sorted(catname_2mdfile_dict.get(catname))
+            cat_mdoutfiles_rpaths = sorted(catname_2mdfile_dict.get(catname))
             catname_holder = []
 
-            for mdoutfile_relpath in cat_mdoutfiles_relpaths:
+            for mdoutfile_rpath in cat_mdoutfiles_rpaths:
                 print("catname", catname)
-                print("mdoutfile_relpath", mdoutfile_relpath)
-                page_name = mdoutfile_relpath.replace(".md", "").split("/")[-1]
-                mdoutfile_routepath = mdoutfile_relpath.replace(
+                print("mdoutfile_rpath", mdoutfile_rpath)
+                page_name = mdoutfile_rpath.replace(".md", "").split("/")[-1]
+                mdoutfile_routepath = mdoutfile_rpath.replace(
                     f"{self.project_docs_dir}", "."
                 )
                 print("self.project_docs_dir", self.project_docs_dir)
@@ -374,11 +374,11 @@ class GenMkdocsSite:
 
         if self.handwritten_docs_dir is not None:
             LOG.info("Processing handwritten doc files")
-            hwdocs_relpaths = hfile.search_directory_with_multiple_globs(
+            hwdocs_rpaths = hfile.search_directory_with_multiple_globs(
                 search_path=self.handwritten_docs_outdir,
                 glob_patt_list=self.docs_glob_patterns,
             )
-            LOG.debug("hwdocs_relpaths: %s", hwdocs_relpaths)
+            LOG.debug("hwdocs_rpaths: %s", hwdocs_rpaths)
 
             # TODO: move exclusion_patterns_src into class init
             strict_exclusion_patterns_docs = [
@@ -388,11 +388,11 @@ class GenMkdocsSite:
                 "strict_exclusion_patterns_docs: %s", strict_exclusion_patterns_docs
             )
 
-            cleaned_hwdocs_relpaths = hfile.filter_paths_excluding_patterns(
-                path_list=hwdocs_relpaths,
+            cleaned_hwdocs_rpaths = hfile.filter_paths_excluding_patterns(
+                path_list=hwdocs_rpaths,
                 exclusion_patterns_src=strict_exclusion_patterns_docs,
             )
-            LOG.debug("cleaned_hwdocs_relpaths: %s", cleaned_hwdocs_relpaths)
+            LOG.debug("cleaned_hwdocs_rpaths: %s", cleaned_hwdocs_rpaths)
             # sys.exit(42)
 
             # self.mkdocs_add_srcdocs_to_nav(self, catname_2mdfile_dict)
@@ -415,21 +415,21 @@ class GenMkdocsSite:
         ]
         LOG.debug("strict_exclusion_patterns_src: %s", strict_exclusion_patterns_src)
 
-        srcfiles_relpath = hfile.convert_paths_to_relative(
+        srcfiles_rpath = hfile.convert_paths_to_relative(
             absolute_path_list=src_absolute_path_list,
             path_to_replace=self.program_root_dir,
         )
-        LOG.info("srcfiles_relpath: %s", srcfiles_relpath)
+        LOG.info("srcfiles_rpath: %s", srcfiles_rpath)
 
-        cleaned_srcfiles_relpaths = hfile.filter_paths_excluding_patterns(
-            path_list=srcfiles_relpath,
+        cleaned_srcfiles_rpaths = hfile.filter_paths_excluding_patterns(
+            path_list=srcfiles_rpath,
             exclusion_patterns_src=strict_exclusion_patterns_src,
         )
-        LOG.debug("cleaned_srcfiles_relpaths: %s", cleaned_srcfiles_relpaths)
+        LOG.debug("cleaned_srcfiles_rpaths: %s", cleaned_srcfiles_rpaths)
 
         shell_src_preprocessor = ShellSrcPreProcessor(
             self.conf,
-            cleaned_srcfiles_relpaths,
+            cleaned_srcfiles_rpaths,
             self.project_docs_dir,
             debug=self.debug,
         )

@@ -175,10 +175,10 @@ def convert_paths_to_relative(absolute_path_list, path_to_replace):
     for file_abspath in absolute_path_list:
         print("file_abspath", file_abspath)
 
-        file_relpath = file_abspath.replace(path_to_replace, ".")
-        print("file_relpath", file_relpath)
+        file_rpath = file_abspath.replace(path_to_replace, ".")
+        print("file_rpath", file_rpath)
 
-        relative_paths.append(file_relpath)
+        relative_paths.append(file_rpath)
     return relative_paths
 
 

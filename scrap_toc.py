@@ -55,12 +55,12 @@ def clean_rst_toc_list(toc_list):
     cleaned_toc_list = [
         line
         for line in toc_list
-        if (line != "") and ("maxdepth:" not in line) and ("```" not in line)
+        if (len(line) != 0) and ("maxdepth:" not in line) and ("```" not in line)
     ]
     return cleaned_toc_list
 
 
-def generate_md_toclink_data(toc_list_cleaned, toc_root):
+def create_markdown_toclinks(toc_list_cleaned, toc_root):
     """
     Generates the markdown table of contents link list.
 
@@ -71,59 +71,125 @@ def generate_md_toclink_data(toc_list_cleaned, toc_root):
     Returns:
         list: The markdown table of contents link list.
     """
+    rprint("toc_root", toc_root)
     toclinks_dict = {}
     md_toclink_list = []
     for toc_link_name in toc_list_cleaned:
-        file_link_list = hfile.list_matching_files_recursively(
-            search_path=toc_root,
-            myglob=f"{toc_link_name}.md",
-        )
+        rprint("toc_link_name", toc_link_name)
 
-        if len(file_link_list) > 1:
-            print("ERROR: more than one file found")
-            sys.exit(42)
+        if ":caption:" in toc_link_name:
+            # TODO: add caption to the toclinks as a h2 header
+            toclinks_dict["caption"] = toc_link_name.replace(":caption:", "").strip()
 
-        md_rel_link_cleaned = file_link_list[0]
-        md_rel_link = f"- [**{toc_link_name.capitalize().replace('/index', '')}**]({md_rel_link_cleaned})"
-        md_toclink_list.append(md_rel_link)
+        elif ":glob: true" in toc_link_name:
+            file_path_list = sorted(
+                hfile.list_matching_files_recursively(
+                    search_path=toc_root,
+                    myglob=f"*.md",
+                )
+            )
+            rprint("file_link_list0", file_path_list)
+            for file_path in file_path_list:
+                file_root, file_name = file_path.rsplit("/", 1)
+                md_rel_link_cleaned = file_path
+                md_rel_link = f"- [**{file_name.capitalize().replace('/index', '').replace('.md', '')}**]({md_rel_link_cleaned})"
+                md_toclink_list.append(md_rel_link)
 
-        ###
-        toclinks_dict[toc_link_name.replace("/index", "")] = md_rel_link_cleaned
+                ###
+                toclinks_dict[toc_link_name.replace("/index", "")] = md_rel_link_cleaned
+
+            rprint("toclinks_dict", toclinks_dict)
+            rprint("md_toclink_list", md_toclink_list)
+            return (toclinks_dict, md_toclink_list)
+        else:
+            file_path_list = hfile.list_matching_files_recursively(
+                search_path=toc_root,
+                myglob=f"{toc_link_name}.md",
+            )
+            rprint("file_link_list1", file_path_list)
+
+            if len(file_path_list) > 1:
+                print("ERROR: more than one file found")
+                sys.exit(42)
+
+            md_rel_link_cleaned = file_path_list[0]
+            md_rel_link = f"- [**{toc_link_name.capitalize().replace('/index', '')}**]({md_rel_link_cleaned})"
+            md_toclink_list.append(md_rel_link)
+
+            ###
+            toclinks_dict[toc_link_name.replace("/index", "")] = md_rel_link_cleaned
+
+            # if f"{toc_link_name}.md" == "themes-list/index.md":
+            #     sys.exit(42)
 
     return (toclinks_dict, md_toclink_list)
 
 
-def convert_rst_2md_toclinks(hwdoc_relpath):
-    # for hwdoc_relpath in hwdoc_relpaths:
-    hwdoc_root, hwdoc_extension = hwdoc_relpath.rsplit("/", 1)
-    rprint("\nhwdoc_relpath", hwdoc_relpath)
-    rprint("\nhwdoc_root", hwdoc_root, hwdoc_extension)
-    # if "index" in hwdoc_relpath:
-    rprint("\nhwdoc_relpath", hwdoc_relpath)
-    filetext = hfile.read_file_2string(filepath=hwdoc_relpath)
-    # rprint("\nfiletext: %s", filetext)
-    rprint("\n\n")
+# def convert_rst_2markdown_toclinks(hwdoc_rpath):
+#     hwdoc_root, hwdoc_extension = hwdoc_rpath.rsplit("/", 1)
+#     rprint("\nhwdoc_rpath", hwdoc_rpath)
+#     rprint("\nhwdoc_root", hwdoc_root, hwdoc_extension)
 
-    toc_list = extract_lines_between_tags(filetext=filetext)
-    toc_list_cleaned = clean_rst_toc_list(toc_list)
-    rprint("\ntoc_list: %s", toc_list)
-    print("toc_list_cleaned", toc_list_cleaned)
+#     rprint("\nhwdoc_rpath", hwdoc_rpath)
+#     filetext = hfile.read_file_2string(filepath=hwdoc_rpath)
+#     # rprint("\nfiletext: %s", filetext)
+#     rprint("\n\n")
 
-    toclinks_dict, md_toclink_list = generate_md_toclink_data(
-        toc_list_cleaned=toc_list_cleaned, toc_root=hwdoc_root
-    )
-    print("md_toclink_list", md_toclink_list)
+#     toc_list = extract_lines_between_tags(filetext=filetext)
+#     toc_list_cleaned = clean_rst_toc_list(toc_list)
+#     rprint("\ntoc_list: %s", toc_list)
+#     print("toc_list_cleaned", toc_list_cleaned)
+#     if len(toc_list) > 0:
+#         sys.exit(42)
 
-    joined_original_toclinks = "\n".join(toc_list)
-    joined_md_toclinks = "\n".join(md_toclink_list)
-    rprint("\njoined_original_toclinks\n", joined_original_toclinks)
-    rprint("\njoined_md_toclinks\n", joined_md_toclinks)
-    print("\n\n")
+#     toclinks_dict, md_toclink_list = create_markdown_toclinks(
+#         toc_list_cleaned=toc_list_cleaned, toc_root=hwdoc_root
+#     )
+#     print("md_toclink_list", md_toclink_list)
 
-    mdtext_replacedtoc = filetext.replace(joined_original_toclinks, joined_md_toclinks)
-    print("mdtext_replacedtoc\n", mdtext_replacedtoc)
+#     joined_original_toclinks = "\n".join(toc_list)
+#     joined_md_toclinks = "\n".join(md_toclink_list)
+#     rprint("\njoined_original_toclinks\n", joined_original_toclinks)
+#     rprint("\njoined_md_toclinks\n", joined_md_toclinks)
+#     print("\n\n")
 
-    return toclinks_dict, mdtext_replacedtoc
+#     mdtext_replacedtoc = filetext.replace(joined_original_toclinks, joined_md_toclinks)
+#     print("mdtext_replacedtoc\n", mdtext_replacedtoc)
+
+#     return toclinks_dict, mdtext_replacedtoc
+
+
+# def xxx(hwdoc_rpath):
+#     # for hwdoc_rpath in hwdoc_rpaths:
+#     hwdoc_root, hwdoc_extension = hwdoc_rpath.rsplit("/", 1)
+#     rprint("\nhwdoc_rpath", hwdoc_rpath)
+#     rprint("\nhwdoc_root", hwdoc_root, hwdoc_extension)
+#     # if "index" in hwdoc_rpath:
+#     rprint("\nhwdoc_rpath", hwdoc_rpath)
+#     filetext = hfile.read_file_2string(filepath=hwdoc_rpath)
+#     # rprint("\nfiletext: %s", filetext)
+#     rprint("\n\n")
+
+#     toc_list = extract_lines_between_tags(filetext=filetext)
+#     toc_list_cleaned = clean_rst_toc_list(toc_list)
+#     rprint("\ntoc_list: %s", toc_list)
+#     print("toc_list_cleaned", toc_list_cleaned)
+
+#     toclinks_dict, md_toclink_list = create_markdown_toclinks(
+#         toc_list_cleaned=toc_list_cleaned, toc_root=hwdoc_root
+#     )
+#     print("md_toclink_list", md_toclink_list)
+
+#     joined_original_toclinks = "\n".join(toc_list)
+#     joined_md_toclinks = "\n".join(md_toclink_list)
+#     rprint("\njoined_original_toclinks\n", joined_original_toclinks)
+#     rprint("\njoined_md_toclinks\n", joined_md_toclinks)
+#     print("\n\n")
+
+#     mdtext_replacedtoc = filetext.replace(joined_original_toclinks, joined_md_toclinks)
+#     print("mdtext_replacedtoc\n", mdtext_replacedtoc)
+
+#     return toclinks_dict, mdtext_replacedtoc
 
 
 ###########
@@ -193,40 +259,75 @@ if __name__ == "__main__":
     leftover_path = re.compile(r"^\([a-z.A-Z0-9]*\)=$")
 
     toclinks_dict_all = {}
-    mdtext_replacedtoc_data_all = []
+    mdtext_replacedtoc_data1_list_all = []
+    mdtext_replacedtoc_data2_tuples_all = []
 
     ############
-    hwdoc_relpaths = hfile.search_directory_with_multiple_globs(
+    hwdoc_rpaths = hfile.search_directory_with_multiple_globs(
         search_path="./docs_bash-it/docs/docshw/",
         glob_patt_list=["*.md"],
     )
-    rprint("hwdoc_relpaths: %s", hwdoc_relpaths)
+    rprint("hwdoc_rpaths: %s", hwdoc_rpaths)
 
-    for hwdoc_relpath in hwdoc_relpaths:
+    for hwdoc_rpath in hwdoc_rpaths:
+        hwdoc_root, hwdoc_extension = hwdoc_rpath.rsplit("/", 1)
         rprint("\n\n########################################################")
         rprint("########################################################")
-        rprint("\nhwdoc_relpath", hwdoc_relpath)
-        toclinks_dict, mdtext_replacedtoc = convert_rst_2md_toclinks(
-            hwdoc_relpath=hwdoc_relpath
+        rprint("\nhwdoc_rpath", hwdoc_rpath)
+        rprint("\nhwdoc_root, hwdoc_extension =", hwdoc_root, hwdoc_extension)
+
+        filetext = hfile.read_file_2string(filepath=hwdoc_rpath)
+        toc_list = extract_lines_between_tags(filetext=filetext)
+        toc_list_cleaned = clean_rst_toc_list(toc_list)
+
+        rprint("\ntoc_list: %s", toc_list)
+        print("toc_list_cleaned", toc_list_cleaned)
+        # if len(toc_list) > 0:
+        #     sys.exit(42)
+
+        toclinks_dict, md_toclink_list = create_markdown_toclinks(
+            toc_list_cleaned=toc_list_cleaned, toc_root=hwdoc_root
         )
+        print("md_toclink_list", md_toclink_list)
+
+        joined_original_toclinks = "\n".join(toc_list)
+        joined_md_toclinks = "\n".join(md_toclink_list)
+        rprint("\njoined_original_toclinks\n", joined_original_toclinks)
+        rprint("\njoined_md_toclinks\n", joined_md_toclinks)
+        print("\n\n")
+
+        mdtext_replacedtoc = filetext.replace(
+            joined_original_toclinks, joined_md_toclinks
+        )
+        print("mdtext_replacedtoc\n", mdtext_replacedtoc)
+        # toclinks_dict, mdtext_replacedtoc = convert_rst_2markdown_toclinks(
+        #     hwdoc_rpath=hwdoc_rpath
+        # )
         toclinks_dict_all.update(toclinks_dict)
+        mdtext_replacedtoc_data1_list_all.append(mdtext_replacedtoc)
 
         print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
 
+    for toclink_key, toclink_val in toclinks_dict_all.items():
+        print("   >>", toclink_key + ":\t", toclink_val)
+    # sys.exit(42)
+
+    for hwdoc_rpath in hwdoc_rpaths:
+        # need toclinks_dict_all, mdtext_replacedtoc
         ref_sub_tuplist = generate_ref_sub_tuplist(
             mdtext=mdtext_replacedtoc,
             ref_patt=ref_patt,
             toclinks_dict=toclinks_dict_all,
         )
-        mdtext_replacedtoc_data_all.append((mdtext_replacedtoc, ref_sub_tuplist))
+        mdtext_replacedtoc_data2_tuples_all.append(
+            (mdtext_replacedtoc, ref_sub_tuplist)
+        )
+        # sys.exit(42)
 
-    for toclink_key, toclink_val in toclinks_dict_all.items():
-        print("   >>", toclink_key + ":\t", toclink_val)
-    sys.exit(42)
     ####################################################
     print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
     ### This stuff can aonly be done after getting full toclinks_dict_all
-    for mdtext_replacedtoc, ref_sub_tuplist in mdtext_replacedtoc_data_all:
+    for mdtext_replacedtoc, ref_sub_tuplist in mdtext_replacedtoc_data2_tuples_all:
         mdtext_replacedrefs = replace_refs_with_links(
             mdtext=mdtext_replacedtoc, ref_sub_tuplist=ref_sub_tuplist
         )

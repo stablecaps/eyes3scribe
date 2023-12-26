@@ -34,23 +34,23 @@ LOG = logging.getLogger(__name__)
 class ShellSrcPreProcessor:
     """Preprocesses shell source files for documentation generation."""
 
-    def __init__(self, conf, cleaned_srcfiles_relpaths, project_docs_dir, debug=False):
+    def __init__(self, conf, cleaned_srcfiles_rpaths, project_docs_dir, debug=False):
         """
         Initialize the ShellSrcPreProcessor.
 
         Args:
             conf (str): Configuration information.
-            cleaned_srcfiles_relpaths (list): List of cleaned input file paths.
+            cleaned_srcfiles_rpaths (list): List of cleaned input file paths.
             project_docs_dir (str): Directory path for project documentation.
             debug (bool, optional): Enable debug mode. Defaults to False.
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_relpaths=["file1", "file2"],
+                                                cleaned_srcfiles_rpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
         """
         self.conf = conf
-        self.cleaned_srcfiles_relpaths = cleaned_srcfiles_relpaths
+        self.cleaned_srcfiles_rpaths = cleaned_srcfiles_rpaths
         self.project_docs_dir = project_docs_dir
         self.debug = debug
 
@@ -70,15 +70,15 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_relpaths=["file1", "file2"],
+                                                cleaned_srcfiles_rpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             preprocessor.run()
         """
-        for srcfile_relpath in self.cleaned_srcfiles_relpaths:
+        for srcfile_rpath in self.cleaned_srcfiles_rpaths:
             ### These are being processed on a file-by-file basis
 
-            funcdata = FunctionDatahandler(srcfile_relpath=srcfile_relpath)
+            funcdata = FunctionDatahandler(srcfile_rpath=srcfile_rpath)
 
             ##################################################
             is_undef = False
@@ -94,7 +94,7 @@ class ShellSrcPreProcessor:
 
             ##################################################
             srcdata = FilepathDatahandler(
-                infile_relpath=srcfile_relpath,
+                infile_rpath=srcfile_rpath,
                 glob_patterns=self.conf.get("shell_glob_patterns"),
                 replace_str=".md",
                 category_names=self.catnames_src,
@@ -103,7 +103,7 @@ class ShellSrcPreProcessor:
                 leave_original_dir_structure=False,
             )
 
-            # if "aliases" in srcdata.outfile_relpath:
+            # if "aliases" in srcdata.outfile_rpath:
             #     rprint("srcdata", srcdata)
             #     import sys
 
@@ -114,12 +114,12 @@ class ShellSrcPreProcessor:
                 conf=self.conf,
                 funcdata=funcdata,
                 srcdata=srcdata,
-                srcfile_relpath=srcfile_relpath,
+                srcfile_rpath=srcfile_rpath,
             )
             sh2_md_file_writer.write_md()
 
             ##################################################
             self.catname_2mdfile_dict[srcdata.outfile_catname].append(
-                srcdata.outfile_relpath
+                srcdata.outfile_rpath
             )
         return self.catname_2mdfile_dict

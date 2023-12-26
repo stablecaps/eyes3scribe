@@ -10,7 +10,7 @@ LOG = logging.getLogger(__name__)
 # @dataclass(slots=True)
 @dataclass()
 class FunctionDataHolder:
-    srcfile_relpath: str = None
+    srcfile_rpath: str = None
     #
     func_name_list: list[str] = None
     full_alias_str_list: list[str] = None
@@ -20,10 +20,10 @@ class FunctionDataHolder:
 
 
 class FunctionDatahandler:
-    def __new__(cls, srcfile_relpath: str):
+    def __new__(cls, srcfile_rpath: str):
         # https://stackoverflow.com/questions/2491819/how-to-return-a-value-from-init-in-python
         cls.funcdata = FunctionDataHolder()
-        cls.funcdata.srcfile_relpath = srcfile_relpath
+        cls.funcdata.srcfile_rpath = srcfile_rpath
 
         return cls.main()
 
@@ -61,7 +61,7 @@ class FunctionDatahandler:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_relpaths=["file1", "file2"],
+                                                cleaned_srcfiles_rpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             about_statement = preprocessor._process_about_line("about-plugin 'This is a plugin'")
@@ -89,7 +89,7 @@ class FunctionDatahandler:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_relpaths=["file1", "file2"],
+                                                cleaned_srcfiles_rpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             alias_string = preprocessor._process_alias_line("alias ls='ls -l' # List files")
@@ -119,7 +119,7 @@ class FunctionDatahandler:
         Create a dictionary of function names and their corresponding code.
 
         Args:
-            srcfile_relpath (str): Path to the src file.
+            srcfile_rpath (str): Path to the src file.
 
         Returns:
             tuple: Tuple containing function name list, alias string list,
@@ -127,7 +127,7 @@ class FunctionDatahandler:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_relpaths=["file1", "file2"],
+                                                cleaned_srcfiles_rpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             func_name_list, alias_str_list, cite_about, func_text_dict =
@@ -138,8 +138,8 @@ class FunctionDatahandler:
         func_name = None
         cite_about = "Undefined. Add composure cite-about to shell script file"
 
-        with open(cls.funcdata.srcfile_relpath, "r") as FHI:
-            LOG.debug("cls.funcdata.srcfile_relpath: %s", cls.funcdata.srcfile_relpath)
+        with open(cls.funcdata.srcfile_rpath, "r") as FHI:
+            LOG.debug("cls.funcdata.srcfile_rpath: %s", cls.funcdata.srcfile_rpath)
 
             func_text_dict = {}
             src_text = FHI.read()

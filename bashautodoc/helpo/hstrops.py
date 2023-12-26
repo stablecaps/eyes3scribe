@@ -2,6 +2,8 @@
 
 import logging
 
+from rich import print as rprint
+
 LOG = logging.getLogger(__name__)
 
 
@@ -116,9 +118,20 @@ def str_multi_replace(input_str, rm_patt_list, replace_str):
     return input_str
 
 
-# def search_list_4pattern(input_list, search_patt):
-#     matched_items = []
-#     for item in input_list:
-#         if search_patt in item:
-#             matched_items.append(item)
-#     return matched_items
+def extract_lines_between_tags(filetext, start_tag="```{toctree}", end_tag="```"):
+    line_holder = []
+    inRecordingMode = False
+    for line in filetext.split("\n"):
+        # line_stripped = line.strip()
+        if not inRecordingMode:
+            if start_tag in line:
+                rprint("TRUE: found toctree")
+                inRecordingMode = True
+                line_holder.append(line)
+        elif end_tag in line:
+            inRecordingMode = False
+            line_holder.append(line)
+        else:
+            line_holder.append(line)
+
+    return line_holder

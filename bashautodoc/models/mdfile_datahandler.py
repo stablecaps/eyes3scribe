@@ -19,7 +19,7 @@
 
 # class MDFileDatahandler:
 #     def __new__(
-#         cls, srcfile_relpath, mdfile_name: str, title: str, funcdata: FunctionDataHolder
+#         cls, srcfile_rpath, mdfile_name: str, title: str, funcdata: FunctionDataHolder
 #     ):
 #         # https://stackoverflow.com/questions/2491819/how-to-return-a-value-from-init-in-python
 #         cls.mddata = MDFileDataHolder()
@@ -30,7 +30,7 @@
 #             title=title.capitalize(),
 #         )
 
-#         cls.srcfile_relpath = srcfile_relpath
+#         cls.srcfile_rpath = srcfile_rpath
 
 #         return cls.main()
 
@@ -70,7 +70,7 @@
 
 #     @classmethod
 #     def main(cls):
-#         cls.mddata.new_paragraph(f"***(in {cls.srcfile_relpath})***")
+#         cls.mddata.new_paragraph(f"***(in {cls.srcfile_rpath})***")
 
 #         if len(cls.funcdata.func_text_dict) > 0:
 #             for func_name, func_str in cls.funcdata.func_text_dict.items():

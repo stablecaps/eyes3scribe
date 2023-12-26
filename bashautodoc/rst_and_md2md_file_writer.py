@@ -29,8 +29,8 @@
 #         #
 
 #     def process_hwdocs(self):
-#         if self.docdata.infile_relpath.endswith(".rst"):
+#         if self.docdata.infile_rpath.endswith(".rst"):
 #             pass
-#             # rst_text = hfile.read_file_2string(filepath=self.docdata.infile_relpath)
+#             # rst_text = hfile.read_file_2string(filepath=self.docdata.infile_rpath)
 #             # md_text = rst_to_myst(rst_text)
 #             # rprint(md_text.text)

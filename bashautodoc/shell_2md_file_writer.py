@@ -41,7 +41,7 @@ class Sh2MdFileWriter:
         conf,
         funcdata,
         srcdata,
-        srcfile_relpath,
+        srcfile_rpath,
     ):
         """
         Initialize the Shell2MdFileWriter.
@@ -73,7 +73,7 @@ class Sh2MdFileWriter:
         #
         self.srcdata = srcdata
         #
-        self.srcfile_relpath = srcfile_relpath
+        self.srcfile_rpath = srcfile_rpath
 
         self.project_docs_dir = self.conf["project_docs_dir"]
         # self.undef_category_dir = self.conf["undef_category_dir"]
@@ -124,14 +124,14 @@ class Sh2MdFileWriter:
         """
 
         rprint("srcdata %s", self.srcdata)
-        # if "autojump.plugin" in srcdata.outfile_relpath.lower():
+        # if "autojump.plugin" in srcdata.outfile_rpath.lower():
         #     sys.exit(42)
         self.mdFile = MdUtils(
-            file_name=self.srcdata.outfile_relpath,
+            file_name=self.srcdata.outfile_rpath,
             title=self.cite_about.capitalize(),
         )
 
-        self.mdFile.new_paragraph(f"***(in {self.srcfile_relpath})***")
+        self.mdFile.new_paragraph(f"***(in {self.srcfile_rpath})***")
 
         ### Process functions
         LOG.debug("self.func_def_keywords %s", self.func_def_keywords)

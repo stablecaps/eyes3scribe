@@ -11,18 +11,18 @@ LOG = logging.getLogger(__name__)
 # @dataclass(slots=True)
 @dataclass()
 class FileDataHolder:
-    infile_relpath: str = None
+    infile_rpath: str = None
     infile_path_split: list[str] = None
     infile_filename: str = None
-    indir_relpath: str = None
+    indir_rpath: str = None
     #
     category_names: list[str] = None
     glob_patterns: list[str] = None
     replace_str: str = None
     #
-    # outdir_relpath: str = None
+    # outdir_rpath: str = None
     out_filename: str = None
-    outfile_relpath: str = None
+    outfile_rpath: str = None
     outfile_catname: str = None
     undef_category_dir: str = None
 
@@ -30,7 +30,7 @@ class FileDataHolder:
 class FilepathDatahandler:
     def __new__(
         cls,
-        infile_relpath: str,
+        infile_rpath: str,
         glob_patterns: list[str],
         replace_str: str,
         category_names: list[str],
@@ -41,10 +41,10 @@ class FilepathDatahandler:
         # https://stackoverflow.com/questions/2491819/how-to-return-a-value-from-init-in-python
         cls.dh = FileDataHolder()
         #
-        cls.dh.infile_relpath = infile_relpath
-        cls.dh.infile_path_split = infile_relpath.split("/")
+        cls.dh.infile_rpath = infile_rpath
+        cls.dh.infile_path_split = infile_rpath.split("/")
         cls.dh.infile_filename = cls.dh.infile_path_split.pop()
-        cls.dh.indir_relpath = "/".join(cls.dh.infile_path_split)
+        cls.dh.indir_rpath = "/".join(cls.dh.infile_path_split)
         #
         cls.dh.glob_patterns = glob_patterns
         cls.dh.replace_str = replace_str
@@ -73,15 +73,15 @@ class FilepathDatahandler:
 
         for catname in cls.dh.category_names:
             if catname in cls.dh.infile_path_split:
-                catdir_relpath = f"{cls.dh.indir_relpath}/{catname}"
-                mkdir_if_notexists(target=catdir_relpath)
-                outfile_relpath = f"{catdir_relpath}/{cls.dh.out_filename}"
-                LOG.debug("outfile_relpath: %s", outfile_relpath)
+                catdir_rpath = f"{cls.dh.indir_rpath}/{catname}"
+                mkdir_if_notexists(target=catdir_rpath)
+                outfile_rpath = f"{catdir_rpath}/{cls.dh.out_filename}"
+                LOG.debug("outfile_rpath: %s", outfile_rpath)
 
-                return (catname, outfile_relpath)
+                return (catname, outfile_rpath)
 
-        undef_outfile_relpath = f"{cls.dh.undef_category_dir}/{cls.dh.out_filename}"
-        return ("undef", undef_outfile_relpath)
+        undef_outfile_rpath = f"{cls.dh.undef_category_dir}/{cls.dh.out_filename}"
+        return ("undef", undef_outfile_rpath)
 
     @classmethod
     def _get_original_outfilepath(cls):
@@ -90,21 +90,21 @@ class FilepathDatahandler:
 
         # for catname in cls.dh.category_names:
         #     if catname in cls.dh.infile_path_split:
-        # catdir_relpath = f"{cls.dh.indir_relpath}/{catname}"
-        # mkdir_if_notexists(target=catdir_relpath)
-        outfile_relpath = cls.dh.infile_relpath
-        LOG.debug("outfile_relpath: %s", outfile_relpath)
+        # catdir_rpath = f"{cls.dh.indir_rpath}/{catname}"
+        # mkdir_if_notexists(target=catdir_rpath)
+        outfile_rpath = cls.dh.infile_rpath
+        LOG.debug("outfile_rpath: %s", outfile_rpath)
 
-        return ("docshw", outfile_relpath)
+        return ("docshw", outfile_rpath)
 
-        # undef_outfile_relpath = f"{cls.dh.undef_category_dir}/{cls.dh.out_filename}"
-        # return ("undef", undef_outfile_relpath)
+        # undef_outfile_rpath = f"{cls.dh.undef_category_dir}/{cls.dh.out_filename}"
+        # return ("undef", undef_outfile_rpath)
 
     @classmethod
     def main(cls):
         cls._get_outfilename()
 
-        # LOG.debug("infile_relpath: %s", cls.dh.infile_relpath)
+        # LOG.debug("infile_rpath: %s", cls.dh.infile_rpath)
         # LOG.debug("infile_path_split: %s", cls.dh.infile_path_split)
         # LOG.debug(
         #     "infile_filename: %s",
@@ -114,7 +114,7 @@ class FilepathDatahandler:
         # LOG.debug("glob_patterns: %s", cls.dh.glob_patterns)
         # LOG.debug("replace_str: %s", cls.dh.replace_str)
         # #
-        # LOG.debug("outdir_relpath: %s", cls.dh.outdir_relpath)
+        # LOG.debug("outdir_rpath: %s", cls.dh.outdir_rpath)
         # LOG.debug("out_filename: %s", cls.dh.out_filename)
         # LOG.debug("undef_category_dir: %s", cls.dh.undef_category_dir)
 
@@ -123,15 +123,15 @@ class FilepathDatahandler:
         if FilepathDatahandler.leave_original_dir_structure:
             (
                 cls.dh.outfile_catname,
-                cls.dh.outfile_relpath,
+                cls.dh.outfile_rpath,
             ) = cls._get_original_outfilepath()
         else:
             (
                 cls.dh.outfile_catname,
-                cls.dh.outfile_relpath,
+                cls.dh.outfile_rpath,
             ) = cls._get_categorydir_and_outfilepath()
 
         LOG.debug("catname: %s", cls.dh.outfile_catname)
-        LOG.debug("outfile_relpath: %s", cls.dh.outfile_relpath)
+        LOG.debug("outfile_rpath: %s", cls.dh.outfile_rpath)
 
         return cls.dh
