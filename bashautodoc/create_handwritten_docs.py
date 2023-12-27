@@ -47,9 +47,9 @@ class CreateHandwrittenDocs:
         # get the current working directory
         current_working_directory = os.getcwd()
 
-        # print output to the console
-        print(current_working_directory)
+        ### Convert existing rst files to markdown format
         self.convert_rst2md()
+        sys.exit(42)
 
         rst2md_mainroutine()
 
@@ -61,10 +61,8 @@ class CreateHandwrittenDocs:
 
         self.handwritten_docs_infiles.extend(hwdocs_infiles)
         LOG.debug("handwritten_docs_infiles: %s", self.handwritten_docs_infiles)
-
-        ##################################################
-
         # sys.exit(42)
+        ##################################################
 
         for docfile_rpath in self.handwritten_docs_infiles:
             docdata = FilepathDatahandler(

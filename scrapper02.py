@@ -27,6 +27,7 @@ class Rst2MdDataHolder:
     filetext: str = None
     toc_list_cleaned: list[str] = None
     toclinks_dict: dict = None
+    md_toc_caption: str = "## Table of Contents"
     md_toclink_list: list[str] = None
 
 
@@ -90,10 +91,10 @@ class Rst2MdTocConverter1:
             rprint("toc_link_name", toc_link_name)
 
             if ":caption:" in toc_link_name:
-                # TODO: add caption to the toclinks as a h2 header
-                cls.r2m.toclinks_dict["caption"] = toc_link_name.replace(
-                    ":caption:", ""
-                ).strip()
+                # TODO: add caption to the toclinks as a h3 header
+                cls.r2m.md_toc_caption += (
+                    "\n### " + toc_link_name.replace(":caption:", "").strip()
+                )
 
             elif ":glob: true" in toc_link_name:
                 rprint("\nsearching for globs")
@@ -146,11 +147,11 @@ class Rst2MdTocConverter1:
     def main(cls):
         rprint("\n\n########################################################")
         rprint("########################################################")
-        rprint("\nhwdoc_rpath", hwdoc_rpath)
+        rprint("\nhwdoc_rpath", cls.hwdoc_rpath)
         rprint("\nhwdoc_root, hwdoc_name =", cls.r2m.hwdoc_root, cls.r2m.hwdoc_name)
 
         # 1. establish if rst file has a TOC
-        cls.r2m.filetext = hfile.read_file_2string(filepath=hwdoc_rpath)
+        cls.r2m.filetext = hfile.read_file_2string(filepath=cls.hwdoc_rpath)
         toc_list = hstrops.extract_lines_between_tags(filetext=cls.r2m.filetext)
         if len(toc_list) > 0:
             cls.r2m.toc_list_cleaned = Rst2MdTocConverter1.clean_rst_toc_list(toc_list)
@@ -164,16 +165,23 @@ class Rst2MdTocConverter1:
 
             joined_original_toclinks = "\n".join(toc_list)
             joined_md_toclinks = "\n".join(cls.r2m.md_toclink_list)
+            joined_md_toclinks_with_headers = (
+                cls.r2m.md_toc_caption + "\n" + joined_md_toclinks
+            )
             rprint("\njoined_original_toclinks\n", joined_original_toclinks)
             rprint("\njoined_md_toclinks\n", joined_md_toclinks)
+            rprint(
+                "\njoined_md_toclinks_with_headers\n", joined_md_toclinks_with_headers
+            )
             print("\n\n")
 
             mdtext_replacedtoc = cls.r2m.filetext.replace(
-                joined_original_toclinks, joined_md_toclinks
+                joined_original_toclinks, joined_md_toclinks_with_headers
             )
             cls.r2m.filetext = mdtext_replacedtoc
         else:
             cls.r2m.toc_list_cleaned = None
+            toclinks_dict = None
             cls.r2m.md_toclink_list = None
 
         rprint("cls.r2m ", cls.r2m)
@@ -265,11 +273,17 @@ if __name__ == "__main__":
             hwdoc_rpath=hwdoc_rpath,
         )
 
+        # if len(r2m.toclinks_dict) > 0:
+        #     rprint("sorted dict test")
+        #     sys.exit(42)
+
         toclinks_dict_all.update(r2m.toclinks_dict)
         r2m_list.append(r2m)
 
     for toclink_key, toclink_val in toclinks_dict_all.items():
         print("   >>", toclink_key + ":\t", toclink_val)
+
+    rprint("jabba", toclinks_dict_all)
     # sys.exit(42)
 
     for r2m in r2m_list:
@@ -284,4 +298,5 @@ if __name__ == "__main__":
         )
         r2m.filetext = mdtext_replacedrefs
 
+        # sys.exit(42)
         hfile.write_string_2file(f"{r2m.hwdoc_root}/{r2m.hwdoc_name}", r2m.filetext)

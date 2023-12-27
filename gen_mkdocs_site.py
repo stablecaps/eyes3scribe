@@ -262,6 +262,7 @@ class GenMkdocsSite:
                 page_path_map = {page_name: mdoutfile_routepath}
                 catname_holder.append(page_path_map)
 
+            ###########################################
             code_docs_parent = None
             if code_docs_parent is None:
                 self.yaml_dict["nav"].append({catname: catname_holder})

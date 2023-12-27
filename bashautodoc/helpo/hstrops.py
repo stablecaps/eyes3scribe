@@ -135,3 +135,24 @@ def extract_lines_between_tags(filetext, start_tag="```{toctree}", end_tag="```"
             line_holder.append(line)
 
     return line_holder
+
+
+def extract_lines_between_start_and_end_blank_line_tag(
+    filetext, start_tag="```{toctree}"
+):
+    line_holder = []
+    inRecordingMode = False
+    for line in filetext.split("\n"):
+        # line_stripped = line.strip()
+        if not inRecordingMode:
+            if start_tag in line:
+                rprint("TRUE: found toctree")
+                inRecordingMode = True
+                line_holder.append(line)
+        elif len(line) == 0:
+            inRecordingMode = False
+            line_holder.append(line)
+        else:
+            line_holder.append(line)
+
+    return line_holder

@@ -166,16 +166,23 @@ class Rst2MdTocConverter1:
 
             joined_original_toclinks = "\n".join(toc_list)
             joined_md_toclinks = "\n".join(cls.r2m.md_toclink_list)
+            joined_md_toclinks_with_headers = (
+                cls.r2m.md_toc_caption + "\n" + joined_md_toclinks
+            )
             rprint("\njoined_original_toclinks\n", joined_original_toclinks)
             rprint("\njoined_md_toclinks\n", joined_md_toclinks)
+            rprint(
+                "\njoined_md_toclinks_with_headers\n", joined_md_toclinks_with_headers
+            )
             print("\n\n")
 
             mdtext_replacedtoc = cls.r2m.filetext.replace(
-                joined_original_toclinks, joined_md_toclinks
+                joined_original_toclinks, joined_md_toclinks_with_headers
             )
             cls.r2m.filetext = mdtext_replacedtoc
         else:
             cls.r2m.toc_list_cleaned = None
+            toclinks_dict = None
             cls.r2m.md_toclink_list = None
 
         rprint("cls.r2m ", cls.r2m)

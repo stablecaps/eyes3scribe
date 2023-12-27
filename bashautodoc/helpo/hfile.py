@@ -4,8 +4,10 @@ import pathlib
 import shutil
 import sys
 
+from rich import print as rprint
 from ruamel.yaml import YAML
 
+import bashautodoc.helpo.hsubprocess as hsubp
 from bashautodoc.helpo.hstrops import does_string_contain_pattern, str_multi_replace
 
 # import yaml
@@ -160,14 +162,14 @@ def list_matching_files_recursively(search_path="./", myglob="*.sh"):
 
 
 def search_directory_with_multiple_globs(search_path, glob_patt_list):
-    absolute_path_list = []
+    path_list = []
     for glob_patt in glob_patt_list:
-        absolute_path_list.extend(
+        path_list.extend(
             list_matching_files_recursively(search_path=search_path, myglob=glob_patt)
         )
 
-    LOG.debug("absolute_path_list: %s", absolute_path_list)
-    return absolute_path_list
+    LOG.debug("path_list: %s", path_list)
+    return path_list
 
 
 def convert_paths_to_relative(absolute_path_list, path_to_replace):
@@ -195,3 +197,23 @@ def filter_paths_excluding_patterns(path_list, exclusion_patterns_src):
         ):
             filtered_paths.append(path)
     return filtered_paths
+
+
+def find_files_with_grep_patt(search_path, file_glob, txt_pattern):
+    comm = (
+        f'find {search_path} -not -path "*/\.*" -not -path "*venv/*" -not -path "*node_modules/*" -iname "{file_glob}" -exec grep --color=never -Isl "{txt_pattern}"'
+        + " {} /dev/null \;"
+    )
+    resp_bytes = hsubp.run_cmd_with_output(comm_str=comm)
+    rprint("resp_bytes", resp_bytes)
+
+    resp_list = hsubp.process_subp_output(cmd_output=resp_bytes, delimiter="\n")
+    return resp_list
+
+
+def flatten_list(nested_list):
+    # TODO: move into collection helpers
+    flat_list = []
+    for sublist in nested_list:
+        flat_list.extend(sublist)
+    return flat_list
