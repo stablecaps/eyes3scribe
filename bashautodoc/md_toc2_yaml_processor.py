@@ -21,6 +21,7 @@ LOG = logging.getLogger(__name__)
 mdlink_patt = re.compile(r"[- ]*\[([*a-zA-Z0-9-_]*)\]\(([A-Za-z/-0-9_.]*)")
 
 
+# TODO: refactor the hell out of this ;o)
 class MdToc2YamlProcessor:
     def __init__(self, search_path) -> None:
         ### For every md file
@@ -113,11 +114,12 @@ class MdToc2YamlProcessor:
         self.construct_final_dict()
 
         rprint("final_dict", self.final_dict)
+        return self.final_dict
 
 
 # Call the main function
 if __name__ == "__main__":
-    table_of_contents_processor = MdToc2YamlProcessor(
+    md_toc2_yaml_processor = MdToc2YamlProcessor(
         search_path="docs_bash-it/docs/docshw/"
     )
-    table_of_contents_processor.main()
+    md_toc2_yaml_processor.main()

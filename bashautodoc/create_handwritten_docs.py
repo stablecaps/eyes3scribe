@@ -6,6 +6,7 @@ from rich import print as rprint
 
 import bashautodoc.helpo.hfile as hfile
 from bashautodoc.helpo.hsubprocess import run_cmd_with_output
+from bashautodoc.md_toc2_yaml_processor import MdToc2YamlProcessor
 from bashautodoc.models.filepath_datahandler import FilepathDatahandler
 from bashautodoc.models.rst2md_datahandler import rst2md_mainroutine
 
@@ -20,7 +21,7 @@ class CreateHandwrittenDocs:
         self.handwritten_docs_dir = handwritten_docs_dir
         self.handwritten_docs_infiles = []
 
-        self.catname_2mdfile_dict = defaultdict(list)
+        # self.catname_2mdfile_dict = defaultdict(list)
 
         rprint("handwritten_docs_dir", self.handwritten_docs_dir)
         # sys.exit(42)
@@ -49,7 +50,7 @@ class CreateHandwrittenDocs:
 
         ### Convert existing rst files to markdown format
         self.convert_rst2md()
-        sys.exit(42)
+        # sys.exit(42)
 
         rst2md_mainroutine()
 
@@ -64,35 +65,40 @@ class CreateHandwrittenDocs:
         # sys.exit(42)
         ##################################################
 
-        for docfile_rpath in self.handwritten_docs_infiles:
-            docdata = FilepathDatahandler(
-                infile_rpath=docfile_rpath,
-                glob_patterns=self.conf.get("docs_glob_patterns"),
-                replace_str=".md",
-                category_names=self.conf.get("catnames_docs"),
-                undef_category_dir=self.conf.get("undef_category_dir_hwdocs"),
-                is_undef=None,
-                leave_original_dir_structure=True,
-            )
+        # for docfile_rpath in self.handwritten_docs_infiles:
+        #     docdata = FilepathDatahandler(
+        #         infile_rpath=docfile_rpath,
+        #         glob_patterns=self.conf.get("docs_glob_patterns"),
+        #         replace_str=".md",
+        #         category_names=self.conf.get("catnames_docs"),
+        #         undef_category_dir=self.conf.get("undef_category_dir_hwdocs"),
+        #         is_undef=None,
+        #         leave_original_dir_structure=True,
+        #     )
 
-            # hfile.move_file(
-            #     source=docdata.infile_rpath,
-            #     target=docdata.outfile_rpath,
-            # )
+        #     # hfile.move_file(
+        #     #     source=docdata.infile_rpath,
+        #     #     target=docdata.outfile_rpath,
+        #     # )
 
-            # if "contributing" in docdata.outfile_rpath:
-            #     rprint("docdata", docdata)
+        #     # if "contributing" in docdata.outfile_rpath:
+        #     #     rprint("docdata", docdata)
 
-            #     ##################################################
-            #     # rst_and_md2_md_file_writer = RstandM2MdFileWriter(
-            #     #     conf=self.conf,
-            #     #     docdata=docdata,
-            #     # )
-            #     # rst_and_md2_md_file_writer.process_hwdocs()
-            #     sys.exit(42)
+        #     #     ##################################################
+        #     #     # rst_and_md2_md_file_writer = RstandM2MdFileWriter(
+        #     #     #     conf=self.conf,
+        #     #     #     docdata=docdata,
+        #     #     # )
+        #     #     # rst_and_md2_md_file_writer.process_hwdocs()
+        #     #     sys.exit(42)
 
-            ##################################################
-            self.catname_2mdfile_dict[docdata.outfile_catname].append(
-                docdata.outfile_rpath
-            )
-        return self.catname_2mdfile_dict
+        #     ##################################################
+        #     self.catname_2mdfile_dict[docdata.outfile_catname].append(
+        #         docdata.outfile_rpath
+        #     )
+
+        table_of_contents_processor = MdToc2YamlProcessor(
+            search_path="docs_bash-it/docs/docshw/"
+        )
+        catname_2mdfile_dict = table_of_contents_processor.main()
+        return catname_2mdfile_dict

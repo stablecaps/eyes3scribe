@@ -27,6 +27,7 @@ class Rst2MdDataHolder:
     filetext: str = None
     toc_list_cleaned: list[str] = None
     toclinks_dict: dict = None
+    md_toc_caption: str = "## Table of Contents"
     md_toclink_list: list[str] = None
 
 

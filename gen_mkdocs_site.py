@@ -242,51 +242,53 @@ class GenMkdocsSite:
         )
         catname_2mdfile_dict = create_hwdocs.create_hwdocs()
         rprint("catname_2mdfile_dict", catname_2mdfile_dict)
+
+        self.yaml_dict["nav"].append(catname_2mdfile_dict)
         # sys.exit(42)
 
-        for catname in ["docshw"]:  # self.conf.get("catnames_docs"):
-            LOG.debug("catname: %s", catname)
+        # for catname in ["docshw"]:  # self.conf.get("catnames_docs"):
+        #     LOG.debug("catname: %s", catname)
 
-            cat_mdoutfiles_rpaths = sorted(catname_2mdfile_dict.get(catname))
-            catname_holder = []
-            for mdoutfile_rpath in cat_mdoutfiles_rpaths:
-                print("catname", catname)
-                print("mdoutfile_rpath", mdoutfile_rpath)
-                page_name = mdoutfile_rpath.replace(".md", "").split("/")[-1]
-                mdoutfile_routepath = mdoutfile_rpath.replace(
-                    f"{self.project_docs_dir}", "."
-                )
-                print("self.project_docs_dir", self.project_docs_dir)
-                print("mdoutfile_routepath", mdoutfile_routepath)
-                # sys.exit(42)
-                page_path_map = {page_name: mdoutfile_routepath}
-                catname_holder.append(page_path_map)
+        #     cat_mdoutfiles_rpaths = sorted(catname_2mdfile_dict.get(catname))
+        #     catname_holder = []
+        #     for mdoutfile_rpath in cat_mdoutfiles_rpaths:
+        #         print("catname", catname)
+        #         print("mdoutfile_rpath", mdoutfile_rpath)
+        #         page_name = mdoutfile_rpath.replace(".md", "").split("/")[-1]
+        #         mdoutfile_routepath = mdoutfile_rpath.replace(
+        #             f"{self.project_docs_dir}", "."
+        #         )
+        #         print("self.project_docs_dir", self.project_docs_dir)
+        #         print("mdoutfile_routepath", mdoutfile_routepath)
+        #         # sys.exit(42)
+        #         page_path_map = {page_name: mdoutfile_routepath}
+        #         catname_holder.append(page_path_map)
 
-            ###########################################
-            code_docs_parent = None
-            if code_docs_parent is None:
-                self.yaml_dict["nav"].append({catname: catname_holder})
-            else:
-                self.yaml_dict["nav"][1][code_docs_parent].append(
-                    {catname: catname_holder}
-                )
+        # ###########################################
+        # code_docs_parent = None
+        # if code_docs_parent is None:
+        #     self.yaml_dict["nav"].append({catname: catname_holder})
+        # else:
+        #     self.yaml_dict["nav"][1][code_docs_parent].append(
+        #         {catname: catname_holder}
+        #     )
 
-            # (
-            #     docfile_path_split,
-            #     docoutdir_rpath,
-            #     docfilename,
-            # ) = hfile.get_src_reldir_and_filename(
-            #     file_rpath=docfile_rpath,
-            #     glob_patterns=self.conf.get("docs_glob_patterns"),
-            #     replace_str=".md",
-            # )
+        # (
+        #     docfile_path_split,
+        #     docoutdir_rpath,
+        #     docfilename,
+        # ) = hfile.get_src_reldir_and_filename(
+        #     file_rpath=docfile_rpath,
+        #     glob_patterns=self.conf.get("docs_glob_patterns"),
+        #     replace_str=".md",
+        # )
 
-            # LOG.debug("docfilename: %s", docfilename)
-            # LOG.debug("docfilename_noext: %s", docfilename_noext)
-            # sys.exit(42)
+        # LOG.debug("docfilename: %s", docfilename)
+        # LOG.debug("docfilename_noext: %s", docfilename_noext)
+        # sys.exit(42)
 
-            # # TODOD: change docfilename --> docfilename_noext
-            # self.yaml_dict["nav"].append({docfilename: docfile_rpath})
+        # # TODOD: change docfilename --> docfilename_noext
+        # self.yaml_dict["nav"].append({docfilename: docfile_rpath})
 
     def mkdocs_add_srcdocs_to_nav(self, catname_2mdfile_dict):
         rprint("catname_2mdfile_dict", catname_2mdfile_dict)
