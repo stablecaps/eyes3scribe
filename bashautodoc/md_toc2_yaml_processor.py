@@ -23,12 +23,16 @@ mdlink_patt = re.compile(r"[- ]*\[([*a-zA-Z0-9-_]*)\]\(([A-Za-z/-0-9_.]*)")
 
 # TODO: refactor the hell out of this ;o)
 class MdToc2YamlProcessor:
-    def __init__(self, search_path) -> None:
+    def __init__(self, conf, search_path) -> None:
         ### For every md file
         # 1. establish if it has a TOC
         # 2. Map the hierarchy of nav-doc links via the TOC
         # 3. We will use the anchor "## Table of Contents" to find md TOC
 
+        self.project_docs_dir = conf.get("project_docs_dir") + "/"
+        LOG.debug("project_docs_dir: %s", self.project_docs_dir)
+        # sys.exit(42)
+        #
         self.toc_dict = {}
         self.hierarchy_dict = defaultdict(list)
         self.final_dict = {}
@@ -94,13 +98,24 @@ class MdToc2YamlProcessor:
                     yaml2_sublist = []
                     for link in self.toc_dict[md_link]:
                         yaml2_sublist.append(
-                            {link.split("/")[-1].replace(".md", ""): link}
+                            {
+                                link.split("/")[-1].replace(".md", ""): link.replace(
+                                    self.project_docs_dir, ""
+                                )
+                            }
                         )
 
                     sub_dict = {category_name: yaml2_sublist}
                     new_link_list.append(sub_dict)
                 else:
-                    new_link_list.append(md_link)
+                    # TODO: make category split a function
+                    new_link_list.append(
+                        {
+                            md_link.split("/")[-1].replace(".md", ""): md_link.replace(
+                                self.project_docs_dir, ""
+                            )
+                        }
+                    )
             self.final_dict[key] = new_link_list
 
     def main(self):
@@ -114,12 +129,5 @@ class MdToc2YamlProcessor:
         self.construct_final_dict()
 
         rprint("final_dict", self.final_dict)
+        # sys.exit(42)
         return self.final_dict
-
-
-# Call the main function
-if __name__ == "__main__":
-    md_toc2_yaml_processor = MdToc2YamlProcessor(
-        search_path="docs_bash-it/docs/docshw/"
-    )
-    md_toc2_yaml_processor.main()

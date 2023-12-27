@@ -99,7 +99,10 @@ class MdToc2YamlProcessor:
                     sub_dict = {category_name: yaml2_sublist}
                     new_link_list.append(sub_dict)
                 else:
-                    new_link_list.append(md_link)
+                    # TODO: make category split a function
+                    new_link_list.append(
+                        {md_link.split("/")[-1].replace(".md", ""): md_link}
+                    )
             self.final_dict[key] = new_link_list
 
     def main(self):
