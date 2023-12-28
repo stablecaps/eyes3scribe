@@ -32,7 +32,8 @@ class Rst2MdDataHolder:
 
 
 class Rst2MdTocConverter1:
-    def __new__(cls, hwdoc_rpath) -> None:
+    def __new__(cls, conf, hwdoc_rpath) -> None:
+        cls.project_docs_dir = conf.get("project_docs_dir") + "/"
         cls.hwdoc_rpath = hwdoc_rpath
         LOG.debug("hwdoc_rpath: %s", cls.hwdoc_rpath)
 
@@ -110,12 +111,14 @@ class Rst2MdTocConverter1:
                 for file_path in file_path_list:
                     file_root, file_name = file_path.rsplit("/", 1)
                     # rprint("file_root, file_name = ", file_root, file_name)
-                    md_rel_link_cleaned = file_path
+                    md_rel_link_cleaned = file_path.replace(cls.project_docs_dir, "")
                     md_rel_link = f"- [**{file_name.capitalize().replace('/index', '').replace('.md', '')}**]({md_rel_link_cleaned})"
                     cls.r2m.md_toclink_list.append(md_rel_link)
 
                     ###
-                    cls.r2m.toclinks_dict[file_name.replace(".md", "")] = file_path
+                    cls.r2m.toclinks_dict[
+                        file_name.replace(".md", "")
+                    ] = file_path.replace(cls.project_docs_dir, "")
 
                 rprint("toclinks_dict", cls.r2m.toclinks_dict)
                 rprint("md_toclink_list", cls.r2m.md_toclink_list)
@@ -134,7 +137,12 @@ class Rst2MdTocConverter1:
                     print("ERROR: more than one file found")
                     sys.exit(42)
 
-                md_rel_link_cleaned = file_path_list[0]
+                # md_rel_link_cleaned = file_path_list[0]
+                md_rel_link_cleaned = file_path_list[0].replace(
+                    cls.project_docs_dir, ""
+                )
+                print("md_rel_link_cleaned", md_rel_link_cleaned)
+                # sys.exit(42)
                 md_rel_link = f"- [**{toc_link_name.capitalize().replace('/index', '')}**]({md_rel_link_cleaned})"
                 # rprint(type(cls.r2m.md_toclink_list))
                 cls.r2m.md_toclink_list.append(md_rel_link)
@@ -180,6 +188,8 @@ class Rst2MdTocConverter1:
             mdtext_replacedtoc = cls.r2m.filetext.replace(
                 joined_original_toclinks, joined_md_toclinks_with_headers
             )
+            rprint("mdtext_replacedtoc", mdtext_replacedtoc)
+
             cls.r2m.filetext = mdtext_replacedtoc
         else:
             cls.r2m.toc_list_cleaned = None
@@ -227,9 +237,14 @@ def generate_ref_sub_tuplist(mdtext, ref_patt, toclinks_dict):
                     # sys.exit(42)
                 else:
                     toc_link_value = toclinks_dict[toc_link_key]
+                    # rprint("toc_link_value", toc_link_value)
+
                     md_ref_link = f"[{ref_title}]({toc_link_value})"
                     ref_sub_tuplist.append((rst_ref_string, md_ref_link))
-
+    # if "Doctor" in md_ref_link:
+    #     sys.exit(42)
+    rprint("ref_sub_tuplist", ref_sub_tuplist)
+    sys.exit(42)
     return ref_sub_tuplist
 
 
@@ -258,9 +273,9 @@ ref_patt = re.compile(r"({ref})(`[a-zA-Z0-9-. ]*)(<[a-zA-Z`]*>`)")
 leftover_path = re.compile(r"^\([a-z.A-Z0-9]*\)=$")
 
 
-def rst2md_mainroutine():
+def rst2md_mainroutine(conf, hwdocs_search_path):
     hwdoc_rpaths = hfile.search_directory_with_multiple_globs(
-        search_path="./docs_bash-it/docs/docshw/",
+        search_path=hwdocs_search_path,
         glob_patt_list=["*.md"],
     )
 
@@ -273,6 +288,7 @@ def rst2md_mainroutine():
 
     for hwdoc_rpath in hwdoc_rpaths:
         r2m = Rst2MdTocConverter1(
+            conf=conf,
             hwdoc_rpath=hwdoc_rpath,
         )
 

@@ -22,6 +22,7 @@ mdlink_patt = re.compile(r"[- ]*\[([*a-zA-Z0-9-_]*)\]\(([A-Za-z/-0-9_.]*)")
 
 
 # TODO: refactor the hell out of this ;o)
+# TODO: sort out conversion of relative paths sooner
 class MdToc2YamlProcessor:
     def __init__(self, conf, search_path) -> None:
         ### For every md file
@@ -64,31 +65,68 @@ class MdToc2YamlProcessor:
 
     def create_toc_dict_from_mdindex_files(self):
         for mdpath in self.mdtoc_path_list:
+            mdpath_rel = mdpath.replace(self.project_docs_dir, "")
             file_text = hfile.read_file_2string(filepath=mdpath)
             table_of_contents = (
                 hstrops.extract_lines_between_start_and_end_blank_line_tag(
                     file_text, start_tag="## Table of Contents"
                 )
             )
-            self.toc_dict[mdpath] = MdToc2YamlProcessor.clean_mdtoc_list(
+            self.toc_dict[mdpath_rel] = MdToc2YamlProcessor.clean_mdtoc_list(
                 toc_mdlist=table_of_contents
             )
+        rprint("\ntoc_dict", self.toc_dict)
+        # sys.exit(42)
+
+    def order_indexes_in_toc_dict(self):
+        # copy index files to front of list
+        # catnames_list = list(self.toc_dict.keys())
+        for mdpath, toc_links in self.toc_dict.items():
+            rprint("mdpath", mdpath)
+            # rprint("toc_links", toc_links)
+            # sys.exit(42)
+            toc_links_with_index = []
+            if mdpath == "docshw/index.md":
+                # TODO: fix this hard coded hack - think we need to specify main index in config
+                continue
+            for mdlink in toc_links:
+                if mdpath != mdlink:
+                    rprint("mdlink", mdlink)
+                    ### deletes the index.md file from the list
+                    # (as we want to make this the forst element in the list)
+                    toc_links_with_index.append(mdlink)
+            toc_links_with_index.insert(
+                0, mdpath
+            )  ### inserts the index.md file at the start of the list
+            self.toc_dict[mdpath] = toc_links_with_index
+        rprint("toc_dict index ordered", self.toc_dict)
 
     def construct_hierarchy_dict(self):
-        for mdpath, toc_links in self.toc_dict.items():
+        for mdpath, _ in self.toc_dict.items():
+            rprint("mdpath", mdpath)
             for file_path2, toc_links2 in self.toc_dict.items():
-                if mdpath in toc_links2:
-                    self.hierarchy_dict[file_path2].append(mdpath)
+                rprint("file_path2", file_path2)
+                mdpath_rel = mdpath.replace(self.project_docs_dir, "")
+                if mdpath_rel in toc_links2:
+                    self.hierarchy_dict[file_path2].append(mdpath_rel)
                     break
+        rprint("\nhierarchy_dict", self.hierarchy_dict)
 
     def construct_final_dict(self):
         for key, link_list in sorted(
             self.hierarchy_dict.items(), key=lambda x: len(x[1]), reverse=True
         ):
+            rprint("link_list", link_list)
+
             self.final_dict[key] = self.toc_dict[key]
+            rprint("final_dict", self.final_dict)
+            # sys.exit(42)
+
             new_link_list = []
             for md_link in self.final_dict[key]:
                 if md_link in link_list:
+                    rprint("md_link", md_link)
+                    # sys.exit(42)
                     category_split = md_link.split("/")
                     if category_split[-1] == "index.md":
                         category_name = category_split[-2]
@@ -117,17 +155,22 @@ class MdToc2YamlProcessor:
                         }
                     )
             self.final_dict[key] = new_link_list
+        rprint("final_dict", self.final_dict)
 
     def main(self):
         self.create_toc_dict_from_mdindex_files()
+        # sys.exit(42)
 
         ## 1. Check which mdtoc_path is in which list to figure out rough order
         ## 2. If it is in the list, then it is suboridnate
         ## 3. Create ranked order of md files
         self.construct_hierarchy_dict()
+        # sys.exit(42)
+
+        self.order_indexes_in_toc_dict()
+        # sys.exit(42)
 
         self.construct_final_dict()
-
-        rprint("final_dict", self.final_dict)
         # sys.exit(42)
+
         return self.final_dict

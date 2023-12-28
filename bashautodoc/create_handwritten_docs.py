@@ -32,6 +32,7 @@ class CreateHandwrittenDocs:
         Convert rst files to md files.
         """
 
+        LOG.info("Converting rst files to md files.\nThis may take a while...")
         rst2myst_configfile = self.conf.get("rst2myst_configfile")
 
         rst_glob = "{,**/}*.rst"
@@ -52,7 +53,9 @@ class CreateHandwrittenDocs:
         self.convert_rst2md()
         # sys.exit(42)
 
-        rst2md_mainroutine()
+        rst2md_mainroutine(
+            conf=self.conf, hwdocs_search_path="./docs_bash-it/docs/docshw/"
+        )
 
         ##################################################
         hwdocs_infiles = hfile.search_directory_with_multiple_globs(
