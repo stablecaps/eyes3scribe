@@ -156,3 +156,7 @@ def extract_lines_between_start_and_end_blank_line_tag(
             line_holder.append(line)
 
     return line_holder
+
+
+def normalise_key(mystr):
+    return mystr.lower().replace("-", "").replace("_", "").strip()
