@@ -3,6 +3,7 @@ import re
 from collections import defaultdict
 
 from rich import print as rprint
+
 from bashautodoc.helpo import hfile, hstrops
 
 LOG = logging.getLogger(__name__)

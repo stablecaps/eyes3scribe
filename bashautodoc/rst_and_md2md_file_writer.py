@@ -2,6 +2,7 @@ import logging
 from collections import defaultdict
 
 from rich import print as rprint
+
 from bashautodoc.helpo import hfile, hstrops
 from bashautodoc.regex_patterns import *
 

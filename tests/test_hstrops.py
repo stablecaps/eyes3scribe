@@ -1,7 +1,4 @@
-
-from bashautodoc.helpo.hstrops import (
-    str_multi_replace,
-)
+from bashautodoc.helpo.hstrops import str_multi_replace
 
 # def test_does_string_contain_pattern():
 #     # Test when the string contains a pattern

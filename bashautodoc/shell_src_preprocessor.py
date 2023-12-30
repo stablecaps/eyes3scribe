@@ -19,6 +19,7 @@ Classes:
 
 import logging
 from collections import defaultdict
+
 from bashautodoc.models.filepath_datahandler import FilepathDatahandler
 from bashautodoc.models.function_datahandler import FunctionDatahandler
 from bashautodoc.shell_2md_file_writer import Sh2MdFileWriter
