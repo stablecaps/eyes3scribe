@@ -6,8 +6,7 @@ from dataclasses import dataclass
 
 from rich import print as rprint
 
-import bashautodoc.helpo.hfile as hfile
-import bashautodoc.helpo.hstrops as hstrops
+from bashautodoc.helpo import hfile, hstrops
 
 # from bashautodoc.helpo.hstrops import search_list_4pattern
 from bashautodoc.helpo.hsubprocess import run_cmd_with_output
@@ -256,7 +255,7 @@ ref_patt = re.compile(r"({ref})(`[a-zA-Z0-9-. ]*)(<[a-zA-Z`]*>`)")
 leftover_path = re.compile(r"^\([a-z.A-Z0-9]*\)=$")
 
 if __name__ == "__main__":
-    hwdoc_rpaths = hfile.search_directory_with_multiple_globs(
+    hwdoc_rpaths = hfile.multiglob_dir_search(
         search_path="./docs_bash-it/docs/docshw/",
         glob_patt_list=["*.md"],
     )

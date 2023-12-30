@@ -5,7 +5,7 @@ from collections import defaultdict
 
 from rich import print as rprint
 
-import bashautodoc.helpo.hfile as hfile
+from bashautodoc.helpo import hfile
 
 # from bashautodoc.helpo.hstrops import search_list_4pattern
 from bashautodoc.helpo.hsubprocess import run_cmd_with_output
@@ -263,7 +263,7 @@ if __name__ == "__main__":
     mdtext_replacedtoc_data2_tuples_all = []
 
     ############
-    hwdoc_rpaths = hfile.search_directory_with_multiple_globs(
+    hwdoc_rpaths = hfile.multiglob_dir_search(
         search_path="./docs_bash-it/docs/docshw/",
         glob_patt_list=["*.md"],
     )

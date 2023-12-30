@@ -6,12 +6,7 @@ from dataclasses import dataclass, field
 
 from rich import print as rprint
 
-import bashautodoc.helpo.hfile as hfile
-import bashautodoc.helpo.hstrops as hstrops
-
-# from bashautodoc.helpo.hstrops import search_list_4pattern
-from bashautodoc.helpo.hsubprocess import run_cmd_with_output
-from bashautodoc.models.filepath_datahandler import FilepathDatahandler
+from bashautodoc.helpo import hfile, hstrops
 from bashautodoc.models.ref_anchor_converter import RefAnchorConverter
 from bashautodoc.regex_patterns import *
 
@@ -265,7 +260,7 @@ anchorlinks_quickmap_dict_all = {}
 
 
 def rst2md_mainroutine(conf, hwdocs_search_path):
-    hwdoc_rpaths = hfile.search_directory_with_multiple_globs(
+    hwdoc_rpaths = hfile.multiglob_dir_search(
         search_path=hwdocs_search_path,
         glob_patt_list=["*.md"],
     )
@@ -318,15 +313,6 @@ def rst2md_mainroutine(conf, hwdocs_search_path):
             anchorlinks_quickmap_dict_all=anchorlinks_quickmap_dict_all,
         )
         mdtext_replaced = ref_anchor_converter.main()
-
-        # rprint("ref_sub_tuplist", ref_sub_tuplist)
-        # if len(ref_sub_tuplist) > 0:
-        #     sys.exit(42)
-
-        # mdtext_replacedrefs = replace_refs_with_links(
-        #     mdtext=r2m.filetext, ref_sub_tuplist=ref_sub_tuplist
-        # )
-        # mdtext_replaced = mdtext_replacedrefs
 
         # if "barbuk" in r2m.hwdoc_rpath:
         #     rprint("r2m.filetext", r2m.filetext)

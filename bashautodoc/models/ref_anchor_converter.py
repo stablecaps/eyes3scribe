@@ -1,18 +1,11 @@
 import logging
 import re
 import sys
-from collections import defaultdict
-from dataclasses import dataclass, field
 
 from rich import print as rprint
 
-import bashautodoc.helpo.hfile as hfile
-import bashautodoc.helpo.hstrops as hstrops
-
-# from bashautodoc.helpo.hstrops import search_list_4pattern
-from bashautodoc.helpo.hsubprocess import run_cmd_with_output
-from bashautodoc.models.filepath_datahandler import FilepathDatahandler
-from bashautodoc.regex_patterns import *
+from bashautodoc.helpo import hfile, hstrops
+from bashautodoc.regex_patterns import hxhash_patt, ref_start_patt
 
 LOG = logging.getLogger(__name__)
 
@@ -55,14 +48,14 @@ class RefAnchorConverter:
         return reflink_end_file
 
     @staticmethod
-    def generate_md_end_link(hxhash_match, reflink_label):
+    def generate_reflink_end(hxhash_match, reflink_label):
         hxhash = hxhash_match.group(1)
         hxhash_title = hxhash_match.group(2)
         rprint("hxhash", hxhash)
         rprint("hxhash_title", hxhash_title)
-        md_end_link = f'{hxhash} <a id="{reflink_label}></a> {hxhash_title}'
+        reflink_end = f'{hxhash} <a id="{reflink_label}></a> {hxhash_title}'
 
-        return md_end_link
+        return reflink_end
 
     def generate_ref_sub_tuplist(self):
         """
@@ -82,8 +75,10 @@ class RefAnchorConverter:
             if "{ref}" in line:
                 reflink_start_match = re.search(ref_start_patt, line)
                 if reflink_start_match is not None:
+                    # e.g. match='{ref}`Contribution Guidelines <contributing>`'>
                     rprint("reflink_start_match", reflink_start_match)
 
+                    # "Contribution Guidelines", "contributing"
                     reflink_start, ref_title = self.extract_reflink_start(
                         reflink_start_match
                     )
@@ -91,13 +86,16 @@ class RefAnchorConverter:
                     reflink_start_norm = hstrops.normalise_key(mystr=reflink_start)
                     rprint("reflink_start_norm", reflink_start_norm)
 
+                    # "docs_bash-it/docs/docshw/contributing.md"
                     reflink_end_file = self.get_reflink_end_file(
                         reflink_start, reflink_start_norm
                     )
 
+                    # ref_data (all) = docs_bash-it/docs/docshw/contributing.md:	 [['contributing', '# Contribution Guidelines'], ['contributingtheme', '## Themes'], ['addscreenshot', '## Adding a Screenshot']]
                     for ref_data in self.anchorlinks_verbose_dict_all[reflink_end_file]:
                         rprint("ref_data", ref_data)
                         reflink_label, reflink_end_header = ref_data[0], ref_data[1]
+                        # e.g. reflink_label, reflink_end_header = ['contributing', '# Contribution Guidelines']
                         if reflink_label == reflink_start_norm:
                             rprint("reflink_end_header", reflink_end_header)
 
@@ -107,33 +105,25 @@ class RefAnchorConverter:
                                     start_filepath=self.r2m.hwdoc_rpath,
                                 )
                             )
+
                             hxhash_match = re.search(hxhash_patt, reflink_end_header)
                             if hxhash_match is not None:
-                                md_end_link = self.generate_md_end_link(
+                                # '#  <a id="contributing></a> Contribution Guidelines'
+                                reflink_end = self.generate_reflink_end(
                                     hxhash_match, reflink_label
                                 )
 
-                                md_reflink = f"[{ref_title}]({reflink_end_file_relative}#{reflink_label})"
-                                rprint("md_reflink", md_reflink)
+                                rprint("reflink_end", reflink_end)
 
-                            ref_sub_tuplist.append((line, md_reflink))
-                            break
+                                ref_sub_tuplist.append((line, reflink_end))
+                                break
         return ref_sub_tuplist
 
     def replace_refs_with_links(self, ref_sub_tuplist):
-        """
-        Replaces refs with links in the text with replaced table of contents links.
-
-        Args:
-            mdtext (str): The text with replaced table of contents links.
-            ref_sub_tuplist (list): The list of tuples for ref sub.
-
-        Returns:
-            str: The text with refs replaced with links.
-        """
-        for rst_ref_string, md_reflink in ref_sub_tuplist:
+        # 1.
+        for rst_ref_string, reflink_end in ref_sub_tuplist:
             tmp_filetext = self.r2m.filetext
-            self.r2m.filetext = tmp_filetext.replace(rst_ref_string, md_reflink)
+            self.r2m.filetext = tmp_filetext.replace(rst_ref_string, reflink_end)
 
     def main(self):
         ref_sub_tuplist = self.generate_ref_sub_tuplist()

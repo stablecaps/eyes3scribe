@@ -7,9 +7,8 @@ from dataclasses import dataclass
 
 from rich import print as rprint
 
-import bashautodoc.helpo.hfile as hfile
-import bashautodoc.helpo.hstrops as hstrops
 import bashautodoc.helpo.hsubprocess as hsubp
+from bashautodoc.helpo import hfile, hstrops
 
 # from bashautodoc.helpo.hstrops import search_list_4pattern
 from bashautodoc.helpo.hsubprocess import run_cmd_with_output
@@ -45,7 +44,7 @@ if __name__ == "__main__":
     # 2. Map the hierarchy of nav-doc links via the TOC
     # 3. We will use the anchor "## Table of Contents" to find md TOC
 
-    # hwdoc_rpaths = hfile.search_directory_with_multiple_globs(
+    # hwdoc_rpaths = hfile.multiglob_dir_search(
     #     search_path="./docs_bash-it/docs/docshw/",
     #     glob_patt_list=["*.md"],
     # )

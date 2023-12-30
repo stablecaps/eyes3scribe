@@ -2,6 +2,7 @@ import logging
 from dataclasses import dataclass
 
 from bashautodoc.function_dependency_processor import FunctionDependencyProcessor
+from bashautodoc.helpo.hstrops import str_multi_replace
 
 LOG = logging.getLogger(__name__)
 
@@ -47,34 +48,6 @@ class FunctionDatahandler:
             func_name = function_header[1].strip("()")
             LOG.debug("func_name: %s", func_name)
         return func_name
-
-    @staticmethod
-    def _process_about_line(line):
-        """
-        Process a line of code containing an "about" statement.
-
-        Args:
-            line (str): Line of code.
-
-        Returns:
-            str: Processed about statement.
-
-        Example:
-            preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_rpaths=["file1", "file2"],
-                                                project_docs_dir="docs/",
-                                                debug=True)
-            about_statement = preprocessor._process_about_line("about-plugin 'This is a plugin'")
-        """
-        return (
-            line.replace("about-plugin", "")
-            .replace("about-alias", "")
-            .replace("about-completion", "")
-            .replace("about-module", "")
-            .replace("about-internal", "")
-            .replace("'", "")
-            .strip()
-        )
 
     @staticmethod
     def _process_alias_line(line):
@@ -160,7 +133,18 @@ class FunctionDatahandler:
                         "about-internal",
                     )
                 ):
-                    cite_about = FunctionDatahandler._process_about_line(line)
+                    cite_about = str_multi_replace(
+                        input_str=line,
+                        rm_patt_list=[
+                            "about-plugin",
+                            "about-alias",
+                            "about-completion",
+                            "about-module",
+                            "about-internal",
+                            "'",
+                        ],
+                        replace_str="",
+                    ).strip()
                 elif line.startswith("alias"):
                     alias_str = FunctionDatahandler._process_alias_line(line)
                     if alias_str is not None:

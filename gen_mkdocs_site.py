@@ -377,7 +377,7 @@ class GenMkdocsSite:
 
         if self.handwritten_docs_dir is not None:
             LOG.info("Processing handwritten doc files")
-            hwdocs_rpaths = hfile.search_directory_with_multiple_globs(
+            hwdocs_rpaths = hfile.multiglob_dir_search(
                 search_path=self.handwritten_docs_outdir,
                 glob_patt_list=self.docs_glob_patterns,
             )
@@ -402,7 +402,7 @@ class GenMkdocsSite:
 
         LOG.info("Processing shell source files")
         if self.check_singlefile is None:
-            src_absolute_path_list = hfile.search_directory_with_multiple_globs(
+            src_absolute_path_list = hfile.multiglob_dir_search(
                 search_path=self.project_docs_dir,
                 glob_patt_list=self.shell_glob_patterns,
             )
@@ -418,9 +418,9 @@ class GenMkdocsSite:
         ]
         LOG.debug("strict_exclusion_patterns_src: %s", strict_exclusion_patterns_src)
 
-        srcfiles_rpath = hfile.convert_paths_to_relative(
-            absolute_path_list=src_absolute_path_list,
-            path_to_replace=self.program_root_dir,
+        srcfiles_rpath = hfile.replace_substr_in_paths(
+            input_paths=src_absolute_path_list,
+            replace_path=self.program_root_dir,
         )
         LOG.info("srcfiles_rpath: %s", srcfiles_rpath)
 

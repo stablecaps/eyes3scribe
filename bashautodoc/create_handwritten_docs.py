@@ -4,7 +4,7 @@ from collections import defaultdict
 
 from rich import print as rprint
 
-import bashautodoc.helpo.hfile as hfile
+from bashautodoc.helpo import hfile
 from bashautodoc.helpo.hsubprocess import run_cmd_with_output
 from bashautodoc.md_toc2_yaml_processor import MdToc2YamlProcessor
 from bashautodoc.models.filepath_datahandler import FilepathDatahandler
@@ -58,7 +58,7 @@ class CreateHandwrittenDocs:
         )
 
         ##################################################
-        hwdocs_infiles = hfile.search_directory_with_multiple_globs(
+        hwdocs_infiles = hfile.multiglob_dir_search(
             search_path=self.handwritten_docs_dir,
             glob_patt_list=["*.md"],
         )

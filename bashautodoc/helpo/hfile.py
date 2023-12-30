@@ -166,7 +166,7 @@ def list_matching_files_recursively(search_path="./", myglob="*.sh"):
     return file_list
 
 
-def search_directory_with_multiple_globs(search_path, glob_patt_list):
+def multiglob_dir_search(search_path, glob_patt_list):
     path_list = []
     for glob_patt in glob_patt_list:
         path_list.extend(
@@ -177,15 +177,15 @@ def search_directory_with_multiple_globs(search_path, glob_patt_list):
     return path_list
 
 
-def convert_paths_to_relative(absolute_path_list, path_to_replace):
+def replace_substr_in_paths(input_paths, replace_path):
     relative_paths = []
-    for file_abspath in absolute_path_list:
-        print("file_abspath", file_abspath)
+    for filepath in input_paths:
+        print("filepath", filepath)
 
-        file_rpath = file_abspath.replace(path_to_replace, ".")
-        print("file_rpath", file_rpath)
+        replaced_path = filepath.replace(replace_path, ".")
+        print("replaced_path", replaced_path)
 
-        relative_paths.append(file_rpath)
+        relative_paths.append(replaced_path)
     return relative_paths
 
 

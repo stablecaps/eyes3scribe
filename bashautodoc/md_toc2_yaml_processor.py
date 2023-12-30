@@ -7,9 +7,8 @@ from dataclasses import dataclass
 
 from rich import print as rprint
 
-import bashautodoc.helpo.hfile as hfile
-import bashautodoc.helpo.hstrops as hstrops
 import bashautodoc.helpo.hsubprocess as hsubp
+from bashautodoc.helpo import hfile, hstrops
 
 # from bashautodoc.helpo.hstrops import search_list_4pattern
 from bashautodoc.helpo.hsubprocess import run_cmd_with_output
