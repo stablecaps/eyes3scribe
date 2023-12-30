@@ -18,12 +18,7 @@ Classes:
 """
 
 import logging
-import sys
 from collections import defaultdict
-
-from rich import print as rprint
-
-from bashautodoc.function_dependency_processor import FunctionDependencyProcessor
 from bashautodoc.models.filepath_datahandler import FilepathDatahandler
 from bashautodoc.models.function_datahandler import FunctionDatahandler
 from bashautodoc.shell_2md_file_writer import Sh2MdFileWriter

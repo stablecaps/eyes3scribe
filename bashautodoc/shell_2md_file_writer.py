@@ -18,15 +18,11 @@ Example:
     writer.write_md()
 """
 import logging
-import os
-import sys
 
 from mdutils.mdutils import MdUtils
 from rich import print as rprint
 
 from bashautodoc.DocSectionWriterFunction import DocSectionWriterFunction
-from bashautodoc.helpo import hfile
-from bashautodoc.models.filepath_datahandler import FilepathDatahandler
 
 # from bashautodoc.helpo.hstrops import str_multi_replace
 

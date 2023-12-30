@@ -1,8 +1,5 @@
-import pytest
 
 from bashautodoc.helpo.hstrops import (
-    does_string_contain_pattern,
-    does_string_starts_with_pattern,
     str_multi_replace,
 )
 

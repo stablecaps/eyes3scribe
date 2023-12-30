@@ -15,7 +15,6 @@
 """
 
 import logging
-import sys
 from functools import reduce
 
 LOG = logging.getLogger(__name__)

@@ -13,7 +13,6 @@ from rich import print as rprint
 from bashautodoc.create_handwritten_docs import CreateHandwrittenDocs
 from bashautodoc.helpo import hfile
 from bashautodoc.helpo.coloured_log_formatter import ColouredLogFormatter
-from bashautodoc.helpo.hstrops import str_multi_replace
 from bashautodoc.shell_src_preprocessor import ShellSrcPreProcessor
 
 LOG = logging.getLogger(__name__)

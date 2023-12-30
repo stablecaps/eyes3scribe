@@ -1,15 +1,9 @@
-import logging
 import re
 import sys
-from collections import defaultdict
 
 from rich import print as rprint
 
 from bashautodoc.helpo import hfile
-
-# from bashautodoc.helpo.hstrops import search_list_4pattern
-from bashautodoc.helpo.hsubprocess import run_cmd_with_output
-from bashautodoc.models.filepath_datahandler import FilepathDatahandler
 
 toclinks_dict = {}
 

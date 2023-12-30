@@ -2,7 +2,7 @@ import logging
 from dataclasses import dataclass
 
 from bashautodoc.helpo.hfile import mkdir_if_notexists
-from bashautodoc.helpo.hstrops import does_string_contain_pattern, str_multi_replace
+from bashautodoc.helpo.hstrops import str_multi_replace
 
 LOG = logging.getLogger(__name__)
 

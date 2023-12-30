@@ -1,8 +1,6 @@
 import logging
 import re
 
-from rich import print as rprint
-
 LOG = logging.getLogger(__name__)
 
 mdlink_patt = re.compile(r"[- ]*\[([*a-zA-Z0-9-_]*)\]\(([A-Za-z/-0-9_.]*)")

@@ -1,10 +1,6 @@
 import logging
-import sys
-
-from mdutils.mdutils import MdUtils
 
 from bashautodoc.function_call_tree import draw_tree, parser
-from bashautodoc.helpo.hfile import mkdir_if_notexists
 from bashautodoc.helpo.hstrops import rm_lines_starting_with
 
 LOG = logging.getLogger(__name__)
