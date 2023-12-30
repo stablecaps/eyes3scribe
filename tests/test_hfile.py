@@ -1,7 +1,6 @@
 import os
 import tempfile
 
-import pytest
 from ruamel.yaml import YAML
 
 yaml = YAML(typ="safe")

@@ -1,16 +1,11 @@
 import logging
 import re
 import sys
-from collections import defaultdict
 from dataclasses import dataclass
 
 from rich import print as rprint
 
 from bashautodoc.helpo import hfile, hstrops
-
-# from bashautodoc.helpo.hstrops import search_list_4pattern
-from bashautodoc.helpo.hsubprocess import run_cmd_with_output
-from bashautodoc.models.filepath_datahandler import FilepathDatahandler
 
 LOG = logging.getLogger(__name__)
 

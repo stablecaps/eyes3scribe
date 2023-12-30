@@ -1,5 +1,3 @@
-from textwrap import dedent
-
 import pytest
 
 from bashautodoc.function_dependency_processor import FunctionDependencyProcessor

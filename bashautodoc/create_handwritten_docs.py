@@ -1,13 +1,10 @@
 import logging
-import sys
-from collections import defaultdict
 
 from rich import print as rprint
 
 from bashautodoc.helpo import hfile
 from bashautodoc.helpo.hsubprocess import run_cmd_with_output
 from bashautodoc.md_toc2_yaml_processor import MdToc2YamlProcessor
-from bashautodoc.models.filepath_datahandler import FilepathDatahandler
 from bashautodoc.models.rst2md_datahandler import rst2md_mainroutine
 
 # from bashautodoc.rst_and_md2md_file_writer import RstandM2MdFileWriter

@@ -2,18 +2,13 @@ import logging
 import os
 import pathlib
 import shutil
-import sys
 from os.path import relpath
 
 from rich import print as rprint
 from ruamel.yaml import YAML
 
 import bashautodoc.helpo.hsubprocess as hsubp
-from bashautodoc.helpo.hstrops import (
-    does_string_contain_pattern,
-    rreplace,
-    str_multi_replace,
-)
+from bashautodoc.helpo.hstrops import does_string_contain_pattern, rreplace
 
 # import yaml
 
