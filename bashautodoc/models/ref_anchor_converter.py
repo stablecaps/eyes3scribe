@@ -24,8 +24,7 @@ class RefAnchorConverter:
         anchorlinks_verbose_dict_all,
         anchorlinks_quickmap_dict_all,
     ):
-        self.hwdoc_rpath = r2m.hwdoc_rpath
-        self.mdtext = r2m.filetext
+        self.r2m = r2m
         self.anchorlinks_verbose_dict_all = anchorlinks_verbose_dict_all
         self.anchorlinks_quickmap_dict_all = anchorlinks_quickmap_dict_all
 
@@ -43,10 +42,7 @@ class RefAnchorConverter:
 
         return reflink_start, ref_title
 
-    def get_reflink_end_file(self, reflink_start):
-        reflink_start_norm = hstrops.normalise_key(mystr=reflink_start)
-        rprint("reflink_start_norm", reflink_start_norm)
-
+    def get_reflink_end_file(self, reflink_start, reflink_start_norm):
         reflink_end_file = self.anchorlinks_quickmap_dict_all.get(reflink_start_norm)
         if reflink_end_file is None:
             print(f"ERROR: reflink_start not found: {reflink_start}")
@@ -56,7 +52,7 @@ class RefAnchorConverter:
             )
             sys.exit(42)
 
-        return reflink_end_file, reflink_start_norm
+        return reflink_end_file
 
     @staticmethod
     def generate_md_end_link(hxhash_match, reflink_label):
@@ -82,7 +78,7 @@ class RefAnchorConverter:
         """
 
         ref_sub_tuplist = []
-        for line in self.mdtext.split("\n"):
+        for line in self.r2m.filetext.split("\n"):
             if "{ref}" in line:
                 reflink_start_match = re.search(ref_start_patt, line)
                 if reflink_start_match is not None:
@@ -92,8 +88,11 @@ class RefAnchorConverter:
                         reflink_start_match
                     )
 
-                    reflink_end_file, reflink_start_norm = self.get_reflink_end_file(
-                        reflink_start
+                    reflink_start_norm = hstrops.normalise_key(mystr=reflink_start)
+                    rprint("reflink_start_norm", reflink_start_norm)
+
+                    reflink_end_file = self.get_reflink_end_file(
+                        reflink_start, reflink_start_norm
                     )
 
                     for ref_data in self.anchorlinks_verbose_dict_all[reflink_end_file]:
@@ -105,7 +104,7 @@ class RefAnchorConverter:
                             reflink_end_file_relative = (
                                 hfile.get_relative_path_between_files(
                                     end_filepath=reflink_end_file,
-                                    start_filepath=self.hwdoc_rpath,
+                                    start_filepath=self.r2m.hwdoc_rpath,
                                 )
                             )
                             hxhash_match = re.search(hxhash_patt, reflink_end_header)
@@ -120,3 +119,27 @@ class RefAnchorConverter:
                             ref_sub_tuplist.append((line, md_reflink))
                             break
         return ref_sub_tuplist
+
+    def replace_refs_with_links(self, ref_sub_tuplist):
+        """
+        Replaces refs with links in the text with replaced table of contents links.
+
+        Args:
+            mdtext (str): The text with replaced table of contents links.
+            ref_sub_tuplist (list): The list of tuples for ref sub.
+
+        Returns:
+            str: The text with refs replaced with links.
+        """
+        for rst_ref_string, md_reflink in ref_sub_tuplist:
+            tmp_filetext = self.r2m.filetext
+            self.r2m.filetext = tmp_filetext.replace(rst_ref_string, md_reflink)
+
+    def main(self):
+        ref_sub_tuplist = self.generate_ref_sub_tuplist()
+
+        rprint("ref_sub_tuplist", ref_sub_tuplist)
+        if len(ref_sub_tuplist) > 0:
+            sys.exit(42)
+        self.replace_refs_with_links(ref_sub_tuplist=ref_sub_tuplist)
+        return self.r2m.filetext

@@ -257,24 +257,6 @@ class Rst2MdTocConverter1:
         return cls.r2m
 
 
-def replace_refs_with_links(mdtext, ref_sub_tuplist):
-    """
-    Replaces refs with links in the text with replaced table of contents links.
-
-    Args:
-        mdtext (str): The text with replaced table of contents links.
-        ref_sub_tuplist (list): The list of tuples for ref sub.
-
-    Returns:
-        str: The text with refs replaced with links.
-    """
-    mdtext_replaced = mdtext
-    for rst_ref_string, md_reflink in ref_sub_tuplist:
-        mdtext_replaced = mdtext_replaced.replace(rst_ref_string, md_reflink)
-
-    return mdtext_replaced
-
-
 toclinks_dict_all = {}
 r2m_list = []
 
@@ -335,18 +317,18 @@ def rst2md_mainroutine(conf, hwdocs_search_path):
             anchorlinks_verbose_dict_all=anchorlinks_verbose_dict_all,
             anchorlinks_quickmap_dict_all=anchorlinks_quickmap_dict_all,
         )
-        ref_sub_tuplist = ref_anchor_converter.generate_ref_sub_tuplist()
+        mdtext_replaced = ref_anchor_converter.main()
 
-        rprint("ref_sub_tuplist", ref_sub_tuplist)
-        if len(ref_sub_tuplist) > 0:
-            sys.exit(42)
+        # rprint("ref_sub_tuplist", ref_sub_tuplist)
+        # if len(ref_sub_tuplist) > 0:
+        #     sys.exit(42)
 
-        mdtext_replacedrefs = replace_refs_with_links(
-            mdtext=r2m.filetext, ref_sub_tuplist=ref_sub_tuplist
-        )
-        r2m.filetext = mdtext_replacedrefs
+        # mdtext_replacedrefs = replace_refs_with_links(
+        #     mdtext=r2m.filetext, ref_sub_tuplist=ref_sub_tuplist
+        # )
+        # mdtext_replaced = mdtext_replacedrefs
 
         # if "barbuk" in r2m.hwdoc_rpath:
         #     rprint("r2m.filetext", r2m.filetext)
         #     sys.exit(42)
-        hfile.write_string_2file(f"{r2m.hwdoc_root}/{r2m.hwdoc_name}", r2m.filetext)
+        hfile.write_string_2file(f"{r2m.hwdoc_root}/{r2m.hwdoc_name}", mdtext_replaced)
