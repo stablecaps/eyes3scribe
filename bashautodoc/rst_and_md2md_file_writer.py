@@ -14,11 +14,9 @@ import bashautodoc.helpo.hsubprocess as hsubp
 # from bashautodoc.helpo.hstrops import search_list_4pattern
 from bashautodoc.helpo.hsubprocess import run_cmd_with_output
 from bashautodoc.models.filepath_datahandler import FilepathDatahandler
+from bashautodoc.regex_patterns import *
 
 LOG = logging.getLogger(__name__)
-
-# TODO: initialise all regex patterns in a single place
-mdlink_patt = re.compile(r"[- ]*\[([*a-zA-Z0-9-_]*)\]\(([A-Za-z/-0-9_.]*)")
 
 
 class MdToc2YamlProcessor:

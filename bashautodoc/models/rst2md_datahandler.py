@@ -12,6 +12,8 @@ import bashautodoc.helpo.hstrops as hstrops
 # from bashautodoc.helpo.hstrops import search_list_4pattern
 from bashautodoc.helpo.hsubprocess import run_cmd_with_output
 from bashautodoc.models.filepath_datahandler import FilepathDatahandler
+from bashautodoc.models.ref_anchor_converter import RefAnchorConverter
+from bashautodoc.regex_patterns import *
 
 LOG = logging.getLogger(__name__)
 
@@ -64,25 +66,6 @@ class Rst2MdTocConverter1:
         # cls.mdtext_replacedtoc_data2_tuples_all = []
 
         return cls.main()
-
-    # TODO: Move to hstrops as a generalised function
-    @staticmethod
-    def clean_rst_toc_list(toc_list):
-        """
-        Cleans the table of contents RST list.
-
-        Args:
-            toc_list (list): The table of contents list in RST format.
-
-        Returns:
-            list: The cleaned table of contents list.
-        """
-        cleaned_toc_list = [
-            line
-            for line in toc_list
-            if (len(line) != 0) and ("maxdepth:" not in line) and ("```" not in line)
-        ]
-        return cleaned_toc_list
 
     @classmethod
     def create_markdown_toclinks(cls):
@@ -163,62 +146,6 @@ class Rst2MdTocConverter1:
                 ] = md_rel_link_cleaned
         return
 
-    # @classmethod
-    # def process_anchor_links(cls):
-    #     # 1. search md text for ref links in format "(contributing-theme)="
-    #     # 2. Construct dict mapping "(help-screens)=" to filepath.md (the appropriate header is just after. e.g. "# Help Screens")
-    #     #   Use name of hx header as value. filepath.md is the key.
-    #     #   Note you will have to take next hx header name directly at this stage as names don't match. e.g. "(contributing-theme)=" != "## Themes"
-    #     # 3. Delete the "(help-screens)=" from the md text
-    #     # 4. Replace all {ref} links with markdown anchor links. e.g. "### <a id="command-duration"></a> Command duration"
-    #     # 5. Delete existing hx header. i.e. "### Command duration"  (4 & 5 is a .replace job)
-    #     rst2md_anchor_end_patt = re.compile(r"^(\([a-z.A-Z0-9-_]*\)=)$")
-    #     del_anchor_list = []
-    #     find_hx = False
-    #     anchor_start_match_str = None
-    #     for line in cls.r2m.filetext.split("\n"):
-    #         anchor_start_match = re.search(rst2md_anchor_end_patt, line)
-
-    #         if anchor_start_match is not None:
-    #             start_anchor_link = line
-    #             del_anchor_list.append(start_anchor_link)
-    #             anchor_start_match_str = anchor_start_match.group(1)
-    #             find_hx = True
-    #             rprint("start_anchor_link", start_anchor_link)
-    #             rprint("anchor_start_match", anchor_start_match)
-    #             rprint("find_hx", find_hx)
-    #         elif find_hx:
-    #             if (
-    #                 line.startswith("# ")
-    #                 or line.startswith("## ")
-    #                 or line.startswith("### ")
-    #                 or line.startswith("#### ")
-    #             ):
-    #                 hxanchor_target_end = line
-    #                 rprint("hxanchor_target_end", hxanchor_target_end, find_hx)
-
-    #                 anchor_start_match_str_cleaned = hstrops.normalise_key(
-    #                     mystr=(
-    #                         anchor_start_match_str.replace("(", "").replace(")=", "")
-    #                     )
-    #                 )
-    #                 cls.r2m.anchorlinks_quickmap_dict[
-    #                     anchor_start_match_str_cleaned
-    #                 ] = cls.r2m.hwdoc_rpath
-    #                 #
-    #                 #
-    #                 cls.r2m.anchorlinks_verbose_dict[cls.r2m.hwdoc_rpath].append(
-    #                     [
-    #                         anchor_start_match_str_cleaned,
-    #                         hxanchor_target_end,
-    #                     ]
-    #                 )
-    #                 find_hx = False
-    #                 # sys.exit(42)
-
-    #     for rm_line in del_anchor_list:
-    #         cls.r2m.filetext = cls.r2m.filetext.replace(rm_line, "")
-
     @classmethod
     def process_anchor_links(cls):
         # 1. search md text for ref links in format "(contributing-theme)="
@@ -286,7 +213,11 @@ class Rst2MdTocConverter1:
         cls.r2m.filetext = hfile.read_file_2string(filepath=cls.hwdoc_rpath)
         toc_list = hstrops.extract_lines_between_tags(filetext=cls.r2m.filetext)
         if len(toc_list) > 0:
-            cls.r2m.toc_list_cleaned = Rst2MdTocConverter1.clean_rst_toc_list(toc_list)
+            cls.r2m.toc_list_cleaned = hstrops.clean_list_via_rm_patterns(
+                input_list=toc_list,
+                rm_patterns=["maxdepth:", "```"],
+                rm_empty_lines=True,
+            )
             rprint("toc_list_cleaned", cls.r2m.toc_list_cleaned)
 
             cls.create_markdown_toclinks()
@@ -326,272 +257,6 @@ class Rst2MdTocConverter1:
         return cls.r2m
 
 
-# def generate_ref_sub_tuplist_old(mdtext, ref_start_patt, toclinks_dict):
-#     """
-#     Generates a list of tuples for ref substitution.
-
-#     Args:
-#         mdtext (str): The text with replaced table of contents links.
-#         ref_start_patt (re.Pattern): The compiled regular expression pattern for refs.
-#         toclinks_dict (dict): The dictionary of table of contents links.
-
-#     Returns:
-#         list: The list of tuples for ref sub.
-#     """
-
-#     ref_sub_tuplist = []
-#     for line in mdtext.split("\n"):
-#         if "{ref}" in line:
-#             reflink_start_match = re.search(ref_start_patt, line)
-#             if reflink_start_match is not None:
-#                 # {ref}`linting_your_changes`  = {ref}, linting_your_changes
-#                 # {ref}`here<add_screenshot>`  = {ref}, here, <add_screenshot>
-
-#                 ref_title_raw = reflink_start_match.group(2)
-#                 ref_title = reflink_start_match.group(2).strip()
-
-#                 if reflink_start_match.group(3) is None:
-#                     reflink_start_raw = "<add_screenshot>"
-#                 else:
-#                     reflink_start_raw = reflink_start_match.group(3)
-#                 reflink_start = reflink_start_raw.replace("<", "").replace(">", "").strip()
-
-#                 rst_ref_string = f"{reflink_start_match.group(2)}{ref_title_raw}{reflink_start_raw}"
-
-#                 if (
-#                     toclinks_dict.get(reflink_start) is None
-#                     and reflink_start_raw != "<add_screenshot>"
-#                 ):
-#                     print(f"ERROR: reflink_start not found: {reflink_start}")
-#                     print("toclinks_dict keys", toclinks_dict.keys())
-#                     sys.exit(42)
-#                 else:
-#                     toc_link_value = toclinks_dict[reflink_start]
-#                     rprint("toc_link_value", toc_link_value)
-
-#                     md_reflink = f"[{ref_title}]({toc_link_value})"
-#                     ref_sub_tuplist.append((rst_ref_string, md_reflink))
-
-#     return ref_sub_tuplist
-
-
-from os.path import relpath
-
-
-def rreplace(mystr, match_str, replace_str, times):
-    li = mystr.rsplit(match_str, times)
-    return replace_str.join(li)
-
-
-class RefAnchorConverter:
-    def __init__(
-        self,
-        hwdoc_rpath,
-        mdtext,
-        ref_start_patt,
-        anchorlinks_verbose_dict_all,
-        anchorlinks_quickmap_dict_all,
-    ):
-        self.hwdoc_rpath = hwdoc_rpath
-        self.mdtext = mdtext
-        self.ref_start_patt = ref_start_patt
-        self.anchorlinks_verbose_dict_all = anchorlinks_verbose_dict_all
-        self.anchorlinks_quickmap_dict_all = anchorlinks_quickmap_dict_all
-
-    @staticmethod
-    def get_relative_path_between_files(end_filepath, start_filepath):
-        # TODO: move to hfile
-        # TODO: test this to make sure it handles edge cases properly
-        # TODO: refactor this to be less ugly
-        start2child_relpath_raw = relpath(end_filepath, start_filepath)
-        start2child_relpath = rreplace(
-            mystr=start2child_relpath_raw, match_str="../", replace_str="./", times=1
-        )
-
-        return start2child_relpath
-
-    @staticmethod
-    def extract_reflink_start(reflink_start_match):
-        ref_title = reflink_start_match.group(2).strip()
-
-        if reflink_start_match.group(3) is None:
-            reflink_start_raw = ref_title
-        else:
-            reflink_start_raw = reflink_start_match.group(3)
-
-        reflink_start = reflink_start_raw.replace("<", "").replace(">", "").strip()
-        rprint("reflink_start", reflink_start)
-
-        return reflink_start, ref_title
-
-    def get_reflink_end_file(self, reflink_start):
-        reflink_start_norm = hstrops.normalise_key(mystr=reflink_start)
-        rprint("reflink_start_norm", reflink_start_norm)
-
-        reflink_end_file = self.anchorlinks_quickmap_dict_all.get(reflink_start_norm)
-        if reflink_end_file is None:
-            print(f"ERROR: reflink_start not found: {reflink_start}")
-            print(
-                "anchorlinks_quickmap_dict_all keys",
-                self.anchorlinks_quickmap_dict_all.keys(),
-            )
-            sys.exit(42)
-
-        return reflink_end_file, reflink_start_norm
-
-    @staticmethod
-    def generate_md_end_link(hxhash_match, reflink_label):
-        hxhash = hxhash_match.group(1)
-        hxhash_title = hxhash_match.group(2)
-        rprint("hxhash", hxhash)
-        rprint("hxhash_title", hxhash_title)
-        md_end_link = f'{hxhash} <a id="{reflink_label}></a> {hxhash_title}'
-
-        return md_end_link
-
-    def generate_ref_sub_tuplist(self):
-        """
-        Generates a list of tuples for ref substitution.
-
-        Args:
-            mdtext (str): The text with replaced table of contents links.
-            ref_start_patt (re.Pattern): The compiled regular expression pattern for refs.
-            toclinks_dict (dict): The dictionary of table of contents links.
-
-        Returns:
-            list: The list of tuples for ref sub.
-        """
-
-        ref_sub_tuplist = []
-        for line in self.mdtext.split("\n"):
-            if "{ref}" in line:
-                reflink_start_match = re.search(self.ref_start_patt, line)
-                if reflink_start_match is not None:
-                    rprint("reflink_start_match", reflink_start_match)
-
-                    reflink_start, ref_title = self.extract_reflink_start(
-                        reflink_start_match
-                    )
-
-                    reflink_end_file, reflink_start_norm = self.get_reflink_end_file(
-                        reflink_start
-                    )
-
-                    for ref_data in self.anchorlinks_verbose_dict_all[reflink_end_file]:
-                        rprint("ref_data", ref_data)
-                        reflink_label, reflink_end_header = ref_data[0], ref_data[1]
-                        if reflink_label == reflink_start_norm:
-                            rprint("reflink_end_header", reflink_end_header)
-
-                            reflink_end_file_relative = (
-                                self.get_relative_path_between_files(
-                                    end_filepath=reflink_end_file,
-                                    start_filepath=self.hwdoc_rpath,
-                                )
-                            )
-                            hxhash_match = re.search(hxhash_patt, reflink_end_header)
-                            if hxhash_match is not None:
-                                md_end_link = self.generate_md_end_link(
-                                    hxhash_match, reflink_label
-                                )
-
-                                md_reflink = f"[{ref_title}]({reflink_end_file_relative}#{reflink_label})"
-                                rprint("md_reflink", md_reflink)
-
-                            ref_sub_tuplist.append((line, md_reflink))
-                            break
-        return ref_sub_tuplist
-
-
-# def generate_ref_sub_tuplist(
-#     hwdoc_rpath,
-#     mdtext,
-#     ref_start_patt,
-#     anchorlinks_verbose_dict_all,
-#     anchorlinks_quickmap_dict_all,
-# ):
-#     """
-#     Generates a list of tuples for ref substitution.
-
-#     Args:
-#         mdtext (str): The text with replaced table of contents links.
-#         ref_start_patt (re.Pattern): The compiled regular expression pattern for refs.
-#         toclinks_dict (dict): The dictionary of table of contents links.
-
-#     Returns:
-#         list: The list of tuples for ref sub.
-#     """
-
-#     ref_sub_tuplist = []
-#     for line in mdtext.split("\n"):
-#         if "{ref}" in line:
-#             reflink_start_match = re.search(ref_start_patt, line)
-#             if reflink_start_match is not None:
-#                 rprint("reflink_start_match", reflink_start_match)
-#                 # {ref}`linting_your_changes`  = {ref}, linting_your_changes
-#                 # {ref}`here<add_screenshot>`  = {ref}, here, <add_screenshot>
-
-#                 ref_title = reflink_start_match.group(2).strip()
-
-#                 if reflink_start_match.group(3) is None:
-#                     reflink_start_raw = ref_title
-#                 else:
-#                     reflink_start_raw = reflink_start_match.group(3)
-
-#                 reflink_start = (
-#                     reflink_start_raw.replace("<", "").replace(">", "").strip()
-#                 )
-#                 rprint("reflink_start", reflink_start)
-
-#                 reflink_start_norm = hstrops.normalise_key(mystr=reflink_start)
-#                 rprint("reflink_start_norm", reflink_start_norm)
-
-#                 reflink_end_file = anchorlinks_quickmap_dict_all.get(
-#                     reflink_start_norm
-#                 )
-#                 if reflink_end_file is None:
-#                     print(f"ERROR: reflink_start not found: {reflink_start}")
-#                     print(
-#                         "anchorlinks_quickmap_dict_all keys",
-#                         anchorlinks_quickmap_dict_all.keys(),
-#                     )
-#                     sys.exit(42)
-
-#                 for ref_data in anchorlinks_verbose_dict_all[reflink_end_file]:
-#                     rprint("ref_data", ref_data)
-#                     reflink_label, reflink_end_header = ref_data[0], ref_data[1]
-#                     if reflink_label == reflink_start_norm:
-#                         rprint("reflink_end_header", reflink_end_header)
-
-#                         reflink_end_file_relative = get_relative_path_between_files(
-#                             end_filepath=reflink_end_file,
-#                             start_filepath=hwdoc_rpath,
-#                         )
-
-#                         # md_reflink = f"[{ref_title}]({reflink_end_file_relative}#{reflink_end_header})"
-#                         # "### <a id="command-duration"></a> Command duration"
-
-#                         hxhash_patt = re.compile(r"^([#]* )([a-zA-Z0-9-_. ]*)$")
-#                         hxhash_match = re.search(hxhash_patt, reflink_end_header)
-#                         if hxhash_match is not None:
-#                             hxhash = hxhash_match.group(1)
-#                             hxhash_title = hxhash_match.group(2)
-#                             rprint("hxhash", hxhash)
-#                             rprint("hxhash_title", hxhash_title)
-#                             md_end_link = (
-#                                 f'{hxhash} <a id="{reflink_label}></a> {hxhash_title}'
-#                             )
-
-#                             md_reflink = f"[{ref_title}]({reflink_end_file_relative}#{reflink_label})"
-#                             rprint("md_reflink", md_reflink)
-
-#                             # sys.exit(42)
-
-#                         ref_sub_tuplist.append((line, md_reflink))
-#                         break
-#     return ref_sub_tuplist
-
-
 def replace_refs_with_links(mdtext, ref_sub_tuplist):
     """
     Replaces refs with links in the text with replaced table of contents links.
@@ -615,14 +280,6 @@ r2m_list = []
 
 anchorlinks_verbose_dict_all = {}
 anchorlinks_quickmap_dict_all = {}
-
-# 2 part match no angle brackets. i.e. :ref:`themes`
-# ref_patt_2part = re.compile("({ref})`([a-zA-Z0-9-. _]*)`")
-
-# 3 part match with an *optional capturing group* in angle brackets. i,e. {ref}`here<add_screenshot>`
-ref_start_patt = re.compile(r"({ref})`([a-zA-Z0-9-. _]*)(:?<[a-zA-Z_]*>)?`")
-anchor_end_pattern = re.compile(r"^(\([a-z.A-Z0-9-_]*\)=)$")
-hxhash_patt = re.compile(r"^([#]* )([a-zA-Z0-9-_. ]*)$")
 
 
 def rst2md_mainroutine(conf, hwdocs_search_path):
@@ -674,9 +331,7 @@ def rst2md_mainroutine(conf, hwdocs_search_path):
     for r2m in r2m_list:
         rprint("r2m", r2m)
         ref_anchor_converter = RefAnchorConverter(
-            hwdoc_rpath=r2m.hwdoc_rpath,
-            mdtext=r2m.filetext,
-            ref_start_patt=ref_start_patt,
+            r2m=r2m,
             anchorlinks_verbose_dict_all=anchorlinks_verbose_dict_all,
             anchorlinks_quickmap_dict_all=anchorlinks_quickmap_dict_all,
         )

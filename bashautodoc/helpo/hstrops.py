@@ -160,3 +160,36 @@ def extract_lines_between_start_and_end_blank_line_tag(
 
 def normalise_key(mystr):
     return mystr.lower().replace("-", "").replace("_", "").strip()
+
+
+def rreplace(mystr, match_str, replace_str, times):
+    li = mystr.rsplit(match_str, times)
+    return replace_str.join(li)
+
+
+# TODO: find out what other functions can be generalised to simplify things
+def clean_list_via_rm_patterns(input_list, rm_patterns, rm_empty_lines=True):
+    """
+    Cleans the input list by rming lines that contain any of the rm_patts in the rm list.
+
+    Args:
+        input_list (list): The input list to clean.
+        rm_patterns (list): The list of rm_patts to rmude.
+        rm_empty_lines (bool): Whether to rm empty lines.
+
+    Returns:
+        list: The cleaned list.
+    """
+    cleaned_list = []
+    for line in input_list:
+        line_is_empty = len(line.strip()) == 0
+        line_contains_rmuded_patts = any(rm_patt in line for rm_patt in rm_patterns)
+
+        if line_is_empty and rm_empty_lines:
+            continue
+        if line_contains_rmuded_patts:
+            continue
+
+        cleaned_list.append(line)
+
+    return cleaned_list

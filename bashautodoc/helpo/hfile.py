@@ -3,12 +3,17 @@ import os
 import pathlib
 import shutil
 import sys
+from os.path import relpath
 
 from rich import print as rprint
 from ruamel.yaml import YAML
 
 import bashautodoc.helpo.hsubprocess as hsubp
-from bashautodoc.helpo.hstrops import does_string_contain_pattern, str_multi_replace
+from bashautodoc.helpo.hstrops import (
+    does_string_contain_pattern,
+    rreplace,
+    str_multi_replace,
+)
 
 # import yaml
 
@@ -184,6 +189,7 @@ def convert_paths_to_relative(absolute_path_list, path_to_replace):
     return relative_paths
 
 
+# TODO: similart to clean_list_via_rm_patterns in hstrops
 def filter_paths_excluding_patterns(path_list, exclusion_patterns_src):
     LOG.debug("Exclusion patterns: %s", exclusion_patterns_src)
 
@@ -217,3 +223,15 @@ def flatten_list(nested_list):
     for sublist in nested_list:
         flat_list.extend(sublist)
     return flat_list
+
+
+def get_relative_path_between_files(end_filepath, start_filepath):
+    # TODO: move to hfile
+    # TODO: test this to make sure it handles edge cases properly
+    # TODO: refactor this to be less ugly
+    start2child_relpath_raw = relpath(end_filepath, start_filepath)
+    start2child_relpath = rreplace(
+        mystr=start2child_relpath_raw, match_str="../", replace_str="./", times=1
+    )
+
+    return start2child_relpath
