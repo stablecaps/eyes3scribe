@@ -33,19 +33,12 @@ class CreateHandwrittenDocs:
         rst2myst_configfile = self.conf.get("rst2myst_configfile")
 
         rst_glob = "{,**/}*.rst"
-        # myst_comm = (
-        #     f"bash -O extglob -c 'rst2myst convert --replace-files --config {rst2myst_configfile} {self.handwritten_docs_dir}/"
-        #     + rst_glob
-        #     + "'"
-        # )
-
-        pandoc_comm = (
-            f"bash -O extglob -c 'pandoc convert --replace-files --config {rst2myst_configfile} {self.handwritten_docs_dir}/"
+        myst_comm = (
+            f"bash -O extglob -c 'rst2myst convert --replace-files --config {rst2myst_configfile} {self.handwritten_docs_dir}/"
             + rst_glob
             + "'"
         )
-        # pandoc index.rst -s -o index.md
-        # run_cmd_with_output(comm_str=myst_comm)
+        run_cmd_with_output(comm_str=myst_comm)
 
     def create_hwdocs(self):
         import os
