@@ -22,8 +22,8 @@ def does_string_contain_pattern(input_str, input_patt_li):
         contains_pattern = does_string_contain_pattern("Hello, world!", ["world", "!"])
     """
     for idx in range(len(input_patt_li)):
-        cleaned_pattern = input_patt_li[idx].strip()
-        input_patt_li[idx] = cleaned_pattern
+        clean_pattern = input_patt_li[idx].strip()
+        input_patt_li[idx] = clean_pattern
 
     input_str_clean = input_str.strip()
     for pattern in input_patt_li:
@@ -47,8 +47,8 @@ def does_string_starts_with_pattern(input_str, input_patt_li):
         starts_with_pattern = does_string_starts_with_pattern("Hello, world!", ["Hell", "world"])
     """
     for idx in range(len(input_patt_li)):
-        cleaned_pattern = input_patt_li[idx].strip()
-        input_patt_li[idx] = cleaned_pattern
+        clean_pattern = input_patt_li[idx].strip()
+        input_patt_li[idx] = clean_pattern
 
     input_str_clean = input_str.strip()
     for pattern in input_patt_li:
@@ -83,8 +83,8 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
 
     print("filtered_multiline_str_list", filtered_multiline_str_list)
 
-    cleaned_outstr = "\n".join(filtered_multiline_str_list)
-    print("cleaned_outstr", cleaned_outstr)
+    clean_outstr = "\n".join(filtered_multiline_str_list)
+    print("clean_outstr", clean_outstr)
 
     # multiline_str_list_len = len(multiline_str_list)
     # idx = 0
@@ -96,7 +96,7 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
     #             out_str += f"{line}\n"
     #     idx += 1
 
-    return cleaned_outstr
+    return clean_outstr
 
 
 def str_multi_replace(input_str, rm_patt_list, replace_str):
@@ -112,9 +112,9 @@ def str_multi_replace(input_str, rm_patt_list, replace_str):
         str: The input string with all specified substrings replaced with the replacement string.
     """
     for patt in rm_patt_list:
-        patt_cleaned = patt.replace("*.", ".")
-        print("patt_cleaned", patt_cleaned)
-        input_str = input_str.replace(patt_cleaned, replace_str)
+        patt_clean = patt.replace("*.", ".")
+        print("patt_clean", patt_clean)
+        input_str = input_str.replace(patt_clean, replace_str)
     return input_str
 
 
@@ -178,9 +178,9 @@ def clean_list_via_rm_patterns(input_list, rm_patterns, rm_empty_lines=True):
         rm_empty_lines (bool): Whether to rm empty lines.
 
     Returns:
-        list: The cleaned list.
+        list: The clean list.
     """
-    cleaned_list = []
+    clean_list = []
     for line in input_list:
         line_is_empty = len(line.strip()) == 0
         line_contains_rmuded_patts = any(rm_patt in line for rm_patt in rm_patterns)
@@ -190,6 +190,6 @@ def clean_list_via_rm_patterns(input_list, rm_patterns, rm_empty_lines=True):
         if line_contains_rmuded_patts:
             continue
 
-        cleaned_list.append(line)
+        clean_list.append(line)
 
-    return cleaned_list
+    return clean_list

@@ -62,7 +62,7 @@ class FunctionDatahandler:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_rpaths=["file1", "file2"],
+                                                clean_srcfiles_rpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             alias_string = preprocessor._process_alias_line("alias ls='ls -l' # List files")
@@ -87,7 +87,7 @@ class FunctionDatahandler:
         return f"| **{alias_name}** | `{alias_cmd[1:-1]}` | {alias_comment}\n"
 
     @classmethod
-    def _create_func_text_dict(cls):
+    def _gen_func_text_dict(cls):
         """
         Create a dictionary of function names and their corresponding code.
 
@@ -100,11 +100,11 @@ class FunctionDatahandler:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_rpaths=["file1", "file2"],
+                                                clean_srcfiles_rpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             func_name_list, alias_str_list, cite_about, func_text_dict =
-                preprocessor._create_func_text_dict("file1")
+                preprocessor._gen_func_text_dict("file1")
         """
         func_name_list = []
         full_alias_str_list = []
@@ -161,12 +161,12 @@ class FunctionDatahandler:
 
     @classmethod
     def main(cls):
-        cls._create_func_text_dict()
+        cls._gen_func_text_dict()
 
         func_dep_processor = FunctionDependencyProcessor(
             func_name_list=cls.funcdata.func_name_list,
             func_text_dict=cls.funcdata.func_text_dict,
         )
-        cls.funcdata.func_dep_dict = func_dep_processor.create_func_dep_dict()
+        cls.funcdata.func_dep_dict = func_dep_processor.gen_func_dep_dict()
 
         return cls.funcdata

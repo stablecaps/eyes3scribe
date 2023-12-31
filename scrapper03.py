@@ -9,11 +9,11 @@ from bashautodoc.helpo import hfile, hstrops
 LOG = logging.getLogger(__name__)
 
 
-mdlink_patt = re.compile(r"[- ]*\[([*a-zA-Z0-9-_]*)\]\(([A-Za-z/-0-9_.]*)")
+mdlink_pattern = re.compile(r"[- ]*\[([*a-zA-Z0-9-_]*)\]\(([A-Za-z/-0-9_.]*)")
 
 
 def clean_mdtoc_list(toc_mdlist):
-    cleaned_toc_mdlist = []
+    clean_toc_mdlist = []
     for line in toc_mdlist:
         line_stripped = line.strip()
         if "## Table of Contents" in line_stripped:
@@ -21,17 +21,17 @@ def clean_mdtoc_list(toc_mdlist):
         elif line_stripped == "":
             pass
         else:
-            mdlink_match = re.search(mdlink_patt, line_stripped)
+            mdlink_match = re.search(mdlink_pattern, line_stripped)
             if mdlink_match is not None:
                 mdlink = mdlink_match.group(2)
                 # rprint("mdlink", mdlink)
                 # sys.exit(42)
-                cleaned_toc_mdlist.append(mdlink)
-    return cleaned_toc_mdlist
+                clean_toc_mdlist.append(mdlink)
+    return clean_toc_mdlist
 
 
 if __name__ == "__main__":
-    ### For every md file
+    ### For every mdfile
     # 1. establish if it has a TOC
     # 2. Map the hierarchy of nav-doc links via the TOC
     # 3. We will use the anchor "## Table of Contents" to find md TOC
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     print("\n\n")
     ## 1. Check which mdtoc_path is in which list to figure out rough order
     ## 2. If it is in the list, then it is suboridnate
-    ## 3. Create ranked order of md files
+    ## 3. Create ranked order of mdfiles
     toc_thing_dict = defaultdict(list)
     toc_hierarchy = []
     for mdtoc_path, toclink_paths in toc_mdlist_dict.items():

@@ -95,6 +95,7 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
     1. write scripts to autogenerate template python repo (cookie-cutter)
     2. add badges
     3. create repo avatar image
+    4. setup relewase pipeline
 
 5. **Bug Fixes and Improvements**
     1. fix paths so it works with windows - use Pathlib

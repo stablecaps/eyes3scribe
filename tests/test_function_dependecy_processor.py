@@ -32,10 +32,10 @@ def test_init(func_name_list, func_text_dict):
 
 # def test_remove_comment_lines():
 #     processor = FunctionDependencyProcessor([], {})
-#     cleaned = processor._remove_comment_lines(
+#     clean = processor._remove_comment_lines(
 #         "# This is a comment\nThis is not a comment"
 #     )
-#     assert cleaned == "This is not a comment", "Failed to remove comment lines  - test1"
+#     assert clean == "This is not a comment", "Failed to remove comment lines  - test1"
 
 
 # def test_remove_comment_lines2():
@@ -44,8 +44,8 @@ def test_init(func_name_list, func_text_dict):
 #     # This is a comment
 #     This is not a comment
 #     """
-#     cleaned = processor._remove_comment_lines(dedent(triple_var))
-#     assert cleaned == "This is not a comment", "Failed to remove comment lines - test2"
+#     clean = processor._remove_comment_lines(dedent(triple_var))
+#     assert clean == "This is not a comment", "Failed to remove comment lines - test2"
 
 
 # @pytest.mark.parametrize(
@@ -60,8 +60,8 @@ def test_init(func_name_list, func_text_dict):
 # def test_remove_comment_lines3(test_input, expected):
 #     processor = FunctionDependencyProcessor([], {})
 
-#     cleaned = processor._remove_comment_lines(test_input)
-#     assert cleaned == expected, "Failed to remove comment lines - test3"
+#     clean = processor._remove_comment_lines(test_input)
+#     assert clean == expected, "Failed to remove comment lines - test3"
 
 
 # @pytest.mark.parametrize(
@@ -136,11 +136,11 @@ def test_init(func_name_list, func_text_dict):
 #     }, "Failed to process function definition"
 
 
-# def test_create_func_dep_dict():
+# def test_gen_func_dep_dict():
 #     func_name_list = ["func1", "func2"]
 #     func_text_dict = {"func1": "def func1(): func2()", "func2": "def func2(): pass"}
 #     processor = FunctionDependencyProcessor(func_name_list, func_text_dict)
-#     func_dep_dict = processor.create_func_dep_dict()
+#     func_dep_dict = processor.gen_func_dep_dict()
 #     assert func_dep_dict == {
 #         "func1": ["func2"]
 #     }, "Failed to create function dependency dictionary"

@@ -26,10 +26,10 @@ class CreateHandwrittenDocs:
 
     def convert_rst2md(self):
         """
-        Convert rst files to md files.
+        Convert rst files to mdfiles.
         """
 
-        LOG.info("Converting rst files to md files.\nThis may take a while...")
+        LOG.info("Converting rst files to mdfiles.\nThis may take a while...")
         rst2myst_configfile = self.conf.get("rst2myst_configfile")
 
         rst_glob = "{,**/}*.rst"

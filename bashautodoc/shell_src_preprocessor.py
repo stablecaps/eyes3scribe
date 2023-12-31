@@ -30,23 +30,23 @@ LOG = logging.getLogger(__name__)
 class ShellSrcPreProcessor:
     """Preprocesses shell source files for documentation generation."""
 
-    def __init__(self, conf, cleaned_srcfiles_rpaths, project_docs_dir, debug=False):
+    def __init__(self, conf, clean_srcfiles_rpaths, project_docs_dir, debug=False):
         """
         Initialize the ShellSrcPreProcessor.
 
         Args:
             conf (str): Configuration information.
-            cleaned_srcfiles_rpaths (list): List of cleaned input file paths.
+            clean_srcfiles_rpaths (list): List of clean input file paths.
             project_docs_dir (str): Directory path for project documentation.
             debug (bool, optional): Enable debug mode. Defaults to False.
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_rpaths=["file1", "file2"],
+                                                clean_srcfiles_rpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
         """
         self.conf = conf
-        self.cleaned_srcfiles_rpaths = cleaned_srcfiles_rpaths
+        self.clean_srcfiles_rpaths = clean_srcfiles_rpaths
         self.project_docs_dir = project_docs_dir
         self.debug = debug
 
@@ -66,12 +66,12 @@ class ShellSrcPreProcessor:
 
         Example:
             preprocessor = ShellSrcPreProcessor(conf="config",
-                                                cleaned_srcfiles_rpaths=["file1", "file2"],
+                                                clean_srcfiles_rpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
             preprocessor.run()
         """
-        for srcfile_rpath in self.cleaned_srcfiles_rpaths:
+        for srcfile_rpath in self.clean_srcfiles_rpaths:
             ### These are being processed on a file-by-file basis
 
             funcdata = FunctionDatahandler(srcfile_rpath=srcfile_rpath)

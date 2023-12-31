@@ -145,5 +145,5 @@ class Sh2MdFileWriter:
         if len(self.full_alias_str_list) > 0:
             self.write_aliases_section()
 
-        ### Write out .md file
+        ### Write out .mdfile
         self.mdFile.create_md_file()

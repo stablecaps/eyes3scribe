@@ -3,6 +3,20 @@ This module contains the GenMkdocsSite class which is used to generate a
 MkDocs site. It is the main entry point for the code in this repo.
 """
 
+import sentry_sdk
+
+sentry_sdk.init(
+    dsn="https://4b9aa1ef8464e2e3522cc9dc3d4b5a19@o4506486318563328.ingest.sentry.io/4506486328655872",
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    traces_sample_rate=1.0,
+    # Set profiles_sample_rate to 1.0 to profile 100%
+    # of sampled transactions.
+    # We recommend adjusting this value in production.
+    profiles_sample_rate=1.0,
+    enable_tracing=True,
+)
+
 import argparse
 import logging
 import os
@@ -341,7 +355,7 @@ class GenMkdocsSite:
                     {catname: catname_holder}
                 )
 
-    def create_mkdocs_yaml(self, catname_2mdfile_dict):
+    def gen_mkdocs_yaml(self, catname_2mdfile_dict):
         """
         Create a MkDocs site by copying additional markdown files and generating mkdocs yaml.
         """
@@ -390,11 +404,11 @@ class GenMkdocsSite:
                 "strict_exclusion_patterns_docs: %s", strict_exclusion_patterns_docs
             )
 
-            cleaned_hwdocs_rpaths = hfile.filter_paths_excluding_patterns(
+            clean_hwdocs_rpaths = hfile.filter_paths_excluding_patterns(
                 path_list=hwdocs_rpaths,
                 exclusion_patterns_src=strict_exclusion_patterns_docs,
             )
-            LOG.debug("cleaned_hwdocs_rpaths: %s", cleaned_hwdocs_rpaths)
+            LOG.debug("clean_hwdocs_rpaths: %s", clean_hwdocs_rpaths)
             # sys.exit(42)
 
             # self.mkdocs_add_srcdocs_to_nav(self, catname_2mdfile_dict)
@@ -423,21 +437,21 @@ class GenMkdocsSite:
         )
         LOG.info("srcfiles_rpath: %s", srcfiles_rpath)
 
-        cleaned_srcfiles_rpaths = hfile.filter_paths_excluding_patterns(
+        clean_srcfiles_rpaths = hfile.filter_paths_excluding_patterns(
             path_list=srcfiles_rpath,
             exclusion_patterns_src=strict_exclusion_patterns_src,
         )
-        LOG.debug("cleaned_srcfiles_rpaths: %s", cleaned_srcfiles_rpaths)
+        LOG.debug("clean_srcfiles_rpaths: %s", clean_srcfiles_rpaths)
 
         shell_src_preprocessor = ShellSrcPreProcessor(
             self.conf,
-            cleaned_srcfiles_rpaths,
+            clean_srcfiles_rpaths,
             self.project_docs_dir,
             debug=self.debug,
         )
         catname_2mdfile_dict = shell_src_preprocessor.run()
 
-        self.create_mkdocs_yaml(catname_2mdfile_dict)
+        self.gen_mkdocs_yaml(catname_2mdfile_dict)
 
         if self.build_serve:
             LOG.warning("Building and serving local docs site")

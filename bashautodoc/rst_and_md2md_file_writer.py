@@ -11,7 +11,7 @@ LOG = logging.getLogger(__name__)
 
 class MdToc2YamlProcessor:
     def __init__(self, search_path) -> None:
-        ### For every md file
+        ### For every mdfile
         # 1. establish if it has a TOC
         # 2. Map the hierarchy of nav-doc links via the TOC
         # 3. We will use the anchor "## Table of Contents" to find md TOC
@@ -31,7 +31,7 @@ class MdToc2YamlProcessor:
 
     @staticmethod
     def clean_mdtoc_list(toc_mdlist):
-        cleaned_toc_mdlist = []
+        clean_toc_mdlist = []
         for line in toc_mdlist:
             line_stripped = line.strip()
             if "## Table of Contents" in line_stripped:
@@ -39,13 +39,13 @@ class MdToc2YamlProcessor:
             elif line_stripped == "":
                 pass
             else:
-                mdlink_match = mdlink_patt.search(line_stripped)
+                mdlink_match = mdlink_pattern.search(line_stripped)
                 if mdlink_match is not None:
                     mdlink = mdlink_match.group(2)
-                    cleaned_toc_mdlist.append(mdlink)
-        return cleaned_toc_mdlist
+                    clean_toc_mdlist.append(mdlink)
+        return clean_toc_mdlist
 
-    def create_toc_dict_from_mdindex_files(self):
+    def gen_toc_dict_from_mdindex_files(self):
         for mdpath in self.mdtoc_path_list:
             file_text = hfile.read_file_2string(filepath=mdpath)
             table_of_contents = (
@@ -91,11 +91,11 @@ class MdToc2YamlProcessor:
             self.final_dict[key] = new_link_list
 
     def main(self):
-        self.create_toc_dict_from_mdindex_files()
+        self.gen_toc_dict_from_mdindex_files()
 
         ## 1. Check which mdtoc_path is in which list to figure out rough order
         ## 2. If it is in the list, then it is suboridnate
-        ## 3. Create ranked order of md files
+        ## 3. Create ranked order of mdfiles
         self.construct_hierarchy_dict()
 
         self.construct_final_dict()

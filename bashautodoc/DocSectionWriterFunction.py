@@ -119,17 +119,17 @@ class DocSectionWriterFunction:
             multiline_str (str): The multiline string to clean.
 
         Returns:
-            str: The cleaned string.
+            str: The clean string.
 
         Example:
-            cleaned_str = writer.clean_func_str('my_multiline_string')
+            clean_str = writer.clean_func_str('my_multiline_string')
         """
-        full_cleaned = rm_lines_starting_with(
+        full_clean = rm_lines_starting_with(
             multiline_str=multiline_str,
             rm_patt_list=["#", "about", "example", "group", "param"],
         ).rstrip("\n")
 
-        return full_cleaned
+        return full_clean
 
     def _add_function_code_block(self, func_str):
         """
@@ -141,10 +141,10 @@ class DocSectionWriterFunction:
         Example:
             writer._add_function_code_block('my_function')
         """
-        cleaned_func_str = self.clean_func_str(multiline_str=func_str)
-        LOG.debug("cleaned_func_str %s", cleaned_func_str)
+        clean_func_str = self.clean_func_str(multiline_str=func_str)
+        LOG.debug("clean_func_str %s", clean_func_str)
 
-        self.mdFile.insert_code(code=cleaned_func_str, language="bash")
+        self.mdFile.insert_code(code=clean_func_str, language="bash")
 
     def gen_func_dependent_str(self, func_name):
         """
@@ -210,12 +210,12 @@ class DocSectionWriterFunction:
             self.mdFile.insert_code(code=multiline_funccalls_output, language="bash")
         self.mdFile.new_paragraph("\n")
 
-    def _generate_markdown_code_from_function_signature(self):
+    def _gen_markdown_code_from_function_signature(self):
         """
         Generate markdown sections with parameter and example documentation for each function in the function text dictionary.
 
         Example:
-            writer._generate_markdown_code_from_function_signature()
+            writer._gen_markdown_code_from_function_signature()
         """
         for func_name, func_str in self.func_text_dict.items():
             LOG.debug("\n*~~~~~\n %s", func_name)  # , "\n", func_str)
@@ -232,4 +232,4 @@ class DocSectionWriterFunction:
             writer.write_func_section()
         """
         self._write_function_index()
-        self._generate_markdown_code_from_function_signature()
+        self._gen_markdown_code_from_function_signature()

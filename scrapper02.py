@@ -19,28 +19,28 @@ class Rst2MdDataHolder:
     hwdoc_root: str = None
     hwdoc_name: str = None
     filetext: str = None
-    toc_list_cleaned: list[str] = None
-    toclinks_dict: dict = None
+    toc_list_clean: list[str] = None
+    toclinks_map: dict = None
     md_toc_caption: str = "## Table of Contents"
     md_toclink_list: list[str] = None
 
 
-class Rst2MdTocConverter1:
+class Rst2MdConverter1Toc:
     def __new__(cls, hwdoc_rpath) -> None:
         cls.hwdoc_rpath = hwdoc_rpath
         LOG.debug("hwdoc_rpath: %s", cls.hwdoc_rpath)
 
         ### init data structures
         cls.r2m = Rst2MdDataHolder()
-        cls.r2m.toc_list_cleaned = []
-        cls.r2m.toclinks_dict = {}
+        cls.r2m.toc_list_clean = []
+        cls.r2m.toclinks_map = {}
         cls.r2m.md_toclink_list = []
 
         cls.r2m.hwdoc_root, cls.r2m.hwdoc_name = hwdoc_rpath.rsplit("/", 1)
         LOG.debug("\nhwdoc_rpath", hwdoc_rpath)
         LOG.debug("\nhwdoc_root, hwdoc_name =", cls.r2m.hwdoc_root, cls.r2m.hwdoc_name)
         ###
-        # cls.toclinks_dict_all = {}
+        # cls.toclinks_map_all = {}
         # cls.mdtext_replacedtoc_data1_list_all = []
         # cls.mdtext_replacedtoc_data2_tuples_all = []
 
@@ -56,22 +56,22 @@ class Rst2MdTocConverter1:
             toc_list (list): The table of contents list in RST format.
 
         Returns:
-            list: The cleaned table of contents list.
+            list: The clean table of contents list.
         """
-        cleaned_toc_list = [
+        clean_toc_list = [
             line
             for line in toc_list
             if (len(line) != 0) and ("maxdepth:" not in line) and ("```" not in line)
         ]
-        return cleaned_toc_list
+        return clean_toc_list
 
     @classmethod
-    def create_markdown_toclinks(cls):
+    def gen_markdown_toclinks(cls):
         """
         Generates the markdown table of contents link list.
 
         Args:
-            toc_list_cleaned (list): The cleaned table of contents list.
+            toc_list_clean (list): The clean table of contents list.
             hwdoc_root (str): The root of the document.
 
         Returns:
@@ -79,9 +79,9 @@ class Rst2MdTocConverter1:
         """
         # TODO: make this function less horrific
         rprint("hwdoc_root", cls.r2m.hwdoc_root)
-        # toclinks_dict = {}
+        # toclinks_map = {}
         # md_toclink_list = []
-        for toc_link_name in cls.r2m.toc_list_cleaned:
+        for toc_link_name in cls.r2m.toc_list_clean:
             rprint("toc_link_name", toc_link_name)
 
             if ":caption:" in toc_link_name:
@@ -102,14 +102,14 @@ class Rst2MdTocConverter1:
                 for file_path in file_path_list:
                     file_root, file_name = file_path.rsplit("/", 1)
                     # rprint("file_root, file_name = ", file_root, file_name)
-                    md_rel_link_cleaned = file_path
-                    md_rel_link = f"- [**{file_name.capitalize().replace('/index', '').replace('.md', '')}**]({md_rel_link_cleaned})"
+                    md_rel_link_clean = file_path
+                    md_rel_link = f"- [**{file_name.capitalize().replace('/index', '').replace('.md', '')}**]({md_rel_link_clean})"
                     cls.r2m.md_toclink_list.append(md_rel_link)
 
                     ###
-                    cls.r2m.toclinks_dict[file_name.replace(".md", "")] = file_path
+                    cls.r2m.toclinks_map[file_name.replace(".md", "")] = file_path
 
-                rprint("toclinks_dict", cls.r2m.toclinks_dict)
+                rprint("toclinks_map", cls.r2m.toclinks_map)
                 rprint("md_toclink_list", cls.r2m.md_toclink_list)
                 # sys.exit(42)
                 return
@@ -126,15 +126,15 @@ class Rst2MdTocConverter1:
                     print("ERROR: more than one file found")
                     sys.exit(42)
 
-                md_rel_link_cleaned = file_path_list[0]
-                md_rel_link = f"- [**{toc_link_name.capitalize().replace('/index', '')}**]({md_rel_link_cleaned})"
+                md_rel_link_clean = file_path_list[0]
+                md_rel_link = f"- [**{toc_link_name.capitalize().replace('/index', '')}**]({md_rel_link_clean})"
                 # rprint(type(cls.r2m.md_toclink_list))
                 cls.r2m.md_toclink_list.append(md_rel_link)
 
                 ###
-                cls.r2m.toclinks_dict[
+                cls.r2m.toclinks_map[
                     toc_link_name.replace("/index", "")
-                ] = md_rel_link_cleaned
+                ] = md_rel_link_clean
         return
 
     @classmethod
@@ -148,12 +148,12 @@ class Rst2MdTocConverter1:
         cls.r2m.filetext = hfile.read_file_2string(filepath=cls.hwdoc_rpath)
         toc_list = hstrops.extract_lines_between_tags(filetext=cls.r2m.filetext)
         if len(toc_list) > 0:
-            cls.r2m.toc_list_cleaned = Rst2MdTocConverter1.clean_rst_toc_list(toc_list)
-            rprint("toc_list_cleaned", cls.r2m.toc_list_cleaned)
+            cls.r2m.toc_list_clean = Rst2MdConverter1Toc.clean_rst_toc_list(toc_list)
+            rprint("toc_list_clean", cls.r2m.toc_list_clean)
 
-            cls.create_markdown_toclinks()
-            # cls.create_markdown_toclinks(
-            #     toc_list_cleaned=cls.r2m.toc_list_cleaned, hwdoc_root=cls.r2m.hwdoc_root
+            cls.gen_markdown_toclinks()
+            # cls.gen_markdown_toclinks(
+            #     toc_list_clean=cls.r2m.toc_list_clean, hwdoc_root=cls.r2m.hwdoc_root
             # )
             rprint("md_toclink_list", cls.r2m.md_toclink_list)
 
@@ -174,22 +174,22 @@ class Rst2MdTocConverter1:
             )
             cls.r2m.filetext = mdtext_replacedtoc
         else:
-            cls.r2m.toc_list_cleaned = None
-            toclinks_dict = None
+            cls.r2m.toc_list_clean = None
+            toclinks_map = None
             cls.r2m.md_toclink_list = None
 
         rprint("cls.r2m ", cls.r2m)
         return cls.r2m
 
 
-def generate_ref_sub_tuplist(mdtext, ref_patt, toclinks_dict):
+def gen_ref_sub_tuplist(mdtext, ref_patt, toclinks_map):
     """
     Generates a list of tuples for ref sub.
 
     Args:
         mdtext (str): The text with replaced table of contents links.
         ref_patt (re.Pattern): The compiled regular expression pattern for refs.
-        toclinks_dict (dict): The dictionary of table of contents links.
+        toclinks_map (dict): The dictionary of table of contents links.
 
     Returns:
         list: The list of tuples for ref sub.
@@ -213,12 +213,12 @@ def generate_ref_sub_tuplist(mdtext, ref_patt, toclinks_dict):
                     f"{ref_match.group(1)}{ref_match.group(2)}{ref_match.group(3)}"
                 )
 
-                if toclinks_dict.get(toc_link_key) is None:
+                if toclinks_map.get(toc_link_key) is None:
                     print(f"ERROR: toc_link_key not found: {toc_link_key}")
-                    print("toclinks_dict keys", toclinks_dict.keys())
+                    print("toclinks_map keys", toclinks_map.keys())
                     # sys.exit(42)
                 else:
-                    toc_link_value = toclinks_dict[toc_link_key]
+                    toc_link_value = toclinks_map[toc_link_key]
                     md_ref_link = f"[{ref_title}]({toc_link_value})"
                     ref_sub_tuplist.append((rst_ref_string, md_ref_link))
 
@@ -243,7 +243,7 @@ def replace_refs_with_links(mdtext, ref_sub_tuplist):
     return mdtext_replaced
 
 
-toclinks_dict_all = {}
+toclinks_map_all = {}
 r2m_list = []
 
 ref_patt = re.compile(r"({ref})(`[a-zA-Z0-9-. ]*)(<[a-zA-Z`]*>`)")
@@ -263,29 +263,29 @@ if __name__ == "__main__":
     # 5. convert {ref} links to markdown links
 
     for hwdoc_rpath in hwdoc_rpaths:
-        r2m = Rst2MdTocConverter1(
+        r2m = Rst2MdConverter1Toc(
             hwdoc_rpath=hwdoc_rpath,
         )
 
-        # if len(r2m.toclinks_dict) > 0:
+        # if len(r2m.toclinks_map) > 0:
         #     rprint("sorted dict test")
         #     sys.exit(42)
 
-        toclinks_dict_all.update(r2m.toclinks_dict)
+        toclinks_map_all.update(r2m.toclinks_map)
         r2m_list.append(r2m)
 
-    for toclink_key, toclink_val in toclinks_dict_all.items():
+    for toclink_key, toclink_val in toclinks_map_all.items():
         print("   >>", toclink_key + ":\t", toclink_val)
 
-    rprint("jabba", toclinks_dict_all)
+    rprint("jabba", toclinks_map_all)
     # sys.exit(42)
 
     for r2m in r2m_list:
         rprint("r2m", r2m)
-        ref_sub_tuplist = generate_ref_sub_tuplist(
+        ref_sub_tuplist = gen_ref_sub_tuplist(
             mdtext=r2m.filetext,
             ref_patt=ref_patt,
-            toclinks_dict=toclinks_dict_all,
+            toclinks_map=toclinks_map_all,
         )
         mdtext_replacedrefs = replace_refs_with_links(
             mdtext=r2m.filetext, ref_sub_tuplist=ref_sub_tuplist
