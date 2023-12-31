@@ -51,10 +51,6 @@ class Rst2MdConverter1Toc:
         LOG.debug(
             "\nhwdoc_root, hwdoc_name = %s, %s", cls.r2m.hwdoc_root, cls.r2m.hwdoc_name
         )
-        ###
-        # cls.toclinks_map_all = {}
-        # cls.mdtext_replacedtoc_data1_list_all = []
-        # cls.mdtext_replacedtoc_data2_tuples_all = []
 
         return cls.main()
 
