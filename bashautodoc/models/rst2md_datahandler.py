@@ -145,7 +145,7 @@ class Rst2MdConverter1Toc:
         cls.r2m.filetext = hfile.read_file_2string(filepath=cls.hwdoc_rpath)
         toc_list = hstrops.extract_lines_between_tags(filetext=cls.r2m.filetext)
         if len(toc_list) > 0:
-            cls.r2m.toc_list_clean = hstrops.clean_list_via_rm_patterns(
+            cls.r2m.toc_list_clean = hstrops.clean_list_via_rm_patts(
                 input_list=toc_list,
                 rm_patterns=["maxdepth:", "```"],
                 rm_empty_lines=True,
