@@ -100,7 +100,6 @@ class CreateHandwrittenDocs:
 
         table_of_contents_processor = MdToc2YamlProcessor(
             conf=self.conf,
-            hwdocs_infiles=hwdocs_infiles,
             search_path="docs_bash-it/docs/docshw/",
         )
         catname_2mdfile_dict = table_of_contents_processor.main()

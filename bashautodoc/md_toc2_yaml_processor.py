@@ -15,7 +15,7 @@ LOG = logging.getLogger(__name__)
 # TODO: refactor the hell out of this ;o)
 # TODO: sort out conversion of relative paths sooner
 class MdToc2YamlProcessor:
-    def __init__(self, conf, hwdocs_infiles, search_path) -> None:
+    def __init__(self, conf, search_path) -> None:
         ### For every mdfile
         # 1. establish if it has a TOC
         # 2. Map the hierarchy of nav-doc links via the TOC
@@ -29,10 +29,6 @@ class MdToc2YamlProcessor:
         self.hierarchy_dict = defaultdict(list)
         self.final_dict = {}
 
-        self.hwdocs_infiles = hwdocs_infiles
-        rprint("hwdocs_infiles", self.hwdocs_infiles)
-        # sys.exit(42)
-
         self.mdtoc_path_list = hfile.flatten_list(
             nested_list=hfile.find_files_with_grep_patt(
                 search_path=search_path,
@@ -41,7 +37,6 @@ class MdToc2YamlProcessor:
             )
         )
         rprint("mdtoc_path_list", self.mdtoc_path_list)
-        # sys.exit(42)
 
     @staticmethod
     def clean_mdtoc_list(toc_mdlist):
@@ -54,40 +49,25 @@ class MdToc2YamlProcessor:
                 pass
             else:
                 mdlink_match = mdlink_patt.search(line_stripped)
-                if mdlink_match:
+                if mdlink_match is not None:
                     mdlink = mdlink_match.group(2)
                     clean_toc_mdlist.append(mdlink)
         return clean_toc_mdlist
 
     def gen_toc_dict_from_mdindex_files(self):
-        for mdpath in self.hwdocs_infiles:
+        for mdpath in self.mdtoc_path_list:
             mdpath_rel = mdpath.replace(self.project_docs_dir, "")
             file_text = hfile.read_file_2string(filepath=mdpath)
-            if "## Table of Contents" in file_text:
-                table_of_contents = (
-                    hstrops.extract_lines_between_start_and_end_blank_line_tag(
-                        file_text, start_tag="## Table of Contents"
-                    )
+            table_of_contents = (
+                hstrops.extract_lines_between_start_and_end_blank_line_tag(
+                    file_text, start_tag="## Table of Contents"
                 )
-                self.toc_dict[mdpath_rel] = MdToc2YamlProcessor.clean_mdtoc_list(
-                    toc_mdlist=table_of_contents
-                )
-            else:
-                self.toc_dict[mdpath_rel] = None
-
+            )
+            self.toc_dict[mdpath_rel] = MdToc2YamlProcessor.clean_mdtoc_list(
+                toc_mdlist=table_of_contents
+            )
         rprint("\ntoc_dict", self.toc_dict)
-        sys.exit(42)
-
-    def construct_hierarchy_dict(self):
-        for mdpath, _ in self.toc_dict.items():
-            rprint("mdpath", mdpath)
-            for file_path2, toc_links2 in self.toc_dict.items():
-                rprint("file_path2", file_path2)
-                mdpath_rel = mdpath.replace(self.project_docs_dir, "")
-                if mdpath_rel in toc_links2:
-                    self.hierarchy_dict[file_path2].append(mdpath_rel)
-                    break
-        rprint("\nhierarchy_dict", self.hierarchy_dict)
+        # sys.exit(42)
 
     def order_indexes_in_toc_dict(self):
         # copy index files to front of list
@@ -110,7 +90,18 @@ class MdToc2YamlProcessor:
                 0, mdpath
             )  ### inserts the index.mdfile at the start of the list
             self.toc_dict[mdpath] = toc_links_with_index
-        rprint("\ntoc_dict index ordered", self.toc_dict)
+        rprint("toc_dict index ordered", self.toc_dict)
+
+    def construct_hierarchy_dict(self):
+        for mdpath, _ in self.toc_dict.items():
+            rprint("mdpath", mdpath)
+            for file_path2, toc_links2 in self.toc_dict.items():
+                rprint("file_path2", file_path2)
+                mdpath_rel = mdpath.replace(self.project_docs_dir, "")
+                if mdpath_rel in toc_links2:
+                    self.hierarchy_dict[file_path2].append(mdpath_rel)
+                    break
+        rprint("\nhierarchy_dict", self.hierarchy_dict)
 
     def construct_final_dict(self):
         for key, link_list in sorted(
@@ -119,7 +110,7 @@ class MdToc2YamlProcessor:
             rprint("link_list", link_list)
 
             self.final_dict[key] = self.toc_dict[key]
-            # rprint("final_dict", self.final_dict)
+            rprint("final_dict", self.final_dict)
             # sys.exit(42)
 
             new_link_list = []
@@ -165,12 +156,12 @@ class MdToc2YamlProcessor:
         ## 2. If it is in the list, then it is suboridnate
         ## 3. Create ranked order of mdfiles
         self.construct_hierarchy_dict()
-        sys.exit(42)
+        # sys.exit(42)
 
         self.order_indexes_in_toc_dict()
         # sys.exit(42)
 
         self.construct_final_dict()
-        sys.exit(42)
+        # sys.exit(42)
 
         return self.final_dict
