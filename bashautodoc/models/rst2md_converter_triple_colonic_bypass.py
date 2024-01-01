@@ -60,7 +60,7 @@ class Rst2mdConverterTripleColonicBypass:
     @classmethod
     def process_mdlink_in_admon(cls, mdlink_in_admon, admon_text):
         mdlink_in_admon_str = mdlink_in_admon.group(0)
-        rprint("mdlink_in_admon", mdlink_in_admon)
+        # rprint("mdlink_in_admon", mdlink_in_admon)
 
         # <a href="./document.html">Document</a>
         html_link = (
@@ -70,23 +70,23 @@ class Rst2mdConverterTripleColonicBypass:
             mdlink_in_admon_str,
             html_link,
         )
-        rprint("admon_text", admon_text)
-        rprint(
-            "mdlink_in_admon_str",
-            mdlink_in_admon_str,
-        )
-        rprint("html_link", html_link)
+        # rprint("admon_text", admon_text)
+        # rprint(
+        #     "mdlink_in_admon_str",
+        #     mdlink_in_admon_str,
+        # )
+        # rprint("html_link", html_link)
         return admon_text
 
     @classmethod
     def process_admon_match(cls, admon_match, block):
         admon_type = admon_match.group(1)
         admon_text = "\n".join(block[1:-1])
-        rprint(
-            "admon_type, admon_text = ",
-            admon_type,
-            admon_text,
-        )
+        # rprint(
+        #     "admon_type, admon_text = ",
+        #     admon_type,
+        #     admon_text,
+        # )
 
         mdlink_in_admon = re.search(mdlink_patt, admon_text)
         if mdlink_in_admon:
@@ -98,23 +98,23 @@ class Rst2mdConverterTripleColonicBypass:
 
         admon_rst_text = "\n".join(block)
 
-        rprint("admon_html_notitle", admon_html_notitle)
-        rprint("admon_rst_text", admon_rst_text)
+        # rprint("admon_html_notitle", admon_html_notitle)
+        # rprint("admon_rst_text", admon_rst_text)
 
         cls.r2m.filetext = cls.r2m.filetext.replace(
             admon_rst_text,
             admon_html_notitle,
         )
-        rprint("\ncls.r2m.filetext", cls.r2m.filetext)
+        # rprint("\ncls.r2m.filetext", cls.r2m.filetext)
 
     @classmethod
     def process_admon_block(cls, block):
-        rprint("admon_block:", block)
+        # rprint("admon_block:", block)
 
-        rprint("\nblock: ", block)
-        rprint("xxxx", admon_patt_multiline_start, block[0])
+        # rprint("\nblock: ", block)
+        # rprint("xxxx", admon_patt_multiline_start, block[0])
         admon_match = re.search(admon_patt_multiline_start, block[0])
-        rprint("admon_match: ", admon_match)
+        # rprint("admon_match: ", admon_match)
         if admon_match:
             cls.process_admon_match(admon_match, block)
 
@@ -130,82 +130,9 @@ class Rst2mdConverterTripleColonicBypass:
                 for block in admonitions_blocks_nlist:
                     cls.process_admon_block(block)
 
-    # @classmethod
-    # def process_hosted_images(cls):
-    #     """
-    #     https://docutils.sourceforge.io/docs/ref/rst/directives.html#image
-    #     """
-    #     if "```{image}" in cls.r2m.filetext:
-    #         himage_blocks_nlist = (
-    #             hstrops.extract_multiblocks_between_start_and_end_line_tag(
-    #                 filetext=cls.r2m.filetext, start_tag="```{image}", end_tag="```"
-    #             )
-    #         )
-    #         rprint("himage_blocks_nlist", himage_blocks_nlist)
-    #         # sys.exit(42)
-    #         if len(himage_blocks_nlist) > 0:
-    #             for block in himage_blocks_nlist:
-    #                 rprint("block", block)
-    #                 rst_img_dict = {
-    #                     "image": None,
-    #                     "height": None,
-    #                     "width": None,
-    #                     "scale": None,
-    #                     "loading": None,
-    #                     "alt": None,
-    #                     "align": None,
-    #                 }
-    #                 for elem in block:
-    #                     rprint("elem", elem)
-    #                     if elem.startswith("```{image}"):
-    #                         rst_img_dict["image"] = hstrops.clean_str_via_rm_patts(
-    #                             input_str=elem, rm_patterns=["```{image}"]
-    #                         )
-
-    #                     elif elem.startswith(":alt:"):
-    #                         rst_img_dict["alt"] = hstrops.clean_str_via_rm_patts(
-    #                             input_str=elem, rm_patterns=[":alt:"]
-    #                         )
-    #                     elif elem.startswith(":height:"):
-    #                         rst_img_dict["height"] = hstrops.clean_str_via_rm_patts(
-    #                             input_str=elem, rm_patterns=[":height:"]
-    #                         )
-    #                     elif elem.startswith(":width:"):
-    #                         rst_img_dict["width"] = hstrops.clean_str_via_rm_patts(
-    #                             input_str=elem, rm_patterns=[":width:"]
-    #                         )
-    #                     elif elem.startswith(":width:"):
-    #                         rst_img_dict["scale"] = hstrops.clean_str_via_rm_patts(
-    #                             input_str=elem, rm_patterns=[":width:"]
-    #                         )
-    #                     elif elem.startswith(":loading:"):
-    #                         rst_img_dict["loading"] = hstrops.clean_str_via_rm_patts(
-    #                             input_str=elem, rm_patterns=[":loading:"]
-    #                         )
-    #                     elif elem.startswith(":loading:"):
-    #                         rst_img_dict["align"] = hstrops.clean_str_via_rm_patts(
-    #                             input_str=elem, rm_patterns=[":loading:"]
-    #                         )
-
-    #                 rprint("rst_img_dict", rst_img_dict)
-
-    #                 img_html = gen_img_html(rst_img_dict=rst_img_dict)
-    #                 rprint("img_html", img_html)
-
-    #                 img_rst = "\n".join(block)
-    #                 rprint("img_html", img_html)
-    #                 rprint("img_rst", img_rst)
-
-    #                 cls.r2m.filetext = cls.r2m.filetext.replace(
-    #                     img_rst,
-    #                     img_html,
-    #                 )
-    #                 rprint("\ncls.r2m.filetext", cls.r2m.filetext)
-    #                 # sys.exit(42)
-
     @classmethod
     def process_image_element(cls, elem, rst_img_dict):
-        rprint("elem", elem)
+        # rprint("elem", elem)
         if elem.startswith("```{image}"):
             rst_img_dict["image"] = hstrops.clean_str_via_rm_patts(
                 input_str=elem, rm_patterns=["```{image}"]
@@ -238,7 +165,7 @@ class Rst2mdConverterTripleColonicBypass:
 
     @classmethod
     def process_image_block(cls, block):
-        rprint("block", block)
+        # rprint("block", block)
         rst_img_dict = {
             "image": None,
             "height": None,
@@ -251,20 +178,20 @@ class Rst2mdConverterTripleColonicBypass:
         for elem in block:
             cls.process_image_element(elem, rst_img_dict)
 
-        rprint("rst_img_dict", rst_img_dict)
+        # rprint("rst_img_dict", rst_img_dict)
 
         img_html = gen_img_html(rst_img_dict=rst_img_dict)
-        rprint("img_html", img_html)
+        # rprint("img_html", img_html)
 
         img_rst = "\n".join(block)
-        rprint("img_html", img_html)
-        rprint("img_rst", img_rst)
+        # rprint("img_html", img_html)
+        # rprint("img_rst", img_rst)
 
         cls.r2m.filetext = cls.r2m.filetext.replace(
             img_rst,
             img_html,
         )
-        rprint("\ncls.r2m.filetext", cls.r2m.filetext)
+        # rprint("\ncls.r2m.filetext", cls.r2m.filetext)
         # sys.exit(42)
 
     @classmethod
