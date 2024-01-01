@@ -11,8 +11,8 @@ from bashautodoc.models.rst2md_converter_anchors import (
     Rst2MdConverter2AnchorsEnd1,
     Rst2MdConverter2AnchorsStart2,
 )
-from bashautodoc.models.rst2md_converter_triple_colons import (
-    Rst2mdConverterTripleColons,
+from bashautodoc.models.rst2md_converter_triple_colonic_bypass import (
+    Rst2mdConverterTripleColonicBypass,
 )
 from bashautodoc.regex_patterns import *
 
@@ -249,7 +249,7 @@ def rst2md_mainroutine(conf, hwdocs_search_path):
             anchorend_fast_map_all=anchorend_fast_map_all,
         )
         rprint("r2m_v3", r2m_v3)
-        r2m_v4 = Rst2mdConverterTripleColons(r2m=r2m_v3)
+        r2m_v4 = Rst2mdConverterTripleColonicBypass(r2m=r2m_v3)
 
         # if "themes-list/index" in r2m.hwdoc_rpath:
         #     rprint("r2m.filetext", r2m.filetext)
