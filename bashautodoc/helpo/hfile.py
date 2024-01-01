@@ -8,7 +8,7 @@ from rich import print as rprint
 from ruamel.yaml import YAML
 
 import bashautodoc.helpo.hsubprocess as hsubp
-from bashautodoc.helpo.hstrops import does_string_contain_pattern, rreplace
+from bashautodoc.helpo.hstrops import does_str_contain_pattern, rreplace
 
 # import yaml
 
@@ -184,7 +184,7 @@ def replace_substr_in_paths(input_paths, replace_path):
     return relative_paths
 
 
-# TODO: similart to clean_list_via_rm_patterns in hstrops
+# TODO: similart to clean_list_via_rm_patts in hstrops
 def filter_paths_excluding_patterns(path_list, exclusion_patterns_src):
     LOG.debug("Exclusion patterns: %s", exclusion_patterns_src)
 
@@ -192,7 +192,7 @@ def filter_paths_excluding_patterns(path_list, exclusion_patterns_src):
     for path in path_list:
         print("Path", path)
 
-        if not does_string_contain_pattern(
+        if not does_str_contain_pattern(
             input_str=path,
             input_patt_li=exclusion_patterns_src,
         ):

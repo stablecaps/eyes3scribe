@@ -8,7 +8,7 @@ from rich import print as rprint
 LOG = logging.getLogger(__name__)
 
 
-def does_string_contain_pattern(input_str, input_patt_li):
+def does_str_contain_pattern(input_str, input_patt_li):
     """
     Checks if a string contains any pattern from a list of patterns.
 
@@ -20,7 +20,7 @@ def does_string_contain_pattern(input_str, input_patt_li):
         bool: True if any pattern is found in the input string, False otherwise.
 
     Example:
-        contains_pattern = does_string_contain_pattern("Hello, world!", ["world", "!"])
+        contains_pattern = does_str_contain_pattern("Hello, world!", ["world", "!"])
     """
     for idx in range(len(input_patt_li)):
         clean_pattern = input_patt_li[idx].strip()
@@ -33,7 +33,7 @@ def does_string_contain_pattern(input_str, input_patt_li):
     return False
 
 
-def does_string_starts_with_pattern(input_str, input_patt_li):
+def does_str_start_with_pattern(input_str, input_patt_li):
     """
     Checks if a string starts with any pattern from a list of patterns.
 
@@ -45,7 +45,7 @@ def does_string_starts_with_pattern(input_str, input_patt_li):
         bool: True if the input string starts with any pattern, False otherwise.
 
     Example:
-        starts_with_pattern = does_string_starts_with_pattern("Hello, world!", ["Hell", "world"])
+        starts_with_pattern = does_str_start_with_pattern("Hello, world!", ["Hell", "world"])
     """
     for idx in range(len(input_patt_li)):
         clean_pattern = input_patt_li[idx].strip()
@@ -79,7 +79,7 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
     filtered_multiline_str_list = [
         line
         for line in multiline_str_list
-        if not does_string_starts_with_pattern(line, rm_patt_list) and line != ""
+        if not does_str_start_with_pattern(line, rm_patt_list) and line != ""
     ]
 
     print("filtered_multiline_str_list", filtered_multiline_str_list)
@@ -90,7 +90,7 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
     # multiline_str_list_len = len(multiline_str_list)
     # idx = 0
     # for line in multiline_str_list:
-    #     if does_string_starts_with_pattern(line, rm_patt_list):
+    #     if does_str_start_with_pattern(line, rm_patt_list):
     #         if idx == multiline_str_list_len - 1:
     #             out_str += f"{line}"
     #         else:
@@ -166,16 +166,16 @@ def extract_multiblocks_between_start_and_end_line_tag(
     block_holder = []
     inRecordingMode = False
     for line in filetext.split("\n"):
-        rprint("line", line)
+        # rprint("line", line)
         # line_stripped = line.strip()
         if not inRecordingMode:
             if start_tag in line:
-                rprint("TRUE: found start_tag")
+                # rprint("TRUE: found start_tag")
                 inRecordingMode = True
                 line_holder = []
                 line_holder.append(line)
         elif end_tag in line:
-            rprint("TRUE: found end_tag")
+            # rprint("TRUE: found end_tag")
             inRecordingMode = False
             line_holder.append(line)
             block_holder.append(line_holder)
@@ -183,12 +183,12 @@ def extract_multiblocks_between_start_and_end_line_tag(
         else:
             line_holder.append(line)
 
-    rprint("block_holder", block_holder)
+    # rprint("block_holder", block_holder)
     # sys.exit(42)
     return block_holder
 
 
-def normalise_key(mystr):
+def norm_key(mystr):
     return mystr.lower().replace("-", "").replace("_", "").strip()
 
 
@@ -198,7 +198,7 @@ def rreplace(mystr, match_str, replace_str, times):
 
 
 # TODO: find out what other functions can be generalised to simplify things
-def clean_list_via_rm_patterns(input_list, rm_patterns, rm_empty_lines=True):
+def clean_list_via_rm_patts(input_list, rm_patterns, rm_empty_lines=True):
     """
     Cleans the input list by rming lines that contain any of the rm_patts in the rm list.
 
@@ -213,13 +213,22 @@ def clean_list_via_rm_patterns(input_list, rm_patterns, rm_empty_lines=True):
     clean_list = []
     for line in input_list:
         line_is_empty = len(line.strip()) == 0
-        line_contains_rmuded_patts = any(rm_patt in line for rm_patt in rm_patterns)
+        line_contains_rm_patts = any(rm_patt in line for rm_patt in rm_patterns)
 
         if line_is_empty and rm_empty_lines:
             continue
-        if line_contains_rmuded_patts:
+        if line_contains_rm_patts:
             continue
 
         clean_list.append(line)
 
     return clean_list
+
+
+# TODO: Create version that deals with custom replaecment strings
+# use pipleine pattern [(targ1, rep1), (targ2, rep2), ..]
+def clean_str_via_rm_patts(input_str, rm_patterns):
+    for rmpatt in rm_patterns:
+        input_str = input_str.replace(rmpatt, "")
+
+    return input_str.strip()

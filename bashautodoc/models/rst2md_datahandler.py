@@ -11,8 +11,8 @@ from bashautodoc.models.rst2md_converter_anchors import (
     Rst2MdConverter2AnchorsEnd1,
     Rst2MdConverter2AnchorsStart2,
 )
-from bashautodoc.models.rst2md_converter_triple_colons import (
-    Rst2mdConverterTripleColons,
+from bashautodoc.models.rst2md_converter_triple_colonic_bypass import (
+    Rst2mdConverterTripleColonicBypass,
 )
 from bashautodoc.regex_patterns import *
 
@@ -145,7 +145,7 @@ class Rst2MdConverter1Toc:
         cls.r2m.filetext = hfile.read_file_2string(filepath=cls.hwdoc_rpath)
         toc_list = hstrops.extract_lines_between_tags(filetext=cls.r2m.filetext)
         if len(toc_list) > 0:
-            cls.r2m.toc_list_clean = hstrops.clean_list_via_rm_patterns(
+            cls.r2m.toc_list_clean = hstrops.clean_list_via_rm_patts(
                 input_list=toc_list,
                 rm_patterns=["maxdepth:", "```"],
                 rm_empty_lines=True,
@@ -249,7 +249,7 @@ def rst2md_mainroutine(conf, hwdocs_search_path):
             anchorend_fast_map_all=anchorend_fast_map_all,
         )
         rprint("r2m_v3", r2m_v3)
-        r2m_v4 = Rst2mdConverterTripleColons(r2m=r2m_v3)
+        r2m_v4 = Rst2mdConverterTripleColonicBypass(r2m=r2m_v3)
 
         # if "themes-list/index" in r2m.hwdoc_rpath:
         #     rprint("r2m.filetext", r2m.filetext)

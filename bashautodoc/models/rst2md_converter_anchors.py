@@ -101,7 +101,7 @@ class Rst2MdConverter2AnchorsEnd1:
                         is_next_line_header,
                     )
 
-                    anchorend_normkey = hstrops.normalise_key(
+                    anchorend_normkey = hstrops.norm_key(
                         mystr=(anchorend_key.replace("(", "").replace(")=", "").strip())
                     )
 
@@ -218,7 +218,7 @@ class Rst2MdConverter2AnchorsStart2:
                         anchorstart_rst_match
                     )
 
-                    anchorstart_normkey = hstrops.normalise_key(mystr=anchorstart)
+                    anchorstart_normkey = hstrops.norm_key(mystr=anchorstart)
                     rprint("anchorstart_normkey", anchorstart_normkey)
 
                     # "docs_bash-it/docs/docshw/contributing.md"
