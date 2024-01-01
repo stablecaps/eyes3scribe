@@ -8,11 +8,7 @@ from dataclasses import dataclass, field
 from rich import print as rprint
 
 from bashautodoc.helpo import hfile, hstrops
-from bashautodoc.regex_patterns import (
-    anchorend_pattern,
-    anchorstart_pattern,
-    hxhash_pattern,
-)
+from bashautodoc.regex_patterns import anchorend_patt, anchorstart_patt, hxhash_patt
 
 LOG = logging.getLogger(__name__)
 
@@ -53,7 +49,7 @@ class Rst2MdConverter2AnchorsEnd1:
         # We need to create a link from anchorstart --> anchorstart.
         # anchorstart_link = '[link](./contributing.md#contributing)'.
         # anchorend_link = '#  <a id="contributing></a> Contribution Guidelines'.
-        # 1. Scan through any given mdfile and find all anchorstart_patterns.
+        # 1. Scan through any given mdfile and find all anchorstart_patts.
         #    e.g. match='{ref}`Contribution Guidelines <contributing>`'>.
         # 2. Create anchorend_link by:
         #     2.1. Find relative path to anchorend file (with respect to anchorstart file).
@@ -78,9 +74,9 @@ class Rst2MdConverter2AnchorsEnd1:
         is_next_line_header = False
         anchorend_key = None
         for line in cls.r2m.filetext.split("\n"):
-            anchorend_rst_match = re.search(anchorend_pattern, line)
+            anchorend_rst_match = re.search(anchorend_patt, line)
 
-            if anchorend_rst_match is not None:
+            if anchorend_rst_match:
                 anchorend_key = anchorend_rst_match.group(1)
 
                 anchorend_rst_line = line
@@ -109,8 +105,8 @@ class Rst2MdConverter2AnchorsEnd1:
                         mystr=(anchorend_key.replace("(", "").replace(")=", "").strip())
                     )
 
-                    hxhash_match = re.search(hxhash_pattern, anchorend_header_line)
-                    if hxhash_match is not None:
+                    hxhash_match = re.search(hxhash_patt, anchorend_header_line)
+                    if hxhash_match:
                         # '#  <a id="contributing></a> Contribution Guidelines'
                         anchorend_link = Rst2MdConverter2AnchorsEnd1.gen_anchorend_link(
                             hxhash_match, anchorend_normkey
@@ -154,15 +150,17 @@ class Rst2MdConverter2AnchorsEnd1:
 
 
 class Rst2MdConverter2AnchorsStart2:
-    def __init__(
-        self,
+    def __new__(
+        cls,
         r2m,
         anchorend_detail_map_all,
         anchorend_fast_map_all,
     ):
-        self.r2m = r2m
-        self.anchorend_detail_map_all = anchorend_detail_map_all
-        self.anchorend_fast_map_all = anchorend_fast_map_all
+        cls.r2m = r2m
+        cls.anchorend_detail_map_all = anchorend_detail_map_all
+        cls.anchorend_fast_map_all = anchorend_fast_map_all
+
+        return cls.process_anchorstart_links()
 
     @staticmethod
     def extract_anchorstart(anchorstart_rst_match):
@@ -178,13 +176,14 @@ class Rst2MdConverter2AnchorsStart2:
 
         return anchorstart, anchor_title
 
-    def get_anchorend_file(self, anchorstart, anchorstart_normkey):
-        anchorend_file = self.anchorend_fast_map_all.get(anchorstart_normkey)
+    @classmethod
+    def get_anchorend_file(cls, anchorstart, anchorstart_normkey):
+        anchorend_file = cls.anchorend_fast_map_all.get(anchorstart_normkey)
         if anchorend_file is None:
             print(f"ERROR: anchorstart key not found: {anchorstart}")
             print(
                 "anchorend_fast_map_all keys",
-                self.anchorend_fast_map_all.keys(),
+                cls.anchorend_fast_map_all.keys(),
             )
             sys.exit(42)
 
@@ -200,18 +199,22 @@ class Rst2MdConverter2AnchorsStart2:
 
         return anchorend_link
 
-    def convert_anchorstart_rst2md(self):
+    @classmethod
+    def convert_anchorstart_rst2md(cls):
         anchorstart_replace_list = []
-        for line in self.r2m.filetext.split("\n"):
+        for line in cls.r2m.filetext.split("\n"):
             if "{ref}" in line:
-                anchorstart_rst_match = re.search(anchorstart_pattern, line)
-                if anchorstart_rst_match is not None:
+                anchorstart_rst_match = re.search(anchorstart_patt, line)
+                if anchorstart_rst_match:
+                    anchorstart_rst_match_str = anchorstart_rst_match.group(0)
                     # e.g. match='{ref}`Contribution Guidelines <contributing>`'>
                     rprint("anchorstart_rst_match", anchorstart_rst_match)
-                    anchorend_rst_line = line
+                    rprint("anchorstart_rst_match_str", anchorstart_rst_match_str)
+
+                    # anchorend_rst_line = line
 
                     # "Contribution Guidelines", "contributing"
-                    anchorstart, anchor_title = self.extract_anchorstart(
+                    anchorstart, anchor_title = cls.extract_anchorstart(
                         anchorstart_rst_match
                     )
 
@@ -219,13 +222,13 @@ class Rst2MdConverter2AnchorsStart2:
                     rprint("anchorstart_normkey", anchorstart_normkey)
 
                     # "docs_bash-it/docs/docshw/contributing.md"
-                    anchorend_file = self.get_anchorend_file(
+                    anchorend_file = cls.get_anchorend_file(
                         anchorstart, anchorstart_normkey
                     )
                     # sys.exit(42)
 
                     # anchorend_data (all) = docs_bash-it/docs/docshw/contributing.md:	 [['contributing', '# Contribution Guidelines'], ['contributingtheme', '## Themes'], ['addscreenshot', '## Adding a Screenshot']]
-                    for anchorend_data in self.anchorend_detail_map_all[anchorend_file]:
+                    for anchorend_data in cls.anchorend_detail_map_all[anchorend_file]:
                         rprint("anchorend_data", anchorend_data)
                         anchorend_normkey, anchorend_header_line, _ = (
                             anchorend_data[0],
@@ -240,31 +243,40 @@ class Rst2MdConverter2AnchorsStart2:
 
                             anchorend_rpath = hfile.get_relative_path_between_files(
                                 end_filepath=anchorend_file,
-                                start_filepath=self.r2m.hwdoc_rpath,
+                                start_filepath=cls.r2m.hwdoc_rpath,
                             )
+                            rprint("anchorend_rpath", anchorend_rpath)
+                            rprint("anchorend_normkey", anchorend_normkey)
+                            rprint("anchorend_header_line", anchorend_header_line)
+                            # if "{ref}`restart" in anchorstart_rst_match_str:
+                            #     sys.exit(42)
 
                             # make "[Contribution Guidelines](./contributing.md#contribution-guidelines)"
                             anchorstart_link = f"[{anchor_title}]({anchorend_rpath}#{anchorend_normkey})"
-                            as_replace_holder = [anchorend_rst_line, anchorstart_link]
+                            as_replace_holder = [
+                                anchorstart_rst_match_str,
+                                anchorstart_link,
+                            ]
                             anchorstart_replace_list.append(as_replace_holder)
                             break
         return anchorstart_replace_list
 
-    def replace_anchorstart_links(self, anchorstart_replace_list):
-        # 1.
-        for anchorend_rst_line, anchorstart_link in anchorstart_replace_list:
-            tmp_filetext = self.r2m.filetext
-            self.r2m.filetext = tmp_filetext.replace(
-                anchorend_rst_line, anchorstart_link
+    @classmethod
+    def replace_anchorstart_links(cls, anchorstart_replace_list):
+        for anchorstart_rst_match_str, anchorstart_link in anchorstart_replace_list:
+            tmp_filetext = cls.r2m.filetext
+            # if "{ref}`restart" in anchorstart_rst_match_str:
+            #     sys.exit(42)
+            cls.r2m.filetext = tmp_filetext.replace(
+                anchorstart_rst_match_str, anchorstart_link
             )
 
-    def process_anchorstart_links(self):
-        anchorstart_replace_list = self.convert_anchorstart_rst2md()
+    @classmethod
+    def process_anchorstart_links(cls):
+        anchorstart_replace_list = cls.convert_anchorstart_rst2md()
 
         rprint("anchorstart_replace_list", anchorstart_replace_list)
         # if len(ref_sub_tuplist) > 0:
         #     sys.exit(42)
-        self.replace_anchorstart_links(
-            anchorstart_replace_list=anchorstart_replace_list
-        )
-        return self.r2m.filetext
+        cls.replace_anchorstart_links(anchorstart_replace_list=anchorstart_replace_list)
+        return cls.r2m

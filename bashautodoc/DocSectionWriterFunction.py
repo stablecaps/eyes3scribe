@@ -104,7 +104,7 @@ class DocSectionWriterFunction:
             writer._add_about_param_example_etc('my_function')
         """
         cite_li = self._gen_cite_parameter_strings(func_str=func_str)
-        # if cite_li is not None:
+        # if cite_li:
         if len(cite_li) > 0:
             LOG.debug("cite_li %s", cite_li)
             # sys.exit(42)
@@ -195,7 +195,7 @@ class DocSectionWriterFunction:
         multiline_funccalls_output = None
         LOG.debug("multiline_funccalls_input %s", multiline_funccalls_input)
 
-        if multiline_funccalls_input is not None:
+        if multiline_funccalls_input:
             multiline_funccalls_output = draw_tree(parser(multiline_funccalls_input))
         LOG.debug(
             "\nmultiline_funccalls_output\n %s %s",
@@ -203,7 +203,7 @@ class DocSectionWriterFunction:
             type(multiline_funccalls_output),
         )
 
-        if multiline_funccalls_output is not None:
+        if multiline_funccalls_output:
             self.mdFile.new_header(
                 level=5, title="Function Calls:", style="atx", add_table_of_contents="n"
             )

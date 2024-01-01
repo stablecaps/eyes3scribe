@@ -68,9 +68,7 @@ def process_subp_output(
     if exclude_list is None:
         exclude_list = ["", " "]
 
-    assert (
-        cmd_output is not None
-    ), "Error: For process_subp_output(), cmd_output var is None"
+    assert cmd_output, "Error: For process_subp_output(), cmd_output var is None"
 
     holder = []
     for line in cmd_output.decode().split("\n"):

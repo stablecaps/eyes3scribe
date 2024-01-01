@@ -7,9 +7,12 @@ from dataclasses import dataclass, field
 from rich import print as rprint
 
 from bashautodoc.helpo import hfile, hstrops
-from bashautodoc.models.ref_anchor_converter import (
+from bashautodoc.models.rst2md_converter_anchors import (
     Rst2MdConverter2AnchorsEnd1,
     Rst2MdConverter2AnchorsStart2,
+)
+from bashautodoc.models.rst2md_converter_triple_colons import (
+    Rst2mdConverterTripleColons,
 )
 from bashautodoc.regex_patterns import *
 
@@ -214,12 +217,12 @@ def rst2md_mainroutine(conf, hwdocs_search_path):
 
         toclinks_map_all.update(r2m.toclinks_map)
 
-        r2m_plus = Rst2MdConverter2AnchorsEnd1(r2m=r2m)
+        r2m_v2 = Rst2MdConverter2AnchorsEnd1(r2m=r2m)
 
-        anchorend_detail_map_all.update(r2m_plus.anchorend_detail_map)
+        anchorend_detail_map_all.update(r2m_v2.anchorend_detail_map)
 
-        anchorend_fast_map_all.update(r2m_plus.anchorend_fast_map)
-        r2m_list.append(r2m_plus)
+        anchorend_fast_map_all.update(r2m_v2.anchorend_fast_map)
+        r2m_list.append(r2m_v2)
 
         # if "proxy_support" in hwdoc_rpath:
         #     sys.exit(42)
@@ -240,14 +243,16 @@ def rst2md_mainroutine(conf, hwdocs_search_path):
     ### Replace rst ref links with markdown links
     for r2m in r2m_list:
         rprint("r2m", r2m)
-        ref_anchor_converter = Rst2MdConverter2AnchorsStart2(
+        r2m_v3 = Rst2MdConverter2AnchorsStart2(
             r2m=r2m,
             anchorend_detail_map_all=anchorend_detail_map_all,
             anchorend_fast_map_all=anchorend_fast_map_all,
         )
-        processed_mdtext = ref_anchor_converter.process_anchorstart_links()
+        rprint("r2m_v3", r2m_v3)
+        r2m_v4 = Rst2mdConverterTripleColons(r2m=r2m_v3)
 
-        # if "barbuk" in r2m.hwdoc_rpath:
+        # if "themes-list/index" in r2m.hwdoc_rpath:
         #     rprint("r2m.filetext", r2m.filetext)
         #     sys.exit(42)
-        hfile.write_string_2file(f"{r2m.hwdoc_root}/{r2m.hwdoc_name}", processed_mdtext)
+        hfile.write_string_2file(f"{r2m.hwdoc_root}/{r2m.hwdoc_name}", r2m_v4.filetext)
+    # sys.exit(42)

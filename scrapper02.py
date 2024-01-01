@@ -199,7 +199,7 @@ def gen_ref_sub_tuplist(mdtext, ref_patt, toclinks_map):
     for line in mdtext.split("\n"):
         if "{ref}" in line:
             ref_match = re.search(ref_patt, line)
-            if ref_match is not None:
+            if ref_match:
                 # ref_anchor = ref_match.group(1).strip()
                 ref_title = ref_match.group(2).replace("`", "").strip()
                 toc_link_key = (

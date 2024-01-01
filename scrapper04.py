@@ -9,7 +9,7 @@ from bashautodoc.helpo import hfile, hstrops
 LOG = logging.getLogger(__name__)
 
 # TODO: initialise all regex patterns in a single place
-mdlink_pattern = re.compile(r"[- ]*\[([*a-zA-Z0-9-_]*)\]\(([A-Za-z/-0-9_.]*)")
+mdlink_patt = re.compile(r"[- ]*\[([*a-zA-Z0-9-_]*)\]\(([A-Za-z/-0-9_.]*)")
 
 
 class MdToc2YamlProcessor:
@@ -42,8 +42,8 @@ class MdToc2YamlProcessor:
             elif line_stripped == "":
                 pass
             else:
-                mdlink_match = mdlink_pattern.search(line_stripped)
-                if mdlink_match is not None:
+                mdlink_match = mdlink_patt.search(line_stripped)
+                if mdlink_match:
                     mdlink = mdlink_match.group(2)
                     clean_toc_mdlist.append(mdlink)
         return clean_toc_mdlist

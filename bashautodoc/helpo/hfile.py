@@ -226,7 +226,10 @@ def get_relative_path_between_files(end_filepath, start_filepath):
     # TODO: refactor this to be less ugly
     start2child_relpath_raw = relpath(end_filepath, start_filepath)
     start2child_relpath = rreplace(
-        mystr=start2child_relpath_raw, match_str="../", replace_str="./", times=1
+        mystr=start2child_relpath_raw, match_str="../", replace_str="", times=1
     )
+
+    if start2child_relpath == ".":
+        start2child_relpath = ""
 
     return start2child_relpath

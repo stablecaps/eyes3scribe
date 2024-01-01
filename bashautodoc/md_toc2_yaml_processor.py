@@ -1,4 +1,5 @@
 import logging
+import sys
 from collections import defaultdict
 
 from rich import print as rprint
@@ -36,6 +37,7 @@ class MdToc2YamlProcessor:
             )
         )
         rprint("mdtoc_path_list", self.mdtoc_path_list)
+        # sys.exit(42)
 
     @staticmethod
     def clean_mdtoc_list(toc_mdlist):
@@ -47,8 +49,8 @@ class MdToc2YamlProcessor:
             elif line_stripped == "":
                 pass
             else:
-                mdlink_match = mdlink_pattern.search(line_stripped)
-                if mdlink_match is not None:
+                mdlink_match = mdlink_patt.search(line_stripped)
+                if mdlink_match:
                     mdlink = mdlink_match.group(2)
                     clean_toc_mdlist.append(mdlink)
         return clean_toc_mdlist

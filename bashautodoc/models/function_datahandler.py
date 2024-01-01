@@ -120,7 +120,7 @@ class FunctionDatahandler:
             for line in src_text.split("\n"):
                 if line.startswith("function"):
                     func_name = FunctionDatahandler._get_function_name(line)
-                    if func_name is not None:
+                    if func_name:
                         func_name_list.append(func_name)
                         func_text_dict[func_name] = line
                 # TODO: remove hardcoded "about" strings
@@ -147,10 +147,10 @@ class FunctionDatahandler:
                     ).strip()
                 elif line.startswith("alias"):
                     alias_str = FunctionDatahandler._process_alias_line(line)
-                    if alias_str is not None:
+                    if alias_str:
                         full_alias_str_list.append(alias_str)
                 else:
-                    if func_name is not None:
+                    if func_name:
                         func_text_dict[func_name] += "\n" + line
 
         cls.funcdata.func_name_list = func_name_list

@@ -243,7 +243,7 @@ class GenMkdocsSite:
         for mdsrc, mddest in self.conf.get("additional_mdfiles").items():
             hfile.copy_file(source=mdsrc, target=f"{self.project_docs_dir}/{mddest}")
 
-        if self.handwritten_docs_dir is not None:
+        if self.handwritten_docs_dir:
             hfile.copy_dir(
                 source=f'{self.conf.get("handwritten_docs_dir")}',
                 target=self.handwritten_docs_outdir,
@@ -363,7 +363,7 @@ class GenMkdocsSite:
         LOG.info("Set generated src docs to nav")
         self.mkdocs_add_srcdocs_to_nav(catname_2mdfile_dict)
 
-        if self.conf["handwritten_docs_dir"] is not None:
+        if self.conf["handwritten_docs_dir"]:
             LOG.info("Set handwritten docs as main to nav")
             self.mkdocs_add_handwrittendocs_to_nav()
 
@@ -388,7 +388,7 @@ class GenMkdocsSite:
         # TODO: sort out using arbitrary directory
         # os.chdir(self.project_reldir)
 
-        if self.handwritten_docs_dir is not None:
+        if self.handwritten_docs_dir:
             LOG.info("Processing handwritten doc files")
             hwdocs_rpaths = hfile.multiglob_dir_search(
                 search_path=self.handwritten_docs_outdir,

@@ -1,3 +1,15 @@
+# value one of:
+# - "eval_rst": no conversion, wrap in MyST eval_rst directive
+# - "direct": convert directly to MyST directive, keeping original argument/content
+# - "parse_argument":  convert to MyST directive and convert the argument to Markdown
+# - "parse_content":  convert to MyST directive and convert the content to Markdown
+# - "parse_all":  convert to MyST directive and convert the argument and content to Markdown
+
+# also see https://docutils.sourceforge.io/docs/ref/rst/directives.html#specific-admonitions
+# admonition in html: https://stackoverflow.com/questions/73049303/convertng-markdown-admonition-syntax-to-html-using-lua-for-pandoc
+# https://python-markdown.github.io/extensions/admonition/
+
+# https://rst-to-myst.readthedocs.io/en/stable/usage.html
 language: en
 sphinx: true
 default_domain: py
@@ -5,4 +17,211 @@ consecutive_numbering: true
 colon_fences: true
 dollar_math: true
 conversions:
-    sphinx_panels.dropdpwn.DropdownDirective: parse_all
+    # admonitions (docutils)
+    docutils.parsers.rst.directives.admonitions.Admonition: parse_all
+    docutils.parsers.rst.directives.admonitions.Attention: parse_all
+    docutils.parsers.rst.directives.admonitions.Caution: parse_all
+    docutils.parsers.rst.directives.admonitions.Danger: parse_all
+    docutils.parsers.rst.directives.admonitions.Error: parse_all
+    docutils.parsers.rst.directives.admonitions.Hint: parse_all
+    docutils.parsers.rst.directives.admonitions.Important: parse_all
+    docutils.parsers.rst.directives.admonitions.Note: parse_all
+    docutils.parsers.rst.directives.admonitions.Tip: parse_all
+    docutils.parsers.rst.directives.admonitions.Warning: parse_all
+
+
+    # docutils other (see https://docutils.sourceforge.io/docs/ref/rst/directives.html#figure)
+    docutils.parsers.rst.directives.body.CodeBlock: direct
+    docutils.parsers.rst.directives.body.Compound: eval_rst
+    docutils.parsers.rst.directives.body.Container: parse_content
+    docutils.parsers.rst.directives.body.Epigraph: eval_rst
+    docutils.parsers.rst.directives.body.Highlights: eval_rst
+    docutils.parsers.rst.directives.body.LineBlock: eval_rst
+    docutils.parsers.rst.directives.body.MathBlock: direct
+    docutils.parsers.rst.directives.body.ParsedLiteral: eval_rst
+    docutils.parsers.rst.directives.body.PullQuote: eval_rst
+    docutils.parsers.rst.directives.body.Rubric: parse_argument
+    docutils.parsers.rst.directives.body.Sidebar: parse_all
+    docutils.parsers.rst.directives.body.Topic: parse_all
+    docutils.parsers.rst.directives.html.Meta: eval_rst
+    docutils.parsers.rst.directives.images.Figure: parse_all # modified
+    docutils.parsers.rst.directives.images.Image: direct # modified
+    docutils.parsers.rst.directives.misc.Class: eval_rst
+    docutils.parsers.rst.directives.misc.Date: direct
+    docutils.parsers.rst.directives.misc.DefaultRole: eval_rst
+    docutils.parsers.rst.directives.misc.Include: direct
+    docutils.parsers.rst.directives.misc.Raw: direct
+    docutils.parsers.rst.directives.misc.Replace: parse_content
+    docutils.parsers.rst.directives.misc.Role: eval_rst
+    docutils.parsers.rst.directives.misc.TestDirective: eval_rst
+    docutils.parsers.rst.directives.misc.Title: direct
+    docutils.parsers.rst.directives.misc.Unicode: eval_rst
+    docutils.parsers.rst.directives.parts.Contents: parse_argument
+    docutils.parsers.rst.directives.parts.Footer: parse_content
+    docutils.parsers.rst.directives.parts.Header: parse_content
+    docutils.parsers.rst.directives.parts.Sectnum: eval_rst
+    docutils.parsers.rst.directives.references.TargetNotes: eval_rst
+    docutils.parsers.rst.directives.tables.CSVTable: direct
+    docutils.parsers.rst.directives.tables.ListTable: parse_content # modified
+    docutils.parsers.rst.directives.tables.RSTTable: eval_rst
+
+    ## Sphinx
+
+    # code
+    sphinx.directives.patches.Code: direct
+    # math
+    sphinx.directives.patches.MathDirective: direct
+    # table
+    sphinx.directives.patches.RSTTable: eval_rst
+    # csv-table
+    sphinx.directives.patches.CSVTable: eval_rst
+    # list-table
+    sphinx.directives.patches.ListTable: eval_rst
+    # figure
+    sphinx.directives.patches.Figure: parse_content
+    # meta
+    sphinx.directives.patches.Meta: eval_rst
+
+    # deprecated, versionadded, versionchanged
+    sphinx.domains.changeset.VersionChange: parse_content
+    # seealso
+    sphinx.directives.other.SeeAlso: parse_content
+    # index
+    sphinx.domains.index.IndexDirective: direct
+    # default-domain
+    sphinx.directives.DefaultDomain: eval_rst
+    # describe
+    # object
+    sphinx.directives.ObjectDescription: eval_rst
+    # highlight
+    sphinx.directives.code.Highlight: direct
+    # highlightlang
+    # code-block
+    # sourcecode
+    sphinx.directives.code.CodeBlock: direct
+    # literalinclude
+    sphinx.directives.code.LiteralInclude: direct
+    # toctree
+    sphinx.directives.other.TocTree: direct
+    # sectionauthor
+    # moduleauthor
+    # codeauthor
+    sphinx.directives.other.Author: eval_rst
+    # tabularcolumns
+    sphinx.directives.other.TabularColumns: eval_rst
+    # centered
+    sphinx.directives.other.Centered: eval_rst
+    # acks
+    sphinx.directives.other.Acks: eval_rst
+    # hlist
+    sphinx.directives.other.HList: eval_rst
+    # only
+    sphinx.directives.other.Only: parse_content_titles
+
+    # c:member
+    # c:var
+    sphinx.domains.c.CMemberObject: eval_rst
+    # c:function
+    sphinx.domains.c.CFunctionObject: eval_rst
+    # c:macro
+    sphinx.domains.c.CMacroObject: eval_rst
+    # c:struct
+    sphinx.domains.c.CStructObject: eval_rst
+    # c:union
+    sphinx.domains.c.CUnionObject: eval_rst
+    # c:enum
+    sphinx.domains.c.CEnumObject: eval_rst
+    # c:enumerator
+    sphinx.domains.c.CEnumeratorObject: eval_rst
+    # c:type
+    sphinx.domains.c.CTypeObject: eval_rst
+    # c:namespace
+    sphinx.domains.c.CNamespaceObject: eval_rst
+    # c:namespace-push
+    sphinx.domains.c.CNamespacePushObject: eval_rst
+    # c:namespace-pop
+    sphinx.domains.c.CNamespacePopObject: eval_rst
+    # c:alias
+    sphinx.domains.c.CAliasObject: eval_rst
+    # cpp:class
+    # cpp:struct
+    sphinx.domains.cpp.CPPClassObject: eval_rst
+    # cpp:union
+    sphinx.domains.cpp.CPPUnionObject: eval_rst
+    # cpp:function
+    sphinx.domains.cpp.CPPFunctionObject: eval_rst
+    # cpp:member
+    # cpp:var
+    sphinx.domains.cpp.CPPMemberObject: eval_rst
+    # cpp:type
+    sphinx.domains.cpp.CPPTypeObject: eval_rst
+    # cpp:concept
+    sphinx.domains.cpp.CPPConceptObject: eval_rst
+    # cpp:enum
+    # cpp:enum-struct
+    # cpp:enum-class
+    sphinx.domains.cpp.CPPEnumObject: eval_rst
+    # cpp:enumerator
+    sphinx.domains.cpp.CPPEnumeratorObject: eval_rst
+    # cpp:namespace
+    sphinx.domains.cpp.CPPNamespaceObject: eval_rst
+    # cpp:namespace-push
+    sphinx.domains.cpp.CPPNamespacePushObject: eval_rst
+    # cpp:namespace-pop
+    sphinx.domains.cpp.CPPNamespacePopObject: eval_rst
+    # cpp:alias
+    sphinx.domains.cpp.CPPAliasObject: eval_rst
+    # js:function
+    # js:method
+    sphinx.domains.javascript.JSCallable: eval_rst
+    # js:class
+    sphinx.domains.javascript.JSConstructor: eval_rst
+    # js:data
+    # js:attribute
+    sphinx.domains.javascript.JSObject: eval_rst
+    # js:module
+    sphinx.domains.javascript.JSModule: eval_rst
+    # py:function
+    sphinx.domains.python.PyFunction: eval_rst
+    # py:data
+    sphinx.domains.python.PyVariable: eval_rst
+    # py:class
+    # py:exception
+    sphinx.domains.python.PyClasslike: eval_rst
+    # py:method
+    sphinx.domains.python.PyMethod: eval_rst
+    # py:classmethod
+    sphinx.domains.python.PyClassMethod: eval_rst
+    # py:staticmethod
+    sphinx.domains.python.PyStaticMethod: eval_rst
+    # py:attribute
+    sphinx.domains.python.PyAttribute: eval_rst
+    # py:module
+    sphinx.domains.python.PyModule: eval_rst
+    # py:currentmodule
+    sphinx.domains.python.PyCurrentModule: eval_rst
+    # py:decorator
+    sphinx.domains.python.PyDecoratorFunction: eval_rst
+    # py:decoratormethod
+    sphinx.domains.python.PyDecoratorMethod: eval_rst
+    # rst:directive
+    sphinx.domains.rst.ReSTDirective: eval_rst
+    # rst:directive:option
+    sphinx.domains.rst.ReSTDirectiveOption: eval_rst
+    # rst:role
+    sphinx.domains.rst.ReSTRole: eval_rst
+    # std:program
+    sphinx.domains.std.Program: eval_rst
+    # std:cmdoption
+    # std:option
+    sphinx.domains.std.Cmdoption: eval_rst
+    # std:envvar
+    sphinx.domains.std.EnvVar: eval_rst
+    # std:glossary
+    sphinx.domains.std.Glossary: parse_content
+    # std:productionlist
+    sphinx.domains.std.ProductionList: eval_rst
+
+    # third-party directives
+    sphinxcontrib.bibtex.directives.BibliographyDirective: direct
+    sphinx_panels.dropdown.DropdownDirective: parse_all

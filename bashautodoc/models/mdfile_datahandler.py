@@ -45,7 +45,7 @@
 #             writer._add_about_param_example_etc('my_function')
 #         """
 #         cite_li = self._gen_cite_parameter_strings(func_str=func_str)
-#         # if cite_li is not None:
+#         # if cite_li:
 #         if len(cite_li) > 0:
 #             LOG.debug("cite_li %s", cite_li)
 #             # sys.exit(42)

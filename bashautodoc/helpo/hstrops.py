@@ -1,6 +1,7 @@
 """String Ops Helpers module."""
 
 import logging
+import sys
 
 from rich import print as rprint
 
@@ -123,6 +124,7 @@ def extract_lines_between_tags(filetext, start_tag="```{toctree}", end_tag="```"
     inRecordingMode = False
     for line in filetext.split("\n"):
         # line_stripped = line.strip()
+        # TODO: this not in inRecordingMode is not easy to read
         if not inRecordingMode:
             if start_tag in line:
                 rprint("TRUE: found toctree")
@@ -156,6 +158,34 @@ def extract_lines_between_start_and_end_blank_line_tag(
             line_holder.append(line)
 
     return line_holder
+
+
+def extract_multiblocks_between_start_and_end_line_tag(
+    filetext, start_tag=":::", end_tag=":::"
+):
+    block_holder = []
+    inRecordingMode = False
+    for line in filetext.split("\n"):
+        rprint("line", line)
+        # line_stripped = line.strip()
+        if not inRecordingMode:
+            if start_tag in line:
+                rprint("TRUE: found start_tag")
+                inRecordingMode = True
+                line_holder = []
+                line_holder.append(line)
+        elif end_tag in line:
+            rprint("TRUE: found end_tag")
+            inRecordingMode = False
+            line_holder.append(line)
+            block_holder.append(line_holder)
+        # elif inRecordingMode:
+        else:
+            line_holder.append(line)
+
+    rprint("block_holder", block_holder)
+    # sys.exit(42)
+    return block_holder
 
 
 def normalise_key(mystr):

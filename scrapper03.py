@@ -9,7 +9,7 @@ from bashautodoc.helpo import hfile, hstrops
 LOG = logging.getLogger(__name__)
 
 
-mdlink_pattern = re.compile(r"[- ]*\[([*a-zA-Z0-9-_]*)\]\(([A-Za-z/-0-9_.]*)")
+mdlink_patt = re.compile(r"[- ]*\[([*a-zA-Z0-9-_]*)\]\(([A-Za-z/-0-9_.]*)")
 
 
 def clean_mdtoc_list(toc_mdlist):
@@ -21,8 +21,8 @@ def clean_mdtoc_list(toc_mdlist):
         elif line_stripped == "":
             pass
         else:
-            mdlink_match = re.search(mdlink_pattern, line_stripped)
-            if mdlink_match is not None:
+            mdlink_match = re.search(mdlink_patt, line_stripped)
+            if mdlink_match:
                 mdlink = mdlink_match.group(2)
                 # rprint("mdlink", mdlink)
                 # sys.exit(42)
