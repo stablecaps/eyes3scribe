@@ -37,17 +37,13 @@ def gen_img_html(rst_img_dict):
         "align": None,
 
     <a class="reference external image-reference" href="https://raw.githubusercontent.com/lfelipe1501/lfelipe-projects/master/AtomicTheme.gif"><img alt="Atomic-Theme" src="https://raw.githubusercontent.com/lfelipe1501/lfelipe-projects/master/AtomicTheme.gif"></a>
-        <img alt="Atomic-Theme" src="https://raw.githubusercontent.com/lfelipe1501/lfelipe-projects/master/AtomicTheme.gif">
-    </a>
     }
     """
     img_html = textwrap.dedent(
         f"""<a class="reference external image-reference"
-                    href="{rst_img_dict.get('image')}"><img alt="{rst_img_dict.get('alt')}" src="{rst_img_dict.get('image')}">
-                    </a>
-                    <img alt="{rst_img_dict.get('alt')}" src="{rst_img_dict.get('image')}">
-                    </a>
-                    """
+                href="{rst_img_dict.get('image')}"><img alt="{rst_img_dict.get('alt')}" src="{rst_img_dict.get('image')}">
+                </a>
+         """
     )
     return img_html
 
@@ -134,6 +130,143 @@ class Rst2mdConverterTripleColonicBypass:
                 for block in admonitions_blocks_nlist:
                     cls.process_admon_block(block)
 
+    # @classmethod
+    # def process_hosted_images(cls):
+    #     """
+    #     https://docutils.sourceforge.io/docs/ref/rst/directives.html#image
+    #     """
+    #     if "```{image}" in cls.r2m.filetext:
+    #         himage_blocks_nlist = (
+    #             hstrops.extract_multiblocks_between_start_and_end_line_tag(
+    #                 filetext=cls.r2m.filetext, start_tag="```{image}", end_tag="```"
+    #             )
+    #         )
+    #         rprint("himage_blocks_nlist", himage_blocks_nlist)
+    #         # sys.exit(42)
+    #         if len(himage_blocks_nlist) > 0:
+    #             for block in himage_blocks_nlist:
+    #                 rprint("block", block)
+    #                 rst_img_dict = {
+    #                     "image": None,
+    #                     "height": None,
+    #                     "width": None,
+    #                     "scale": None,
+    #                     "loading": None,
+    #                     "alt": None,
+    #                     "align": None,
+    #                 }
+    #                 for elem in block:
+    #                     rprint("elem", elem)
+    #                     if elem.startswith("```{image}"):
+    #                         rst_img_dict["image"] = hstrops.clean_str_via_rm_patts(
+    #                             input_str=elem, rm_patterns=["```{image}"]
+    #                         )
+
+    #                     elif elem.startswith(":alt:"):
+    #                         rst_img_dict["alt"] = hstrops.clean_str_via_rm_patts(
+    #                             input_str=elem, rm_patterns=[":alt:"]
+    #                         )
+    #                     elif elem.startswith(":height:"):
+    #                         rst_img_dict["height"] = hstrops.clean_str_via_rm_patts(
+    #                             input_str=elem, rm_patterns=[":height:"]
+    #                         )
+    #                     elif elem.startswith(":width:"):
+    #                         rst_img_dict["width"] = hstrops.clean_str_via_rm_patts(
+    #                             input_str=elem, rm_patterns=[":width:"]
+    #                         )
+    #                     elif elem.startswith(":width:"):
+    #                         rst_img_dict["scale"] = hstrops.clean_str_via_rm_patts(
+    #                             input_str=elem, rm_patterns=[":width:"]
+    #                         )
+    #                     elif elem.startswith(":loading:"):
+    #                         rst_img_dict["loading"] = hstrops.clean_str_via_rm_patts(
+    #                             input_str=elem, rm_patterns=[":loading:"]
+    #                         )
+    #                     elif elem.startswith(":loading:"):
+    #                         rst_img_dict["align"] = hstrops.clean_str_via_rm_patts(
+    #                             input_str=elem, rm_patterns=[":loading:"]
+    #                         )
+
+    #                 rprint("rst_img_dict", rst_img_dict)
+
+    #                 img_html = gen_img_html(rst_img_dict=rst_img_dict)
+    #                 rprint("img_html", img_html)
+
+    #                 img_rst = "\n".join(block)
+    #                 rprint("img_html", img_html)
+    #                 rprint("img_rst", img_rst)
+
+    #                 cls.r2m.filetext = cls.r2m.filetext.replace(
+    #                     img_rst,
+    #                     img_html,
+    #                 )
+    #                 rprint("\ncls.r2m.filetext", cls.r2m.filetext)
+    #                 # sys.exit(42)
+
+    @classmethod
+    def process_image_element(cls, elem, rst_img_dict):
+        rprint("elem", elem)
+        if elem.startswith("```{image}"):
+            rst_img_dict["image"] = hstrops.clean_str_via_rm_patts(
+                input_str=elem, rm_patterns=["```{image}"]
+            )
+
+        elif elem.startswith(":alt:"):
+            rst_img_dict["alt"] = hstrops.clean_str_via_rm_patts(
+                input_str=elem, rm_patterns=[":alt:"]
+            )
+        elif elem.startswith(":height:"):
+            rst_img_dict["height"] = hstrops.clean_str_via_rm_patts(
+                input_str=elem, rm_patterns=[":height:"]
+            )
+        elif elem.startswith(":width:"):
+            rst_img_dict["width"] = hstrops.clean_str_via_rm_patts(
+                input_str=elem, rm_patterns=[":width:"]
+            )
+        elif elem.startswith(":width:"):
+            rst_img_dict["scale"] = hstrops.clean_str_via_rm_patts(
+                input_str=elem, rm_patterns=[":width:"]
+            )
+        elif elem.startswith(":loading:"):
+            rst_img_dict["loading"] = hstrops.clean_str_via_rm_patts(
+                input_str=elem, rm_patterns=[":loading:"]
+            )
+        elif elem.startswith(":loading:"):
+            rst_img_dict["align"] = hstrops.clean_str_via_rm_patts(
+                input_str=elem, rm_patterns=[":loading:"]
+            )
+
+    @classmethod
+    def process_image_block(cls, block):
+        rprint("block", block)
+        rst_img_dict = {
+            "image": None,
+            "height": None,
+            "width": None,
+            "scale": None,
+            "loading": None,
+            "alt": None,
+            "align": None,
+        }
+        for elem in block:
+            cls.process_image_element(elem, rst_img_dict)
+
+        rprint("rst_img_dict", rst_img_dict)
+
+        img_html = gen_img_html(rst_img_dict=rst_img_dict)
+        rprint("img_html", img_html)
+
+        img_rst = "\n".join(block)
+        rprint("img_html", img_html)
+        rprint("img_rst", img_rst)
+
+        cls.r2m.filetext = cls.r2m.filetext.replace(
+            img_rst,
+            img_html,
+        )
+        rprint("\ncls.r2m.filetext", cls.r2m.filetext)
+        # sys.exit(42)
+
     @classmethod
     def process_hosted_images(cls):
         """
@@ -149,63 +282,7 @@ class Rst2mdConverterTripleColonicBypass:
             # sys.exit(42)
             if len(himage_blocks_nlist) > 0:
                 for block in himage_blocks_nlist:
-                    rprint("block", block)
-                    rst_img_dict = {
-                        "image": None,
-                        "height": None,
-                        "width": None,
-                        "scale": None,
-                        "loading": None,
-                        "alt": None,
-                        "align": None,
-                    }
-                    for elem in block:
-                        rprint("elem", elem)
-                        if elem.startswith("```{image}"):
-                            rst_img_dict["image"] = hstrops.clean_str_via_rm_patts(
-                                input_str=elem, rm_patterns=["```{image}"]
-                            )
-
-                        elif elem.startswith(":alt:"):
-                            rst_img_dict["alt"] = hstrops.clean_str_via_rm_patts(
-                                input_str=elem, rm_patterns=[":alt:"]
-                            )
-                        elif elem.startswith(":height:"):
-                            rst_img_dict["height"] = hstrops.clean_str_via_rm_patts(
-                                input_str=elem, rm_patterns=[":height:"]
-                            )
-                        elif elem.startswith(":width:"):
-                            rst_img_dict["width"] = hstrops.clean_str_via_rm_patts(
-                                input_str=elem, rm_patterns=[":width:"]
-                            )
-                        elif elem.startswith(":width:"):
-                            rst_img_dict["scale"] = hstrops.clean_str_via_rm_patts(
-                                input_str=elem, rm_patterns=[":width:"]
-                            )
-                        elif elem.startswith(":loading:"):
-                            rst_img_dict["loading"] = hstrops.clean_str_via_rm_patts(
-                                input_str=elem, rm_patterns=[":loading:"]
-                            )
-                        elif elem.startswith(":loading:"):
-                            rst_img_dict["align"] = hstrops.clean_str_via_rm_patts(
-                                input_str=elem, rm_patterns=[":loading:"]
-                            )
-
-                    rprint("rst_img_dict", rst_img_dict)
-
-                    img_html = gen_img_html(rst_img_dict=rst_img_dict)
-                    rprint("img_html", img_html)
-
-                    img_rst = "\n".join(block)
-                    rprint("img_html", img_html)
-                    rprint("img_rst", img_rst)
-
-                    cls.r2m.filetext = cls.r2m.filetext.replace(
-                        img_rst,
-                        img_html,
-                    )
-                    rprint("\ncls.r2m.filetext", cls.r2m.filetext)
-                    # sys.exit(42)
+                    cls.process_image_block(block)
 
     @classmethod
     def main(cls):
