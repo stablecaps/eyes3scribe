@@ -1,7 +1,7 @@
 # This code is in place to import absolute modules fror pydeps
 from . import (
     DocSectionWriterFunction,
-    config,
+    config,  # SetupDocsProject,
     create_handwritten_docs,
     function_call_tree,
     function_dependency_processor,

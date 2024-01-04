@@ -1,0 +1,47 @@
+---
+project_name: py-example-project
+loglevel: info
+analyses:
+- analysis_name: py check
+  source_directory: emerge_input
+  only_permit_languages:
+  - py
+  only_permit_file_extensions:
+  - .py
+  file_scan:
+  - number_of_methods
+  - source_lines_of_code
+  - dependency_graph
+  - louvain_modularity
+  - fan_in_out
+  - tfidf
+  export:
+  - directory: emerge_output
+  - graphml
+  - json
+  - tabular_file
+  - tabular_console_overall
+  - d3
+  ignore_dependencies_matching:
+  - yaml
+  - argparse
+  - sentry_sdk
+  - shlex
+  - typing
+  - subprocess
+  - dotmap
+  - ruamel.yaml
+  - mdutils.mdutils
+  - functools
+  - shutil
+  - pathlib
+  - os
+  - sys
+  - textwrap
+  - bashautodoc.__init__.py
+  - models.__init__.py
+  - rich
+  - logging
+  - re
+  - copy
+  - helpo/*
