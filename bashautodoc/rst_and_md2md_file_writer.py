@@ -18,7 +18,7 @@ class MdToc2YamlProcessor:
 
         self.toc_dict = {}
         self.hierarchy_dict = defaultdict(list)
-        self.final_dict = {}
+        self.navbar_dict = {}
 
         self.mdtoc_path_list = hfile.flatten_list(
             nested_list=hfile.find_files_with_grep_patt(
@@ -64,13 +64,13 @@ class MdToc2YamlProcessor:
                     self.hierarchy_dict[file_path2].append(mdpath)
                     break
 
-    def construct_final_dict(self):
+    def construct_navbar_dict(self):
         for key, link_list in sorted(
             self.hierarchy_dict.items(), key=lambda x: len(x[1]), reverse=True
         ):
-            self.final_dict[key] = self.toc_dict[key]
+            self.navbar_dict[key] = self.toc_dict[key]
             new_link_list = []
-            for md_link in self.final_dict[key]:
+            for md_link in self.navbar_dict[key]:
                 if md_link in link_list:
                     category_split = md_link.split("/")
                     if category_split[-1] == "index.md":
@@ -88,7 +88,7 @@ class MdToc2YamlProcessor:
                     new_link_list.append(sub_dict)
                 else:
                     new_link_list.append(md_link)
-            self.final_dict[key] = new_link_list
+            self.navbar_dict[key] = new_link_list
 
     def main(self):
         self.gen_toc_dict_from_mdindex_files()
@@ -98,9 +98,9 @@ class MdToc2YamlProcessor:
         ## 3. Create ranked order of mdfiles
         self.construct_hierarchy_dict()
 
-        self.construct_final_dict()
+        self.construct_navbar_dict()
 
-        rprint("final_dict", self.final_dict)
+        rprint("navbar_dict", self.navbar_dict)
 
 
 # Call the main function

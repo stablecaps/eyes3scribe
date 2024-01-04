@@ -150,6 +150,9 @@ class GenMkdocsSite:
             if key not in self.conf_bashautodoc_keys
         }
 
+        # TODO: sort out this hacky code
+        self.yaml_dict["navdict"] = {"nav": []}
+
         LOG.info("project_name: %s", self.project_name)
         LOG.info("program_root_dir: %s", self.program_root_dir)
         LOG.info("project_reldir: %s", self.project_reldir)
@@ -180,7 +183,6 @@ class GenMkdocsSite:
             "site_url": None,
             "site_author": None,
             "repo_url": None,
-            "nav": None,
             "shell_srcdir": None,
             "catnames_src": None,
             "nav_codedocs_as_ref_or_main": ["ref", "main"],
@@ -239,9 +241,10 @@ class GenMkdocsSite:
             source=f'{self.conf.get("shell_srcdir")}', target=self.project_docs_dir
         )
 
+        # TODO: sort this out later
         LOG.info("Copying additional markdown files")
-        for mdsrc, mddest in self.conf.get("additional_mdfiles").items():
-            hfile.copy_file(source=mdsrc, target=f"{self.project_docs_dir}/{mddest}")
+        # for mdsrc, mddest in self.conf.get("additional_mdfiles").items():
+        #     hfile.copy_file(source=mdsrc, target=f"{self.project_docs_dir}/{mddest}")
 
         if self.handwritten_docs_dir:
             hfile.copy_dir(
@@ -256,7 +259,34 @@ class GenMkdocsSite:
         catname_2mdfile_dict = create_hwdocs.create_hwdocs()
         rprint("catname_2mdfile_dict", catname_2mdfile_dict)
 
-        self.yaml_dict["nav"].append(catname_2mdfile_dict)
+        # self.yaml_dict["nav"].append(catname_2mdfile_dict)
+        self.yaml_dict["navdict"].update(catname_2mdfile_dict)
+        rprint("self.yaml_dict['navdict']", self.yaml_dict["navdict"])
+        # sys.exit(42)
+        self.yaml_dict["nav"] = self.yaml_dict["navdict"]["nav"]
+
+        rprint("\n\nself.yaml_dict['nav']", self.yaml_dict["nav"])
+        # sys.exit(42)
+
+        del self.yaml_dict["navdict"]
+
+        # TODO: fix hacky copy/replace docs dir
+
+        # sys.exit(42)
+        hfile.move_files_and_dirs(
+            source="docs_bash-it/docs/docshw", target="docs_bash-it/docs_temp"
+        )
+        hfile.move_files_and_dirs(
+            source="docs_bash-it/docs/custom_css", target="docs_bash-it/custom_css_temp"
+        )
+        hfile.rmdir_if_exists(target="docs_bash-it/docs")
+        hfile.move_files_and_dirs(
+            source="docs_bash-it/docs_temp", target="docs_bash-it/docs"
+        )
+        hfile.move_files_and_dirs(
+            source="docs_bash-it/custom_css_temp", target="docs_bash-it/docs/custom_css"
+        )
+
         # sys.exit(42)
 
         # for catname in ["docshw"]:  # self.conf.get("catnames_docs"):
@@ -278,11 +308,11 @@ class GenMkdocsSite:
         #         catname_holder.append(page_path_map)
 
         # ###########################################
-        # code_docs_parent = None
-        # if code_docs_parent is None:
+        # srcdocs_parent = None
+        # if srcdocs_parent is None:
         #     self.yaml_dict["nav"].append({catname: catname_holder})
         # else:
-        #     self.yaml_dict["nav"][1][code_docs_parent].append(
+        #     self.yaml_dict["nav"][1][srcdocs_parent].append(
         #         {catname: catname_holder}
         #     )
 
@@ -307,29 +337,31 @@ class GenMkdocsSite:
         rprint("catname_2mdfile_dict", catname_2mdfile_dict)
         # sys.exit(42)
 
-        ref_or_main_raw = self.conf.get("nav_codedocs_as_ref_or_main")
-        ref_or_main = ref_or_main_raw if ref_or_main_raw else "main"
+        # TODO: re-enable optional srcdocs nesting once things are refactored
+        # ref_or_main_raw = self.conf.get("nav_codedocs_as_ref_or_main")
+        # ref_or_main = ref_or_main_raw if ref_or_main_raw else "main"
 
-        nav_codedocs_name_raw = self.conf.get("nav_codedocs_name")
-        nav_codedocs_name = (
-            nav_codedocs_name_raw if self.conf.get("nav_codedocs_name") else "Code-Docs"
-        )
+        # nav_codedocs_name_raw = self.conf.get("nav_codedocs_name")
+        # nav_codedocs_name = (
+        #     nav_codedocs_name_raw if self.conf.get("nav_codedocs_name") else "Code-Docs"
+        # )
 
-        if ref_or_main == "main":
-            code_docs_parent = None
-        elif ref_or_main == "ref":
-            self.yaml_dict["nav"].append({nav_codedocs_name: []})
-            code_docs_parent = nav_codedocs_name
-        else:
-            LOG.error(
-                "Error: nav_codedocs_as_ref_or_main must be set to either 'main' or 'ref'"
-            )
-            sys.exit(42)
+        # if ref_or_main == "main":
+        #     srcdocs_parent = None
+        # elif ref_or_main == "ref":
+        #     self.yaml_dict["nav"].append({nav_codedocs_name: []})
+        #     srcdocs_parent = nav_codedocs_name
+        # else:
+        #     LOG.error(
+        #         "Error: nav_codedocs_as_ref_or_main must be set to either 'main' or 'ref'"
+        #     )
+        #     sys.exit(42)
 
         LOG.info("Add generated code docs to nav")
         rprint("catname_2mdfile_dict", sorted(catname_2mdfile_dict["undef"]))
         # sys.exit(42)
 
+        srcdoc_dict = {"nav": [{"Reference": []}]}
         for catname in self.conf.get("catnames_src"):
             print("catname", catname)
             cat_mdoutfiles_rpaths = sorted(catname_2mdfile_dict.get(catname))
@@ -348,12 +380,22 @@ class GenMkdocsSite:
                 page_path_map = {page_name: mdoutfile_routepath}
                 catname_holder.append(page_path_map)
 
-            if code_docs_parent is None:
-                self.yaml_dict["nav"].append({catname: catname_holder})
-            else:
-                self.yaml_dict["nav"][1][code_docs_parent].append(
-                    {catname: catname_holder}
-                )
+            # rprint("self.yaml_dict[", self.yaml_dict)
+            # if srcdocs_parent is None:
+            #     self.yaml_dict["nav"].append({catname: catname_holder})
+            # else:
+            #     self.yaml_dict["nav"][1][srcdocs_parent].append(
+            #         {catname: catname_holder}
+            #     )
+            srcdoc_dict["nav"].append({catname: catname_holder})
+
+        rprint("\n\navdict", self.yaml_dict["navdict"])
+        rprint("\n\nsrcdoc_dict", srcdoc_dict)
+
+        self.yaml_dict["navdict"].update(srcdoc_dict)
+
+        rprint("\n\nnavdict2", self.yaml_dict["navdict"])
+        # sys.exit(42)
 
     def gen_mkdocs_yaml(self, catname_2mdfile_dict):
         """
