@@ -6,6 +6,7 @@ MkDocs site. It is the main entry point for the code in this repo.
 import sentry_sdk
 
 from bashautodoc.config import Config
+from bashautodoc.setup_docs_project import SetupDocsProject
 
 sentry_sdk.init(
     dsn="https://4b9aa1ef8464e2e3522cc9dc3d4b5a19@o4506486318563328.ingest.sentry.io/4506486328655872",
@@ -92,34 +93,34 @@ class Launcher:
         # TODO: sort out this hacky code
         self.yaml_dict["navdict"] = {"nav": []}
 
-    def setup_docs_project(self):
-        """
-        Set up the docs project by copying shell source files and custom CSS
-        to the project directory.
-        """
-        hfile.rmdir_if_exists(target=self.cnf.project_docs_dir)
-        hfile.mkdir_if_notexists(target=self.cnf.project_docs_dir)
+    # def setup_docs_project(self):
+    #     """
+    #     Set up the docs project by copying shell source files and custom CSS
+    #     to the project directory.
+    #     """
+    #     hfile.rmdir_if_exists(target=self.cnf.project_docs_dir)
+    #     hfile.mkdir_if_notexists(target=self.cnf.project_docs_dir)
 
-        ### make undefined category directory
-        hfile.mkdir_if_notexists(target=self.cnf.undef_category_dir)
-        hfile.mkdir_if_notexists(target=self.cnf.undef_category_dir_hwdocs)
+    #     ### make undefined category directory
+    #     hfile.mkdir_if_notexists(target=self.cnf.undef_category_dir)
+    #     hfile.mkdir_if_notexists(target=self.cnf.undef_category_dir_hwdocs)
 
-        hfile.copy_dir(
-            source="custom_assets/custom_css",
-            target=self.cnf.project_css_dir,
-        )
-        hfile.copy_dir(source=self.cnf.shell_srcdir, target=self.cnf.project_docs_dir)
+    #     hfile.copy_dir(
+    #         source="custom_assets/custom_css",
+    #         target=self.cnf.project_css_dir,
+    #     )
+    #     hfile.copy_dir(source=self.cnf.shell_srcdir, target=self.cnf.project_docs_dir)
 
-        # TODO: sort this out later
-        LOG.info("Copying additional markdown files")
-        # for mdsrc, mddest in self.classmethod"additional_mdfiles").items():
-        #     hfile.copy_file(source=mdsrc, target=f"{self.cnf.project_docs_dir}/{mddest}")
+    #     # TODO: sort this out later
+    #     LOG.info("Copying additional markdown files")
+    #     # for mdsrc, mddest in self.classmethod"additional_mdfiles").items():
+    #     #     hfile.copy_file(source=mdsrc, target=f"{self.cnf.project_docs_dir}/{mddest}")
 
-        if self.cnf.handwritten_docs_dir:
-            hfile.copy_dir(
-                source=self.cnf.handwritten_docs_dir,
-                target=self.cnf.handwritten_docs_outdir,
-            )
+    #     if self.cnf.handwritten_docs_dir:
+    #         hfile.copy_dir(
+    #             source=self.cnf.handwritten_docs_dir,
+    #             target=self.cnf.handwritten_docs_outdir,
+    #         )
 
     def mkdocs_add_handwrittendocs_to_nav(self):
         create_hwdocs = CreateHandwrittenDocs(
@@ -297,65 +298,16 @@ class Launcher:
         """
         Main routine for setting up the docs project, processing shell files, and creating the MkDocs site.
         """
-        self.setup_docs_project()
 
-        # TODO: sort out using arbitrary directory
-        # os.chdir(self.cnf.project_reldir)
-
-        if self.cnf.handwritten_docs_dir:
-            LOG.info("Processing handwritten doc files")
-            hwdocs_rpaths = hfile.multiglob_dir_search(
-                search_path=self.cnf.handwritten_docs_outdir,
-                glob_patt_list=self.cnf.docs_glob_patterns,
-            )
-            LOG.debug("hwdocs_rpaths: %s", hwdocs_rpaths)
-
-            # TODO: move exclusion_patterns_src into class init
-            strict_exclusion_patterns_docs = [
-                patt for patt in self.cnf.exclusion_patterns_docs
-            ]
-            LOG.debug(
-                "strict_exclusion_patterns_docs: %s", strict_exclusion_patterns_docs
-            )
-
-            clean_hwdocs_rpaths = hfile.filter_paths_excluding_patterns(
-                path_list=hwdocs_rpaths,
-                exclusion_patterns_src=strict_exclusion_patterns_docs,
-            )
-            LOG.debug("clean_hwdocs_rpaths: %s", clean_hwdocs_rpaths)
-            # sys.exit(42)
-
-            # self.mkdocs_add_srcdocs_to_nav(self, catname_2mdfile_dict)
-
-        LOG.info("Processing shell source files")
-        if self.check_singlefile is None:
-            src_absolute_path_list = hfile.multiglob_dir_search(
-                search_path=self.cnf.project_docs_dir,
-                glob_patt_list=self.cnf.shell_glob_patterns,
-            )
-        else:
-            LOG.warning("Checking single file")
-            src_absolute_path_list = [self.check_singlefile]
-
-        LOG.debug("src_absolute_path_list: %s", src_absolute_path_list)
-
-        # TODO: move exclusion_patterns_src into class init
-        strict_exclusion_patterns_src = [
-            f"/{patt}/" for patt in self.cnf.exclusion_patterns_src
-        ]
-        LOG.debug("strict_exclusion_patterns_src: %s", strict_exclusion_patterns_src)
-
-        srcfiles_rpath = hfile.replace_substr_in_paths(
-            input_paths=src_absolute_path_list,
-            replace_path=self.cnf.program_root_dir,
+        setup_docs_project = SetupDocsProject(
+            cnf=self.cnf, check_singlefile=self.check_singlefile
         )
-        LOG.info("srcfiles_rpath: %s", srcfiles_rpath)
+        rpaths = setup_docs_project.main()
 
-        clean_srcfiles_rpaths = hfile.filter_paths_excluding_patterns(
-            path_list=srcfiles_rpath,
-            exclusion_patterns_src=strict_exclusion_patterns_src,
-        )
-        LOG.debug("clean_srcfiles_rpaths: %s", clean_srcfiles_rpaths)
+        clean_hwdocs_rpaths = rpaths["clean_hwdocs_rpaths"]
+        clean_srcfiles_rpaths = rpaths["clean_srcfiles_rpaths"]
+
+        ###########################self.mkdocs_add_srcdocs_to_nav(self, catname_2mdfile_dict)
 
         shell_src_preprocessor = ShellSrcPreProcessor(
             self.cnf,
