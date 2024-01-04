@@ -8,7 +8,7 @@ and the project documentation directory. It organizes markdown files into
 subdirectories, processes functions and aliases, and writes out the markdown file.
 
 Example:
-    writer = Sh2MdFileWriter(conf="config",
+    writer = Sh2MdFileWriter(cnf="config",
                              cite_about="about citation",
                              func_text_dict={},
                              func_dep_dict={},
@@ -34,7 +34,7 @@ class Sh2MdFileWriter:
 
     def __init__(
         self,
-        conf,
+        cnf,
         funcdata,
         srcdata,
         srcfile_rpath,
@@ -43,7 +43,7 @@ class Sh2MdFileWriter:
         Initialize the Shell2MdFileWriter.
 
         Args:
-            conf (str): Configuration information.
+            cnf (str): Configuration information.
             cite_about (str): About citation.
             func_text_dict (dict): Dictionary of function names and their code.
             func_dep_dict (dict): Dictionary of function dependencies.
@@ -52,7 +52,7 @@ class Sh2MdFileWriter:
             project_docs_dir (str): Directory path for project documentation.
 
         Example:
-            writer = Shell2MdFileWriter(conf="config",
+            writer = Shell2MdFileWriter(cnf="config",
                                         cite_about="about citation",
                                         func_text_dict={},
                                         func_dep_dict={},
@@ -60,7 +60,7 @@ class Sh2MdFileWriter:
                                         srcfile_path="file1",
                                         project_docs_dir="docs/")
         """
-        self.conf = conf
+        self.cnf = cnf
         #
         self.cite_about = funcdata.cite_about
         self.func_text_dict = funcdata.func_text_dict
@@ -71,13 +71,13 @@ class Sh2MdFileWriter:
         #
         self.srcfile_rpath = srcfile_rpath
 
-        self.project_docs_dir = self.conf["project_docs_dir"]
-        # self.undef_category_dir = self.conf["undef_category_dir"]
+        self.cnf.project_docs_dir = self.cnf["project_docs_dir"]
+        # self.cnf.undef_category_dir = self.cnf["undef_category_dir"]
 
-        # self.shell_glob_patterns = self.conf.get("shell_glob_patterns")
-        # self.catnames_src = self.conf.get("catnames_src")
+        # self.cnf.shell_glob_patterns = self.cnf.get("shell_glob_patterns")
+        # self.catnames_src = self.cnf.get("catnames_src")
 
-        self.func_def_keywords = self.conf.get("func_def_keywords")
+        self.func_def_keywords = self.cnf.get("func_def_keywords")
         # self.cparam_sort_mapper = {
         #     ">***about***": 0,
         #     ">***group***": 1,
@@ -90,7 +90,7 @@ class Sh2MdFileWriter:
         Write the aliases section to the markdown file.
 
         Example:
-            writer = Shell2MdFileWriter(conf="config",
+            writer = Shell2MdFileWriter(cnf="config",
                                         cite_about="about citation",
                                         func_text_dict={},
                                         func_dep_dict={},

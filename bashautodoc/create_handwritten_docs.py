@@ -14,14 +14,14 @@ LOG = logging.getLogger(__name__)
 
 
 class CreateHandwrittenDocs:
-    def __init__(self, conf, handwritten_docs_dir) -> None:
-        self.conf = conf
-        self.handwritten_docs_dir = handwritten_docs_dir
+    def __init__(self, cnf, handwritten_docs_dir) -> None:
+        self.cnf = cnf
+        self.cnf.handwritten_docs_dir = handwritten_docs_dir
         self.handwritten_docs_infiles = []
 
         # self.catname_2mdfile_dict = defaultdict(list)
 
-        rprint("handwritten_docs_dir", self.handwritten_docs_dir)
+        rprint("handwritten_docs_dir", self.cnf.handwritten_docs_dir)
         # sys.exit(42)
         # self.rst_files = []
 
@@ -31,11 +31,11 @@ class CreateHandwrittenDocs:
         """
 
         LOG.info("Converting rst files to mdfiles.\nThis may take a while...")
-        rst2myst_configfile = self.conf.get("rst2myst_configfile")
+        rst2myst_configfile = self.cnf.get("rst2myst_configfile")
 
         rst_glob = "{,**/}*.rst"
         myst_comm = (
-            f"bash -O extglob -c 'rst2myst convert --replace-files --config {rst2myst_configfile} {self.handwritten_docs_dir}/"
+            f"bash -O extglob -c 'rst2myst convert --replace-files --config {rst2myst_configfile} {self.cnf.handwritten_docs_dir}/"
             + rst_glob
             + "'"
         )
@@ -52,12 +52,12 @@ class CreateHandwrittenDocs:
         # sys.exit(42)
 
         rst2md_mainroutine(
-            conf=self.conf, hwdocs_search_path="./docs_bash-it/docs/docshw/"
+            cnf=self.cnf, hwdocs_search_path="./docs_bash-it/docs/docshw/"
         )
 
         ##################################################
         hwdocs_infiles = hfile.multiglob_dir_search(
-            search_path=self.handwritten_docs_dir,
+            search_path=self.cnf.handwritten_docs_dir,
             glob_patt_list=["*.md"],
         )
 
@@ -69,10 +69,10 @@ class CreateHandwrittenDocs:
         # for docfile_rpath in self.handwritten_docs_infiles:
         #     docdata = FilepathDatahandler(
         #         infile_rpath=docfile_rpath,
-        #         glob_patterns=self.conf.get("docs_glob_patterns"),
+        #         glob_patterns=self.cnf.get("docs_glob_patterns"),
         #         replace_str=".md",
-        #         category_names=self.conf.get("catnames_docs"),
-        #         undef_category_dir=self.conf.get("undef_category_dir_hwdocs"),
+        #         category_names=self.cnf.get("catnames_docs"),
+        #         undef_category_dir=self.cnf.get("undef_category_dir_hwdocs"),
         #         is_undef=None,
         #         leave_original_dir_structure=True,
         #     )
@@ -87,7 +87,7 @@ class CreateHandwrittenDocs:
 
         #     #     ##################################################
         #     #     # rst_and_md2_md_file_writer = RstandM2MdFileWriter(
-        #     #     #     conf=self.conf,
+        #     #     #     cnf=self.cnf,
         #     #     #     docdata=docdata,
         #     #     # )
         #     #     # rst_and_md2_md_file_writer.process_hwdocs()
@@ -99,7 +99,7 @@ class CreateHandwrittenDocs:
         #     )
 
         table_of_contents_processor = MdToc2YamlProcessor(
-            conf=self.conf,
+            cnf=self.cnf,
             search_path="docs_bash-it/docs/docshw/",
         )
         catname_2mdfile_dict = table_of_contents_processor.main()

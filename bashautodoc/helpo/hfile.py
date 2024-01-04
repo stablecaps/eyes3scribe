@@ -4,6 +4,7 @@ import pathlib
 import shutil
 from os.path import relpath
 
+from dotmap import DotMap
 from rich import print as rprint
 from ruamel.yaml import YAML
 
@@ -18,23 +19,23 @@ LOG = logging.getLogger(__name__)
 yaml = YAML(typ="safe")
 
 
-def load_yaml_file2dict(filename):
+def load_yaml_file2dotmap(filename):
     """
-    Load a YAML file into a dictionary.
+    Load a YAML file into a Dotmap.
 
     Args:
         filename (str): The name of the YAML file.
 
     Returns:
-        dict: The loaded YAML data.
+        Dotmap: The loaded YAML data.
 
     Example:
-        yaml_data = load_yaml_file2dict("config.yaml")
+        yaml_data = load_yaml_file2dotmap("config.yaml")
     """
     with open(filename, "r", encoding="iso-8859-1") as yaml_path:
         yaml_data = yaml.load(yaml_path)
         LOG.info("yaml_data: %s", yaml_data)
-    return yaml_data
+    return DotMap(yaml_data)
 
 
 def dump_yaml_file(

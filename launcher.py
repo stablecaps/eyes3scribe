@@ -1,9 +1,11 @@
 """
-This module contains the GenMkdocsSite class which is used to generate a
+This module contains the Launcher class which is used to generate a
 MkDocs site. It is the main entry point for the code in this repo.
 """
 
 import sentry_sdk
+
+from bashautodoc.config import Config
 
 sentry_sdk.init(
     dsn="https://4b9aa1ef8464e2e3522cc9dc3d4b5a19@o4506486318563328.ingest.sentry.io/4506486328655872",
@@ -22,6 +24,8 @@ import logging
 import os
 import sys
 
+# TODO: sort out import Dotmap
+from dotmap import DotMap
 from rich import print as rprint
 
 from bashautodoc.create_handwritten_docs import CreateHandwrittenDocs
@@ -48,16 +52,16 @@ LOG.addHandler(ch)
 # 6. subprocess mkdocs build
 
 
-class GenMkdocsSite:
+class Launcher:
     """
-    The GenMkdocsSite class takes a site configuration name and an optional
+    The Launcher class takes a site configuration name and an optional
     debug flag as input. It provides methods to set up the docs project,
     process shell files, and create the MkDocs site.
     """
 
     def __init__(self, site_confname, build_serve, check_singlefile, debug=False):
         """
-        Initialize the GenMkdocsSite class.
+        Initialize the Launcher class.
 
         Args:
             site_confname (str): The name of the site configuration.
@@ -65,196 +69,61 @@ class GenMkdocsSite:
             check_singlefile (str): The path of a single shell source file to debug.
             debug (bool, optional): If True, debug information will be printed. Defaults to False.
         """
-        self.site_confname = site_confname
+        # self.site_confname = site_confname
         self.build_serve = build_serve
         self.check_singlefile = check_singlefile
         self.debug = debug
 
-        LOG.info("Loading config: %s", self.site_confname)
-        self.conf = hfile.load_yaml_file2dict(filename=site_confname)
-        self.check_config()
+        self.cnf = Config(site_confname)
 
-        LOG.info("conf: %s", self.conf)
+        LOG.info("conf: %s", self.cnf)
 
-        self.shell_glob_patterns = self.conf.get("shell_glob_patterns")
-        if self.shell_glob_patterns is None:
-            self.shell_glob_patterns = ["*.sh"]
-            self.conf["shell_glob_patterns"] = ["*.sh"]
+        self.yaml_dict = {}
+        for key, value in self.cnf.items():
+            if key not in self.cnf.bashautodoc_keys:
+                if isinstance(value, DotMap):
+                    self.yaml_dict[key] = value.toDict()
+                else:
+                    self.yaml_dict[key] = value
 
-        self.docs_glob_patterns = self.conf.get("docs_glob_patterns")
-        if self.docs_glob_patterns is None:
-            self.shell_glob_patterns = ["*.md"]
-            self.conf["shell_gldocs_glob_patternsob_patterns"] = ["*.md"]
-
-        LOG.info("Using shell_glob_patterns: %s", self.shell_glob_patterns)
-        LOG.info("Using docs_glob_patterns: %s", self.docs_glob_patterns)
-
-        ### Set paths
-        self.program_root_dir = os.path.abspath(".")
-        # TODO: allow project_reldir to be initiated anywhere
-        self.project_name = self.conf.get("project_name")
-        self.project_absdir = os.path.abspath(self.project_name)
-        self.project_reldir = f"{os.path.relpath(self.project_name)}"
-        self.project_docs_dir = f"{self.project_reldir}/docs"
-        self.project_css_dir = f"{self.project_docs_dir}/custom_css/"
-        self.undef_category_dir = f"{self.project_docs_dir}/undef"
-        self.undef_category_dir_hwdocs = f"{self.project_docs_dir}/docshw/undef"
-        self.handwritten_docs_dir = self.conf["handwritten_docs_dir"]
-        self.handwritten_docs_outdir = f"./{self.project_docs_dir}/docshw"
-
-        self.exclusion_patterns_src = self.conf.get("exclusion_patterns_src")
-        self.exclusion_patterns_docs = self.conf.get("exclusion_patterns_docs")
-
-        self.conf["program_root_dir"] = self.program_root_dir
-        self.conf["project_reldir"] = self.project_reldir
-        self.conf["project_docs_dir"] = self.project_docs_dir
-        self.conf["project_css_dir"] = self.project_css_dir
-        self.conf["undef_category_dir"] = self.undef_category_dir
-        self.conf["undef_category_dir_hwdocs"] = self.undef_category_dir_hwdocs
-
-        self.conf["catnames_src"].append("undef")
-        self.conf["catnames_docs"].append("undef")
-
-        self.conf_bashautodoc_keys = [
-            "project_name",
-            "program_root_dir",
-            "project_reldir",
-            "project_docs_dir",
-            "project_css_dir",
-            "undef_category_dir",
-            "undef_category_dir_hwdocs",
-            "shell_srcdir",
-            "shell_glob_patterns",
-            "exclusion_patterns_src",
-            "additional_mdfiles",
-            "catnames_src",
-            "catnames_docs",
-            "nav_codedocs_as_ref_or_main",
-            "nav_codedocs_name",
-            "handwritten_docs_dir",
-            "docs_glob_patterns",
-            "exclusion_patterns_docs",
-            "rst2myst_configfile",
-        ]
-
-        self.conf["func_def_keywords"] = [
-            "about",
-            "group",
-            "param",
-            "example",
-        ]
-
-        self.yaml_dict = {
-            key: value
-            for (key, value) in self.conf.items()
-            if key not in self.conf_bashautodoc_keys
-        }
+        rprint("self.yaml_dict", self.yaml_dict)
+        # sys.exit(42)
 
         # TODO: sort out this hacky code
         self.yaml_dict["navdict"] = {"nav": []}
-
-        LOG.info("project_name: %s", self.project_name)
-        LOG.info("program_root_dir: %s", self.program_root_dir)
-        LOG.info("project_reldir: %s", self.project_reldir)
-        LOG.info("project_docs_dir: %s", self.project_docs_dir)
-        LOG.info("project_css_dir: %s", self.project_css_dir)
-        LOG.info("undef_category_dir: %s", self.undef_category_dir)
-        LOG.info(
-            "undef_category_dir_hwdocs: %s",
-            self.undef_category_dir_hwdocs,
-        )
-
-        LOG.info("handwritten_docs_dir: %s", self.handwritten_docs_dir)
-        LOG.info("handwritten_docs_outdir: %s", self.handwritten_docs_outdir)
-        LOG.info("exclusion_patterns_src: %s", self.exclusion_patterns_src)
-        LOG.info("exclusion_patterns_docs: %s", self.exclusion_patterns_docs)
-
-        self.exclusion_patterns_docs
-
-    def check_config(self):
-        """
-        Check the configuration for errors.
-        """
-        LOG.info("Checking config...")
-
-        expected_keys = {
-            "project_name": None,
-            "site_name": None,
-            "site_url": None,
-            "site_author": None,
-            "repo_url": None,
-            "shell_srcdir": None,
-            "catnames_src": None,
-            "nav_codedocs_as_ref_or_main": ["ref", "main"],
-        }
-
-        current_conf_keys = list(self.conf.keys())
-
-        for ckey in list(expected_keys.keys()):
-            cvalue = self.conf.get(ckey)
-            if ckey not in current_conf_keys:
-                LOG.error(
-                    "Error: Missing key <%s> in config file: <%s>\nExiting..",
-                    ckey,
-                    self.site_confname,
-                )
-                sys.exit(42)
-
-            expected_key_value = expected_keys.get(ckey)
-
-            if isinstance(expected_key_value, list):
-                if cvalue not in expected_key_value:
-                    LOG.error(
-                        "Error: Key <%s> in config file: <%s> has unexpected value <%s>\nOptions are: <%s>\nExiting..",
-                        ckey,
-                        self.site_confname,
-                        cvalue,
-                        expected_key_value,
-                    )
-                    sys.exit(42)
-
-            if self.conf.get(ckey) is None:
-                LOG.error(
-                    "Error: Key <%s> in config file: <%s> has no value\nExiting..",
-                    ckey,
-                    self.site_confname,
-                )
-                sys.exit(42)
 
     def setup_docs_project(self):
         """
         Set up the docs project by copying shell source files and custom CSS
         to the project directory.
         """
-        hfile.rmdir_if_exists(target=self.project_docs_dir)
-        hfile.mkdir_if_notexists(target=self.project_docs_dir)
+        hfile.rmdir_if_exists(target=self.cnf.project_docs_dir)
+        hfile.mkdir_if_notexists(target=self.cnf.project_docs_dir)
 
         ### make undefined category directory
-        hfile.mkdir_if_notexists(target=self.undef_category_dir)
-        hfile.mkdir_if_notexists(target=self.undef_category_dir_hwdocs)
+        hfile.mkdir_if_notexists(target=self.cnf.undef_category_dir)
+        hfile.mkdir_if_notexists(target=self.cnf.undef_category_dir_hwdocs)
 
         hfile.copy_dir(
             source="custom_assets/custom_css",
-            target=f"{self.project_css_dir}",
+            target=self.cnf.project_css_dir,
         )
-        hfile.copy_dir(
-            source=f'{self.conf.get("shell_srcdir")}', target=self.project_docs_dir
-        )
+        hfile.copy_dir(source=self.cnf.shell_srcdir, target=self.cnf.project_docs_dir)
 
         # TODO: sort this out later
         LOG.info("Copying additional markdown files")
-        # for mdsrc, mddest in self.conf.get("additional_mdfiles").items():
-        #     hfile.copy_file(source=mdsrc, target=f"{self.project_docs_dir}/{mddest}")
+        # for mdsrc, mddest in self.classmethod"additional_mdfiles").items():
+        #     hfile.copy_file(source=mdsrc, target=f"{self.cnf.project_docs_dir}/{mddest}")
 
-        if self.handwritten_docs_dir:
+        if self.cnf.handwritten_docs_dir:
             hfile.copy_dir(
-                source=f'{self.conf.get("handwritten_docs_dir")}',
-                target=self.handwritten_docs_outdir,
+                source=self.cnf.handwritten_docs_dir,
+                target=self.cnf.handwritten_docs_outdir,
             )
 
     def mkdocs_add_handwrittendocs_to_nav(self):
         create_hwdocs = CreateHandwrittenDocs(
-            conf=self.conf, handwritten_docs_dir=self.handwritten_docs_outdir
+            cnf=self.cnf, handwritten_docs_dir=self.cnf.handwritten_docs_outdir
         )
         catname_2mdfile_dict = create_hwdocs.create_hwdocs()
         rprint("catname_2mdfile_dict", catname_2mdfile_dict)
@@ -273,12 +142,14 @@ class GenMkdocsSite:
         # TODO: fix hacky copy/replace docs dir
 
         # sys.exit(42)
+        hfile.rmdir_if_exists(target="docs_bash-it/docs_temp")
         hfile.move_files_and_dirs(
             source="docs_bash-it/docs/docshw", target="docs_bash-it/docs_temp"
         )
         hfile.move_files_and_dirs(
             source="docs_bash-it/docs/custom_css", target="docs_bash-it/custom_css_temp"
         )
+        # sys.exit(42)
         hfile.rmdir_if_exists(target="docs_bash-it/docs")
         hfile.move_files_and_dirs(
             source="docs_bash-it/docs_temp", target="docs_bash-it/docs"
@@ -289,7 +160,7 @@ class GenMkdocsSite:
 
         # sys.exit(42)
 
-        # for catname in ["docshw"]:  # self.conf.get("catnames_docs"):
+        # for catname in ["docshw"]:  # self.classmethod"catnames_docs"):
         #     LOG.debug("catname: %s", catname)
 
         #     cat_mdoutfiles_rpaths = sorted(catname_2mdfile_dict.get(catname))
@@ -299,9 +170,9 @@ class GenMkdocsSite:
         #         print("mdoutfile_rpath", mdoutfile_rpath)
         #         page_name = mdoutfile_rpath.replace(".md", "").split("/")[-1]
         #         mdoutfile_routepath = mdoutfile_rpath.replace(
-        #             f"{self.project_docs_dir}", "."
+        #             f"{self.cnf.project_docs_dir}", "."
         #         )
-        #         print("self.project_docs_dir", self.project_docs_dir)
+        #         print("self.cnf.project_docs_dir", self.cnf.project_docs_dir)
         #         print("mdoutfile_routepath", mdoutfile_routepath)
         #         # sys.exit(42)
         #         page_path_map = {page_name: mdoutfile_routepath}
@@ -322,7 +193,7 @@ class GenMkdocsSite:
         #     docfilename,
         # ) = hfile.get_src_reldir_and_filename(
         #     file_rpath=docfile_rpath,
-        #     glob_patterns=self.conf.get("docs_glob_patterns"),
+        #     glob_patterns=self.classmethod"docs_glob_patterns"),
         #     replace_str=".md",
         # )
 
@@ -338,12 +209,12 @@ class GenMkdocsSite:
         # sys.exit(42)
 
         # TODO: re-enable optional srcdocs nesting once things are refactored
-        # ref_or_main_raw = self.conf.get("nav_codedocs_as_ref_or_main")
+        # ref_or_main_raw = self.classmethod"nav_codedocs_as_ref_or_main")
         # ref_or_main = ref_or_main_raw if ref_or_main_raw else "main"
 
-        # nav_codedocs_name_raw = self.conf.get("nav_codedocs_name")
+        # nav_codedocs_name_raw = self.classmethod"nav_codedocs_name")
         # nav_codedocs_name = (
-        #     nav_codedocs_name_raw if self.conf.get("nav_codedocs_name") else "Code-Docs"
+        #     nav_codedocs_name_raw if self.classmethod"nav_codedocs_name") else "Code-Docs"
         # )
 
         # if ref_or_main == "main":
@@ -362,7 +233,7 @@ class GenMkdocsSite:
         # sys.exit(42)
 
         srcdoc_dict = {"nav": [{"Reference": []}]}
-        for catname in self.conf.get("catnames_src"):
+        for catname in self.cnf.catnames_src:
             print("catname", catname)
             cat_mdoutfiles_rpaths = sorted(catname_2mdfile_dict.get(catname))
             catname_holder = []
@@ -372,9 +243,9 @@ class GenMkdocsSite:
                 print("mdoutfile_rpath", mdoutfile_rpath)
                 page_name = mdoutfile_rpath.replace(".md", "").split("/")[-1]
                 mdoutfile_routepath = mdoutfile_rpath.replace(
-                    f"{self.project_docs_dir}", "."
+                    f"{self.cnf.project_docs_dir}", "."
                 )
-                print("self.project_docs_dir", self.project_docs_dir)
+                print("self.cnf.project_docs_dir", self.cnf.project_docs_dir)
                 print("mdoutfile_routepath", mdoutfile_routepath)
                 # sys.exit(42)
                 page_path_map = {page_name: mdoutfile_routepath}
@@ -405,7 +276,7 @@ class GenMkdocsSite:
         LOG.info("Set generated src docs to nav")
         self.mkdocs_add_srcdocs_to_nav(catname_2mdfile_dict)
 
-        if self.conf["handwritten_docs_dir"]:
+        if self.cnf["handwritten_docs_dir"]:
             LOG.info("Set handwritten docs as main to nav")
             self.mkdocs_add_handwrittendocs_to_nav()
 
@@ -415,8 +286,9 @@ class GenMkdocsSite:
         # sys.exit(42)
 
         LOG.info("Writing mkdocs config yaml")
+
         hfile.dict2_yaml_file(
-            filename=f"{self.project_reldir}/mkdocs.yml",
+            filename=f"{self.cnf.project_reldir}/mkdocs.yml",
             yaml_dict=self.yaml_dict,
         )
         # sys.exit(42)
@@ -428,19 +300,19 @@ class GenMkdocsSite:
         self.setup_docs_project()
 
         # TODO: sort out using arbitrary directory
-        # os.chdir(self.project_reldir)
+        # os.chdir(self.cnf.project_reldir)
 
-        if self.handwritten_docs_dir:
+        if self.cnf.handwritten_docs_dir:
             LOG.info("Processing handwritten doc files")
             hwdocs_rpaths = hfile.multiglob_dir_search(
-                search_path=self.handwritten_docs_outdir,
-                glob_patt_list=self.docs_glob_patterns,
+                search_path=self.cnf.handwritten_docs_outdir,
+                glob_patt_list=self.cnf.docs_glob_patterns,
             )
             LOG.debug("hwdocs_rpaths: %s", hwdocs_rpaths)
 
             # TODO: move exclusion_patterns_src into class init
             strict_exclusion_patterns_docs = [
-                patt for patt in self.exclusion_patterns_docs
+                patt for patt in self.cnf.exclusion_patterns_docs
             ]
             LOG.debug(
                 "strict_exclusion_patterns_docs: %s", strict_exclusion_patterns_docs
@@ -458,8 +330,8 @@ class GenMkdocsSite:
         LOG.info("Processing shell source files")
         if self.check_singlefile is None:
             src_absolute_path_list = hfile.multiglob_dir_search(
-                search_path=self.project_docs_dir,
-                glob_patt_list=self.shell_glob_patterns,
+                search_path=self.cnf.project_docs_dir,
+                glob_patt_list=self.cnf.shell_glob_patterns,
             )
         else:
             LOG.warning("Checking single file")
@@ -469,13 +341,13 @@ class GenMkdocsSite:
 
         # TODO: move exclusion_patterns_src into class init
         strict_exclusion_patterns_src = [
-            f"/{patt}/" for patt in self.conf.get("exclusion_patterns_src")
+            f"/{patt}/" for patt in self.cnf.exclusion_patterns_src
         ]
         LOG.debug("strict_exclusion_patterns_src: %s", strict_exclusion_patterns_src)
 
         srcfiles_rpath = hfile.replace_substr_in_paths(
             input_paths=src_absolute_path_list,
-            replace_path=self.program_root_dir,
+            replace_path=self.cnf.program_root_dir,
         )
         LOG.info("srcfiles_rpath: %s", srcfiles_rpath)
 
@@ -486,9 +358,9 @@ class GenMkdocsSite:
         LOG.debug("clean_srcfiles_rpaths: %s", clean_srcfiles_rpaths)
 
         shell_src_preprocessor = ShellSrcPreProcessor(
-            self.conf,
+            self.cnf,
             clean_srcfiles_rpaths,
-            self.project_docs_dir,
+            self.cnf.project_docs_dir,
             debug=self.debug,
         )
         catname_2mdfile_dict = shell_src_preprocessor.run()
@@ -497,7 +369,7 @@ class GenMkdocsSite:
 
         if self.build_serve:
             LOG.warning("Building and serving local docs site")
-            os.chdir(self.project_reldir)
+            os.chdir(self.cnf.project_reldir)
             # TODO: use subprocess
             os.system("mkdocs build")
             os.system("mkdocs serve")
@@ -506,7 +378,7 @@ class GenMkdocsSite:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Gen-Bash-MkDoc",
-        usage="python gen_mkdocs_site.py --site-confname config/bashrc_stablecaps.yaml",
+        usage="python launcher.py --site-confname config/bashrc_stablecaps.yaml",
     )
 
     parser.add_argument(
@@ -542,12 +414,12 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    gen_mkdocs_site = GenMkdocsSite(
+    launcher = Launcher(
         site_confname=args.site_confname,
         build_serve=args.build_serve,
         check_singlefile=args.check_singlefile,
         debug=args.debug,
     )
-    gen_mkdocs_site.main()
+    launcher.main()
 
     LOG.info("Program Finished")

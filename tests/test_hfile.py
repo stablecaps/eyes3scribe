@@ -11,20 +11,20 @@ from bashautodoc.helpo.hfile import (
     copy_file,
     dict2_yaml_file,
     dump_yaml_file,
-    load_yaml_file2dict,
+    load_yaml_file2dotmap,
     mkdir_if_notexists,
     rmdir_if_exists,
 )
 
 
-def test_load_yaml_file2dict():
+def test_load_yaml_file2dotmap():
     # Create a temporary yaml file
     with tempfile.NamedTemporaryFile(suffix=".yaml", delete=False) as temp:
         temp.write(b"name: Test")
         temp_name = temp.name
 
     # Load the yaml file
-    result = load_yaml_file2dict(temp_name)
+    result = load_yaml_file2dotmap(temp_name)
 
     # Check the result
     assert result == {

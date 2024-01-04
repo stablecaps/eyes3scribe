@@ -30,30 +30,30 @@ LOG = logging.getLogger(__name__)
 class ShellSrcPreProcessor:
     """Preprocesses shell source files for documentation generation."""
 
-    def __init__(self, conf, clean_srcfiles_rpaths, project_docs_dir, debug=False):
+    def __init__(self, cnf, clean_srcfiles_rpaths, project_docs_dir, debug=False):
         """
         Initialize the ShellSrcPreProcessor.
 
         Args:
-            conf (str): Configuration information.
+            cnf (str): Configuration information.
             clean_srcfiles_rpaths (list): List of clean input file paths.
             project_docs_dir (str): Directory path for project documentation.
             debug (bool, optional): Enable debug mode. Defaults to False.
 
         Example:
-            preprocessor = ShellSrcPreProcessor(conf="config",
+            preprocessor = ShellSrcPreProcessor(cnf="config",
                                                 clean_srcfiles_rpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
         """
-        self.conf = conf
+        self.cnf = cnf
         self.clean_srcfiles_rpaths = clean_srcfiles_rpaths
-        self.project_docs_dir = project_docs_dir
+        self.cnf.project_docs_dir = project_docs_dir
         self.debug = debug
 
-        self.undef_category_dir = self.conf["undef_category_dir"]
+        self.cnf.undef_category_dir = self.cnf["undef_category_dir"]
 
-        self.shell_glob_patterns = self.conf.get("shell_glob_patterns")
-        self.catnames_src = self.conf.get("catnames_src")
+        self.cnf.shell_glob_patterns = self.cnf.get("shell_glob_patterns")
+        self.catnames_src = self.cnf.get("catnames_src")
 
         self.catname_2mdfile_dict = defaultdict(list)
 
@@ -65,7 +65,7 @@ class ShellSrcPreProcessor:
         dependencies, and converts shell files to markdown files.
 
         Example:
-            preprocessor = ShellSrcPreProcessor(conf="config",
+            preprocessor = ShellSrcPreProcessor(cnf="config",
                                                 clean_srcfiles_rpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
@@ -91,10 +91,10 @@ class ShellSrcPreProcessor:
             ##################################################
             srcdata = FilepathDatahandler(
                 infile_rpath=srcfile_rpath,
-                glob_patterns=self.conf.get("shell_glob_patterns"),
+                glob_patterns=self.cnf.get("shell_glob_patterns"),
                 replace_str=".md",
                 category_names=self.catnames_src,
-                undef_category_dir=self.undef_category_dir,
+                undef_category_dir=self.cnf.undef_category_dir,
                 is_undef=is_undef,
                 leave_original_dir_structure=False,
             )
@@ -107,7 +107,7 @@ class ShellSrcPreProcessor:
 
             ##################################################
             sh2_md_file_writer = Sh2MdFileWriter(
-                conf=self.conf,
+                cnf=self.cnf,
                 funcdata=funcdata,
                 srcdata=srcdata,
                 srcfile_rpath=srcfile_rpath,

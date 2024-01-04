@@ -63,8 +63,8 @@ python gen_mkdocs_site.py --help
 ## Program structure
 
 **Auto-Documatix Callgraph:**
-__(made with [Code2Flow](https://github.com/scottrogowski/code2flow))__
-![Callgraph](images/callgraph.png)
+__(made with [PyDeps](https://github.com/thebjorn/pydeps?tab=readme-ov-file#usage))__
+![PyDeps](images/launcher.svg)
 
 
 ## Contributing
@@ -139,3 +139,10 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
 4. [What is a Call Graph? And How to Generate them Automatically](https://www.freecodecamp.org/news/how-to-automate-call-graph-creation/)
 5. [Crabviz: a call graph generator for various programming languages](https://www.reddit.com/r/rust/comments/142is0h/crabviz_a_call_graph_generator_for_various/)
 6. [**Insane**: Callgraphs with Ghidra, Pyhidra, and Jpype](https://clearbluejar.github.io/posts/callgraphs-with-ghidra-pyhidra-and-jpype/)
+
+
+### Dependency analysis v2
+
+1. https://github.com/glato/emerge
+2. https://github.com/thebjorn/pydeps
+3. https://www.python.org/success-stories/building-a-dependency-graph-of-our-python-codebase/

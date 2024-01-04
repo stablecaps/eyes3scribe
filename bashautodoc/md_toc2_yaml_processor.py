@@ -15,14 +15,15 @@ LOG = logging.getLogger(__name__)
 # TODO: refactor the hell out of this ;o)
 # TODO: sort out conversion of relative paths sooner
 class MdToc2YamlProcessor:
-    def __init__(self, conf, search_path) -> None:
+    def __init__(self, cnf, search_path) -> None:
         ### For every mdfile
         # 1. establish if it has a TOC
         # 2. Map the hierarchy of nav-doc links via the TOC
         # 3. We will use the anchor "## Table of Contents" to find md TOC
 
-        self.project_docs_dir = conf.get("project_docs_dir") + "/"
-        LOG.debug("project_docs_dir: %s", self.project_docs_dir)
+        # TODO: bad var name
+        self.project_docs_dir_local = cnf.project_docs_dir + "/"
+        LOG.debug("project_docs_dir: %s", self.project_docs_dir_local)
         # sys.exit(42)
         #
         self.toc_dict = {}
@@ -56,7 +57,7 @@ class MdToc2YamlProcessor:
 
     def gen_toc_dict_from_mdindex_files(self):
         for mdpath in self.mdtoc_path_list:
-            mdpath_rel = mdpath.replace(self.project_docs_dir, "")
+            mdpath_rel = mdpath.replace(self.project_docs_dir_local, "")
             file_text = hfile.read_file_2string(filepath=mdpath)
             table_of_contents = (
                 hstrops.extract_lines_between_start_and_end_blank_line_tag(
@@ -97,7 +98,7 @@ class MdToc2YamlProcessor:
             rprint("mdpath", mdpath)
             for file_path2, toc_links2 in self.toc_dict.items():
                 rprint("file_path2", file_path2)
-                mdpath_rel = mdpath.replace(self.project_docs_dir, "")
+                mdpath_rel = mdpath.replace(self.project_docs_dir_local, "")
                 if mdpath_rel in toc_links2:
                     self.hierarchy_dict[file_path2].append(mdpath_rel)
                     break
@@ -129,7 +130,7 @@ class MdToc2YamlProcessor:
                         yaml2_sublist.append(
                             {
                                 link.split("/")[-1].replace(".md", ""): link.replace(
-                                    self.project_docs_dir, ""
+                                    self.project_docs_dir_local, ""
                                 )
                             }
                         )
@@ -141,7 +142,7 @@ class MdToc2YamlProcessor:
                     new_link_list.append(
                         {
                             md_link.split("/")[-1].replace(".md", ""): md_link.replace(
-                                self.project_docs_dir, ""
+                                self.project_docs_dir_local, ""
                             )
                         }
                     )

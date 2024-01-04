@@ -61,7 +61,7 @@ class FunctionDatahandler:
             str: Processed alias string.
 
         Example:
-            preprocessor = ShellSrcPreProcessor(conf="config",
+            preprocessor = ShellSrcPreProcessor(cnf="config",
                                                 clean_srcfiles_rpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)
@@ -99,7 +99,7 @@ class FunctionDatahandler:
                    about citation, and function text dictionary.
 
         Example:
-            preprocessor = ShellSrcPreProcessor(conf="config",
+            preprocessor = ShellSrcPreProcessor(cnf="config",
                                                 clean_srcfiles_rpaths=["file1", "file2"],
                                                 project_docs_dir="docs/",
                                                 debug=True)

@@ -37,8 +37,8 @@ class Rst2MdDataHolder:
 
 
 class Rst2MdConverter1Toc:
-    def __new__(cls, conf, hwdoc_rpath) -> None:
-        cls.project_docs_dir = conf.get("project_docs_dir") + "/"
+    def __new__(cls, cnf, hwdoc_rpath) -> None:
+        cls.project_docs_dir = cnf.get("project_docs_dir") + "/"
         cls.hwdoc_rpath = hwdoc_rpath
         LOG.debug("hwdoc_rpath: %s", cls.hwdoc_rpath)
 
@@ -196,7 +196,7 @@ anchorend_detail_map_all = {}
 anchorend_fast_map_all = {}
 
 
-def rst2md_mainroutine(conf, hwdocs_search_path):
+def rst2md_mainroutine(cnf, hwdocs_search_path):
     hwdoc_rpaths = hfile.multiglob_dir_search(
         search_path=hwdocs_search_path,
         glob_patt_list=["*.md"],
@@ -211,7 +211,7 @@ def rst2md_mainroutine(conf, hwdocs_search_path):
 
     for hwdoc_rpath in hwdoc_rpaths:
         r2m = Rst2MdConverter1Toc(
-            conf=conf,
+            cnf=cnf,
             hwdoc_rpath=hwdoc_rpath,
         )
 
