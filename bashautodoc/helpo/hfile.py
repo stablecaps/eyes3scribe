@@ -145,7 +145,7 @@ def copy_file(source, target):
     LOG.info("Copied: %s --> %s", source, target)
 
 
-def move_file(source, target):
+def move_files_and_dirs(source, target):
     shutil.move(source, target)
 
     LOG.info("Moved: %s --> %s", source, target)

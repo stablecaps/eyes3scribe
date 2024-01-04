@@ -77,7 +77,7 @@ class CreateHandwrittenDocs:
         #         leave_original_dir_structure=True,
         #     )
 
-        #     # hfile.move_file(
+        #     # hfile.move_files_and_dirs(
         #     #     source=docdata.infile_rpath,
         #     #     target=docdata.outfile_rpath,
         #     # )

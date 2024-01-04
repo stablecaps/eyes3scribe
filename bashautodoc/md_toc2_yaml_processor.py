@@ -27,7 +27,7 @@ class MdToc2YamlProcessor:
         #
         self.toc_dict = {}
         self.hierarchy_dict = defaultdict(list)
-        self.final_dict = {}
+        self.navbar_dict = {}
 
         self.mdtoc_path_list = hfile.flatten_list(
             nested_list=hfile.find_files_with_grep_patt(
@@ -103,18 +103,18 @@ class MdToc2YamlProcessor:
                     break
         rprint("\nhierarchy_dict", self.hierarchy_dict)
 
-    def construct_final_dict(self):
+    def construct_navbar_dict(self):
         for key, link_list in sorted(
             self.hierarchy_dict.items(), key=lambda x: len(x[1]), reverse=True
         ):
             rprint("link_list", link_list)
 
-            self.final_dict[key] = self.toc_dict[key]
-            rprint("final_dict", self.final_dict)
+            self.navbar_dict[key] = self.toc_dict[key]
+            rprint("navbar_dict", self.navbar_dict)
             # sys.exit(42)
 
             new_link_list = []
-            for md_link in self.final_dict[key]:
+            for md_link in self.navbar_dict[key]:
                 if md_link in link_list:
                     rprint("md_link", md_link)
                     # sys.exit(42)
@@ -145,8 +145,8 @@ class MdToc2YamlProcessor:
                             )
                         }
                     )
-            self.final_dict[key] = new_link_list
-        rprint("final_dict", self.final_dict)
+            self.navbar_dict[key] = new_link_list
+        rprint("navbar_dict", self.navbar_dict)
 
     def main(self):
         self.gen_toc_dict_from_mdindex_files()
@@ -161,7 +161,48 @@ class MdToc2YamlProcessor:
         self.order_indexes_in_toc_dict()
         # sys.exit(42)
 
-        self.construct_final_dict()
+        self.construct_navbar_dict()
         # sys.exit(42)
 
-        return self.final_dict
+        #####################
+        walk_nested_dicts_with_lists(obj=self.navbar_dict)
+
+        print("#####################")
+        self.navbar_cleaned_dict = {"nav": []}
+        for key, values in self.navbar_dict.items():
+            if key == "docshw/index.md":
+                key_home = "Home"
+                self.navbar_cleaned_dict["nav"].append({key_home: "index.md"})
+                if isinstance(values, list):
+                    for kvdict in values:
+                        for k, v in kvdict.items():
+                            self.navbar_cleaned_dict["nav"].append({k: v})
+
+            else:
+                key_renamed = key.replace("docshw/", "")
+                self.navbar_cleaned_dict["nav"].append({key_renamed: values})
+
+        for key, values in self.navbar_cleaned_dict.items():
+            rprint("**", key, values)
+
+        rprint("\nnavbar_cleaned_dict", self.navbar_cleaned_dict)
+        # sys.exit(42)
+
+        return self.navbar_cleaned_dict
+
+
+def walk_nested_dicts_with_lists(obj):
+    if isinstance(obj, list):  # could replace with collections.abc.MutableSequence
+        myiterable = enumerate(obj)
+    elif isinstance(obj, dict):  # could replace with collections.abc.MutableMapping
+        myiterable = obj.items()
+    else:
+        return  # don't iterate -- pass back up
+
+    for key, value in myiterable:
+        if isinstance(value, str):
+            # TODO: allow custiom function to be passed in using partial
+            obj[key] = value.replace("docshw/", "")
+        else:
+            walk_nested_dicts_with_lists(value)
+    return obj
