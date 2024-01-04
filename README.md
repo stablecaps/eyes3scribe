@@ -66,10 +66,6 @@ python gen_mkdocs_site.py --help
 __(made with [PyDeps](https://github.com/thebjorn/pydeps?tab=readme-ov-file#usage))__
 ![PyDeps](images/launcher.svg)
 
-<img alt="PyDeps" src="images/launcher.svg">
-
-<a class="reference external image-reference" href="images/launcher.svg" data-wm-adjusted="done"><img alt="Atomic-Theme" src="images/launcher.svg"></a>
-
 ## Contributing
 Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
 
