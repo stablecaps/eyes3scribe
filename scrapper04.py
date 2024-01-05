@@ -12,7 +12,7 @@ LOG = logging.getLogger(__name__)
 mdlink_patt = re.compile(r"[- ]*\[([*a-zA-Z0-9-_]*)\]\(([A-Za-z/-0-9_.]*)")
 
 
-class MdToc2YamlProcessor:
+class GenNavbarDict:
     def __init__(self, search_path) -> None:
         ### For every mdfile
         # 1. establish if it has a TOC
@@ -54,7 +54,7 @@ class MdToc2YamlProcessor:
             table_of_contents = hstrops.get_lines_between_tag_and_blank_line(
                 file_text, start_tag="## Table of Contents"
             )
-            self.toc_dict[mdpath] = MdToc2YamlProcessor.clean_mdtoc_list(
+            self.toc_dict[mdpath] = GenNavbarDict.clean_mdtoc_list(
                 toc_mdlist=table_of_contents
             )
 
@@ -109,7 +109,5 @@ class MdToc2YamlProcessor:
 
 # Call the main function
 if __name__ == "__main__":
-    table_of_contents_processor = MdToc2YamlProcessor(
-        search_path="docs_bash-it/docs/docshw/"
-    )
+    table_of_contents_processor = GenNavbarDict(search_path="docs_bash-it/docs/docshw/")
     table_of_contents_processor.main()

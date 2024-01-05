@@ -5,7 +5,7 @@ from rich import print as rprint
 
 from bashautodoc.helpo import hfile
 from bashautodoc.helpo.hsubprocess import run_cmd_with_output
-from bashautodoc.md_toc2_yaml_processor import MdToc2YamlProcessor
+from bashautodoc.gen_navbar_dict import GenNavbarDict
 from bashautodoc.models.rst2md_datahandler import rst2md_mainroutine
 
 # from bashautodoc.rst_and_md2md_file_writer import RstandM2MdFileWriter
@@ -64,7 +64,7 @@ class GenHandwrittenDocs:
         self.handwritten_docs_infiles.extend(hwdocs_infiles)
         LOG.debug("handwritten_docs_infiles: %s", self.handwritten_docs_infiles)
 
-        table_of_contents_processor = MdToc2YamlProcessor(
+        table_of_contents_processor = GenNavbarDict(
             cnf=self.cnf,
             search_path="docs_bash-it/docs/docshw/",
         )

@@ -7,7 +7,7 @@ import sentry_sdk
 import yaml
 
 from bashautodoc.config import Config
-from bashautodoc.gen_mkdocs_site_yaml import GenMkdocsSiteYaml
+from bashautodoc.gen_mkdocs_nav_bar import GenMkdocsNavBar
 from bashautodoc.setup_docs_project import SetupDocsProject
 
 sentry_sdk.init(
@@ -129,11 +129,10 @@ class Launcher:
 
         ###################################################################
         ### Generate MkDocs yaml
-        navdict = GenMkdocsSiteYaml(
+        navdict = GenMkdocsNavBar(
             cnf=self.cnf,
             catname_2mdfile_dict=catname_2mdfile_dict,
             navbar_cleaned_dict=navbar_cleaned_dict,
-            yaml_dict=self.yaml_dict,
         )
         self.yaml_dict["nav"] = navdict["nav"]
         LOG.info("Writing mkdocs config yaml")

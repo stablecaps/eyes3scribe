@@ -5,7 +5,7 @@ from . import (
     function_call_tree,
     function_dependency_processor,
     gen_handwritten_docs,
-    md_toc2_yaml_processor,
+    gen_navbar_dict,
     regex_patterns,
     shell_2md_file_writer,
     shell_src_preprocessor,
