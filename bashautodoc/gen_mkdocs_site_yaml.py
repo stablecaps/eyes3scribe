@@ -2,7 +2,7 @@ import logging
 import os
 import sys
 
-import yaml
+
 from rich import print as rprint
 
 from bashautodoc.helpo.hfile import (
@@ -21,23 +21,19 @@ class GenMkdocsSiteYaml:
         cls.cnf = cnf
         cls.catname_2mdfile_dict = catname_2mdfile_dict
         cls.navbar_cleaned_dict = navbar_cleaned_dict
-        cls.yaml_dict = yaml_dict
-        cls.yaml_dict["navdict"] = {"nav": []}
+        # cls.yaml_dict = yaml_dict
+        cls.navdict = {"nav": []}
 
         return cls.main()
 
     @classmethod
     def mkdocs_add_handwrittendocs_to_nav(cls):
-        # cls.yaml_dict["nav"].append(catname_2mdfile_dict)
-        cls.yaml_dict["navdict"].update(cls.navbar_cleaned_dict)
-        rprint("cls.yaml_dict['navdict']", cls.yaml_dict["navdict"])
-        # sys.exit(42)
-        cls.yaml_dict["nav"] = cls.yaml_dict["navdict"]["nav"]
-
-        rprint("\n\ncls.yaml_dict['nav']", cls.yaml_dict["nav"])
+        cls.navdict.update(cls.navbar_cleaned_dict)
+        rprint("cls.navdict", cls.navdict)
         # sys.exit(42)
 
-        del cls.yaml_dict["navdict"]
+        rprint("\n\ncls.navdict['nav']", cls.navdict["nav"])
+        # sys.exit(42)
 
         # TODO: fix hacky copy/replace docs dir
 
@@ -159,12 +155,12 @@ class GenMkdocsSiteYaml:
             #     )
             srcdoc_dict["nav"].append({catname: catname_holder})
 
-        rprint("\n\navdict", cls.yaml_dict["navdict"])
+        rprint("\n\navdict", cls.navdict)
         rprint("\n\nsrcdoc_dict", srcdoc_dict)
 
-        cls.yaml_dict["navdict"].update(srcdoc_dict)
+        cls.navdict.update(srcdoc_dict)
 
-        rprint("\n\nnavdict2", cls.yaml_dict["navdict"])
+        rprint("\n\nnavdict2", cls.navdict)
         # sys.exit(42)
 
     @classmethod
@@ -176,14 +172,6 @@ class GenMkdocsSiteYaml:
         # LOG.info("Set generated src docs to nav")
         # cls.mkdocs_add_srcdocs_to_nav()
 
-        LOG.debug("cls.yaml_dict: %s", yaml.safe_dump(cls.yaml_dict))
+        rprint("cls.navdict", cls.navdict)
 
-        LOG.info("Writing mkdocs config yaml")
-        write_dict_2yaml_file(
-            filename=f"{cls.cnf.project_reldir}/mkdocs.yml",
-            yaml_dict=cls.yaml_dict,
-        )
-
-        rprint("cls.yaml_dict", cls.yaml_dict)
-
-        return cls.yaml_dict["nav"]
+        return cls.navdict

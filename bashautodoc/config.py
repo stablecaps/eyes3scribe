@@ -112,9 +112,11 @@ class Config:
     @classmethod
     def set_conf_bashautodoc_keys(cls):
         cls.cnf.bashautodoc_keys = [
+            "bashautodoc_keys",
             "project_name",
             "program_root_dir",
             "project_reldir",
+            "project_absdir",
             "project_docs_dir",
             "project_css_dir",
             "undef_category_dir",
@@ -128,9 +130,11 @@ class Config:
             "nav_codedocs_as_ref_or_main",
             "nav_codedocs_name",
             "handwritten_docs_dir",
+            "handwritten_docs_outdir",
             "docs_glob_patterns",
             "exclusion_patterns_docs",
             "rst2myst_configfile",
+            "func_def_keywords",
         ]
 
     @classmethod

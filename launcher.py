@@ -4,6 +4,7 @@ MkDocs site. It is the main entry point for the code in this repo.
 """
 
 import sentry_sdk
+import yaml
 
 from bashautodoc.config import Config
 from bashautodoc.gen_mkdocs_site_yaml import GenMkdocsSiteYaml
@@ -31,8 +32,8 @@ from dotmap import DotMap
 from rich import print as rprint
 
 from bashautodoc.gen_handwritten_docs import GenHandwrittenDocs
-from bashautodoc.helpo import hfile
 from bashautodoc.helpo.coloured_log_formatter import ColouredLogFormatter
+from bashautodoc.helpo.hfile import write_dict_2yaml_file
 from bashautodoc.shell_src_preprocessor import ShellSrcPreProcessor
 
 LOG = logging.getLogger(__name__)
@@ -82,13 +83,17 @@ class Launcher:
 
         self.yaml_dict = {}
         for key, value in self.cnf.items():
-            if key not in self.cnf.bashautodoc_keys:
+            if key in self.cnf.bashautodoc_keys:
+                rprint("opassing key", key)
+                pass
+            else:
                 if isinstance(value, DotMap):
                     self.yaml_dict[key] = value.toDict()
                 else:
                     self.yaml_dict[key] = value
 
         rprint("self.yaml_dict", self.yaml_dict)
+        # sys.exit(42)
 
     def main(self):
         """
@@ -124,13 +129,20 @@ class Launcher:
 
         ###################################################################
         ### Generate MkDocs yaml
-        self.yaml_dict["navdict"] = GenMkdocsSiteYaml(
+        navdict = GenMkdocsSiteYaml(
             cnf=self.cnf,
             catname_2mdfile_dict=catname_2mdfile_dict,
             navbar_cleaned_dict=navbar_cleaned_dict,
             yaml_dict=self.yaml_dict,
         )
-        # gen_mkdocs_site_yaml.main()
+        self.yaml_dict["nav"] = navdict["nav"]
+        LOG.info("Writing mkdocs config yaml")
+        LOG.debug("self.yaml_dict: %s", yaml.safe_dump(self.yaml_dict))
+
+        write_dict_2yaml_file(
+            filename=f"{self.cnf.project_reldir}/mkdocs.yml",
+            yaml_dict=self.yaml_dict,
+        )
 
         ### Build and serve local docs site
         if self.build_serve:
