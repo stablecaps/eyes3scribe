@@ -17,24 +17,27 @@ LOG = logging.getLogger(__name__)
 
 
 class GenMkdocsSiteYaml:
-    def __init__(self, cnf, catname_2mdfile_dict, navbar_cleaned_dict, yaml_dict):
-        self.cnf = cnf
-        self.catname_2mdfile_dict = catname_2mdfile_dict
-        self.navbar_cleaned_dict = navbar_cleaned_dict
-        self.yaml_dict = yaml_dict
-        self.yaml_dict["navdict"] = {"nav": []}
+    def __new__(cls, cnf, catname_2mdfile_dict, navbar_cleaned_dict, yaml_dict):
+        cls.cnf = cnf
+        cls.catname_2mdfile_dict = catname_2mdfile_dict
+        cls.navbar_cleaned_dict = navbar_cleaned_dict
+        cls.yaml_dict = yaml_dict
+        cls.yaml_dict["navdict"] = {"nav": []}
 
-    def mkdocs_add_handwrittendocs_to_nav(self):
-        # self.yaml_dict["nav"].append(catname_2mdfile_dict)
-        self.yaml_dict["navdict"].update(self.navbar_cleaned_dict)
-        rprint("self.yaml_dict['navdict']", self.yaml_dict["navdict"])
+        return cls.main()
+
+    @classmethod
+    def mkdocs_add_handwrittendocs_to_nav(cls):
+        # cls.yaml_dict["nav"].append(catname_2mdfile_dict)
+        cls.yaml_dict["navdict"].update(cls.navbar_cleaned_dict)
+        rprint("cls.yaml_dict['navdict']", cls.yaml_dict["navdict"])
         # sys.exit(42)
-        self.yaml_dict["nav"] = self.yaml_dict["navdict"]["nav"]
+        cls.yaml_dict["nav"] = cls.yaml_dict["navdict"]["nav"]
 
-        rprint("\n\nself.yaml_dict['nav']", self.yaml_dict["nav"])
+        rprint("\n\ncls.yaml_dict['nav']", cls.yaml_dict["nav"])
         # sys.exit(42)
 
-        del self.yaml_dict["navdict"]
+        del cls.yaml_dict["navdict"]
 
         # TODO: fix hacky copy/replace docs dir
 
@@ -55,7 +58,7 @@ class GenMkdocsSiteYaml:
 
         # sys.exit(42)
 
-        # for catname in ["docshw"]:  # self.classmethod"catnames_docs"):
+        # for catname in ["docshw"]:  # cls.classmethod"catnames_docs"):
         #     LOG.debug("catname: %s", catname)
 
         #     cat_mdoutfiles_rpaths = sorted(catname_2mdfile_dict.get(catname))
@@ -65,9 +68,9 @@ class GenMkdocsSiteYaml:
         #         print("mdoutfile_rpath", mdoutfile_rpath)
         #         page_name = mdoutfile_rpath.replace(".md", "").split("/")[-1]
         #         mdoutfile_routepath = mdoutfile_rpath.replace(
-        #             f"{self.cnf.project_docs_dir}", "."
+        #             f"{cls.cnf.project_docs_dir}", "."
         #         )
-        #         print("self.cnf.project_docs_dir", self.cnf.project_docs_dir)
+        #         print("cls.cnf.project_docs_dir", cls.cnf.project_docs_dir)
         #         print("mdoutfile_routepath", mdoutfile_routepath)
         #         # sys.exit(42)
         #         page_path_map = {page_name: mdoutfile_routepath}
@@ -76,9 +79,9 @@ class GenMkdocsSiteYaml:
         # ###########################################
         # srcdocs_parent = None
         # if srcdocs_parent is None:
-        #     self.yaml_dict["nav"].append({catname: catname_holder})
+        #     cls.yaml_dict["nav"].append({catname: catname_holder})
         # else:
-        #     self.yaml_dict["nav"][1][srcdocs_parent].append(
+        #     cls.yaml_dict["nav"][1][srcdocs_parent].append(
         #         {catname: catname_holder}
         #     )
 
@@ -88,7 +91,7 @@ class GenMkdocsSiteYaml:
         #     docfilename,
         # ) = get_src_reldir_and_filename(
         #     file_rpath=docfile_rpath,
-        #     glob_patterns=self.classmethod"docs_glob_patterns"),
+        #     glob_patterns=cls.classmethod"docs_glob_patterns"),
         #     replace_str=".md",
         # )
 
@@ -97,25 +100,26 @@ class GenMkdocsSiteYaml:
         # sys.exit(42)
 
         # # TODOD: change docfilename --> docfilename_noext
-        # self.yaml_dict["nav"].append({docfilename: docfile_rpath})
+        # cls.yaml_dict["nav"].append({docfilename: docfile_rpath})
 
-    def mkdocs_add_srcdocs_to_nav(self):
-        rprint("catname_2mdfile_dict", self.catname_2mdfile_dict)
+    @classmethod
+    def mkdocs_add_srcdocs_to_nav(cls):
+        rprint("catname_2mdfile_dict", cls.catname_2mdfile_dict)
         # sys.exit(42)
 
         # TODO: re-enable optional srcdocs nesting once things are refactored
-        # ref_or_main_raw = self.classmethod"nav_codedocs_as_ref_or_main")
+        # ref_or_main_raw = cls.classmethod"nav_codedocs_as_ref_or_main")
         # ref_or_main = ref_or_main_raw if ref_or_main_raw else "main"
 
-        # nav_codedocs_name_raw = self.classmethod"nav_codedocs_name")
+        # nav_codedocs_name_raw = cls.classmethod"nav_codedocs_name")
         # nav_codedocs_name = (
-        #     nav_codedocs_name_raw if self.classmethod"nav_codedocs_name") else "Code-Docs"
+        #     nav_codedocs_name_raw if cls.classmethod"nav_codedocs_name") else "Code-Docs"
         # )
 
         # if ref_or_main == "main":
         #     srcdocs_parent = None
         # elif ref_or_main == "ref":
-        #     self.yaml_dict["nav"].append({nav_codedocs_name: []})
+        #     cls.yaml_dict["nav"].append({nav_codedocs_name: []})
         #     srcdocs_parent = nav_codedocs_name
         # else:
         #     LOG.error(
@@ -124,13 +128,13 @@ class GenMkdocsSiteYaml:
         #     sys.exit(42)
 
         LOG.info("Add generated code docs to nav")
-        rprint("catname_2mdfile_dict", sorted(self.catname_2mdfile_dict["undef"]))
+        rprint("catname_2mdfile_dict", sorted(cls.catname_2mdfile_dict["undef"]))
         # sys.exit(42)
 
         srcdoc_dict = {"nav": [{"Reference": []}]}
-        for catname in self.cnf.catnames_src:
+        for catname in cls.cnf.catnames_src:
             print("catname", catname)
-            cat_mdoutfiles_rpaths = sorted(self.catname_2mdfile_dict.get(catname))
+            cat_mdoutfiles_rpaths = sorted(cls.catname_2mdfile_dict.get(catname))
             catname_holder = []
 
             for mdoutfile_rpath in cat_mdoutfiles_rpaths:
@@ -138,43 +142,48 @@ class GenMkdocsSiteYaml:
                 print("mdoutfile_rpath", mdoutfile_rpath)
                 page_name = mdoutfile_rpath.replace(".md", "").split("/")[-1]
                 mdoutfile_routepath = mdoutfile_rpath.replace(
-                    f"{self.cnf.project_docs_dir}", "."
+                    f"{cls.cnf.project_docs_dir}", "."
                 )
-                print("self.cnf.project_docs_dir", self.cnf.project_docs_dir)
+                print("cls.cnf.project_docs_dir", cls.cnf.project_docs_dir)
                 print("mdoutfile_routepath", mdoutfile_routepath)
                 # sys.exit(42)
                 page_path_map = {page_name: mdoutfile_routepath}
                 catname_holder.append(page_path_map)
 
-            # rprint("self.yaml_dict[", self.yaml_dict)
+            # rprint("cls.yaml_dict[", cls.yaml_dict)
             # if srcdocs_parent is None:
-            #     self.yaml_dict["nav"].append({catname: catname_holder})
+            #     cls.yaml_dict["nav"].append({catname: catname_holder})
             # else:
-            #     self.yaml_dict["nav"][1][srcdocs_parent].append(
+            #     cls.yaml_dict["nav"][1][srcdocs_parent].append(
             #         {catname: catname_holder}
             #     )
             srcdoc_dict["nav"].append({catname: catname_holder})
 
-        rprint("\n\navdict", self.yaml_dict["navdict"])
+        rprint("\n\navdict", cls.yaml_dict["navdict"])
         rprint("\n\nsrcdoc_dict", srcdoc_dict)
 
-        self.yaml_dict["navdict"].update(srcdoc_dict)
+        cls.yaml_dict["navdict"].update(srcdoc_dict)
 
-        rprint("\n\nnavdict2", self.yaml_dict["navdict"])
+        rprint("\n\nnavdict2", cls.yaml_dict["navdict"])
         # sys.exit(42)
 
-    def main(self):
-        if self.cnf["handwritten_docs_dir"]:
+    @classmethod
+    def main(cls):
+        if cls.cnf["handwritten_docs_dir"]:
             LOG.info("Set handwritten docs as main to nav")
-            self.mkdocs_add_handwrittendocs_to_nav()
+            cls.mkdocs_add_handwrittendocs_to_nav()
 
         # LOG.info("Set generated src docs to nav")
-        # self.mkdocs_add_srcdocs_to_nav()
+        # cls.mkdocs_add_srcdocs_to_nav()
 
-        LOG.debug("self.yaml_dict: %s", yaml.safe_dump(self.yaml_dict))
+        LOG.debug("cls.yaml_dict: %s", yaml.safe_dump(cls.yaml_dict))
 
         LOG.info("Writing mkdocs config yaml")
         write_dict_2yaml_file(
-            filename=f"{self.cnf.project_reldir}/mkdocs.yml",
-            yaml_dict=self.yaml_dict,
+            filename=f"{cls.cnf.project_reldir}/mkdocs.yml",
+            yaml_dict=cls.yaml_dict,
         )
+
+        rprint("cls.yaml_dict", cls.yaml_dict)
+
+        return cls.yaml_dict["nav"]

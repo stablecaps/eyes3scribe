@@ -89,10 +89,6 @@ class Launcher:
                     self.yaml_dict[key] = value
 
         rprint("self.yaml_dict", self.yaml_dict)
-        # sys.exit(42)
-
-        # TODO: sort out this hacky code
-        self.yaml_dict["navdict"] = {"nav": []}
 
     def main(self):
         """
@@ -128,13 +124,13 @@ class Launcher:
 
         ###################################################################
         ### Generate MkDocs yaml
-        gen_mkdocs_site_yaml = GenMkdocsSiteYaml(
+        self.yaml_dict["navdict"] = GenMkdocsSiteYaml(
             cnf=self.cnf,
             catname_2mdfile_dict=catname_2mdfile_dict,
             navbar_cleaned_dict=navbar_cleaned_dict,
             yaml_dict=self.yaml_dict,
         )
-        gen_mkdocs_site_yaml.main()
+        # gen_mkdocs_site_yaml.main()
 
         ### Build and serve local docs site
         if self.build_serve:
