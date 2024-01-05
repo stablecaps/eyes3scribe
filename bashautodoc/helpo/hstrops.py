@@ -8,6 +8,109 @@ from rich import print as rprint
 LOG = logging.getLogger(__name__)
 
 
+def get_lines_between_tags(filetext, start_tag="```{toctree}", end_tag="```"):
+    line_holder = []
+    inRecordingMode = False
+    for line in filetext.split("\n"):
+        # line_stripped = line.strip()
+        # TODO: this not in inRecordingMode is not easy to read
+        if not inRecordingMode:
+            if start_tag in line:
+                rprint("TRUE: found toctree")
+                inRecordingMode = True
+                line_holder.append(line)
+        elif end_tag in line:
+            inRecordingMode = False
+            line_holder.append(line)
+        else:
+            line_holder.append(line)
+
+    return line_holder
+
+
+def get_lines_between_tag_and_blank_line(filetext, start_tag="```{toctree}"):
+    line_holder = []
+    inRecordingMode = False
+    for line in filetext.split("\n"):
+        # line_stripped = line.strip()
+        if not inRecordingMode:
+            if start_tag in line:
+                rprint("TRUE: found toctree")
+                inRecordingMode = True
+                line_holder.append(line)
+        elif len(line) == 0:
+            inRecordingMode = False
+            line_holder.append(line)
+        else:
+            line_holder.append(line)
+
+    return line_holder
+
+
+def get_multiblocks_between_tags(filetext, start_tag=":::", end_tag=":::"):
+    block_holder = []
+    inRecordingMode = False
+    for line in filetext.split("\n"):
+        # rprint("line", line)
+        # line_stripped = line.strip()
+        if not inRecordingMode:
+            if start_tag in line:
+                # rprint("TRUE: found start_tag")
+                inRecordingMode = True
+                line_holder = []
+                line_holder.append(line)
+        elif end_tag in line:
+            # rprint("TRUE: found end_tag")
+            inRecordingMode = False
+            line_holder.append(line)
+            block_holder.append(line_holder)
+        # elif inRecordingMode:
+        else:
+            line_holder.append(line)
+
+    # rprint("block_holder", block_holder)
+    # sys.exit(42)
+    return block_holder
+
+
+def norm_key(mystr):
+    return mystr.lower().replace("-", "").replace("_", "").strip()
+
+
+def rreplace(mystr, match_str, replace_str, times):
+    li = mystr.rsplit(match_str, times)
+    return replace_str.join(li)
+
+
+# TODO: find out what other functions can be generalised to simplify things
+# TODO: move to collections helpers
+def clean_list_via_rm_patts(input_list, rm_patt, rm_empty_lines=True):
+    """
+    Cleans the input list by rming lines that contain any of the rm_patts in the rm list.
+
+    Args:
+        input_list (list): The input list to clean.
+        rm_patt (list): The list of rm_patts to rmude.
+        rm_empty_lines (bool): Whether to rm empty lines.
+
+    Returns:
+        list: The clean list.
+    """
+    clean_list = []
+    for line in input_list:
+        line_is_empty = len(line.strip()) == 0
+        line_contains_rm_patts = any(rm_patt in line for rm_patt in rm_patt)
+
+        if line_is_empty and rm_empty_lines:
+            continue
+        if line_contains_rm_patts:
+            continue
+
+        clean_list.append(line)
+
+    return clean_list
+
+
 def does_str_contain_pattern(instr, input_patt_li):
     """
     Checks if a string contains any pattern from a list of patterns.
@@ -100,6 +203,22 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
     return clean_outstr
 
 
+def clean_str_pline(instr, rm_patt):
+    for rmpatt in rm_patt:
+        instr = instr.replace(rmpatt, "")
+
+    return instr.strip()
+
+
+def replace_str_pline(instr, sub_tups):
+    # use pipleine pattern [(targ1, rep1), (targ2, rep2), ..]
+    for sub in sub_tups:
+        instr = instr.replace(sub[0], sub[1])
+
+    return instr.strip()
+
+
+# TODO: remove all instances of this function - use replace_str_pline instead
 def str_multi_replace(instr, rm_patt_list, replace_str):
     """
     Replace multiple substrings in the input string with a replacement string.
@@ -117,120 +236,3 @@ def str_multi_replace(instr, rm_patt_list, replace_str):
         print("patt_clean", patt_clean)
         instr = instr.replace(patt_clean, replace_str)
     return instr
-
-
-def get_lines_between_tags(filetext, start_tag="```{toctree}", end_tag="```"):
-    line_holder = []
-    inRecordingMode = False
-    for line in filetext.split("\n"):
-        # line_stripped = line.strip()
-        # TODO: this not in inRecordingMode is not easy to read
-        if not inRecordingMode:
-            if start_tag in line:
-                rprint("TRUE: found toctree")
-                inRecordingMode = True
-                line_holder.append(line)
-        elif end_tag in line:
-            inRecordingMode = False
-            line_holder.append(line)
-        else:
-            line_holder.append(line)
-
-    return line_holder
-
-
-def get_lines_between_tag_and_blank_line(filetext, start_tag="```{toctree}"):
-    line_holder = []
-    inRecordingMode = False
-    for line in filetext.split("\n"):
-        # line_stripped = line.strip()
-        if not inRecordingMode:
-            if start_tag in line:
-                rprint("TRUE: found toctree")
-                inRecordingMode = True
-                line_holder.append(line)
-        elif len(line) == 0:
-            inRecordingMode = False
-            line_holder.append(line)
-        else:
-            line_holder.append(line)
-
-    return line_holder
-
-
-def get_multiblocks_between_tags(filetext, start_tag=":::", end_tag=":::"):
-    block_holder = []
-    inRecordingMode = False
-    for line in filetext.split("\n"):
-        # rprint("line", line)
-        # line_stripped = line.strip()
-        if not inRecordingMode:
-            if start_tag in line:
-                # rprint("TRUE: found start_tag")
-                inRecordingMode = True
-                line_holder = []
-                line_holder.append(line)
-        elif end_tag in line:
-            # rprint("TRUE: found end_tag")
-            inRecordingMode = False
-            line_holder.append(line)
-            block_holder.append(line_holder)
-        # elif inRecordingMode:
-        else:
-            line_holder.append(line)
-
-    # rprint("block_holder", block_holder)
-    # sys.exit(42)
-    return block_holder
-
-
-def norm_key(mystr):
-    return mystr.lower().replace("-", "").replace("_", "").strip()
-
-
-def rreplace(mystr, match_str, replace_str, times):
-    li = mystr.rsplit(match_str, times)
-    return replace_str.join(li)
-
-
-# TODO: find out what other functions can be generalised to simplify things
-def clean_list_via_rm_patts(input_list, rm_patt, rm_empty_lines=True):
-    """
-    Cleans the input list by rming lines that contain any of the rm_patts in the rm list.
-
-    Args:
-        input_list (list): The input list to clean.
-        rm_patt (list): The list of rm_patts to rmude.
-        rm_empty_lines (bool): Whether to rm empty lines.
-
-    Returns:
-        list: The clean list.
-    """
-    clean_list = []
-    for line in input_list:
-        line_is_empty = len(line.strip()) == 0
-        line_contains_rm_patts = any(rm_patt in line for rm_patt in rm_patt)
-
-        if line_is_empty and rm_empty_lines:
-            continue
-        if line_contains_rm_patts:
-            continue
-
-        clean_list.append(line)
-
-    return clean_list
-
-
-def clean_str_pline(instr, rm_patt):
-    for rmpatt in rm_patt:
-        instr = instr.replace(rmpatt, "")
-
-    return instr.strip()
-
-
-def replace_str_pline(instr, sub_tups):
-    # use pipleine pattern [(targ1, rep1), (targ2, rep2), ..]
-    for sub in sub_tups:
-        instr = instr.replace(sub[0], sub[1])
-
-    return instr.strip()

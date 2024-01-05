@@ -24,8 +24,6 @@ from rich import print as rprint
 
 from bashautodoc.DocSectionWriterFunction import DocSectionWriterFunction
 
-# from bashautodoc.helpo.hstrops import str_multi_replace
-
 LOG = logging.getLogger(__name__)
 
 

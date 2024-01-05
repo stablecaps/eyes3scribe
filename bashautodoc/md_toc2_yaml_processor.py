@@ -112,7 +112,12 @@ class MdToc2YamlProcessor:
         This function splits the category and returns the toc key and value.
         """
         tockey = clean_str_pline(mylink.split("/")[-1], [".md"])
-        tocvalue = clean_str_pline(mylink, [myvalue])
+        tocvalue = clean_str_pline(mylink, [myvalue, ".md"])
+
+        # if "misc" in tockey:
+        #     print("tockey", tockey)
+        #     print("tocvalue", tocvalue)
+        #     sys.exit(42)
         return {tockey: tocvalue}
 
     def construct_navbar_dict(self):
@@ -196,6 +201,7 @@ class MdToc2YamlProcessor:
         return self.navbar_cleaned_dict
 
 
+# TODO: rename this function and put it somewhere more appropriate
 def walk_nested_dicts_with_lists(obj):
     if isinstance(obj, list):  # could replace with collections.abc.MutableSequence
         myiterable = enumerate(obj)

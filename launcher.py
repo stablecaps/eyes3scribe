@@ -29,7 +29,7 @@ import sys
 from dotmap import DotMap
 from rich import print as rprint
 
-from bashautodoc.create_handwritten_docs import CreateHandwrittenDocs
+from bashautodoc.gen_handwritten_docs import GenHandwrittenDocs
 from bashautodoc.helpo import hfile
 from bashautodoc.helpo.coloured_log_formatter import ColouredLogFormatter
 from bashautodoc.shell_src_preprocessor import ShellSrcPreProcessor
@@ -94,7 +94,7 @@ class Launcher:
         self.yaml_dict["navdict"] = {"nav": []}
 
     def mkdocs_add_handwrittendocs_to_nav(self):
-        create_hwdocs = CreateHandwrittenDocs(
+        create_hwdocs = GenHandwrittenDocs(
             cnf=self.cnf, handwritten_docs_dir=self.cnf.handwritten_docs_outdir
         )
         catname_2mdfile_dict = create_hwdocs.create_hwdocs()
@@ -279,8 +279,7 @@ class Launcher:
         clean_hwdocs_rpaths = rpaths["clean_hwdocs_rpaths"]
         clean_srcfiles_rpaths = rpaths["clean_srcfiles_rpaths"]
 
-        ###########################self.mkdocs_add_srcdocs_to_nav(self, catname_2mdfile_dict)
-
+        ### Process shell source files
         shell_src_preprocessor = ShellSrcPreProcessor(
             self.cnf,
             clean_srcfiles_rpaths,
@@ -289,8 +288,12 @@ class Launcher:
         )
         catname_2mdfile_dict = shell_src_preprocessor.run()
 
+        ###########################self.mkdocs_add_srcdocs_to_nav(self, catname_2mdfile_dict)
+
+        ### Generate MkDocs yaml
         self.gen_mkdocs_yaml(catname_2mdfile_dict)
 
+        ### Build and serve local docs site
         if self.build_serve:
             LOG.warning("Building and serving local docs site")
             os.chdir(self.cnf.project_reldir)

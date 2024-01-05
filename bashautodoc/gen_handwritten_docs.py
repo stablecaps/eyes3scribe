@@ -13,7 +13,7 @@ from bashautodoc.models.rst2md_datahandler import rst2md_mainroutine
 LOG = logging.getLogger(__name__)
 
 
-class CreateHandwrittenDocs:
+class GenHandwrittenDocs:
     def __init__(self, cnf, handwritten_docs_dir) -> None:
         self.cnf = cnf
         self.cnf.handwritten_docs_dir = handwritten_docs_dir
