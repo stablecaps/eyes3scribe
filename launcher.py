@@ -79,7 +79,7 @@ class Launcher:
 
         self.cnf = Config(site_confname)
 
-        LOG.info("conf: %s", self.cnf)
+        rprint("conf: ", self.cnf)
 
         self.yaml_dict = {}
         for key, value in self.cnf.items():
@@ -121,9 +121,7 @@ class Launcher:
         ###########################self.mkdocs_add_srcdocs_to_nav(self, catname_2mdfile_dict)
 
         ### Generate Handwritten Docs
-        gen_handwritten_docs = GenHandwrittenDocs(
-            cnf=self.cnf, handwritten_docs_dir=self.cnf.handwritten_docs_outdir
-        )
+        gen_handwritten_docs = GenHandwrittenDocs(cnf=self.cnf)
         navbar_cleaned_dict = gen_handwritten_docs.gen_handwritten_docs()
         rprint("navbar_cleaned_dict", navbar_cleaned_dict)
 

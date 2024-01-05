@@ -196,7 +196,7 @@ anchorend_detail_map_all = {}
 anchorend_fast_map_all = {}
 
 
-def rst2md_mainroutine(cnf, hwdocs_search_path):
+def run(cnf, hwdocs_search_path):
     hwdoc_rpaths = hfile.multiglob_dir_search(
         search_path=hwdocs_search_path,
         glob_patt_list=["*.md"],

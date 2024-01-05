@@ -3,10 +3,11 @@ import sys
 
 from rich import print as rprint
 
+from bashautodoc.gen_navbar_dict import GenNavbarDict
 from bashautodoc.helpo import hfile
 from bashautodoc.helpo.hsubprocess import run_cmd_with_output
-from bashautodoc.gen_navbar_dict import GenNavbarDict
-from bashautodoc.models.rst2md_datahandler import rst2md_mainroutine
+from bashautodoc.models.rst2md_datahandler import run
+from bashautodoc.pipeline_rst2md import PipelineRst2Md
 
 # from bashautodoc.rst_and_md2md_file_writer import RstandM2MdFileWriter
 
@@ -14,9 +15,9 @@ LOG = logging.getLogger(__name__)
 
 
 class GenHandwrittenDocs:
-    def __init__(self, cnf, handwritten_docs_dir) -> None:
+    def __init__(self, cnf) -> None:
         self.cnf = cnf
-        self.cnf.handwritten_docs_dir = handwritten_docs_dir
+        # self.cnf.handwritten_docs_dir = handwritten_docs_dir
         self.handwritten_docs_infiles = []
 
         # self.catname_2mdfile_dict = defaultdict(list)
@@ -25,35 +26,16 @@ class GenHandwrittenDocs:
         # sys.exit(42)
         # self.rst_files = []
 
-    def convert_rst2md(self):
-        """
-        Convert rst files to mdfiles.
-        """
-
-        LOG.info("Converting rst files to mdfiles.\nThis may take a while...")
-        rst2myst_configfile = self.cnf.get("rst2myst_configfile")
-
-        rst_glob = "{,**/}*.rst"
-        myst_comm = (
-            f"bash -O extglob -c 'rst2myst convert --replace-files --config {rst2myst_configfile} {self.cnf.handwritten_docs_dir}/"
-            + rst_glob
-            + "'"
-        )
-        run_cmd_with_output(comm_str=myst_comm)
-
     def gen_handwritten_docs(self):
-        import os
-
-        # get the current working directory
-        current_working_directory = os.getcwd()
-
         ### Convert existing rst files to markdown format
-        self.convert_rst2md()
-        # sys.exit(42)
+        if self.cnf.handwritten_docs_rst:
+            # self.convert_rst2md()
+            pipeline_rst2_md = PipelineRst2Md(cnf=self.cnf)
+            pipeline_rst2_md.run()
+            # rprint("hello2")
+            # sys.exit(42)
 
-        rst2md_mainroutine(
-            cnf=self.cnf, hwdocs_search_path="./docs_bash-it/docs/docshw/"
-        )
+        # run(cnf=self.cnf, hwdocs_search_path="./docs_bash-it/docs/docshw/")
 
         ##################################################
         hwdocs_infiles = hfile.multiglob_dir_search(
@@ -64,6 +46,7 @@ class GenHandwrittenDocs:
         self.handwritten_docs_infiles.extend(hwdocs_infiles)
         LOG.debug("handwritten_docs_infiles: %s", self.handwritten_docs_infiles)
 
+        # sys.exit(42)
         table_of_contents_processor = GenNavbarDict(
             cnf=self.cnf,
             search_path="docs_bash-it/docs/docshw/",

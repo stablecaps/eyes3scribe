@@ -33,7 +33,7 @@ class GenNavbarDict:
         rprint("mdtoc_path_list", self.mdtoc_path_list)
 
     @staticmethod
-    def clean_mdtoc_list(toc_mdlist):
+    def gen_cleaned_mdtoc_list(toc_mdlist):
         clean_toc_mdlist = []
         for line in toc_mdlist:
             line_stripped = line.strip()
@@ -54,18 +54,18 @@ class GenNavbarDict:
             table_of_contents = hstrops.get_lines_between_tag_and_blank_line(
                 file_text, start_tag="## Table of Contents"
             )
-            self.toc_dict[mdpath] = GenNavbarDict.clean_mdtoc_list(
+            self.toc_dict[mdpath] = GenNavbarDict.gen_cleaned_mdtoc_list(
                 toc_mdlist=table_of_contents
             )
 
-    def construct_hierarchy_dict(self):
+    def gen_toc_hierarchy_dict(self):
         for mdpath, toc_links in self.toc_dict.items():
             for file_path2, toc_links2 in self.toc_dict.items():
                 if mdpath in toc_links2:
                     self.hierarchy_dict[file_path2].append(mdpath)
                     break
 
-    def construct_navbar_dict(self):
+    def gen_navbar_dict(self):
         for key, link_list in sorted(
             self.hierarchy_dict.items(), key=lambda x: len(x[1]), reverse=True
         ):
@@ -100,9 +100,9 @@ class GenNavbarDict:
         ## 1. Check which mdtoc_path is in which list to figure out rough order
         ## 2. If it is in the list, then it is suboridnate
         ## 3. Create ranked order of mdfiles
-        self.construct_hierarchy_dict()
+        self.gen_toc_hierarchy_dict()
 
-        self.construct_navbar_dict()
+        self.gen_navbar_dict()
 
         rprint("navbar_dict", self.navbar_dict)
 

@@ -129,6 +129,7 @@ class Config:
             "catnames_docs",
             "nav_codedocs_as_ref_or_main",
             "nav_codedocs_name",
+            "handwritten_docs_rst",
             "handwritten_docs_dir",
             "handwritten_docs_outdir",
             "docs_glob_patterns",

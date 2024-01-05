@@ -12,7 +12,7 @@ LOG = logging.getLogger(__name__)
 mdlink_patt = re.compile(r"[- ]*\[([*a-zA-Z0-9-_]*)\]\(([A-Za-z/-0-9_.]*)")
 
 
-def clean_mdtoc_list(toc_mdlist):
+def gen_cleaned_mdtoc_list(toc_mdlist):
     clean_toc_mdlist = []
     for line in toc_mdlist:
         line_stripped = line.strip()
@@ -63,7 +63,7 @@ if __name__ == "__main__":
         )
         rprint("toc_mdlist", toc_mdlist)
 
-        toc_mdlist_dict[mdtoc_path] = clean_mdtoc_list(toc_mdlist=toc_mdlist)
+        toc_mdlist_dict[mdtoc_path] = gen_cleaned_mdtoc_list(toc_mdlist=toc_mdlist)
 
     print("\n\n")
     ## 1. Check which mdtoc_path is in which list to figure out rough order

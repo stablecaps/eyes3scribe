@@ -44,7 +44,7 @@ class GenNavbarDict:
         rprint("mdtoc_path_list", self.mdtoc_path_list)
 
     @staticmethod
-    def clean_mdtoc_list(toc_mdlist):
+    def gen_cleaned_mdtoc_list(toc_mdlist):
         clean_toc_mdlist = []
         for line in toc_mdlist:
             line_stripped = line.strip()
@@ -66,13 +66,13 @@ class GenNavbarDict:
             table_of_contents = get_lines_between_tag_and_blank_line(
                 file_text, start_tag="## Table of Contents"
             )
-            self.toc_dict[mdpath_rel] = GenNavbarDict.clean_mdtoc_list(
+            self.toc_dict[mdpath_rel] = GenNavbarDict.gen_cleaned_mdtoc_list(
                 toc_mdlist=table_of_contents
             )
         rprint("\ntoc_dict", self.toc_dict)
         # sys.exit(42)
 
-    def order_indexes_in_toc_dict(self):
+    def reorder_toc_dict_so_index_first(self):
         # copy index files to front of list
         # catnames_list = list(self.toc_dict.keys())
         for mdpath, toc_links in self.toc_dict.items():
@@ -95,7 +95,7 @@ class GenNavbarDict:
             self.toc_dict[mdpath] = toc_links_with_index
         rprint("toc_dict index ordered", self.toc_dict)
 
-    def construct_hierarchy_dict(self):
+    def gen_toc_hierarchy_dict(self):
         for mdpath, _ in self.toc_dict.items():
             rprint("mdpath", mdpath)
             for file_path2, toc_links2 in self.toc_dict.items():
@@ -107,7 +107,7 @@ class GenNavbarDict:
         rprint("\nhierarchy_dict", self.hierarchy_dict)
 
     @staticmethod
-    def gen_toc_kvdict(mylink, myvalue):
+    def clean_tockvs(mylink, myvalue):
         """
         This function splits the category and returns the toc key and value.
         """
@@ -120,7 +120,7 @@ class GenNavbarDict:
         #     sys.exit(42)
         return {tockey: tocvalue}
 
-    def construct_navbar_dict(self):
+    def gen_navbar_dict(self):
         for key, link_list in sorted(
             self.hierarchy_dict.items(), key=lambda x: len(x[1]), reverse=True
         ):
@@ -137,12 +137,12 @@ class GenNavbarDict:
                     # sys.exit(42)
                     category_split = mdlink.split("/")
                     if category_split[-1] == "index.md":
-                        category_name = category_split[-2]
+                        category_name = clean_str_pline(category_split[-2], [".md"])
                     else:
-                        category_name = category_split[-1]
+                        category_name = clean_str_pline(category_split[-1], [".md"])
 
                     yaml2_sublist = [
-                        GenNavbarDict.gen_toc_kvdict(
+                        GenNavbarDict.clean_tockvs(
                             mylink=link, myvalue=self.project_docs_dir_local
                         )
                         for link in self.toc_dict[mdlink]
@@ -151,7 +151,7 @@ class GenNavbarDict:
                     sub_dict = {category_name: yaml2_sublist}
                     new_link_list.append(sub_dict)
                 else:
-                    toc_kvdict = GenNavbarDict.gen_toc_kvdict(
+                    toc_kvdict = GenNavbarDict.clean_tockvs(
                         mylink=mdlink, myvalue=self.project_docs_dir_local
                     )
                     new_link_list.append(toc_kvdict)
@@ -165,14 +165,14 @@ class GenNavbarDict:
         ## 1. Check which mdtoc_path is in which list to figure out rough order
         ## 2. If it is in the list, then it is suboridnate
         ## 3. Create ranked order of mdfiles
-        self.construct_hierarchy_dict()
+        self.gen_toc_hierarchy_dict()
         # sys.exit(42)
 
-        self.order_indexes_in_toc_dict()
+        self.reorder_toc_dict_so_index_first()
         # sys.exit(42)
 
-        self.construct_navbar_dict()
-        sys.exit(42)
+        self.gen_navbar_dict()
+        # sys.exit(42)
 
         #####################
         walk_nested_dicts_with_lists(obj=self.navbar_dict)
