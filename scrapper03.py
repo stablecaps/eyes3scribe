@@ -58,7 +58,7 @@ if __name__ == "__main__":
         # rprint("\nfiletext", filetext)
         # sys.exit(42)
 
-        toc_mdlist = hstrops.extract_lines_between_start_and_end_blank_line_tag(
+        toc_mdlist = hstrops.get_lines_between_tag_and_blank_line(
             filetext, start_tag="## Table of Contents"
         )
         rprint("toc_mdlist", toc_mdlist)

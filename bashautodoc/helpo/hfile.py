@@ -194,7 +194,7 @@ def filter_paths_excluding_patterns(path_list, exclusion_patterns_src):
         print("Path", path)
 
         if not does_str_contain_pattern(
-            input_str=path,
+            instr=path,
             input_patt_li=exclusion_patterns_src,
         ):
             filtered_paths.append(path)

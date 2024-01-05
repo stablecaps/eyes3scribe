@@ -121,10 +121,8 @@ class Rst2mdConverterTripleColonicBypass:
     @classmethod
     def process_admonitions(cls):
         if ":::" in cls.r2m.filetext:
-            admonitions_blocks_nlist = (
-                hstrops.extract_multiblocks_between_start_and_end_line_tag(
-                    filetext=cls.r2m.filetext, start_tag=":::", end_tag=":::"
-                )
+            admonitions_blocks_nlist = hstrops.get_multiblocks_between_tags(
+                filetext=cls.r2m.filetext, start_tag=":::", end_tag=":::"
             )
             if len(admonitions_blocks_nlist) > 0:
                 for block in admonitions_blocks_nlist:
@@ -134,33 +132,31 @@ class Rst2mdConverterTripleColonicBypass:
     def process_image_element(cls, elem, rst_img_dict):
         # rprint("elem", elem)
         if elem.startswith("```{image}"):
-            rst_img_dict["image"] = hstrops.clean_str_via_rm_patts(
-                input_str=elem, rm_patterns=["```{image}"]
+            rst_img_dict["image"] = hstrops.clean_str_pline(
+                instr=elem, rm_patt=["```{image}"]
             )
 
         elif elem.startswith(":alt:"):
-            rst_img_dict["alt"] = hstrops.clean_str_via_rm_patts(
-                input_str=elem, rm_patterns=[":alt:"]
-            )
+            rst_img_dict["alt"] = hstrops.clean_str_pline(instr=elem, rm_patt=[":alt:"])
         elif elem.startswith(":height:"):
-            rst_img_dict["height"] = hstrops.clean_str_via_rm_patts(
-                input_str=elem, rm_patterns=[":height:"]
+            rst_img_dict["height"] = hstrops.clean_str_pline(
+                instr=elem, rm_patt=[":height:"]
             )
         elif elem.startswith(":width:"):
-            rst_img_dict["width"] = hstrops.clean_str_via_rm_patts(
-                input_str=elem, rm_patterns=[":width:"]
+            rst_img_dict["width"] = hstrops.clean_str_pline(
+                instr=elem, rm_patt=[":width:"]
             )
         elif elem.startswith(":width:"):
-            rst_img_dict["scale"] = hstrops.clean_str_via_rm_patts(
-                input_str=elem, rm_patterns=[":width:"]
+            rst_img_dict["scale"] = hstrops.clean_str_pline(
+                instr=elem, rm_patt=[":width:"]
             )
         elif elem.startswith(":loading:"):
-            rst_img_dict["loading"] = hstrops.clean_str_via_rm_patts(
-                input_str=elem, rm_patterns=[":loading:"]
+            rst_img_dict["loading"] = hstrops.clean_str_pline(
+                instr=elem, rm_patt=[":loading:"]
             )
         elif elem.startswith(":loading:"):
-            rst_img_dict["align"] = hstrops.clean_str_via_rm_patts(
-                input_str=elem, rm_patterns=[":loading:"]
+            rst_img_dict["align"] = hstrops.clean_str_pline(
+                instr=elem, rm_patt=[":loading:"]
             )
 
     @classmethod
@@ -200,10 +196,8 @@ class Rst2mdConverterTripleColonicBypass:
         https://docutils.sourceforge.io/docs/ref/rst/directives.html#image
         """
         if "```{image}" in cls.r2m.filetext:
-            himage_blocks_nlist = (
-                hstrops.extract_multiblocks_between_start_and_end_line_tag(
-                    filetext=cls.r2m.filetext, start_tag="```{image}", end_tag="```"
-                )
+            himage_blocks_nlist = hstrops.get_multiblocks_between_tags(
+                filetext=cls.r2m.filetext, start_tag="```{image}", end_tag="```"
             )
             rprint("himage_blocks_nlist", himage_blocks_nlist)
             # sys.exit(42)

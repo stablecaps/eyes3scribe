@@ -8,12 +8,12 @@ from rich import print as rprint
 LOG = logging.getLogger(__name__)
 
 
-def does_str_contain_pattern(input_str, input_patt_li):
+def does_str_contain_pattern(instr, input_patt_li):
     """
     Checks if a string contains any pattern from a list of patterns.
 
     Args:
-        input_str (str): The input string to check.
+        instr (str): The input string to check.
         input_patt_li (list): The list of patterns to search for.
 
     Returns:
@@ -26,19 +26,19 @@ def does_str_contain_pattern(input_str, input_patt_li):
         clean_pattern = input_patt_li[idx].strip()
         input_patt_li[idx] = clean_pattern
 
-    input_str_clean = input_str.strip()
+    instr_clean = instr.strip()
     for pattern in input_patt_li:
-        if pattern in input_str_clean:
+        if pattern in instr_clean:
             return True
     return False
 
 
-def does_str_start_with_pattern(input_str, input_patt_li):
+def does_str_start_with_pattern(instr, input_patt_li):
     """
     Checks if a string starts with any pattern from a list of patterns.
 
     Args:
-        input_str (str): The input string to check.
+        instr (str): The input string to check.
         input_patt_li (list): The list of patterns to search for.
 
     Returns:
@@ -51,9 +51,9 @@ def does_str_start_with_pattern(input_str, input_patt_li):
         clean_pattern = input_patt_li[idx].strip()
         input_patt_li[idx] = clean_pattern
 
-    input_str_clean = input_str.strip()
+    instr_clean = instr.strip()
     for pattern in input_patt_li:
-        if input_str_clean.startswith(pattern):
+        if instr_clean.startswith(pattern):
             return True
     return False
 
@@ -100,12 +100,12 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
     return clean_outstr
 
 
-def str_multi_replace(input_str, rm_patt_list, replace_str):
+def str_multi_replace(instr, rm_patt_list, replace_str):
     """
     Replace multiple substrings in the input string with a replacement string.
 
     Args:
-        input_str (str): The string to perform replacements on.
+        instr (str): The string to perform replacements on.
         rm_patt_list (list): A list of substrings to be replaced.
         replace_str (str, optional): The string to replace the substrings with.
 
@@ -115,11 +115,11 @@ def str_multi_replace(input_str, rm_patt_list, replace_str):
     for patt in rm_patt_list:
         patt_clean = patt.replace("*.", ".")
         print("patt_clean", patt_clean)
-        input_str = input_str.replace(patt_clean, replace_str)
-    return input_str
+        instr = instr.replace(patt_clean, replace_str)
+    return instr
 
 
-def extract_lines_between_tags(filetext, start_tag="```{toctree}", end_tag="```"):
+def get_lines_between_tags(filetext, start_tag="```{toctree}", end_tag="```"):
     line_holder = []
     inRecordingMode = False
     for line in filetext.split("\n"):
@@ -139,9 +139,7 @@ def extract_lines_between_tags(filetext, start_tag="```{toctree}", end_tag="```"
     return line_holder
 
 
-def extract_lines_between_start_and_end_blank_line_tag(
-    filetext, start_tag="```{toctree}"
-):
+def get_lines_between_tag_and_blank_line(filetext, start_tag="```{toctree}"):
     line_holder = []
     inRecordingMode = False
     for line in filetext.split("\n"):
@@ -160,9 +158,7 @@ def extract_lines_between_start_and_end_blank_line_tag(
     return line_holder
 
 
-def extract_multiblocks_between_start_and_end_line_tag(
-    filetext, start_tag=":::", end_tag=":::"
-):
+def get_multiblocks_between_tags(filetext, start_tag=":::", end_tag=":::"):
     block_holder = []
     inRecordingMode = False
     for line in filetext.split("\n"):
@@ -198,13 +194,13 @@ def rreplace(mystr, match_str, replace_str, times):
 
 
 # TODO: find out what other functions can be generalised to simplify things
-def clean_list_via_rm_patts(input_list, rm_patterns, rm_empty_lines=True):
+def clean_list_via_rm_patts(input_list, rm_patt, rm_empty_lines=True):
     """
     Cleans the input list by rming lines that contain any of the rm_patts in the rm list.
 
     Args:
         input_list (list): The input list to clean.
-        rm_patterns (list): The list of rm_patts to rmude.
+        rm_patt (list): The list of rm_patts to rmude.
         rm_empty_lines (bool): Whether to rm empty lines.
 
     Returns:
@@ -213,7 +209,7 @@ def clean_list_via_rm_patts(input_list, rm_patterns, rm_empty_lines=True):
     clean_list = []
     for line in input_list:
         line_is_empty = len(line.strip()) == 0
-        line_contains_rm_patts = any(rm_patt in line for rm_patt in rm_patterns)
+        line_contains_rm_patts = any(rm_patt in line for rm_patt in rm_patt)
 
         if line_is_empty and rm_empty_lines:
             continue
@@ -225,10 +221,16 @@ def clean_list_via_rm_patts(input_list, rm_patterns, rm_empty_lines=True):
     return clean_list
 
 
-# TODO: Create version that deals with custom replaecment strings
-# use pipleine pattern [(targ1, rep1), (targ2, rep2), ..]
-def clean_str_via_rm_patts(input_str, rm_patterns):
-    for rmpatt in rm_patterns:
-        input_str = input_str.replace(rmpatt, "")
+def clean_str_pline(instr, rm_patt):
+    for rmpatt in rm_patt:
+        instr = instr.replace(rmpatt, "")
 
-    return input_str.strip()
+    return instr.strip()
+
+
+def replace_str_pline(instr, sub_tups):
+    # use pipleine pattern [(targ1, rep1), (targ2, rep2), ..]
+    for sub in sub_tups:
+        instr = instr.replace(sub[0], sub[1])
+
+    return instr.strip()

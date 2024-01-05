@@ -134,7 +134,7 @@ class FunctionDatahandler:
                     )
                 ):
                     cite_about = str_multi_replace(
-                        input_str=line,
+                        instr=line,
                         rm_patt_list=[
                             "about-plugin",
                             "about-alias",

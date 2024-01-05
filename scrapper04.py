@@ -51,10 +51,8 @@ class MdToc2YamlProcessor:
     def gen_toc_dict_from_mdindex_files(self):
         for mdpath in self.mdtoc_path_list:
             file_text = hfile.read_file_2string(filepath=mdpath)
-            table_of_contents = (
-                hstrops.extract_lines_between_start_and_end_blank_line_tag(
-                    file_text, start_tag="## Table of Contents"
-                )
+            table_of_contents = hstrops.get_lines_between_tag_and_blank_line(
+                file_text, start_tag="## Table of Contents"
             )
             self.toc_dict[mdpath] = MdToc2YamlProcessor.clean_mdtoc_list(
                 toc_mdlist=table_of_contents
@@ -73,16 +71,16 @@ class MdToc2YamlProcessor:
         ):
             self.navbar_dict[key] = self.toc_dict[key]
             new_link_list = []
-            for md_link in self.navbar_dict[key]:
-                if md_link in link_list:
-                    category_split = md_link.split("/")
+            for mdlink in self.navbar_dict[key]:
+                if mdlink in link_list:
+                    category_split = mdlink.split("/")
                     if category_split[-1] == "index.md":
                         category_name = category_split[-2]
                     else:
                         category_name = category_split[-1]
 
                     yaml2_sublist = []
-                    for link in self.toc_dict[md_link]:
+                    for link in self.toc_dict[mdlink]:
                         yaml2_sublist.append(
                             {link.split("/")[-1].replace(".md", ""): link}
                         )
@@ -92,7 +90,7 @@ class MdToc2YamlProcessor:
                 else:
                     # TODO: make category split a function
                     new_link_list.append(
-                        {md_link.split("/")[-1].replace(".md", ""): md_link}
+                        {mdlink.split("/")[-1].replace(".md", ""): mdlink}
                     )
             self.navbar_dict[key] = new_link_list
 

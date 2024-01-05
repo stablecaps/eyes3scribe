@@ -93,35 +93,6 @@ class Launcher:
         # TODO: sort out this hacky code
         self.yaml_dict["navdict"] = {"nav": []}
 
-    # def setup_docs_project(self):
-    #     """
-    #     Set up the docs project by copying shell source files and custom CSS
-    #     to the project directory.
-    #     """
-    #     hfile.rmdir_if_exists(target=self.cnf.project_docs_dir)
-    #     hfile.mkdir_if_notexists(target=self.cnf.project_docs_dir)
-
-    #     ### make undefined category directory
-    #     hfile.mkdir_if_notexists(target=self.cnf.undef_category_dir)
-    #     hfile.mkdir_if_notexists(target=self.cnf.undef_category_dir_hwdocs)
-
-    #     hfile.copy_dir(
-    #         source="custom_assets/custom_css",
-    #         target=self.cnf.project_css_dir,
-    #     )
-    #     hfile.copy_dir(source=self.cnf.shell_srcdir, target=self.cnf.project_docs_dir)
-
-    #     # TODO: sort this out later
-    #     LOG.info("Copying additional markdown files")
-    #     # for mdsrc, mddest in self.classmethod"additional_mdfiles").items():
-    #     #     hfile.copy_file(source=mdsrc, target=f"{self.cnf.project_docs_dir}/{mddest}")
-
-    #     if self.cnf.handwritten_docs_dir:
-    #         hfile.copy_dir(
-    #             source=self.cnf.handwritten_docs_dir,
-    #             target=self.cnf.handwritten_docs_outdir,
-    #         )
-
     def mkdocs_add_handwrittendocs_to_nav(self):
         create_hwdocs = CreateHandwrittenDocs(
             cnf=self.cnf, handwritten_docs_dir=self.cnf.handwritten_docs_outdir
@@ -299,6 +270,7 @@ class Launcher:
         Main routine for setting up the docs project, processing shell files, and creating the MkDocs site.
         """
 
+        ### Setup project & get file paths
         setup_docs_project = SetupDocsProject(
             cnf=self.cnf, check_singlefile=self.check_singlefile
         )

@@ -1666,6 +1666,17 @@ files = [
 ]
 
 [[package]]
+name = "toolz"
+version = "0.12.0"
+description = "List processing tools and functional utilities"
+optional = false
+python-versions = ">=3.5"
+files = [
+    {file = "toolz-0.12.0-py3-none-any.whl", hash = "sha256:2059bd4148deb1884bb0eb770a3cde70e7f954cfbbdc2285f1f2de01fd21eb6f"},
+    {file = "toolz-0.12.0.tar.gz", hash = "sha256:88c570861c440ee3f2f6037c4654613228ff40c93a6c25e0eba70d17282c6194"},
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.8.0"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -1769,4 +1780,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "af87180c6acecb0fad10a30b9ec4a65bde6ff2b423f565e53a73ab1bc047db31"
+content-hash = "0bf51b3c51868ff9e7d5ccaa1bb666e3977d454532b09797c29e14153aea39a4"

@@ -8,7 +8,7 @@ from bashautodoc.helpo import hfile
 toclinks_map = {}
 
 
-def extract_lines_between_tags(filetext):
+def get_lines_between_tags(filetext):
     """
     Extracts lines between tags in the file text.
 
@@ -129,7 +129,7 @@ def gen_markdown_toclinks(toc_list_clean, toc_root):
 #     # rprint("\nfiletext: %s", filetext)
 #     rprint("\n\n")
 
-#     toc_list = extract_lines_between_tags(filetext=filetext)
+#     toc_list = get_lines_between_tags(filetext=filetext)
 #     toc_list_clean = clean_rst_toc_list(toc_list)
 #     rprint("\ntoc_list: %s", toc_list)
 #     print("toc_list_clean", toc_list_clean)
@@ -164,7 +164,7 @@ def gen_markdown_toclinks(toc_list_clean, toc_root):
 #     # rprint("\nfiletext: %s", filetext)
 #     rprint("\n\n")
 
-#     toc_list = extract_lines_between_tags(filetext=filetext)
+#     toc_list = get_lines_between_tags(filetext=filetext)
 #     toc_list_clean = clean_rst_toc_list(toc_list)
 #     rprint("\ntoc_list: %s", toc_list)
 #     print("toc_list_clean", toc_list_clean)
@@ -271,7 +271,7 @@ if __name__ == "__main__":
         rprint("\nhwdoc_root, hwdoc_extension =", hwdoc_root, hwdoc_extension)
 
         filetext = hfile.read_file_2string(filepath=hwdoc_rpath)
-        toc_list = extract_lines_between_tags(filetext=filetext)
+        toc_list = get_lines_between_tags(filetext=filetext)
         toc_list_clean = clean_rst_toc_list(toc_list)
 
         rprint("\ntoc_list: %s", toc_list)

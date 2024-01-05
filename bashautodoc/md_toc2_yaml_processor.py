@@ -4,7 +4,11 @@ from collections import defaultdict
 
 from rich import print as rprint
 
-from bashautodoc.helpo import hfile, hstrops
+from bashautodoc.helpo import hfile
+from bashautodoc.helpo.hstrops import (
+    clean_str_pline,
+    get_lines_between_tag_and_blank_line,
+)
 from bashautodoc.regex_patterns import *
 
 LOG = logging.getLogger(__name__)
@@ -59,10 +63,8 @@ class MdToc2YamlProcessor:
         for mdpath in self.mdtoc_path_list:
             mdpath_rel = mdpath.replace(self.project_docs_dir_local, "")
             file_text = hfile.read_file_2string(filepath=mdpath)
-            table_of_contents = (
-                hstrops.extract_lines_between_start_and_end_blank_line_tag(
-                    file_text, start_tag="## Table of Contents"
-                )
+            table_of_contents = get_lines_between_tag_and_blank_line(
+                file_text, start_tag="## Table of Contents"
             )
             self.toc_dict[mdpath_rel] = MdToc2YamlProcessor.clean_mdtoc_list(
                 toc_mdlist=table_of_contents
@@ -104,6 +106,15 @@ class MdToc2YamlProcessor:
                     break
         rprint("\nhierarchy_dict", self.hierarchy_dict)
 
+    @staticmethod
+    def gen_toc_kvdict(mylink, myvalue):
+        """
+        This function splits the category and returns the toc key and value.
+        """
+        tockey = clean_str_pline(mylink.split("/")[-1], [".md"])
+        tocvalue = clean_str_pline(mylink, [myvalue])
+        return {tockey: tocvalue}
+
     def construct_navbar_dict(self):
         for key, link_list in sorted(
             self.hierarchy_dict.items(), key=lambda x: len(x[1]), reverse=True
@@ -115,37 +126,30 @@ class MdToc2YamlProcessor:
             # sys.exit(42)
 
             new_link_list = []
-            for md_link in self.navbar_dict[key]:
-                if md_link in link_list:
-                    rprint("md_link", md_link)
+            for mdlink in self.navbar_dict[key]:
+                if mdlink in link_list:
+                    rprint("mdlink", mdlink)
                     # sys.exit(42)
-                    category_split = md_link.split("/")
+                    category_split = mdlink.split("/")
                     if category_split[-1] == "index.md":
                         category_name = category_split[-2]
                     else:
                         category_name = category_split[-1]
 
-                    yaml2_sublist = []
-                    for link in self.toc_dict[md_link]:
-                        yaml2_sublist.append(
-                            {
-                                link.split("/")[-1].replace(".md", ""): link.replace(
-                                    self.project_docs_dir_local, ""
-                                )
-                            }
+                    yaml2_sublist = [
+                        MdToc2YamlProcessor.gen_toc_kvdict(
+                            mylink=link, myvalue=self.project_docs_dir_local
                         )
+                        for link in self.toc_dict[mdlink]
+                    ]
 
                     sub_dict = {category_name: yaml2_sublist}
                     new_link_list.append(sub_dict)
                 else:
-                    # TODO: make category split a function
-                    new_link_list.append(
-                        {
-                            md_link.split("/")[-1].replace(".md", ""): md_link.replace(
-                                self.project_docs_dir_local, ""
-                            )
-                        }
+                    toc_kvdict = MdToc2YamlProcessor.gen_toc_kvdict(
+                        mylink=mdlink, myvalue=self.project_docs_dir_local
                     )
+                    new_link_list.append(toc_kvdict)
             self.navbar_dict[key] = new_link_list
         rprint("navbar_dict", self.navbar_dict)
 
