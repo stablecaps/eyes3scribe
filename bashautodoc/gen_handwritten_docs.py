@@ -41,7 +41,7 @@ class GenHandwrittenDocs:
         )
         run_cmd_with_output(comm_str=myst_comm)
 
-    def create_hwdocs(self):
+    def gen_handwritten_docs(self):
         import os
 
         # get the current working directory
@@ -63,44 +63,10 @@ class GenHandwrittenDocs:
 
         self.handwritten_docs_infiles.extend(hwdocs_infiles)
         LOG.debug("handwritten_docs_infiles: %s", self.handwritten_docs_infiles)
-        # sys.exit(42)
-        ##################################################
-
-        # for docfile_rpath in self.handwritten_docs_infiles:
-        #     docdata = FilepathDatahandler(
-        #         infile_rpath=docfile_rpath,
-        #         glob_patterns=self.cnf.get("docs_glob_patterns"),
-        #         replace_str=".md",
-        #         category_names=self.cnf.get("catnames_docs"),
-        #         undef_category_dir=self.cnf.get("undef_category_dir_hwdocs"),
-        #         is_undef=None,
-        #         leave_original_dir_structure=True,
-        #     )
-
-        #     # hfile.move_files_and_dirs(
-        #     #     source=docdata.infile_rpath,
-        #     #     target=docdata.outfile_rpath,
-        #     # )
-
-        #     # if "contributing" in docdata.outfile_rpath:
-        #     #     rprint("docdata", docdata)
-
-        #     #     ##################################################
-        #     #     # rst_and_md2_md_file_writer = RstandM2MdFileWriter(
-        #     #     #     cnf=self.cnf,
-        #     #     #     docdata=docdata,
-        #     #     # )
-        #     #     # rst_and_md2_md_file_writer.process_hwdocs()
-        #     #     sys.exit(42)
-
-        #     ##################################################
-        #     self.catname_2mdfile_dict[docdata.outfile_catname].append(
-        #         docdata.outfile_rpath
-        #     )
 
         table_of_contents_processor = MdToc2YamlProcessor(
             cnf=self.cnf,
             search_path="docs_bash-it/docs/docshw/",
         )
-        catname_2mdfile_dict = table_of_contents_processor.main()
-        return catname_2mdfile_dict
+        navbar_cleaned_dict = table_of_contents_processor.main()
+        return navbar_cleaned_dict

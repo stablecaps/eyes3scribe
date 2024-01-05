@@ -59,7 +59,7 @@ def dump_yaml_file(
         yaml.dump(yaml_data, yaml_path)
 
 
-def dict2_yaml_file(
+def write_dict_2yaml_file(
     filename,
     yaml_dict,
 ):
@@ -71,7 +71,7 @@ def dict2_yaml_file(
         yaml_dict (dict): The dictionary to write.
 
     Example:
-        dict2_yaml_file("config.yaml", {"key": "value"})
+        write_dict_2yaml_file("config.yaml", {"key": "value"})
     """
     with open(filename, "w") as yaml_path:
         print("Writing yaml data to file name", filename)
