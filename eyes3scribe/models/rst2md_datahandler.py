@@ -6,15 +6,15 @@ from dataclasses import dataclass, field
 
 from rich import print as rprint
 
-from bashautodoc.helpo import hfile, hstrops
-from bashautodoc.models.rst2md_converter_anchors import (
+from eyes3scribe.helpo import hfile, hstrops
+from eyes3scribe.models.rst2md_converter_anchors import (
     Rst2MdConverter2AnchorsEnd1,
     Rst2MdConverter2AnchorsStart2,
 )
-from bashautodoc.models.rst2md_converter_triple_colonic_bypass import (
+from eyes3scribe.models.rst2md_converter_triple_colonic_bypass import (
     Rst2mdConverterTripleColonicBypass,
 )
-from bashautodoc.regex_patterns import *
+from eyes3scribe.regex_patterns import *
 
 LOG = logging.getLogger(__name__)
 

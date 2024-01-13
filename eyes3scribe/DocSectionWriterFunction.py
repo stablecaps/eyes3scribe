@@ -1,7 +1,7 @@
 import logging
 
-from bashautodoc.function_call_tree import draw_tree, parser
-from bashautodoc.helpo.hstrops import rm_lines_starting_with
+from eyes3scribe.function_call_tree import draw_tree, parser
+from eyes3scribe.helpo.hstrops import rm_lines_starting_with
 
 LOG = logging.getLogger(__name__)
 

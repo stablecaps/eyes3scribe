@@ -6,9 +6,9 @@ MkDocs site. It is the main entry point for the code in this repo.
 import sentry_sdk
 import yaml
 
-from bashautodoc.config import Config
-from bashautodoc.gen_mkdocs_nav_bar import GenMkdocsNavBar
-from bashautodoc.setup_docs_project import SetupDocsProject
+from eyes3scribe.config import Config
+from eyes3scribe.gen_mkdocs_nav_bar import GenMkdocsNavBar
+from eyes3scribe.setup_docs_project import SetupDocsProject
 
 sentry_sdk.init(
     dsn="https://4b9aa1ef8464e2e3522cc9dc3d4b5a19@o4506486318563328.ingest.sentry.io/4506486328655872",
@@ -31,10 +31,10 @@ import sys
 from dotmap import DotMap
 from rich import print as rprint
 
-from bashautodoc.gen_handwritten_docs import GenHandwrittenDocs
-from bashautodoc.helpo.coloured_log_formatter import ColouredLogFormatter
-from bashautodoc.helpo.hfile import write_dict_2yaml_file
-from bashautodoc.shell_src_preprocessor import ShellSrcPreProcessor
+from eyes3scribe.gen_handwritten_docs import GenHandwrittenDocs
+from eyes3scribe.helpo.coloured_log_formatter import ColouredLogFormatter
+from eyes3scribe.helpo.hfile import write_dict_2yaml_file
+from eyes3scribe.shell_src_preprocessor import ShellSrcPreProcessor
 
 LOG = logging.getLogger(__name__)
 # logging.basicConfig(level=logging.INFO, stream=sys.stdout)

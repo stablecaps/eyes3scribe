@@ -3,7 +3,7 @@ import sys
 
 from rich import print as rprint
 
-from bashautodoc.helpo import hfile
+from eyes3scribe.helpo import hfile
 
 toclinks_map = {}
 

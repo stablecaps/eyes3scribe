@@ -1,4 +1,4 @@
-name: Test Bash-auto-doc
+name: Test eyes3scribe
 
 on:
   push:

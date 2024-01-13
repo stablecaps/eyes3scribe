@@ -2,7 +2,7 @@ import logging
 import os
 import sys
 
-from bashautodoc.helpo import hfile
+from eyes3scribe.helpo import hfile
 
 LOG = logging.getLogger(__name__)
 

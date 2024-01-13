@@ -8,8 +8,8 @@ from dataclasses import dataclass, field
 
 from rich import print as rprint
 
-from bashautodoc.helpo import hfile, hstrops
-from bashautodoc.regex_patterns import admon_patt_multiline_start, mdlink_patt
+from eyes3scribe.helpo import hfile, hstrops
+from eyes3scribe.regex_patterns import admon_patt_multiline_start, mdlink_patt
 
 LOG = logging.getLogger(__name__)
 

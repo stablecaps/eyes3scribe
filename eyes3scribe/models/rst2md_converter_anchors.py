@@ -7,8 +7,8 @@ from dataclasses import dataclass, field
 
 from rich import print as rprint
 
-from bashautodoc.helpo import hfile, hstrops
-from bashautodoc.regex_patterns import anchorend_patt, anchorstart_patt, hxhash_patt
+from eyes3scribe.helpo import hfile, hstrops
+from eyes3scribe.regex_patterns import anchorend_patt, anchorstart_patt, hxhash_patt
 
 LOG = logging.getLogger(__name__)
 

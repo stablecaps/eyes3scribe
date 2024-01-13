@@ -8,8 +8,8 @@ from dotmap import DotMap
 from rich import print as rprint
 from ruamel.yaml import YAML
 
-import bashautodoc.helpo.hsubprocess as hsubp
-from bashautodoc.helpo.hstrops import does_str_contain_pattern, rreplace
+import eyes3scribe.helpo.hsubprocess as hsubp
+from eyes3scribe.helpo.hstrops import does_str_contain_pattern, rreplace
 
 # import yaml
 
@@ -85,10 +85,17 @@ def read_file_2string(filepath):
     return file_text
 
 
-def write_string_2file(filepath, file_text):
-    with open(filepath, "w") as outfile:
+def write_string_2file(filepath, file_text, mode="w"):
+    with open(filepath, mode) as outfile:
         LOG.debug("Writing file: %s", filepath)
         outfile.write(file_text)
+
+
+def write_list_2file(filepath, strlist, mode="w"):
+    with open(filepath, mode) as outfile:
+        LOG.debug("Writing file: %s", filepath)
+        for line in strlist:
+            outfile.write(line + "\n")
 
 
 def rmdir_if_exists(target):

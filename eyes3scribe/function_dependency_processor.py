@@ -2,7 +2,7 @@ import logging
 
 from rich import print as print
 
-from bashautodoc.helpo.hstrops import rm_lines_starting_with
+from eyes3scribe.helpo.hstrops import rm_lines_starting_with
 
 LOG = logging.getLogger(__name__)
 

@@ -20,9 +20,9 @@ Classes:
 import logging
 from collections import defaultdict
 
-from bashautodoc.models.filepath_datahandler import FilepathDatahandler
-from bashautodoc.models.function_datahandler import FunctionDatahandler
-from bashautodoc.shell_2md_file_writer import Sh2MdFileWriter
+from eyes3scribe.models.filepath_datahandler import FilepathDatahandler
+from eyes3scribe.models.function_datahandler import FunctionDatahandler
+from eyes3scribe.shell_2md_file_writer import Sh2MdFileWriter
 
 LOG = logging.getLogger(__name__)
 

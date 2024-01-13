@@ -4,7 +4,7 @@ import sys
 
 from rich import print as rprint
 
-from bashautodoc.helpo.hfile import (
+from eyes3scribe.helpo.hfile import (
     copy_dir,
     mkdir_if_notexists,
     move_files_and_dirs,

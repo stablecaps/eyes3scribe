@@ -6,18 +6,18 @@ from dataclasses import dataclass, field
 
 from rich import print as rprint
 
-from bashautodoc.gen_navbar_dict import GenNavbarDict
-from bashautodoc.helpo.hfile import multiglob_dir_search, write_string_2file
-from bashautodoc.helpo.hsubprocess import run_cmd_with_output
-from bashautodoc.models.rst2md_converter_anchors import (
+from eyes3scribe.gen_navbar_dict import GenNavbarDict
+from eyes3scribe.helpo.hfile import multiglob_dir_search, write_string_2file
+from eyes3scribe.helpo.hsubprocess import run_cmd_with_output
+from eyes3scribe.models.rst2md_converter_anchors import (
     Rst2MdConverter2AnchorsEnd1,
     Rst2MdConverter2AnchorsStart2,
 )
-from bashautodoc.models.rst2md_converter_triple_colonic_bypass import (
+from eyes3scribe.models.rst2md_converter_triple_colonic_bypass import (
     Rst2mdConverterTripleColonicBypass,
 )
-from bashautodoc.models.rst2md_datahandler import Rst2MdConverter1Toc, run
-from bashautodoc.regex_patterns import *
+from eyes3scribe.models.rst2md_datahandler import Rst2MdConverter1Toc, run
+from eyes3scribe.regex_patterns import *
 
 LOG = logging.getLogger(__name__)
 

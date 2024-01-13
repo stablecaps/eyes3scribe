@@ -5,7 +5,7 @@ from ruamel.yaml import YAML
 
 yaml = YAML(typ="safe")
 
-from bashautodoc.helpo.hfile import (
+from eyes3scribe.helpo.hfile import (
     copy_clobber,
     copy_dir,
     copy_file,

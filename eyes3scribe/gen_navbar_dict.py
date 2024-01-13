@@ -4,12 +4,12 @@ from collections import defaultdict
 
 from rich import print as rprint
 
-from bashautodoc.helpo import hfile
-from bashautodoc.helpo.hstrops import (
+from eyes3scribe.helpo import hfile
+from eyes3scribe.helpo.hstrops import (
     clean_str_pline,
     get_lines_between_tag_and_blank_line,
 )
-from bashautodoc.regex_patterns import *
+from eyes3scribe.regex_patterns import *
 
 LOG = logging.getLogger(__name__)
 

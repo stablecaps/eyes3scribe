@@ -1,8 +1,8 @@
 import logging
 from dataclasses import dataclass
 
-from bashautodoc.function_dependency_processor import FunctionDependencyProcessor
-from bashautodoc.helpo.hstrops import str_multi_replace
+from eyes3scribe.function_dependency_processor import FunctionDependencyProcessor
+from eyes3scribe.helpo.hstrops import str_multi_replace
 
 LOG = logging.getLogger(__name__)
 

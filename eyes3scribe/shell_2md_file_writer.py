@@ -22,7 +22,7 @@ import logging
 from mdutils.mdutils import MdUtils
 from rich import print as rprint
 
-from bashautodoc.DocSectionWriterFunction import DocSectionWriterFunction
+from eyes3scribe.DocSectionWriterFunction import DocSectionWriterFunction
 
 LOG = logging.getLogger(__name__)
 
