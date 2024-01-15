@@ -84,8 +84,7 @@ class Launcher:
         self.yaml_dict = {}
         for key, value in self.cnf.items():
             if key in self.cnf.eyes3scribe_keys:
-                rprint("opassing key", key)
-                pass
+                rprint("passing key", key)
             else:
                 if isinstance(value, DotMap):
                     self.yaml_dict[key] = value.toDict()

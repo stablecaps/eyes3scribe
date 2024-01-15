@@ -124,13 +124,10 @@ def does_str_contain_pattern(instr, input_patt_li):
     Example:
         contains_pattern = does_str_contain_pattern("Hello, world!", ["world", "!"])
     """
-    for idx in range(len(input_patt_li)):
-        clean_pattern = input_patt_li[idx].strip()
-        input_patt_li[idx] = clean_pattern
 
     instr_clean = instr.strip()
-    for pattern in input_patt_li:
-        if pattern in instr_clean:
+    for input_patt in input_patt_li:
+        if input_patt.strip() in instr_clean:
             return True
     return False
 
@@ -175,7 +172,7 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
         >>> rm_lines_starting_with("Hello,\nworld!", ["Hell", "world"])
         "world!"
     """
-    out_str = ""
+
     multiline_str_list = multiline_str.split("\n")
     print("multiline_str_list", multiline_str_list)
     filtered_multiline_str_list = [
