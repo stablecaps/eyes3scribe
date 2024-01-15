@@ -7,7 +7,6 @@ from dataclasses import dataclass, field
 from rich import print as rprint
 
 from eyes3scribe.helpo import hfile, hstrops
-from eyes3scribe.regex_patterns import *
 
 LOG = logging.getLogger(__name__)
 

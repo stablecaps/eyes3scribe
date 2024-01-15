@@ -6,7 +6,6 @@ from rich import print as rprint
 from eyes3scribe.helpo.hfile import multiglob_dir_search, write_string_2file
 from eyes3scribe.helpo.hsubprocess import run_cmd_with_output
 from eyes3scribe.models.rst2md_datahandler import Rst2MdConverter1Toc
-from eyes3scribe.regex_patterns import *
 
 #
 from eyes3scribe.rst2md_converters.r2m_anchors_end_step1 import R2MAnchorsEndStep1
