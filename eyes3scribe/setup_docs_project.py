@@ -1,6 +1,4 @@
 import logging
-import os
-import sys
 
 from eyes3scribe.helpo import hfile
 

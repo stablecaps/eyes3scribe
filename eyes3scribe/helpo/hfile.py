@@ -11,9 +11,6 @@ from ruamel.yaml import YAML
 import eyes3scribe.helpo.hsubprocess as hsubp
 from eyes3scribe.helpo.hstrops import does_str_contain_pattern, rreplace
 
-# import yaml
-
-
 LOG = logging.getLogger(__name__)
 
 yaml = YAML(typ="safe")

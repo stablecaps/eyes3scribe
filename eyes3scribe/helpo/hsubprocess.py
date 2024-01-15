@@ -2,7 +2,7 @@
 
 import shlex
 import subprocess
-from typing import Dict, List, Optional, Union
+from typing import List, Optional, Union
 
 
 def shlex_convert_str_2list(comm_str: str) -> List[str]:

@@ -1,8 +1,6 @@
 import logging
 import os
 import sys
-from collections import defaultdict
-from dataclasses import dataclass
 
 from eyes3scribe.helpo import hfile
 

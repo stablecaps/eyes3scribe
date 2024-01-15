@@ -1,16 +1,8 @@
 import logging
-import os
-import sys
 
 from rich import print as rprint
 
-from eyes3scribe.helpo.hfile import (
-    copy_dir,
-    mkdir_if_notexists,
-    move_files_and_dirs,
-    rmdir_if_exists,
-    write_dict_2yaml_file,
-)
+from eyes3scribe.helpo.hfile import move_files_and_dirs, rmdir_if_exists
 
 LOG = logging.getLogger(__name__)
 

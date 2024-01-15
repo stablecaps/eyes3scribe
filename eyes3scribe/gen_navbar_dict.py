@@ -1,5 +1,4 @@
 import logging
-import sys
 from collections import defaultdict
 
 from rich import print as rprint
@@ -12,8 +11,6 @@ from eyes3scribe.helpo.hstrops import (
 from eyes3scribe.regex_patterns import *
 
 LOG = logging.getLogger(__name__)
-
-# TODO: initialise all regex patterns in a single place
 
 
 # TODO: refactor the hell out of this ;o)
