@@ -1,4 +1,4 @@
-# BASH Auto Doc
+# Eyes3Scribe
 
 [![DeepSource](https://app.deepsource.com/gh/stablecaps/eyes3scribe.svg/?label=active+issues&show_trend=true&token=JveipNb_ClaKjk0YBBKrG-32)](https://app.deepsource.com/gh/stablecaps/eyes3scribe/)
 [![DeepSource](https://app.deepsource.com/gh/stablecaps/eyes3scribe.svg/?label=resolved+issues&show_trend=true&token=JveipNb_ClaKjk0YBBKrG-32)](https://app.deepsource.com/gh/stablecaps/eyes3scribe/)

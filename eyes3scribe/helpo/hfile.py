@@ -132,8 +132,8 @@ def copy_clobber(source, target):
     LOG.info("Copied: %s --> %s", source, target)
 
 
-def copy_dir(source, target):
-    shutil.copytree(source, target, dirs_exist_ok=True)
+def copy_dir(source, target, symlinks=False, dirs_exist_ok=True):
+    shutil.copytree(source, target, symlinks=symlinks, dirs_exist_ok=dirs_exist_ok)
 
     LOG.info("Copied: %s --> %s", source, target)
 

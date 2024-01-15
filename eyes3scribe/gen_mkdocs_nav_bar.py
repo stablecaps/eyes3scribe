@@ -163,7 +163,7 @@ class GenMkdocsNavBar:
 
     @classmethod
     def main(cls):
-        if cls.cnf["handwritten_docs_dir"]:
+        if cls.cnf["handwritten_docs_indir"]:
             LOG.info("Set handwritten docs as main to nav")
             cls.mkdocs_add_handwrittendocs_to_nav()
 

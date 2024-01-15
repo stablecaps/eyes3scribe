@@ -24,20 +24,26 @@ class SetupDocsProject:
         hfile.mkdir_if_notexists(target=self.cnf.undef_category_dir)
         hfile.mkdir_if_notexists(target=self.cnf.undef_category_dir_hwdocs)
 
+        print(self.cnf.shell_srcdir, self.cnf.project_docs_dir)
+        hfile.copy_dir(
+            source=self.cnf.shell_srcdir,
+            target=self.cnf.project_docs_dir,
+            symlinks=True,
+            dirs_exist_ok=True,
+        )
         hfile.copy_dir(
             source="custom_assets/custom_css",
             target=self.cnf.project_css_dir,
         )
-        hfile.copy_dir(source=self.cnf.shell_srcdir, target=self.cnf.project_docs_dir)
 
         # TODO: sort this out later
         LOG.info("Copying additional markdown files")
         # for mdsrc, mddest in self.classmethod"additional_mdfiles").items():
         #     hfile.copy_file(source=mdsrc, target=f"{self.cnf.project_docs_dir}/{mddest}")
 
-        if self.cnf.handwritten_docs_dir:
+        if self.cnf.handwritten_docs_indir:
             hfile.copy_dir(
-                source=self.cnf.handwritten_docs_dir,
+                source=self.cnf.handwritten_docs_indir,
                 target=self.cnf.handwritten_docs_outdir,
             )
 
@@ -98,7 +104,7 @@ class SetupDocsProject:
         self.copy_starting_files()
 
         clean_hwdocs_rpaths = None
-        if self.cnf.handwritten_docs_dir:
+        if self.cnf.handwritten_docs_indir:
             clean_hwdocs_rpaths = self.process_handwritten_docs()
 
         LOG.info("Processing shell source files")
@@ -115,7 +121,7 @@ class SetupDocsProject:
         }
 
     # def somethingelse(self):
-    #     if self.cnf.handwritten_docs_dir:
+    #     if self.cnf.handwritten_docs_indir:
     #         LOG.info("Processing handwritten doc files")
     #         hwdocs_rpaths = hfile.multiglob_dir_search(
     #             search_path=self.cnf.handwritten_docs_outdir,

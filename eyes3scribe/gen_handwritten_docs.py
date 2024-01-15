@@ -6,7 +6,8 @@ from rich import print as rprint
 from eyes3scribe.gen_navbar_dict import GenNavbarDict
 from eyes3scribe.helpo import hfile
 from eyes3scribe.helpo.hsubprocess import run_cmd_with_output
-from eyes3scribe.models.rst2md_datahandler import run
+
+# from eyes3scribe.models.rst2md_datahandler import run
 from eyes3scribe.pipeline_rst2md import PipelineRst2Md
 
 # from bashautodoc.rst_and_md2md_file_writer import RstandM2MdFileWriter
@@ -17,12 +18,12 @@ LOG = logging.getLogger(__name__)
 class GenHandwrittenDocs:
     def __init__(self, cnf) -> None:
         self.cnf = cnf
-        # self.cnf.handwritten_docs_dir = handwritten_docs_dir
+        # self.cnf.handwritten_docs_outdir = handwritten_docs_outdir
         self.handwritten_docs_infiles = []
 
         # self.catname_2mdfile_dict = defaultdict(list)
 
-        rprint("handwritten_docs_dir", self.cnf.handwritten_docs_dir)
+        rprint("handwritten_docs_outdir", self.cnf.handwritten_docs_outdir)
         # sys.exit(42)
         # self.rst_files = []
 
@@ -39,7 +40,7 @@ class GenHandwrittenDocs:
 
         ##################################################
         hwdocs_infiles = hfile.multiglob_dir_search(
-            search_path=self.cnf.handwritten_docs_dir,
+            search_path=self.cnf.handwritten_docs_outdir,
             glob_patt_list=["*.md"],
         )
 

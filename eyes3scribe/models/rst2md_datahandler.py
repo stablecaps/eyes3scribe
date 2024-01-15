@@ -7,14 +7,14 @@ from dataclasses import dataclass, field
 from rich import print as rprint
 
 from eyes3scribe.helpo import hfile, hstrops
-from eyes3scribe.models.rst2md_converter_anchors import (
+from eyes3scribe.regex_patterns import *
+from eyes3scribe.rst2md_converters.rst2md_converter_anchors import (
     Rst2MdConverter2AnchorsEnd1,
     Rst2MdConverter2AnchorsStart2,
 )
-from eyes3scribe.models.rst2md_converter_triple_colonic_bypass import (
+from eyes3scribe.rst2md_converters.rst2md_converter_triple_colonic_bypass import (
     Rst2mdConverterTripleColonicBypass,
 )
-from eyes3scribe.regex_patterns import *
 
 LOG = logging.getLogger(__name__)
 
@@ -187,72 +187,3 @@ class Rst2MdConverter1Toc:
 
         rprint("cls.r2m ", cls.r2m)
         return cls.r2m
-
-
-toclinks_map_all = {}
-r2m_list = []
-
-anchorend_detail_map_all = {}
-anchorend_fast_map_all = {}
-
-
-def run(cnf, hwdocs_search_path):
-    hwdoc_rpaths = hfile.multiglob_dir_search(
-        search_path=hwdocs_search_path,
-        glob_patt_list=["*.md"],
-    )
-
-    ### For every rst file
-    # 1. establish if it has a TOC
-    # 2. convert rst toc lkinks to makrkdown links
-    # 3. return a  Rst2MdDataHolder object with relevant data
-    # 4. store the Rst2MdDataHolder object in a list
-    # 5. convert {ref} links to markdown links
-
-    for hwdoc_rpath in hwdoc_rpaths:
-        r2m = Rst2MdConverter1Toc(
-            cnf=cnf,
-            hwdoc_rpath=hwdoc_rpath,
-        )
-
-        toclinks_map_all.update(r2m.toclinks_map)
-
-        r2m_v2 = Rst2MdConverter2AnchorsEnd1(r2m=r2m)
-
-        anchorend_detail_map_all.update(r2m_v2.anchorend_detail_map)
-
-        anchorend_fast_map_all.update(r2m_v2.anchorend_fast_map)
-        r2m_list.append(r2m_v2)
-
-        # if "proxy_support" in hwdoc_rpath:
-        #     sys.exit(42)
-
-    rprint("\ntoclinks_map_all:")
-    for toclink_key, toclink_val in toclinks_map_all.items():
-        print("   >>", toclink_key + ":\t", toclink_val)
-
-    rprint("\nanchorend_detail_map_all:")
-    for anchor_key, anchor_val in anchorend_detail_map_all.items():
-        print("   >>", anchor_key + ":\t", anchor_val)
-
-    rprint("\nanchorend_fast_map_all:")
-    for qanchor_key, qanchor_val in anchorend_fast_map_all.items():
-        print("   >>", qanchor_key + ":\t", qanchor_val)
-
-    # sys.exit(42)
-    ### Replace rst ref links with markdown links
-    for r2m in r2m_list:
-        rprint("r2m", r2m)
-        r2m_v3 = Rst2MdConverter2AnchorsStart2(
-            r2m=r2m,
-            anchorend_detail_map_all=anchorend_detail_map_all,
-            anchorend_fast_map_all=anchorend_fast_map_all,
-        )
-        rprint("r2m_v3", r2m_v3)
-        r2m_v4 = Rst2mdConverterTripleColonicBypass(r2m=r2m_v3)
-
-        # if "themes-list/index" in r2m.hwdoc_rpath:
-        #     rprint("r2m.filetext", r2m.filetext)
-        #     sys.exit(42)
-        hfile.write_string_2file(f"{r2m.hwdoc_root}/{r2m.hwdoc_name}", r2m_v4.filetext)
-    # sys.exit(42)

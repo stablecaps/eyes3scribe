@@ -40,7 +40,7 @@ catnames_src:
   - plugins
 #
 handwritten_docs_rst: true
-handwritten_docs_dir: /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-it/docs
+handwritten_docs_indir: /media/bsgt/jogi1/XX_local_PSYNC_linux2/XXX_CONTRACTING/stablecaps/0000_STABLECAPS_GITREPOS/bash-it/docs
 docs_glob_patterns:
   - "*.md"
   - "*.rst"

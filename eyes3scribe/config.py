@@ -130,7 +130,7 @@ class Config:
             "nav_codedocs_as_ref_or_main",
             "nav_codedocs_name",
             "handwritten_docs_rst",
-            "handwritten_docs_dir",
+            "handwritten_docs_indir",
             "handwritten_docs_outdir",
             "docs_glob_patterns",
             "exclusion_patterns_docs",
@@ -161,7 +161,7 @@ class Config:
             cls.cnf.undef_category_dir_hwdocs,
         )
 
-        LOG.info("handwritten_docs_dir: %s", cls.cnf.handwritten_docs_dir)
+        LOG.info("handwritten_docs_indir: %s", cls.cnf.handwritten_docs_indir)
         LOG.info("handwritten_docs_outdir: %s", cls.cnf.handwritten_docs_outdir)
         LOG.info("exclusion_patterns_src: %s", cls.exclusion_patterns_src)
         LOG.info("exclusion_patterns_docs: %s", cls.cnf.exclusion_patterns_docs)
