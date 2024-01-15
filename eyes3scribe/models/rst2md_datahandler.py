@@ -8,13 +8,24 @@ from rich import print as rprint
 
 from eyes3scribe.helpo import hfile, hstrops
 from eyes3scribe.regex_patterns import *
-from eyes3scribe.rst2md_converters.rst2md_converter_anchors import (
-    Rst2MdConverter2AnchorsEnd1,
-    Rst2MdConverter2AnchorsStart2,
-)
-from eyes3scribe.rst2md_converters.rst2md_converter_triple_colonic_bypass import (
-    Rst2mdConverterTripleColonicBypass,
-)
+
+# from eyes3scribe.rst2md_converters.r2m_anchors_end_step1 import (
+#     R2MAnchorsEndStep1,
+# )
+# from eyes3scribe.rst2md_converters.r2m_anchors_start_step2 import (
+#     R2MAnchorsStartStep2,
+# )
+# from eyes3scribe.rst2md_converters.rst2md_converter_triple_colonic_bypass import (
+#     R2MTripleColonicBypass,
+# )
+
+# from eyes3scribe.rst2md_converters.r2m_anchors_end_step1 import (
+#     R2MAnchorsEndStep1,
+# )
+# from eyes3scribe.rst2md_converters.r2m_anchors_start_step2 import (
+#     R2MAnchorsStartStep2,
+# )
+
 
 LOG = logging.getLogger(__name__)
 

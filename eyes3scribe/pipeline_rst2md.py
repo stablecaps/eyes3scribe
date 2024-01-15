@@ -9,15 +9,24 @@ from rich import print as rprint
 from eyes3scribe.gen_navbar_dict import GenNavbarDict
 from eyes3scribe.helpo.hfile import multiglob_dir_search, write_string_2file
 from eyes3scribe.helpo.hsubprocess import run_cmd_with_output
-from eyes3scribe.rst2md_converters.rst2md_converter_anchors import (
-    Rst2MdConverter2AnchorsEnd1,
-    Rst2MdConverter2AnchorsStart2,
-)
-from eyes3scribe.rst2md_converters.rst2md_converter_triple_colonic_bypass import (
-    Rst2mdConverterTripleColonicBypass,
-)
 from eyes3scribe.models.rst2md_datahandler import Rst2MdConverter1Toc
 from eyes3scribe.regex_patterns import *
+from eyes3scribe.rst2md_converters.r2m_anchors_end_step1 import R2MAnchorsEndStep1
+from eyes3scribe.rst2md_converters.r2m_anchors_start_step2 import R2MAnchorsStartStep2
+from eyes3scribe.rst2md_converters.r2m_triple_colonic_bypass import (
+    R2MTripleColonicBypass,
+)
+
+# from eyes3scribe.rst2md_converters.r2m_anchors_end_step1 import (
+#     R2MAnchorsEndStep1,
+# )
+# from eyes3scribe.rst2md_converters.r2m_anchors_start_step2 import (
+#     R2MAnchorsStartStep2,
+# )
+# from eyes3scribe.rst2md_converters.rst2md_converter_triple_colonic_bypass import (
+#     R2MTripleColonicBypass,
+# )
+
 
 LOG = logging.getLogger(__name__)
 
@@ -80,7 +89,7 @@ class PipelineRst2Md:
 
             self.toclinks_map_all.update(r2m.toclinks_map)
 
-            r2m_v2 = Rst2MdConverter2AnchorsEnd1(r2m=r2m)
+            r2m_v2 = R2MAnchorsEndStep1(r2m=r2m)
 
             self.anchorend_detail_map_all.update(r2m_v2.anchorend_detail_map)
 
@@ -106,13 +115,13 @@ class PipelineRst2Md:
         ### Replace rst ref links with markdown links
         for r2m in self.r2m_list:
             rprint("r2m", r2m)
-            r2m_v3 = Rst2MdConverter2AnchorsStart2(
+            r2m_v3 = R2MAnchorsStartStep2(
                 r2m=r2m,
                 anchorend_detail_map_all=self.anchorend_detail_map_all,
                 anchorend_fast_map_all=self.anchorend_fast_map_all,
             )
             rprint("r2m_v3", r2m_v3)
-            r2m_v4 = Rst2mdConverterTripleColonicBypass(r2m=r2m_v3)
+            r2m_v4 = R2MTripleColonicBypass(r2m=r2m_v3)
 
             # if "themes-list/index" in r2m.hwdoc_rpath:
             #     rprint("r2m.filetext", r2m.filetext)

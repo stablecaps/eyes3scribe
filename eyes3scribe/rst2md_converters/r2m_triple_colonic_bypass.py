@@ -1,14 +1,11 @@
-import copy
 import logging
 import re
 import sys
 import textwrap
-from collections import defaultdict
-from dataclasses import dataclass, field
 
 from rich import print as rprint
 
-from eyes3scribe.helpo import hfile, hstrops
+from eyes3scribe.helpo import hstrops
 from eyes3scribe.regex_patterns import admon_patt_multiline_start, mdlink_patt
 
 LOG = logging.getLogger(__name__)
@@ -48,7 +45,7 @@ def gen_img_html(rst_img_dict):
     return img_html
 
 
-class Rst2mdConverterTripleColonicBypass:
+class R2MTripleColonicBypass:
     def __new__(
         cls,
         r2m,
