@@ -1,11 +1,11 @@
-# BASH Auto Doc
+# Eyes3Scribe
 
-[![DeepSource](https://app.deepsource.com/gh/stablecaps/bash-auto-doc.svg/?label=active+issues&show_trend=true&token=JveipNb_ClaKjk0YBBKrG-32)](https://app.deepsource.com/gh/stablecaps/bash-auto-doc/)
-[![DeepSource](https://app.deepsource.com/gh/stablecaps/bash-auto-doc.svg/?label=resolved+issues&show_trend=true&token=JveipNb_ClaKjk0YBBKrG-32)](https://app.deepsource.com/gh/stablecaps/bash-auto-doc/)
+[![DeepSource](https://app.deepsource.com/gh/stablecaps/eyes3scribe.svg/?label=active+issues&show_trend=true&token=JveipNb_ClaKjk0YBBKrG-32)](https://app.deepsource.com/gh/stablecaps/eyes3scribe/)
+[![DeepSource](https://app.deepsource.com/gh/stablecaps/eyes3scribe.svg/?label=resolved+issues&show_trend=true&token=JveipNb_ClaKjk0YBBKrG-32)](https://app.deepsource.com/gh/stablecaps/eyes3scribe/)
 
-[![Test Bash-auto-doc](https://github.com/stablecaps/bash-auto-doc/actions/workflows/test-python-app.yml/badge.svg)](https://github.com/stablecaps/bash-auto-doc/actions/workflows/test-python-app.yml)
+[![Test eyes3scribe](https://github.com/stablecaps/eyes3scribe/actions/workflows/test-python-app.yml/badge.svg)](https://github.com/stablecaps/eyes3scribe/actions/workflows/test-python-app.yml)
 
-[![github-repo-stats](https://github.com/stablecaps/bash-auto-doc/actions/workflows/github-repo-stats.yml/badge.svg)](https://github.com/stablecaps/bash-auto-doc/actions/workflows/github-repo-stats.yml)
+[![github-repo-stats](https://github.com/stablecaps/eyes3scribe/actions/workflows/github-repo-stats.yml/badge.svg)](https://github.com/stablecaps/eyes3scribe/actions/workflows/github-repo-stats.yml)
 
 ### Broken badges
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
@@ -63,9 +63,8 @@ python gen_mkdocs_site.py --help
 ## Program structure
 
 **Auto-Documatix Callgraph:**
-__(made with [Code2Flow](https://github.com/scottrogowski/code2flow))__
-![Callgraph](images/callgraph.png)
-
+__(made with [PyDeps](https://github.com/thebjorn/pydeps?tab=readme-ov-file#usage))__
+![PyDeps](images/launcher.svg)
 
 ## Contributing
 Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
@@ -127,7 +126,7 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
 
 8. **Miscellaneous**
     1. amend readme to take into account poetry & also list instructions for standalone binary
-    2. rename site to bashautodoc
+    2. rename site to eyes3scribe
 
 ## Not so Random info links
 
@@ -139,3 +138,10 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
 4. [What is a Call Graph? And How to Generate them Automatically](https://www.freecodecamp.org/news/how-to-automate-call-graph-creation/)
 5. [Crabviz: a call graph generator for various programming languages](https://www.reddit.com/r/rust/comments/142is0h/crabviz_a_call_graph_generator_for_various/)
 6. [**Insane**: Callgraphs with Ghidra, Pyhidra, and Jpype](https://clearbluejar.github.io/posts/callgraphs-with-ghidra-pyhidra-and-jpype/)
+
+
+### Dependency analysis v2
+
+1. https://github.com/glato/emerge
+2. https://github.com/thebjorn/pydeps
+3. https://www.python.org/success-stories/building-a-dependency-graph-of-our-python-codebase/

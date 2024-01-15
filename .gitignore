@@ -132,3 +132,5 @@ mkdocs_stablecaps_bashrc/*
 output-docs/*
 docs_bash-it/*
 bin/deepsource
+eyes3scribe.code-workspace
+emerge_input/*

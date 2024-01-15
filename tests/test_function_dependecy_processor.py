@@ -1,6 +1,6 @@
 import pytest
 
-from bashautodoc.function_dependency_processor import FunctionDependencyProcessor
+from eyes3scribe.function_dependency_processor import FunctionDependencyProcessor
 from tests.data_function_dependecy_processor import *
 
 

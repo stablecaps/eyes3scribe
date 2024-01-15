@@ -1,4 +1,4 @@
-from bashautodoc.helpo.hstrops import str_multi_replace
+from eyes3scribe.helpo.hstrops import str_multi_replace
 
 # def test_does_str_contain_pattern():
 #     # Test when the string contains a pattern

@@ -5,26 +5,26 @@ from ruamel.yaml import YAML
 
 yaml = YAML(typ="safe")
 
-from bashautodoc.helpo.hfile import (
+from eyes3scribe.helpo.hfile import (
     copy_clobber,
     copy_dir,
     copy_file,
-    dict2_yaml_file,
     dump_yaml_file,
-    load_yaml_file2dict,
+    load_yaml_file2dotmap,
     mkdir_if_notexists,
     rmdir_if_exists,
+    write_dict_2yaml_file,
 )
 
 
-def test_load_yaml_file2dict():
+def test_load_yaml_file2dotmap():
     # Create a temporary yaml file
     with tempfile.NamedTemporaryFile(suffix=".yaml", delete=False) as temp:
         temp.write(b"name: Test")
         temp_name = temp.name
 
     # Load the yaml file
-    result = load_yaml_file2dict(temp_name)
+    result = load_yaml_file2dotmap(temp_name)
 
     # Check the result
     assert result == {
@@ -56,14 +56,14 @@ def test_dump_yaml_file():
     os.remove(temp_name)
 
 
-def test_dict2_yaml_file():
+def test_write_dict_2yaml_file():
     # Create a temporary yaml file
     with tempfile.NamedTemporaryFile(suffix=".yaml", delete=False) as temp:
         temp_name = temp.name
 
     # Write a dictionary to the yaml file
     yaml_dict = {"name": "Test"}
-    dict2_yaml_file(temp_name, yaml_dict)
+    write_dict_2yaml_file(temp_name, yaml_dict)
 
     # Load the yaml file
     with open(temp_name, "r") as f:
