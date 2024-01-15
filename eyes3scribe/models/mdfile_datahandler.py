@@ -3,9 +3,9 @@
 
 # from mdutils.mdutils import MdUtils
 
-# # from bashautodoc.DocSectionWriterFunction import DocSectionWriterFunction
-# from bashautodoc.function_dependency_processor import FunctionDependencyProcessor
-# from bashautodoc.models.function_datahandler import FunctionDataHolder
+# # from eyes3scribe.DocSectionWriterFunction import DocSectionWriterFunction
+# from eyes3scribe.function_dependency_processor import FunctionDependencyProcessor
+# from eyes3scribe.models.function_datahandler import FunctionDataHolder
 
 # LOG = logging.getLogger(__name__)
 

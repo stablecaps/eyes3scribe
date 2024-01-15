@@ -38,7 +38,7 @@ analyses:
   - os
   - sys
   - textwrap
-  - bashautodoc.__init__.py
+  - eyes3scribe.__init__.py
   - models.__init__.py
   - rich
   - logging

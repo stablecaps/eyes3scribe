@@ -10,7 +10,7 @@ from eyes3scribe.helpo.hsubprocess import run_cmd_with_output
 # from eyes3scribe.models.rst2md_datahandler import run
 from eyes3scribe.pipeline_rst2md import PipelineRst2Md
 
-# from bashautodoc.rst_and_md2md_file_writer import RstandM2MdFileWriter
+# from eyes3scribe.rst_and_md2md_file_writer import RstandM2MdFileWriter
 
 LOG = logging.getLogger(__name__)
 

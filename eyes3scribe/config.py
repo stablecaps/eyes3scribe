@@ -22,7 +22,7 @@ class Config:
 
         cls.set_paths()
 
-        cls.set_conf_bashautodoc_keys()
+        cls.set_conf_eyes3scribe_keys()
 
         cls.set_func_def_keywords()
 
@@ -110,9 +110,9 @@ class Config:
         cls.cnf.catnames_docs.append("undef")
 
     @classmethod
-    def set_conf_bashautodoc_keys(cls):
-        cls.cnf.bashautodoc_keys = [
-            "bashautodoc_keys",
+    def set_conf_eyes3scribe_keys(cls):
+        cls.cnf.eyes3scribe_keys = [
+            "eyes3scribe_keys",
             "project_name",
             "program_root_dir",
             "project_reldir",

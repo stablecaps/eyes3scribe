@@ -126,7 +126,7 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
 
 8. **Miscellaneous**
     1. amend readme to take into account poetry & also list instructions for standalone binary
-    2. rename site to bashautodoc
+    2. rename site to eyes3scribe
 
 ## Not so Random info links
 

@@ -83,7 +83,7 @@ class Launcher:
 
         self.yaml_dict = {}
         for key, value in self.cnf.items():
-            if key in self.cnf.bashautodoc_keys:
+            if key in self.cnf.eyes3scribe_keys:
                 rprint("opassing key", key)
                 pass
             else:

@@ -9,232 +9,232 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 345.38)">
 <title>G</title><style>.edge>path:hover{stroke-width:8}</style>
 <polygon fill="white" stroke="transparent" points="-4,4 -4,-345.38 1489.64,-345.38 1489.64,4 -4,4"/>
-<!-- bashautodoc -->
+<!-- eyes3scribe -->
 <g id="node1" class="node">
-<title>bashautodoc</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe</title><style>.edge>path:hover{stroke-width:8}</style>
 <ellipse fill="#a90404" stroke="black" cx="237.9" cy="-231.99" rx="46.51" ry="18"/>
-<text text-anchor="middle" x="237.9" y="-229.49" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">bashautodoc</text>
+<text text-anchor="middle" x="237.9" y="-229.49" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">eyes3scribe</text>
 </g>
-<!-- bashautodoc_DocSectionWriterFunction -->
+<!-- eyes3scribe_DocSectionWriterFunction -->
 <g id="node2" class="node">
-<title>bashautodoc_DocSectionWriterFunction</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_DocSectionWriterFunction</title><style>.edge>path:hover{stroke-width:8}</style>
 <ellipse fill="#b83d3d" stroke="black" cx="920.78" cy="-286.99" rx="101.23" ry="21.43"/>
-<text text-anchor="middle" x="920.78" y="-289.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">bashautodoc.</text>
+<text text-anchor="middle" x="920.78" y="-289.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">eyes3scribe.</text>
 <text text-anchor="middle" x="920.78" y="-278.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">DocSectionWriterFunction</text>
 </g>
-<!-- bashautodoc&#45;&gt;bashautodoc_DocSectionWriterFunction -->
+<!-- eyes3scribe&#45;&gt;eyes3scribe_DocSectionWriterFunction -->
 <g id="edge2" class="edge">
-<title>bashautodoc&#45;&gt;bashautodoc_DocSectionWriterFunction</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe&#45;&gt;eyes3scribe_DocSectionWriterFunction</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M450.97,-261.99C494.69,-267.42 509.37,-260.29 548.26,-280.99 568.24,-291.62 564.27,-306.39 584.26,-316.99 623.72,-337.93 638.52,-331.46 682.96,-335.99"/>
 <path fill="none" stroke="black" d="M684.96,-335.99C746.46,-342.26 815.59,-324.79 862.83,-308.99"/>
 <polygon fill="#a90404" stroke="black" points="864.24,-312.21 872.56,-305.66 861.97,-305.59 864.24,-312.21"/>
 </g>
-<!-- bashautodoc_config -->
+<!-- eyes3scribe_config -->
 <g id="node3" class="node">
-<title>bashautodoc_config</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_config</title><style>.edge>path:hover{stroke-width:8}</style>
 <ellipse fill="#c04040" stroke="black" cx="449.97" cy="-310.99" rx="57.97" ry="21.43"/>
-<text text-anchor="middle" x="449.97" y="-313.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">bashautodoc.</text>
+<text text-anchor="middle" x="449.97" y="-313.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">eyes3scribe.</text>
 <text text-anchor="middle" x="449.97" y="-302.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">config</text>
 </g>
-<!-- bashautodoc&#45;&gt;bashautodoc_config -->
+<!-- eyes3scribe&#45;&gt;eyes3scribe_config -->
 <g id="edge4" class="edge">
-<title>bashautodoc&#45;&gt;bashautodoc_config</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe&#45;&gt;eyes3scribe_config</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M270.9,-244.74C293.43,-253.65 324.33,-265.74 351.69,-275.99 366.71,-281.63 383.11,-287.59 398.09,-292.97"/>
 <polygon fill="#a90404" stroke="black" points="397.11,-296.34 407.7,-296.42 399.47,-289.75 397.11,-296.34"/>
 </g>
-<!-- bashautodoc_create_handwritten_docs -->
+<!-- eyes3scribe_create_handwritten_docs -->
 <g id="node4" class="node">
-<title>bashautodoc_create_handwritten_docs</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_create_handwritten_docs</title><style>.edge>path:hover{stroke-width:8}</style>
 <ellipse fill="#a83838" stroke="black" cx="449.97" cy="-87.99" rx="98.08" ry="21.43"/>
-<text text-anchor="middle" x="449.97" y="-90.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">bashautodoc.</text>
+<text text-anchor="middle" x="449.97" y="-90.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">eyes3scribe.</text>
 <text text-anchor="middle" x="449.97" y="-79.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">create_handwritten_docs</text>
 </g>
-<!-- bashautodoc&#45;&gt;bashautodoc_create_handwritten_docs -->
+<!-- eyes3scribe&#45;&gt;eyes3scribe_create_handwritten_docs -->
 <g id="edge6" class="edge">
-<title>bashautodoc&#45;&gt;bashautodoc_create_handwritten_docs</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe&#45;&gt;eyes3scribe_create_handwritten_docs</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M260.01,-215.85C275.96,-203.25 298.05,-184.92 315.69,-166.99 333.4,-148.98 331.05,-137.57 351.69,-122.99 359.77,-117.28 368.88,-112.41 378.2,-108.27"/>
 <polygon fill="#a90404" stroke="black" points="379.67,-111.45 387.57,-104.38 376.99,-104.99 379.67,-111.45"/>
 </g>
-<!-- bashautodoc_function_call_tree -->
+<!-- eyes3scribe_function_call_tree -->
 <g id="node5" class="node">
-<title>bashautodoc_function_call_tree</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_function_call_tree</title><style>.edge>path:hover{stroke-width:8}</style>
 <ellipse fill="#c24747" stroke="black" cx="1131.44" cy="-310.99" rx="73.58" ry="21.43"/>
-<text text-anchor="middle" x="1131.44" y="-313.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">bashautodoc.</text>
+<text text-anchor="middle" x="1131.44" y="-313.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">eyes3scribe.</text>
 <text text-anchor="middle" x="1131.44" y="-302.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">function_call_tree</text>
 </g>
-<!-- bashautodoc&#45;&gt;bashautodoc_function_call_tree -->
+<!-- eyes3scribe&#45;&gt;eyes3scribe_function_call_tree -->
 <g id="edge8" class="edge">
-<title>bashautodoc&#45;&gt;bashautodoc_function_call_tree</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe&#45;&gt;eyes3scribe_function_call_tree</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M684.96,-335.99C815.19,-349.27 967.6,-334.12 1056.16,-322.29"/>
 <polygon fill="#a90404" stroke="black" points="1056.67,-325.76 1066.11,-320.94 1055.73,-318.82 1056.67,-325.76"/>
 </g>
-<!-- bashautodoc_function_dependency_processor -->
+<!-- eyes3scribe_function_dependency_processor -->
 <g id="node6" class="node">
-<title>bashautodoc_function_dependency_processor</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_function_dependency_processor</title><style>.edge>path:hover{stroke-width:8}</style>
 <ellipse fill="#c24747" stroke="black" cx="1363.31" cy="-237.99" rx="122.16" ry="21.43"/>
-<text text-anchor="middle" x="1363.31" y="-240.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">bashautodoc.</text>
+<text text-anchor="middle" x="1363.31" y="-240.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">eyes3scribe.</text>
 <text text-anchor="middle" x="1363.31" y="-229.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">function_dependency_processor</text>
 </g>
-<!-- bashautodoc&#45;&gt;bashautodoc_function_dependency_processor -->
+<!-- eyes3scribe&#45;&gt;eyes3scribe_function_dependency_processor -->
 <g id="edge10" class="edge">
-<title>bashautodoc&#45;&gt;bashautodoc_function_dependency_processor</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe&#45;&gt;eyes3scribe_function_dependency_processor</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M281.49,-238.54C323.89,-244.95 390.84,-254.78 448.97,-261.99"/>
 <path fill="none" stroke="black" d="M450.97,-261.99C509.8,-269.29 525.02,-259.13 584.26,-256.99 826.99,-248.22 888.09,-221.67 1130.44,-237.99"/>
 </g>
-<!-- bashautodoc_md_toc2_yaml_processor -->
+<!-- eyes3scribe_md_toc2_yaml_processor -->
 <g id="node7" class="node">
-<title>bashautodoc_md_toc2_yaml_processor</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_md_toc2_yaml_processor</title><style>.edge>path:hover{stroke-width:8}</style>
 <ellipse fill="#c04040" stroke="black" cx="683.96" cy="-74.99" rx="99.9" ry="21.43"/>
-<text text-anchor="middle" x="683.96" y="-77.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">bashautodoc.</text>
+<text text-anchor="middle" x="683.96" y="-77.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">eyes3scribe.</text>
 <text text-anchor="middle" x="683.96" y="-66.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">md_toc2_yaml_processor</text>
 </g>
-<!-- bashautodoc&#45;&gt;bashautodoc_md_toc2_yaml_processor -->
+<!-- eyes3scribe&#45;&gt;eyes3scribe_md_toc2_yaml_processor -->
 <g id="edge12" class="edge">
-<title>bashautodoc&#45;&gt;bashautodoc_md_toc2_yaml_processor</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe&#45;&gt;eyes3scribe_md_toc2_yaml_processor</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M257.88,-215.65C279.24,-198.14 315.68,-170.87 351.69,-155.99 433.92,-122 462.47,-141.62 548.26,-117.99 564.66,-113.47 568.12,-110.36 584.26,-104.99 594.18,-101.7 604.7,-98.34 615.04,-95.13"/>
 <polygon fill="#a90404" stroke="black" points="616.35,-98.39 624.87,-92.1 614.29,-91.7 616.35,-98.39"/>
 </g>
-<!-- bashautodoc_shell_2md_file_writer -->
+<!-- eyes3scribe_shell_2md_file_writer -->
 <g id="node13" class="node">
-<title>bashautodoc_shell_2md_file_writer</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_shell_2md_file_writer</title><style>.edge>path:hover{stroke-width:8}</style>
 <ellipse fill="#b83d3d" stroke="black" cx="683.96" cy="-286.99" rx="86.03" ry="21.43"/>
-<text text-anchor="middle" x="683.96" y="-289.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">bashautodoc.</text>
+<text text-anchor="middle" x="683.96" y="-289.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">eyes3scribe.</text>
 <text text-anchor="middle" x="683.96" y="-278.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">shell_2md_file_writer</text>
 </g>
-<!-- bashautodoc&#45;&gt;bashautodoc_shell_2md_file_writer -->
+<!-- eyes3scribe&#45;&gt;eyes3scribe_shell_2md_file_writer -->
 <g id="edge23" class="edge">
-<title>bashautodoc&#45;&gt;bashautodoc_shell_2md_file_writer</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe&#45;&gt;eyes3scribe_shell_2md_file_writer</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M450.97,-261.99C497.96,-267.82 550.4,-273.54 593.52,-278.03"/>
 <polygon fill="#a90404" stroke="black" points="593.4,-281.54 603.7,-279.09 594.12,-274.58 593.4,-281.54"/>
 </g>
-<!-- bashautodoc_shell_src_preprocessor -->
+<!-- eyes3scribe_shell_src_preprocessor -->
 <g id="node14" class="node">
-<title>bashautodoc_shell_src_preprocessor</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_shell_src_preprocessor</title><style>.edge>path:hover{stroke-width:8}</style>
 <ellipse fill="#a13535" stroke="black" cx="449.97" cy="-185.99" rx="90.52" ry="21.43"/>
-<text text-anchor="middle" x="449.97" y="-188.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">bashautodoc.</text>
+<text text-anchor="middle" x="449.97" y="-188.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">eyes3scribe.</text>
 <text text-anchor="middle" x="449.97" y="-177.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">shell_src_preprocessor</text>
 </g>
-<!-- bashautodoc&#45;&gt;bashautodoc_shell_src_preprocessor -->
+<!-- eyes3scribe&#45;&gt;eyes3scribe_shell_src_preprocessor -->
 <g id="edge25" class="edge">
-<title>bashautodoc&#45;&gt;bashautodoc_shell_src_preprocessor</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe&#45;&gt;eyes3scribe_shell_src_preprocessor</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M278.91,-223.23C305.44,-217.42 341.1,-209.61 372.91,-202.65"/>
 <polygon fill="#a90404" stroke="black" points="374.07,-205.98 383.09,-200.42 372.57,-199.14 374.07,-205.98"/>
 </g>
-<!-- bashautodoc_DocSectionWriterFunction&#45;&gt;bashautodoc_function_call_tree -->
+<!-- eyes3scribe_DocSectionWriterFunction&#45;&gt;eyes3scribe_function_call_tree -->
 <g id="edge9" class="edge">
-<title>bashautodoc_DocSectionWriterFunction&#45;&gt;bashautodoc_function_call_tree</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_DocSectionWriterFunction&#45;&gt;eyes3scribe_function_call_tree</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M1009.97,-297.13C1024.2,-298.77 1038.84,-300.46 1052.8,-302.06"/>
 <polygon fill="#b83d3d" stroke="black" points="1052.49,-305.55 1062.82,-303.21 1053.29,-298.59 1052.49,-305.55"/>
 </g>
-<!-- bashautodoc_create_handwritten_docs&#45;&gt;bashautodoc_md_toc2_yaml_processor -->
+<!-- eyes3scribe_create_handwritten_docs&#45;&gt;eyes3scribe_md_toc2_yaml_processor -->
 <g id="edge13" class="edge">
-<title>bashautodoc_create_handwritten_docs&#45;&gt;bashautodoc_md_toc2_yaml_processor</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_create_handwritten_docs&#45;&gt;eyes3scribe_md_toc2_yaml_processor</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M545.33,-82.7C555.79,-82.12 566.49,-81.52 577.08,-80.92"/>
 <polygon fill="#a83838" stroke="black" points="577.39,-84.41 587.18,-80.36 577,-77.42 577.39,-84.41"/>
 </g>
-<!-- bashautodoc_models -->
+<!-- eyes3scribe_models -->
 <g id="node8" class="node">
-<title>bashautodoc_models</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_models</title><style>.edge>path:hover{stroke-width:8}</style>
 <ellipse fill="#b62020" stroke="black" cx="683.96" cy="-134.99" rx="57.97" ry="21.43"/>
-<text text-anchor="middle" x="683.96" y="-137.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">bashautodoc.</text>
+<text text-anchor="middle" x="683.96" y="-137.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">eyes3scribe.</text>
 <text text-anchor="middle" x="683.96" y="-126.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">models</text>
 </g>
-<!-- bashautodoc_create_handwritten_docs&#45;&gt;bashautodoc_models -->
+<!-- eyes3scribe_create_handwritten_docs&#45;&gt;eyes3scribe_models -->
 <g id="edge14" class="edge">
-<title>bashautodoc_create_handwritten_docs&#45;&gt;bashautodoc_models</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_create_handwritten_docs&#45;&gt;eyes3scribe_models</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M522.15,-102.41C554.34,-108.93 591.98,-116.56 622.74,-122.79"/>
 <polygon fill="#a83838" stroke="black" points="622.39,-126.29 632.89,-124.85 623.78,-119.43 622.39,-126.29"/>
 </g>
-<!-- bashautodoc_models_rst2md_datahandler -->
+<!-- eyes3scribe_models_rst2md_datahandler -->
 <g id="node11" class="node">
-<title>bashautodoc_models_rst2md_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_models_rst2md_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
 <ellipse fill="#b83d3d" stroke="black" cx="920.78" cy="-28.99" rx="81.13" ry="28.98"/>
-<text text-anchor="middle" x="920.78" y="-37.49" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">bashautodoc.</text>
+<text text-anchor="middle" x="920.78" y="-37.49" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">eyes3scribe.</text>
 <text text-anchor="middle" x="920.78" y="-26.49" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">models.</text>
 <text text-anchor="middle" x="920.78" y="-15.49" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">rst2md_datahandler</text>
 </g>
-<!-- bashautodoc_create_handwritten_docs&#45;&gt;bashautodoc_models_rst2md_datahandler -->
+<!-- eyes3scribe_create_handwritten_docs&#45;&gt;eyes3scribe_models_rst2md_datahandler -->
 <g id="edge20" class="edge">
-<title>bashautodoc_create_handwritten_docs&#45;&gt;bashautodoc_models_rst2md_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_create_handwritten_docs&#45;&gt;eyes3scribe_models_rst2md_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M498,-69.45C523.18,-60.39 554.96,-50.32 584.26,-44.99 666.26,-30.08 761.27,-26.83 829.21,-26.87"/>
 <polygon fill="#a83838" stroke="black" points="829.44,-30.37 839.45,-26.9 829.46,-23.37 829.44,-30.37"/>
 </g>
-<!-- bashautodoc_models_filepath_datahandler -->
+<!-- eyes3scribe_models_filepath_datahandler -->
 <g id="node9" class="node">
-<title>bashautodoc_models_filepath_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_models_filepath_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
 <ellipse fill="#c04040" stroke="black" cx="920.78" cy="-104.99" rx="83.38" ry="28.98"/>
-<text text-anchor="middle" x="920.78" y="-113.49" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">bashautodoc.</text>
+<text text-anchor="middle" x="920.78" y="-113.49" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">eyes3scribe.</text>
 <text text-anchor="middle" x="920.78" y="-102.49" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">models.</text>
 <text text-anchor="middle" x="920.78" y="-91.49" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">filepath_datahandler</text>
 </g>
-<!-- bashautodoc_models&#45;&gt;bashautodoc_models_filepath_datahandler -->
+<!-- eyes3scribe_models&#45;&gt;eyes3scribe_models_filepath_datahandler -->
 <g id="edge16" class="edge">
-<title>bashautodoc_models&#45;&gt;bashautodoc_models_filepath_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_models&#45;&gt;eyes3scribe_models_filepath_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M738.84,-128.11C766.45,-124.58 800.77,-120.2 832.08,-116.2"/>
 <polygon fill="#b62020" stroke="black" points="832.65,-119.65 842.12,-114.91 831.76,-112.71 832.65,-119.65"/>
 </g>
-<!-- bashautodoc_models_function_datahandler -->
+<!-- eyes3scribe_models_function_datahandler -->
 <g id="node10" class="node">
-<title>bashautodoc_models_function_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_models_function_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
 <ellipse fill="#b83d3d" stroke="black" cx="920.78" cy="-180.99" rx="84.71" ry="28.98"/>
-<text text-anchor="middle" x="920.78" y="-189.49" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">bashautodoc.</text>
+<text text-anchor="middle" x="920.78" y="-189.49" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">eyes3scribe.</text>
 <text text-anchor="middle" x="920.78" y="-178.49" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">models.</text>
 <text text-anchor="middle" x="920.78" y="-167.49" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">function_datahandler</text>
 </g>
-<!-- bashautodoc_models&#45;&gt;bashautodoc_models_function_datahandler -->
+<!-- eyes3scribe_models&#45;&gt;eyes3scribe_models_function_datahandler -->
 <g id="edge18" class="edge">
-<title>bashautodoc_models&#45;&gt;bashautodoc_models_function_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_models&#45;&gt;eyes3scribe_models_function_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M735.34,-144.86C764.9,-150.65 802.98,-158.11 836.86,-164.75"/>
 <polygon fill="#b62020" stroke="black" points="836.27,-168.2 846.76,-166.69 837.62,-161.33 836.27,-168.2"/>
 </g>
-<!-- bashautodoc_models&#45;&gt;bashautodoc_models_rst2md_datahandler -->
+<!-- eyes3scribe_models&#45;&gt;eyes3scribe_models_rst2md_datahandler -->
 <g id="edge21" class="edge">
-<title>bashautodoc_models&#45;&gt;bashautodoc_models_rst2md_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_models&#45;&gt;eyes3scribe_models_rst2md_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M735.3,-125.08C751.51,-120.51 769.04,-114.03 783.67,-104.99 803.45,-92.76 800.3,-79.89 819.67,-66.99 828.55,-61.07 838.49,-55.9 848.56,-51.43"/>
 <polygon fill="#b62020" stroke="black" points="849.96,-54.64 857.81,-47.53 847.24,-48.19 849.96,-54.64"/>
 </g>
-<!-- bashautodoc_models_function_datahandler&#45;&gt;bashautodoc_function_dependency_processor -->
+<!-- eyes3scribe_models_function_datahandler&#45;&gt;eyes3scribe_function_dependency_processor -->
 <g id="edge11" class="edge">
-<title>bashautodoc_models_function_datahandler&#45;&gt;bashautodoc_function_dependency_processor</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_models_function_datahandler&#45;&gt;eyes3scribe_function_dependency_processor</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M977.41,-202.7C1018.85,-217.26 1077.23,-234.41 1130.44,-237.99"/>
 <path fill="none" stroke="black" d="M1132.44,-237.99C1164.64,-240.16 1199.44,-240.96 1231.99,-241.04"/>
 <polygon fill="#b83d3d" stroke="black" points="1232.01,-244.54 1242.01,-241.04 1232.01,-237.54 1232.01,-244.54"/>
 </g>
-<!-- bashautodoc_setup_docs_project -->
+<!-- eyes3scribe_setup_docs_project -->
 <g id="node12" class="node">
-<title>bashautodoc_setup_docs_project</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_setup_docs_project</title><style>.edge>path:hover{stroke-width:8}</style>
 <ellipse fill="#b65353" stroke="black" cx="237.9" cy="-136.99" rx="77.56" ry="21.43"/>
-<text text-anchor="middle" x="237.9" y="-139.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">bashautodoc.</text>
+<text text-anchor="middle" x="237.9" y="-139.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">eyes3scribe.</text>
 <text text-anchor="middle" x="237.9" y="-128.99" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">setup_docs_project</text>
 </g>
-<!-- bashautodoc_shell_2md_file_writer&#45;&gt;bashautodoc_DocSectionWriterFunction -->
+<!-- eyes3scribe_shell_2md_file_writer&#45;&gt;eyes3scribe_DocSectionWriterFunction -->
 <g id="edge3" class="edge">
-<title>bashautodoc_shell_2md_file_writer&#45;&gt;bashautodoc_DocSectionWriterFunction</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_shell_2md_file_writer&#45;&gt;eyes3scribe_DocSectionWriterFunction</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M770.4,-286.99C783.15,-286.99 796.44,-286.99 809.62,-286.99"/>
 <polygon fill="#b83d3d" stroke="black" points="809.65,-290.49 819.65,-286.99 809.65,-283.49 809.65,-290.49"/>
 </g>
-<!-- bashautodoc_shell_src_preprocessor&#45;&gt;bashautodoc_models -->
+<!-- eyes3scribe_shell_src_preprocessor&#45;&gt;eyes3scribe_models -->
 <g id="edge15" class="edge">
-<title>bashautodoc_shell_src_preprocessor&#45;&gt;bashautodoc_models</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_shell_src_preprocessor&#45;&gt;eyes3scribe_models</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M516.52,-171.58C550.28,-164.16 591.11,-155.18 623.89,-147.98"/>
 <polygon fill="#a13535" stroke="black" points="624.77,-151.37 633.79,-145.8 623.27,-144.53 624.77,-151.37"/>
 </g>
-<!-- bashautodoc_shell_src_preprocessor&#45;&gt;bashautodoc_models_filepath_datahandler -->
+<!-- eyes3scribe_shell_src_preprocessor&#45;&gt;eyes3scribe_models_filepath_datahandler -->
 <g id="edge17" class="edge">
-<title>bashautodoc_shell_src_preprocessor&#45;&gt;bashautodoc_models_filepath_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_shell_src_preprocessor&#45;&gt;eyes3scribe_models_filepath_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M539.82,-188.6C583.09,-189.01 635.83,-188.24 682.96,-183.99"/>
 <path fill="none" stroke="black" d="M684.96,-183.99C729.46,-179.98 742.01,-181.12 783.67,-164.99 801.15,-158.22 802.83,-151.24 819.67,-142.99 829.74,-138.06 840.62,-133.34 851.38,-129"/>
 <polygon fill="#a13535" stroke="black" points="852.75,-132.23 860.77,-125.3 850.18,-125.71 852.75,-132.23"/>
 </g>
-<!-- bashautodoc_shell_src_preprocessor&#45;&gt;bashautodoc_models_function_datahandler -->
+<!-- eyes3scribe_shell_src_preprocessor&#45;&gt;eyes3scribe_models_function_datahandler -->
 <g id="edge19" class="edge">
-<title>bashautodoc_shell_src_preprocessor&#45;&gt;bashautodoc_models_function_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_shell_src_preprocessor&#45;&gt;eyes3scribe_models_function_datahandler</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M684.96,-183.99C731.2,-179.82 782.77,-178.77 825.77,-178.88"/>
 <polygon fill="#a13535" stroke="black" points="825.92,-182.38 835.94,-178.93 825.96,-175.38 825.92,-182.38"/>
 </g>
-<!-- bashautodoc_shell_src_preprocessor&#45;&gt;bashautodoc_shell_2md_file_writer -->
+<!-- eyes3scribe_shell_src_preprocessor&#45;&gt;eyes3scribe_shell_2md_file_writer -->
 <g id="edge24" class="edge">
-<title>bashautodoc_shell_src_preprocessor&#45;&gt;bashautodoc_shell_2md_file_writer</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>eyes3scribe_shell_src_preprocessor&#45;&gt;eyes3scribe_shell_2md_file_writer</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M493.79,-204.63C532.54,-221.5 589.7,-246.39 631.04,-264.38"/>
 <polygon fill="#a13535" stroke="black" points="629.83,-267.67 640.39,-268.46 632.62,-261.26 629.83,-267.67"/>
 </g>
@@ -244,34 +244,34 @@
 <ellipse fill="#4b8b8b" stroke="black" cx="43.56" cy="-185.99" rx="43.62" ry="18"/>
 <text text-anchor="middle" x="43.56" y="-183.49" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#ffffff">launcher.py</text>
 </g>
-<!-- launcher_py&#45;&gt;bashautodoc -->
+<!-- launcher_py&#45;&gt;eyes3scribe -->
 <g id="edge1" class="edge">
-<title>launcher_py&#45;&gt;bashautodoc</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>launcher_py&#45;&gt;eyes3scribe</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M124.12,-185.99C126.11,-185.98 164.71,-201.86 196.2,-214.97"/>
 <polygon fill="#4b8b8b" stroke="black" points="195.12,-218.31 205.7,-218.93 197.82,-211.85 195.12,-218.31"/>
 </g>
-<!-- launcher_py&#45;&gt;bashautodoc_config -->
+<!-- launcher_py&#45;&gt;eyes3scribe_config -->
 <g id="edge5" class="edge">
-<title>launcher_py&#45;&gt;bashautodoc_config</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>launcher_py&#45;&gt;eyes3scribe_config</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M124.12,-185.99C160.3,-185.71 131.22,-237.23 160.12,-258.99 224.42,-307.4 319.34,-315.87 382.62,-315.25"/>
 <polygon fill="#4b8b8b" stroke="black" points="382.94,-318.75 392.88,-315.07 382.82,-311.75 382.94,-318.75"/>
 </g>
-<!-- launcher_py&#45;&gt;bashautodoc_create_handwritten_docs -->
+<!-- launcher_py&#45;&gt;eyes3scribe_create_handwritten_docs -->
 <g id="edge7" class="edge">
-<title>launcher_py&#45;&gt;bashautodoc_create_handwritten_docs</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>launcher_py&#45;&gt;eyes3scribe_create_handwritten_docs</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M87.37,-186.11C98.97,-186.11 111.53,-186.08 123.12,-185.99"/>
 <path fill="none" stroke="black" d="M124.12,-185.99C162.71,-185.69 128.37,-128.92 160.12,-106.99 220.25,-65.46 305.26,-64.98 367.49,-72.31"/>
 <polygon fill="#4b8b8b" stroke="black" points="367.3,-75.82 377.66,-73.61 368.18,-68.87 367.3,-75.82"/>
 </g>
-<!-- launcher_py&#45;&gt;bashautodoc_setup_docs_project -->
+<!-- launcher_py&#45;&gt;eyes3scribe_setup_docs_project -->
 <g id="edge22" class="edge">
-<title>launcher_py&#45;&gt;bashautodoc_setup_docs_project</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>launcher_py&#45;&gt;eyes3scribe_setup_docs_project</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M124.12,-185.99C127.75,-185.96 159.26,-172.18 188.06,-159.24"/>
 <polygon fill="#4b8b8b" stroke="black" points="189.6,-162.38 197.27,-155.08 186.72,-156 189.6,-162.38"/>
 </g>
-<!-- launcher_py&#45;&gt;bashautodoc_shell_src_preprocessor -->
+<!-- launcher_py&#45;&gt;eyes3scribe_shell_src_preprocessor -->
 <g id="edge26" class="edge">
-<title>launcher_py&#45;&gt;bashautodoc_shell_src_preprocessor</title><style>.edge>path:hover{stroke-width:8}</style>
+<title>launcher_py&#45;&gt;eyes3scribe_shell_src_preprocessor</title><style>.edge>path:hover{stroke-width:8}</style>
 <path fill="none" stroke="black" d="M124.12,-185.99C199.6,-185.4 284.95,-185.42 349.22,-185.59"/>
 <polygon fill="#4b8b8b" stroke="black" points="349.34,-189.09 359.35,-185.61 349.36,-182.09 349.34,-189.09"/>
 </g>
