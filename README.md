@@ -91,7 +91,7 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
     1. finish tests using better data sources
 
 4. **Project Management**
-    1. write scripts to autogenerate template python repo (cookie-cutter)
+    1. write scripts to autogenerate template python repo (cookie-cutter) & https://github.com/cjolowicz/cookiecutter-hypermodern-python?tab=readme-ov-file
     2. add badges
     3. create repo avatar image
     4. setup relewase pipeline
@@ -112,6 +112,7 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
     11. correct "(in ./docs_bash-it/docs/docshw/plugins/available/osx.plugin.bash)" to point at relative repo src file, not temp
     12. embed hyperlinks in function index (currently a code block)
     13. think about putting function names in navbar? too messy?
+    14. implement [gpt4docstrings](https://github.com/MichaelisTrofficus/gpt4docstrings)
 
 
 6. **Mkdocs**
@@ -122,11 +123,11 @@ This project is licensed under the Apache 2.0 License - see the LICENSE.md file 
 1. **create python documentation website:**
     1. investigate using mkdocstrings
     2. investigate using subsets of callgraph for viz
-    3. create GHA to auto generate python documentation for nash-auto-doc repo
+    3. create GHA to auto generate python documentation for eyes2scribe repo
 
 8. **Miscellaneous**
     1. amend readme to take into account poetry & also list instructions for standalone binary
-    2. rename site to eyes3scribe
+    ~~2. rename site to eyes3scribe~~
 
 ## Not so Random info links
 

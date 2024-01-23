@@ -82,6 +82,15 @@ def read_file_2string(filepath):
     return file_text
 
 
+def read_file_2list(filepath):
+    mylist = []
+    with open(filepath, "r") as infile:
+        for line in infile.read().split("\n"):
+            if len(line) > 0:
+                mylist.append(line)
+    return mylist
+
+
 def write_string_2file(filepath, file_text, mode="w"):
     with open(filepath, mode) as outfile:
         LOG.debug("Writing file: %s", filepath)
@@ -190,19 +199,19 @@ def replace_substr_in_paths(input_paths, replace_path):
 
 
 # TODO: similart to clean_list_via_rm_patts in hstrops
-def filter_paths_excluding_patterns(path_list, exclusion_patterns_src):
-    LOG.debug("Exclusion patterns: %s", exclusion_patterns_src)
+# def filter_paths_excluding_patterns(path_list, exclusion_patterns_src):
+#     LOG.debug("Exclusion patterns: %s", exclusion_patterns_src)
 
-    filtered_paths = []
-    for path in path_list:
-        print("Path", path)
+#     filtered_paths = []
+#     for path in path_list:
+#         print("Path", path)
 
-        if not does_str_contain_pattern(
-            instr=path,
-            input_patt_li=exclusion_patterns_src,
-        ):
-            filtered_paths.append(path)
-    return filtered_paths
+#         if not does_str_contain_pattern(
+#             instr=path,
+#             input_patt_li=exclusion_patterns_src,
+#         ):
+#             filtered_paths.append(path)
+#     return filtered_paths
 
 
 def find_files_with_grep_patt(search_path, file_glob, txt_pattern):
