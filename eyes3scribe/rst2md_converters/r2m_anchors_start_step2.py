@@ -79,7 +79,7 @@ class R2MAnchorsStartStep2:
                         anchorstart_rst_match
                     )
 
-                    anchorstart_normkey = hstrops.norm_key(mystr=anchorstart)
+                    anchorstart_normkey = hstrops.norm_key(instr=anchorstart)
                     rprint("anchorstart_normkey", anchorstart_normkey)
 
                     # "docs_bash-it/docs/docshw/contributing.md"

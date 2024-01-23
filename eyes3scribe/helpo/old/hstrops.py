@@ -72,25 +72,25 @@ def get_multiblocks_between_tags(filetext, start_tag=":::", end_tag=":::"):
     return block_holder
 
 
-def norm_key(mystr):
-    return mystr.lower().replace(" ", "").replace("-", "").replace("_", "").strip()
+def norm_key(instr):
+    return instr.lower().replace(" ", "").replace("-", "").replace("_", "").strip()
 
 
-def rreplace(mystr, match_str, replace_str, times):
-    li = mystr.rsplit(match_str, times)
+def rreplace(instr, match_str, replace_str, times):
+    li = instr.rsplit(match_str, times)
     return replace_str.join(li)
 
 
 # TODO: find out what other functions can be generalised to simplify things
 # TODO: move to collections helpers
-def clean_list_via_rm_patts(input_list, rm_patt, rm_empty_lines=True):
+def clean_list_via_rm_patts(input_list, rm_patt, rm_empty_instrs=True):
     """
     Cleans the input list by rming lines that contain any of the rm_patts in the rm list.
 
     Args:
         input_list (list): The input list to clean.
         rm_patt (list): The list of rm_patts to rmude.
-        rm_empty_lines (bool): Whether to rm empty lines.
+        rm_empty_instrs (bool): Whether to rm empty lines.
 
     Returns:
         list: The clean list.
@@ -100,7 +100,7 @@ def clean_list_via_rm_patts(input_list, rm_patt, rm_empty_lines=True):
         line_is_empty = len(line.strip()) == 0
         line_contains_rm_patts = any(rm_patt in line for rm_patt in rm_patt)
 
-        if line_is_empty and rm_empty_lines:
+        if line_is_empty and rm_empty_instrs:
             continue
         if line_contains_rm_patts:
             continue

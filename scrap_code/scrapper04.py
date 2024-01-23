@@ -23,7 +23,7 @@ class GenNavbarDict:
         self.hierarchy_dict = defaultdict(list)
         self.navbar_dict = {}
 
-        self.mdtoc_path_list = hfile.flatten_list(
+        self.mdtoc_path_list = hcollections.flatten_list(
             nested_list=hfile.find_files_with_grep_patt(
                 search_path=search_path,
                 file_glob="*.md",

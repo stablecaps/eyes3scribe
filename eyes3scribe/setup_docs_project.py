@@ -1,6 +1,6 @@
 import logging
 
-from eyes3scribe.helpo import hfile, hstrops
+from eyes3scribe.helpo import hcollections, hfile, hstrops
 
 LOG = logging.getLogger(__name__)
 
@@ -64,7 +64,7 @@ class SetupDocsProject:
         #     exclusion_patterns_src=strict_exclusion_patterns_docs,
         # )
 
-        clean_hwdocs_rpaths = hstrops.clean_list_via_rm_patts(
+        clean_hwdocs_rpaths = hcollections.clean_list_via_rm_patts(
             input_list=hwdocs_rpaths, rm_patts=hwdocs_rpaths
         )
         LOG.debug("clean_hwdocs_rpaths: %s", clean_hwdocs_rpaths)
@@ -98,7 +98,7 @@ class SetupDocsProject:
         #     path_list=srcfiles_rpath,
         #     exclusion_patterns_src=strict_exclusion_patterns_src,
         # )
-        clean_srcfiles_rpaths = hstrops.clean_list_via_rm_patts(
+        clean_srcfiles_rpaths = hcollections.clean_list_via_rm_patts(
             input_list=srcfiles_rpath, rm_patts=strict_exclusion_patterns_src
         )
         LOG.debug("clean_srcfiles_rpaths: %s", clean_srcfiles_rpaths)

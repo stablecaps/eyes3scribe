@@ -3,7 +3,7 @@ from collections import defaultdict
 
 from rich import print as rprint
 
-from eyes3scribe.helpo import hfile
+from eyes3scribe.helpo import hcollections, hfile
 from eyes3scribe.helpo.hstrops import (
     clean_str_pline,
     get_lines_between_tag_and_blank_line,
@@ -31,7 +31,7 @@ class GenNavbarDict:
         self.hierarchy_dict = defaultdict(list)
         self.navbar_dict = {}
 
-        self.mdtoc_path_list = hfile.flatten_list(
+        self.mdtoc_path_list = hcollections.flatten_list(
             nested_list=hfile.find_files_with_grep_patt(
                 search_path=search_path,
                 file_glob="*.md",

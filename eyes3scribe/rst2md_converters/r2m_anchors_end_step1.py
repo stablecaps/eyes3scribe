@@ -99,7 +99,7 @@ class R2MAnchorsEndStep1:
                     )
 
                     anchorend_normkey = hstrops.norm_key(
-                        mystr=(anchorend_key.replace("(", "").replace(")=", "").strip())
+                        instr=(anchorend_key.replace("(", "").replace(")=", "").strip())
                     )
 
                     hxhash_match = re.search(hxhash_patt, anchorend_header_line)

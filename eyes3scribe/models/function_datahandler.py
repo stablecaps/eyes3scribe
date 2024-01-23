@@ -135,7 +135,7 @@ class FunctionDatahandler:
                 ):
                     cite_about = str_multi_replace(
                         instr=line,
-                        rm_patt_list=[
+                        rm_patts=[
                             "about-plugin",
                             "about-alias",
                             "about-completion",

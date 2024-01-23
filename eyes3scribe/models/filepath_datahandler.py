@@ -1,6 +1,7 @@
 import logging
 from dataclasses import dataclass
 
+from eyes3scribe.helpo.hcollections import clean_list_via_rm_patts
 from eyes3scribe.helpo.hfile import mkdir_if_notexists
 from eyes3scribe.helpo.hstrops import str_multi_replace
 
@@ -60,7 +61,7 @@ class FilepathDatahandler:
     def _get_outfilename(cls):
         cls.dh.out_filename = str_multi_replace(
             instr=cls.dh.infile_filename,
-            rm_patt_list=cls.dh.glob_patterns,
+            rm_patts=cls.dh.glob_patterns,
             replace_str=cls.dh.replace_str,
         )
 

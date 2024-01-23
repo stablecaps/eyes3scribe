@@ -292,12 +292,12 @@ def str_multi_replace(instr, rm_patts, replace_str):
     return instr
 
 
-def count_str_whitespace(mystr):
+def count_str_whitespace(instr):
     """
     Counts the number of whitespace characters in a given string.
 
     Parameters:
-    - mystr (str): The input string to count whitespace characters from.
+    - instr (str): The input string to count whitespace characters from.
 
     Returns:
     - count (int): The number of whitespace characters in the input string.
@@ -311,7 +311,7 @@ def count_str_whitespace(mystr):
     0
     """
     count = 0
-    for mychar in mystr:
+    for mychar in instr:
         if mychar.isspace():
             count += 1
     return count
