@@ -73,7 +73,7 @@ def get_multiblocks_between_tags(filetext, start_tag=":::", end_tag=":::"):
 
 
 def norm_key(mystr):
-    return mystr.lower().replace("-", "").replace("_", "").strip()
+    return mystr.lower().replace(" ", "").replace("-", "").replace("_", "").strip()
 
 
 def rreplace(mystr, match_str, replace_str, times):
@@ -157,6 +157,13 @@ def does_str_start_with_pattern(instr, input_patt_li):
     return False
 
 
+# TODO: use this function more
+def multiline_str_2list(multiline_str, delimiter="\n"):
+    mstr = multiline_str.split(delimiter)
+    mstr_clean = [elem.strip() for elem in mstr if elem.strip() != ""]
+    return mstr_clean
+
+
 def rm_lines_starting_with(multiline_str, rm_patt_list):
     """
     Removes lines from a multiline string that start with any pattern from the list.
@@ -173,12 +180,14 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
         "world!"
     """
 
-    multiline_str_list = multiline_str.split("\n")
+    multiline_str_list = multiline_str_2list(
+        multiline_str=multiline_str, delimiter="\n"
+    )
     print("multiline_str_list", multiline_str_list)
     filtered_multiline_str_list = [
         line
         for line in multiline_str_list
-        if not does_str_start_with_pattern(line, rm_patt_list) and line != ""
+        if not does_str_start_with_pattern(line, rm_patt_list)
     ]
 
     print("filtered_multiline_str_list", filtered_multiline_str_list)

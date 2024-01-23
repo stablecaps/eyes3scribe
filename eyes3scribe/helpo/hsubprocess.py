@@ -1,7 +1,7 @@
 """Subprocess Helper functions."""
-
 import shlex
 import subprocess
+import sys
 from typing import List, Optional, Union
 
 
@@ -81,3 +81,46 @@ def process_subp_output(
         if len(filtered_line) > 0:
             holder.append(filtered_line)
     return holder
+
+
+def check_pipe_errors(proc_step_dict, comm_li):
+    for idx in range(len(proc_step_dict)):
+        curr_proc = "proc" + str(idx)
+
+        proc_step_dict[curr_proc].wait()
+
+        retcode = proc_step_dict[curr_proc].returncode
+        print(curr_proc + " retcode:", retcode)
+
+        proc_step_dict[curr_proc].terminate()
+
+        if retcode != 0:
+            print("Failed running: ", comm_li[idx])
+            sys.exit(retcode)
+
+
+def run_cmd_with_pipes(comm_li):
+    proc_step_dict = {}
+    for idx, comm in enumerate(comm_li):
+        curr_proc = "proc" + str(idx)
+        print("comm", comm)
+
+        process_args = {
+            "args": shlex_convert_str_2list(comm),
+            "stdout": subprocess.PIPE,
+            "stderr": None,
+            "text": True,
+        }
+        if idx != 0:
+            last_proc = "proc" + str(idx - 1)
+            process_args["stdin"] = proc_step_dict[last_proc].stdout
+        proc_step_dict[curr_proc] = subprocess.Popen(**process_args)
+
+    out, err = proc_step_dict[curr_proc].communicate(timeout=15)
+    print("\nout:", len(out), out)
+    print("\nerr:", err)
+
+    if len(out) == 0:
+        print("\n### Checking Subprocess errors")
+        check_pipe_errors(proc_step_dict, comm_li)
+    return out

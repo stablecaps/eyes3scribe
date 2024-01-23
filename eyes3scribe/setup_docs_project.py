@@ -1,6 +1,6 @@
 import logging
 
-from eyes3scribe.helpo import hfile
+from eyes3scribe.helpo import hfile, hstrops
 
 LOG = logging.getLogger(__name__)
 
@@ -59,9 +59,13 @@ class SetupDocsProject:
         ]
         LOG.debug("strict_exclusion_patterns_docs: %s", strict_exclusion_patterns_docs)
 
-        clean_hwdocs_rpaths = hfile.filter_paths_excluding_patterns(
-            path_list=hwdocs_rpaths,
-            exclusion_patterns_src=strict_exclusion_patterns_docs,
+        # clean_hwdocs_rpaths = hfile.filter_paths_excluding_patterns(
+        #     path_list=hwdocs_rpaths,
+        #     exclusion_patterns_src=strict_exclusion_patterns_docs,
+        # )
+
+        clean_hwdocs_rpaths = hstrops.clean_list_via_rm_patts(
+            input_list=hwdocs_rpaths, rm_patts=hwdocs_rpaths
         )
         LOG.debug("clean_hwdocs_rpaths: %s", clean_hwdocs_rpaths)
         # sys.exit(42)
@@ -90,9 +94,12 @@ class SetupDocsProject:
         )
         LOG.info("srcfiles_rpath: %s", srcfiles_rpath)
 
-        clean_srcfiles_rpaths = hfile.filter_paths_excluding_patterns(
-            path_list=srcfiles_rpath,
-            exclusion_patterns_src=strict_exclusion_patterns_src,
+        # clean_srcfiles_rpaths = hfile.filter_paths_excluding_patterns(
+        #     path_list=srcfiles_rpath,
+        #     exclusion_patterns_src=strict_exclusion_patterns_src,
+        # )
+        clean_srcfiles_rpaths = hstrops.clean_list_via_rm_patts(
+            input_list=srcfiles_rpath, rm_patts=strict_exclusion_patterns_src
         )
         LOG.debug("clean_srcfiles_rpaths: %s", clean_srcfiles_rpaths)
 
