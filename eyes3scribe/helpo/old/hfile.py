@@ -202,9 +202,6 @@ def replace_substr_in_paths(input_paths, replace_path):
 # def filter_paths_excluding_patterns(path_list, exclusion_patterns_src):
 #     LOG.debug("Exclusion patterns: %s", exclusion_patterns_src)
 
-#     filtered_paths = []
-#     for path in path_list:
-#         print("Path", path)
 
 #         if not does_str_contain_pattern(
 #             instr=path,
