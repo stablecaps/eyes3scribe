@@ -1,4 +1,5 @@
 import logging
+import sys
 from collections import defaultdict
 
 from rich import print as rprint
@@ -15,8 +16,8 @@ LOG = logging.getLogger(__name__)
 
 # TODO: refactor the hell out of this ;o)
 # TODO: sort out conversion of relative paths sooner
-class GenNavbarDict:
-    def __init__(self, cnf, search_path) -> None:
+class GenPyNavbarDict:
+    def __init__(self, cnf, search_path, toclinks_map_all) -> None:
         ### For every mdfile
         # 1. establish if it has a TOC
         # 2. Map the hierarchy of nav-doc links via the TOC
@@ -59,13 +60,16 @@ class GenNavbarDict:
     def gen_toc_dict_from_mdindex_files(self):
         for mdpath in self.mdtoc_path_list:
             mdpath_rel = mdpath.replace(self.project_docs_dir_local, "")
-            file_text = hfile.read_file_2string(filepath=mdpath)
+
+            filetext = hfile.read_file_2string(filepath=mdpath)
             table_of_contents = get_lines_between_tag_and_blank_line(
-                file_text, start_tag="## Table of Contents"
+                filetext, start_tag="## Table of Contents"
             )
-            self.toc_dict[mdpath_rel] = GenNavbarDict.gen_cleaned_mdtoc_list(
+
+            self.toc_dict[mdpath_rel] = GenPyNavbarDict.gen_cleaned_mdtoc_list(
                 toc_mdlist=table_of_contents
             )
+
         rprint("\ntoc_dict", self.toc_dict)
         # sys.exit(42)
 
@@ -139,7 +143,7 @@ class GenNavbarDict:
                         category_name = clean_str_pline(category_split[-1], [".md"])
 
                     yaml2_sublist = [
-                        GenNavbarDict.clean_tockvs(
+                        GenPyNavbarDict.clean_tockvs(
                             mylink=link, myvalue=self.project_docs_dir_local
                         )
                         for link in self.toc_dict[mdlink]
@@ -148,7 +152,7 @@ class GenNavbarDict:
                     sub_dict = {category_name: yaml2_sublist}
                     new_link_list.append(sub_dict)
                 else:
-                    toc_kvdict = GenNavbarDict.clean_tockvs(
+                    toc_kvdict = GenPyNavbarDict.clean_tockvs(
                         mylink=mdlink, myvalue=self.project_docs_dir_local
                     )
                     new_link_list.append(toc_kvdict)

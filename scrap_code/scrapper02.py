@@ -22,7 +22,7 @@ class Rst2MdDataHolder:
     toc_list_clean: list[str] = None
     toclinks_map: dict = None
     md_toc_caption: str = "## Table of Contents"
-    md_toclink_list: list[str] = None
+    mdtoclink_list: list[str] = None
 
 
 class Rst2MdConverter1Toc:
@@ -34,7 +34,7 @@ class Rst2MdConverter1Toc:
         cls.r2m = Rst2MdDataHolder()
         cls.r2m.toc_list_clean = []
         cls.r2m.toclinks_map = {}
-        cls.r2m.md_toclink_list = []
+        cls.r2m.mdtoclink_list = []
 
         cls.r2m.hwdoc_root, cls.r2m.hwdoc_name = hwdoc_rpath.rsplit("/", 1)
         LOG.debug("\nhwdoc_rpath", hwdoc_rpath)
@@ -80,7 +80,7 @@ class Rst2MdConverter1Toc:
         # TODO: make this function less horrific
         rprint("hwdoc_root", cls.r2m.hwdoc_root)
         # toclinks_map = {}
-        # md_toclink_list = []
+        # mdtoclink_list = []
         for toc_link_name in cls.r2m.toc_list_clean:
             rprint("toc_link_name", toc_link_name)
 
@@ -102,15 +102,15 @@ class Rst2MdConverter1Toc:
                 for file_path in file_path_list:
                     file_root, file_name = file_path.rsplit("/", 1)
                     # rprint("file_root, file_name = ", file_root, file_name)
-                    md_rel_link_clean = file_path
-                    md_rel_link = f"- [**{file_name.capitalize().replace('/index', '').replace('.md', '')}**]({md_rel_link_clean})"
-                    cls.r2m.md_toclink_list.append(md_rel_link)
+                    mdlink_rel_clean = file_path
+                    mdlink_rel = f"- [**{file_name.capitalize().replace('/index', '').replace('.md', '')}**]({mdlink_rel_clean})"
+                    cls.r2m.mdtoclink_list.append(mdlink_rel)
 
                     ###
                     cls.r2m.toclinks_map[file_name.replace(".md", "")] = file_path
 
                 rprint("toclinks_map", cls.r2m.toclinks_map)
-                rprint("md_toclink_list", cls.r2m.md_toclink_list)
+                rprint("mdtoclink_list", cls.r2m.mdtoclink_list)
                 # sys.exit(42)
                 return
             else:
@@ -126,15 +126,15 @@ class Rst2MdConverter1Toc:
                     print("ERROR: more than one file found")
                     sys.exit(42)
 
-                md_rel_link_clean = file_path_list[0]
-                md_rel_link = f"- [**{toc_link_name.capitalize().replace('/index', '')}**]({md_rel_link_clean})"
-                # rprint(type(cls.r2m.md_toclink_list))
-                cls.r2m.md_toclink_list.append(md_rel_link)
+                mdlink_rel_clean = file_path_list[0]
+                mdlink_rel = f"- [**{toc_link_name.capitalize().replace('/index', '')}**]({mdlink_rel_clean})"
+                # rprint(type(cls.r2m.mdtoclink_list))
+                cls.r2m.mdtoclink_list.append(mdlink_rel)
 
                 ###
                 cls.r2m.toclinks_map[
                     toc_link_name.replace("/index", "")
-                ] = md_rel_link_clean
+                ] = mdlink_rel_clean
         return
 
     @classmethod
@@ -155,10 +155,10 @@ class Rst2MdConverter1Toc:
             # cls.gen_markdown_toclinks(
             #     toc_list_clean=cls.r2m.toc_list_clean, hwdoc_root=cls.r2m.hwdoc_root
             # )
-            rprint("md_toclink_list", cls.r2m.md_toclink_list)
+            rprint("mdtoclink_list", cls.r2m.mdtoclink_list)
 
             joined_original_toclinks = "\n".join(toc_list)
-            joined_md_toclinks = "\n".join(cls.r2m.md_toclink_list)
+            joined_md_toclinks = "\n".join(cls.r2m.mdtoclink_list)
             joined_md_toclinks_with_headers = (
                 cls.r2m.md_toc_caption + "\n" + joined_md_toclinks
             )
@@ -176,7 +176,7 @@ class Rst2MdConverter1Toc:
         else:
             cls.r2m.toc_list_clean = None
             toclinks_map = None
-            cls.r2m.md_toclink_list = None
+            cls.r2m.mdtoclink_list = None
 
         rprint("cls.r2m ", cls.r2m)
         return cls.r2m

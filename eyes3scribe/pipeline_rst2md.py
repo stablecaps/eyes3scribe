@@ -1,5 +1,6 @@
 import logging
 import sys
+from collections import defaultdict
 
 from rich import print as rprint
 
@@ -20,7 +21,7 @@ LOG = logging.getLogger(__name__)
 class PipelineRst2Md:
     def __init__(self, cnf):
         self.cnf = cnf
-        self.toclinks_map_all = {}
+        self.toclinks_map_all = defaultdict(list)
         self.r2m_list = []
 
         self.anchorend_detail_map_all = {}
@@ -76,9 +77,7 @@ class PipelineRst2Md:
             self.toclinks_map_all.update(r2m.toclinks_map)
 
             r2m_v2 = R2MAnchorsEndStep1(r2m=r2m)
-
             self.anchorend_detail_map_all.update(r2m_v2.anchorend_detail_map)
-
             self.anchorend_fast_map_all.update(r2m_v2.anchorend_fast_map)
             self.r2m_list.append(r2m_v2)
 
@@ -114,3 +113,5 @@ class PipelineRst2Md:
             #     sys.exit(42)
             write_string_2file(f"{r2m.hwdoc_root}/{r2m.hwdoc_name}", r2m_v4.filetext)
         # sys.exit(42)
+
+        return self.toclinks_map_all

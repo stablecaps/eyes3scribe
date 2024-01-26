@@ -80,6 +80,7 @@ class Launcher:
         self.cnf = Config(site_confname)
 
         rprint("conf: ", self.cnf)
+        # sys.exit(42)
 
         self.yaml_dict = {}
         for key, value in self.cnf.items():

@@ -78,8 +78,8 @@ def write_dict_2yaml_file(
 
 def read_file_2string(filepath):
     with open(filepath, "r") as infile:
-        file_text = infile.read()
-    return file_text
+        filetext = infile.read()
+    return filetext
 
 
 def read_file_2list(filepath):
@@ -91,10 +91,10 @@ def read_file_2list(filepath):
     return mylist
 
 
-def write_string_2file(filepath, file_text, mode="w"):
+def write_string_2file(filepath, filetext, mode="w"):
     with open(filepath, mode) as outfile:
         LOG.debug("Writing file: %s", filepath)
-        outfile.write(file_text)
+        outfile.write(filetext)
 
 
 def write_list_2file(filepath, strlist, mode="w"):

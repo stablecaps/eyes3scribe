@@ -27,10 +27,10 @@ def write_dict_2yaml_file(filename, yaml_dict, mode="w"):
         yaml.dump(yaml_dict, yaml_path)
 
 
-def write_string_2file(filepath, file_text, mode="w"):
+def write_string_2file(filepath, filetext, mode="w"):
     with open(filepath, mode) as outfile:
         LOG.debug("Writing file: %s", filepath)
-        outfile.write(file_text)
+        outfile.write(filetext)
 
 
 def write_list_2file(filepath, strlist, mode="w"):
@@ -43,8 +43,8 @@ def write_list_2file(filepath, strlist, mode="w"):
 ###
 def read_file_2string(filepath, mode="r"):
     with open(filepath, mode) as infile:
-        file_text = infile.read()
-    return file_text
+        filetext = infile.read()
+    return filetext
 
 
 def read_file_2list(filepath, mode="r"):

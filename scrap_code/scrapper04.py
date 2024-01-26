@@ -12,7 +12,7 @@ LOG = logging.getLogger(__name__)
 mdlink_patt = re.compile(r"[- ]*\[([*a-zA-Z0-9-_]*)\]\(([A-Za-z/-0-9_.]*)")
 
 
-class GenNavbarDict:
+class GenPyNavbarDict:
     def __init__(self, search_path) -> None:
         ### For every mdfile
         # 1. establish if it has a TOC
@@ -50,11 +50,11 @@ class GenNavbarDict:
 
     def gen_toc_dict_from_mdindex_files(self):
         for mdpath in self.mdtoc_path_list:
-            file_text = hfile.read_file_2string(filepath=mdpath)
+            filetext = hfile.read_file_2string(filepath=mdpath)
             table_of_contents = hstrops.get_lines_between_tag_and_blank_line(
-                file_text, start_tag="## Table of Contents"
+                filetext, start_tag="## Table of Contents"
             )
-            self.toc_dict[mdpath] = GenNavbarDict.gen_cleaned_mdtoc_list(
+            self.toc_dict[mdpath] = GenPyNavbarDict.gen_cleaned_mdtoc_list(
                 toc_mdlist=table_of_contents
             )
 
@@ -109,5 +109,7 @@ class GenNavbarDict:
 
 # Call the main function
 if __name__ == "__main__":
-    table_of_contents_processor = GenNavbarDict(search_path="docs_bash-it/docs/docshw/")
+    table_of_contents_processor = GenPyNavbarDict(
+        search_path="docs_bash-it/docs/docshw/"
+    )
     table_of_contents_processor.main()
