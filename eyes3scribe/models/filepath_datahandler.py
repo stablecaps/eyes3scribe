@@ -60,7 +60,7 @@ class FilepathDatahandler:
     def _get_outfilename(cls):
         cls.dh.out_filename = str_multi_replace(
             instr=cls.dh.infile_filename,
-            rm_patt_list=cls.dh.glob_patterns,
+            rm_patts=cls.dh.glob_patterns,
             replace_str=cls.dh.replace_str,
         )
 

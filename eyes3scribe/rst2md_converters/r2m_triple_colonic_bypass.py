@@ -130,30 +130,32 @@ class R2MTripleColonicBypass:
         # rprint("elem", elem)
         if elem.startswith("```{image}"):
             rst_img_dict["image"] = hstrops.clean_str_pline(
-                instr=elem, rm_patt=["```{image}"]
+                instr=elem, rm_patts=["```{image}"]
             )
 
         elif elem.startswith(":alt:"):
-            rst_img_dict["alt"] = hstrops.clean_str_pline(instr=elem, rm_patt=[":alt:"])
+            rst_img_dict["alt"] = hstrops.clean_str_pline(
+                instr=elem, rm_patts=[":alt:"]
+            )
         elif elem.startswith(":height:"):
             rst_img_dict["height"] = hstrops.clean_str_pline(
-                instr=elem, rm_patt=[":height:"]
+                instr=elem, rm_patts=[":height:"]
             )
         elif elem.startswith(":width:"):
             rst_img_dict["width"] = hstrops.clean_str_pline(
-                instr=elem, rm_patt=[":width:"]
+                instr=elem, rm_patts=[":width:"]
             )
         elif elem.startswith(":width:"):
             rst_img_dict["scale"] = hstrops.clean_str_pline(
-                instr=elem, rm_patt=[":width:"]
+                instr=elem, rm_patts=[":width:"]
             )
         elif elem.startswith(":loading:"):
             rst_img_dict["loading"] = hstrops.clean_str_pline(
-                instr=elem, rm_patt=[":loading:"]
+                instr=elem, rm_patts=[":loading:"]
             )
         elif elem.startswith(":loading:"):
             rst_img_dict["align"] = hstrops.clean_str_pline(
-                instr=elem, rm_patt=[":loading:"]
+                instr=elem, rm_patts=[":loading:"]
             )
 
     @classmethod

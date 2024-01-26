@@ -100,7 +100,7 @@ class Config:
         cls.cnf.project_docs_dir = f"{cls.cnf.project_reldir}/docs"
         cls.cnf.project_css_dir = f"{cls.cnf.project_docs_dir}/custom_css/"
 
-        cls.cnf.handwritten_docs_outdir = f"./{cls.cnf.project_docs_dir}/docshw"
+        cls.cnf.handwritten_docs_outdir = f"{cls.cnf.project_docs_dir}/docshw"
 
         cls.cnf.undef_category_dir = f"{cls.cnf.project_docs_dir}/undef"
         cls.cnf.undef_category_dir_hwdocs = f"{cls.cnf.project_docs_dir}/docshw/undef"

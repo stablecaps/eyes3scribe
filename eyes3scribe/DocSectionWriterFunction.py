@@ -126,7 +126,7 @@ class DocSectionWriterFunction:
         """
         full_clean = rm_lines_starting_with(
             multiline_str=multiline_str,
-            rm_patt_list=["#", "about", "example", "group", "param"],
+            rm_patts=["#", "about", "example", "group", "param"],
         ).rstrip("\n")
 
         return full_clean

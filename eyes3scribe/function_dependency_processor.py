@@ -110,7 +110,7 @@ class FunctionDependencyProcessor:
 
         for parent_funcname, multiline_fdef in self.func_text_dict.items():
             clean_parent_multiline_fdef = rm_lines_starting_with(
-                multiline_str=multiline_fdef, rm_patt_list=["#"]
+                multiline_str=multiline_fdef, rm_patts=["#"]
             )
 
             print("clean_parent_multiline_fdef", clean_parent_multiline_fdef)

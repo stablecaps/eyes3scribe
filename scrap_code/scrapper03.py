@@ -41,7 +41,7 @@ if __name__ == "__main__":
     #     glob_patt_list=["*.md"],
     # )
 
-    mdtoc_path_list = hfile.flatten_list(
+    mdtoc_path_list = hcollections.flatten_list(
         nested_list=hfile.find_files_with_grep_patt(
             search_path="docs_bash-it/docs/docshw/",
             file_glob="*.md",

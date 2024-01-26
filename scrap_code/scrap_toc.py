@@ -13,7 +13,7 @@ def get_lines_between_tags(filetext):
     Extracts lines between tags in the file text.
 
     Args:
-        file_text (str): The text of the file.
+        filetext (str): The text of the file.
 
     Returns:
         list: The lines between tags in the file text.
@@ -67,7 +67,7 @@ def gen_markdown_toclinks(toc_list_clean, toc_root):
     """
     rprint("toc_root", toc_root)
     toclinks_map = {}
-    md_toclink_list = []
+    mdtoclink_list = []
     for toc_link_name in toc_list_clean:
         rprint("toc_link_name", toc_link_name)
 
@@ -85,16 +85,16 @@ def gen_markdown_toclinks(toc_list_clean, toc_root):
             rprint("file_link_list0", file_path_list)
             for file_path in file_path_list:
                 file_root, file_name = file_path.rsplit("/", 1)
-                md_rel_link_clean = file_path
-                md_rel_link = f"- [**{file_name.capitalize().replace('/index', '').replace('.md', '')}**]({md_rel_link_clean})"
-                md_toclink_list.append(md_rel_link)
+                mdlink_rel_clean = file_path
+                mdlink_rel = f"- [**{file_name.capitalize().replace('/index', '').replace('.md', '')}**]({mdlink_rel_clean})"
+                mdtoclink_list.append(mdlink_rel)
 
                 ###
-                toclinks_map[toc_link_name.replace("/index", "")] = md_rel_link_clean
+                toclinks_map[toc_link_name.replace("/index", "")] = mdlink_rel_clean
 
             rprint("toclinks_map", toclinks_map)
-            rprint("md_toclink_list", md_toclink_list)
-            return (toclinks_map, md_toclink_list)
+            rprint("mdtoclink_list", mdtoclink_list)
+            return (toclinks_map, mdtoclink_list)
         else:
             file_path_list = hfile.list_matching_files_recursively(
                 search_path=toc_root,
@@ -106,17 +106,17 @@ def gen_markdown_toclinks(toc_list_clean, toc_root):
                 print("ERROR: more than one file found")
                 sys.exit(42)
 
-            md_rel_link_clean = file_path_list[0]
-            md_rel_link = f"- [**{toc_link_name.capitalize().replace('/index', '')}**]({md_rel_link_clean})"
-            md_toclink_list.append(md_rel_link)
+            mdlink_rel_clean = file_path_list[0]
+            mdlink_rel = f"- [**{toc_link_name.capitalize().replace('/index', '')}**]({mdlink_rel_clean})"
+            mdtoclink_list.append(mdlink_rel)
 
             ###
-            toclinks_map[toc_link_name.replace("/index", "")] = md_rel_link_clean
+            toclinks_map[toc_link_name.replace("/index", "")] = mdlink_rel_clean
 
             # if f"{toc_link_name}.md" == "themes-list/index.md":
             #     sys.exit(42)
 
-    return (toclinks_map, md_toclink_list)
+    return (toclinks_map, mdtoclink_list)
 
 
 # def convert_rst_2markdown_toclinks(hwdoc_rpath):
@@ -136,13 +136,13 @@ def gen_markdown_toclinks(toc_list_clean, toc_root):
 #     if len(toc_list) > 0:
 #         sys.exit(42)
 
-#     toclinks_map, md_toclink_list = gen_markdown_toclinks(
+#     toclinks_map, mdtoclink_list = gen_markdown_toclinks(
 #         toc_list_clean=toc_list_clean, toc_root=hwdoc_root
 #     )
-#     print("md_toclink_list", md_toclink_list)
+#     print("mdtoclink_list", mdtoclink_list)
 
 #     joined_original_toclinks = "\n".join(toc_list)
-#     joined_md_toclinks = "\n".join(md_toclink_list)
+#     joined_md_toclinks = "\n".join(mdtoclink_list)
 #     rprint("\njoined_original_toclinks\n", joined_original_toclinks)
 #     rprint("\njoined_md_toclinks\n", joined_md_toclinks)
 #     print("\n\n")
@@ -169,13 +169,13 @@ def gen_markdown_toclinks(toc_list_clean, toc_root):
 #     rprint("\ntoc_list: %s", toc_list)
 #     print("toc_list_clean", toc_list_clean)
 
-#     toclinks_map, md_toclink_list = gen_markdown_toclinks(
+#     toclinks_map, mdtoclink_list = gen_markdown_toclinks(
 #         toc_list_clean=toc_list_clean, toc_root=hwdoc_root
 #     )
-#     print("md_toclink_list", md_toclink_list)
+#     print("mdtoclink_list", mdtoclink_list)
 
 #     joined_original_toclinks = "\n".join(toc_list)
-#     joined_md_toclinks = "\n".join(md_toclink_list)
+#     joined_md_toclinks = "\n".join(mdtoclink_list)
 #     rprint("\njoined_original_toclinks\n", joined_original_toclinks)
 #     rprint("\njoined_md_toclinks\n", joined_md_toclinks)
 #     print("\n\n")
@@ -279,13 +279,13 @@ if __name__ == "__main__":
         # if len(toc_list) > 0:
         #     sys.exit(42)
 
-        toclinks_map, md_toclink_list = gen_markdown_toclinks(
+        toclinks_map, mdtoclink_list = gen_markdown_toclinks(
             toc_list_clean=toc_list_clean, toc_root=hwdoc_root
         )
-        print("md_toclink_list", md_toclink_list)
+        print("mdtoclink_list", mdtoclink_list)
 
         joined_original_toclinks = "\n".join(toc_list)
-        joined_md_toclinks = "\n".join(md_toclink_list)
+        joined_md_toclinks = "\n".join(mdtoclink_list)
         rprint("\njoined_original_toclinks\n", joined_original_toclinks)
         rprint("\njoined_md_toclinks\n", joined_md_toclinks)
         print("\n\n")
