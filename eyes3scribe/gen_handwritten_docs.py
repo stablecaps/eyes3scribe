@@ -3,7 +3,6 @@ import logging
 from rich import print as rprint
 
 from eyes3scribe.gen_pynavbar_dict import GenPyNavbarDict
-from eyes3scribe.helpo import hfile
 from eyes3scribe.pipeline_rst2md import PipelineRst2Md
 
 LOG = logging.getLogger(__name__)
@@ -22,16 +21,9 @@ class GenHandwrittenDocs:
         if self.cnf.handwritten_docs_rst:
             pipeline_rst2_md = PipelineRst2Md(cnf=self.cnf)
             toclinks_map_all = pipeline_rst2_md.run()
-            # sys.exit(42)
 
         ##################################################
-        # hwdocs_infiles = hfile.multiglob_dir_search(
-        #     search_path=self.cnf.handwritten_docs_outdir,
-        #     glob_patt_list=["*.md"],
-        # )
 
-        # self.handwritten_docs_infiles.extend(hwdocs_infiles)
-        # LOG.debug("handwritten_docs_infiles: %s", self.handwritten_docs_infiles)
 
         # sys.exit(42)
         gen_py_navbar_dict = GenPyNavbarDict(

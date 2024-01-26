@@ -31,7 +31,6 @@ def get_lines_between_tag_and_blank_line(filetext, start_tag="```{toctree}"):
     line_holder = []
     inRecordingMode = False
     for line in filetext.split("\n"):
-        # line_stripped = line.strip()
         if not inRecordingMode:
             if start_tag in line:
                 rprint("TRUE: found toctree")
@@ -50,25 +49,17 @@ def get_multiblocks_between_tags(filetext, start_tag=":::", end_tag=":::"):
     block_holder = []
     inRecordingMode = False
     for line in filetext.split("\n"):
-        # rprint("line", line)
-        # line_stripped = line.strip()
         if not inRecordingMode:
             if start_tag in line:
-                # rprint("TRUE: found start_tag")
                 inRecordingMode = True
-                line_holder = []
-                line_holder.append(line)
+                line_holder = [line]
         elif end_tag in line:
-            # rprint("TRUE: found end_tag")
             inRecordingMode = False
             line_holder.append(line)
             block_holder.append(line_holder)
-        # elif inRecordingMode:
         else:
             line_holder.append(line)
 
-    # rprint("block_holder", block_holder)
-    # sys.exit(42)
     return block_holder
 
 
@@ -124,7 +115,6 @@ def does_str_contain_pattern(instr, input_patt_li):
     Example:
         contains_pattern = does_str_contain_pattern("Hello, world!", ["world", "!"])
     """
-
     instr_clean = instr.strip()
     for input_patt in input_patt_li:
         if input_patt.strip() in instr_clean:
@@ -179,7 +169,6 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
         >>> rm_lines_starting_with("Hello,\nworld!", ["Hell", "world"])
         "world!"
     """
-
     multiline_str_list = multiline_str_2list(
         multiline_str=multiline_str, delimiter="\n"
     )
@@ -195,15 +184,6 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
     clean_outstr = "\n".join(filtered_multiline_str_list)
     print("clean_outstr", clean_outstr)
 
-    # multiline_str_list_len = len(multiline_str_list)
-    # idx = 0
-    # for line in multiline_str_list:
-    #     if does_str_start_with_pattern(line, rm_patt_list):
-    #         if idx == multiline_str_list_len - 1:
-    #             out_str += f"{line}"
-    #         else:
-    #             out_str += f"{line}\n"
-    #     idx += 1
 
     return clean_outstr
 

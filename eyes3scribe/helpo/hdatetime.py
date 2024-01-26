@@ -123,6 +123,5 @@ def calc_ndays_back_from_today(days_back):
 def calc_days_from_2dates_diff(prev_date):
     """Calculates the difference bewteen today and a previous date in days."""
     utc_time_now = datetime.utcnow().replace(tzinfo=tz.tzutc())
-    # ndays_back = utc_time_now - timedelta(days=prev_date)
     ndays_back = utc_time_now - prev_date
     return ndays_back.days

@@ -1,5 +1,4 @@
 import logging
-import sys
 from collections import defaultdict
 
 from rich import print as rprint
@@ -45,9 +44,6 @@ class GenPyNavbarDict:
         self.project_docs_dir_local = cnf.project_docs_dir + "/"
         LOG.debug("project_docs_dir: %s", self.project_docs_dir_local)
         self.project_docs_dir = cnf.project_docs_dir
-        # sys.exit(42)
-        #
-        # self.toc_dict = {}
         self.toclinks_map_all = toclinks_map_all
         self.hierarchy_dict = defaultdict(list)
         self.navbar_dict = {}
@@ -95,15 +91,12 @@ class GenPyNavbarDict:
                 self.toclinks_map_all[mdpath_rel].extend(clean_toc_mdlist)
 
         rprint("\ntoc_dict", self.toclinks_map_all)
-        # sys.exit(42)
 
     def reorder_toc_dict_so_index_first(self):
         # copy index files to front of list
         # catnames_list = list(self.toclinks_map_all.keys())
         for mdpath, toc_links in self.toclinks_map_all.items():
             rprint("mdpath", mdpath)
-            # rprint("toc_links", toc_links)
-            # sys.exit(42)
             toc_links_with_index = []
             if mdpath == "docshw/index.md":
                 # TODO: fix this hard coded hack - think we need to specify main index in config
@@ -133,16 +126,10 @@ class GenPyNavbarDict:
 
     @staticmethod
     def clean_tockvs(mylink, myvalue):
-        """
-        This function splits the category and returns the toc key and value.
-        """
+        """This function splits the category and returns the toc key and value."""
         tockey = clean_str_pline(mylink.split("/")[-1], [".md"])
         tocvalue = clean_str_pline(mylink, [myvalue])
 
-        # if "misc" in tockey:
-        #     print("tockey", tockey)
-        #     print("tocvalue", tocvalue)
-        #     sys.exit(42)
         return {tockey: tocvalue}
 
     def gen_navbar_dict(self):
@@ -153,13 +140,11 @@ class GenPyNavbarDict:
 
             self.navbar_dict[key] = self.toclinks_map_all[key]
             rprint("navbar_dict", self.navbar_dict)
-            # sys.exit(42)
 
             new_link_list = []
             for mdlink in self.navbar_dict[key]:
                 if mdlink in link_list:
                     rprint("mdlink", mdlink)
-                    # sys.exit(42)
                     category_split = mdlink.split("/")
                     if category_split[-1] == "index.md":
                         category_name = clean_str_pline(category_split[-2], [".md"])
@@ -185,19 +170,15 @@ class GenPyNavbarDict:
 
     def main(self):
         self.gen_toc_dict_from_mdindex_files()
-        # sys.exit(42)
 
         ## 1. Check which mdtoc_path is in which list to figure out rough order
         ## 2. If it is in the list, then it is suboridnate
         ## 3. Create ranked order of mdfiles
         self.gen_toc_hierarchy_dict()
-        # sys.exit(42)
 
         self.reorder_toc_dict_so_index_first()
-        # sys.exit(42)
 
         self.gen_navbar_dict()
-        # sys.exit(42)
 
         #####################
         walk_nested_dicts_with_lists(obj=self.navbar_dict)
@@ -221,6 +202,5 @@ class GenPyNavbarDict:
             rprint("**", key, values)
 
         rprint("\nnavbar_cleaned_dict", self.navbar_cleaned_dict)
-        # sys.exit(42)
 
         return self.navbar_cleaned_dict

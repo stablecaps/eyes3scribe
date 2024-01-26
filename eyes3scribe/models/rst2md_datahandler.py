@@ -90,8 +90,6 @@ class Rst2MdConverter1Toc:
                     print("\ntoclink_filepath_clean", toclink_filepath_clean)
                     filename = file_path.split("/")[-1]
                     print("filename", filename)
-                    # mdlink_rel = f"- [**{toc_link_name.capitalize().replace('/index', '')}**]({filename})"
-                    # mdlink_rel = f"- [**{filename.capitalize().replace('/index', '').replace('.md', '')}**]({filename})"
                     if "index.md" in file_path:
                         filename_index = file_path.replace(cls.project_docs_dir, "")
                         print("filename_index", filename_index)
@@ -105,7 +103,6 @@ class Rst2MdConverter1Toc:
                         toclink_filepath_clean
                     )
 
-                # sys.exit(42)
 
                 rprint("toclinks_map", cls.r2m.toclinks_map)
                 rprint("mdtoclink_list", cls.r2m.mdtoclink_list)
@@ -162,8 +159,6 @@ class Rst2MdConverter1Toc:
             cls.gen_markdown_toclinks()
             rprint("mdtoclink_list", cls.r2m.mdtoclink_list)
 
-            # if cls.hwdoc_rpath == "docs_bash-it/index.md":
-            #     sys.exit(42)
 
             joined_original_toclinks = "\n".join(toc_list)
             joined_md_toclinks = "\n".join(cls.r2m.mdtoclink_list)
@@ -183,8 +178,6 @@ class Rst2MdConverter1Toc:
             )
             rprint("mdtext_replacedtoc", mdtext_replacedtoc)
 
-            # if "index" in cls.r2m.hwdoc_rpath:
-            #     sys.exit(42)
 
             cls.r2m.filetext = mdtext_replacedtoc
 

@@ -1,6 +1,6 @@
 import logging
 
-from eyes3scribe.helpo import hcollections, hfile, hstrops
+from eyes3scribe.helpo import hcollections, hfile
 
 LOG = logging.getLogger(__name__)
 

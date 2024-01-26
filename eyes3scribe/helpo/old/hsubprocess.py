@@ -6,10 +6,7 @@ from typing import List, Optional, Union
 
 
 def shlex_convert_str_2list(comm_str: str) -> List[str]:
-    """
-    Convert a linux command into list format with shlex.
-    """
-
+    """Convert a linux command into list format with shlex."""
     split_comm = shlex.split(comm_str)
 
     # remove all instances of empty string
@@ -24,7 +21,6 @@ def run_cmd_with_output(comm_str: str) -> Optional[bytes]:
     Also returns output on success and
     False on failure so that it can be handled downstream.
     """
-
     split_comm_clean = shlex_convert_str_2list(comm_str=comm_str)
 
     try:
@@ -41,7 +37,6 @@ def run_cmd_with_errorcode(comm_str: str) -> bool:
     Also returns output on success and
     False on failure so that it can be handled downstream.
     """
-
     split_comm_clean = shlex_convert_str_2list(comm_str=comm_str)
 
     try:
@@ -68,7 +63,8 @@ def process_subp_output(
     if exclude_list is None:
         exclude_list = ["", " "]
 
-    assert cmd_output, "Error: For process_subp_output(), cmd_output var is None"
+    if not cmd_output:
+        raise AssertionError("Error: For process_subp_output(), cmd_output var is None")
 
     holder = []
     for line in cmd_output.decode().split("\n"):

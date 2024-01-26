@@ -9,7 +9,7 @@ from rich import print as rprint
 from ruamel.yaml import YAML
 
 import eyes3scribe.helpo.hsubprocess as hsubp
-from eyes3scribe.helpo.hstrops import does_str_contain_pattern, rreplace
+from eyes3scribe.helpo.hstrops import rreplace
 
 LOG = logging.getLogger(__name__)
 
@@ -216,8 +216,8 @@ def replace_substr_in_paths(input_paths, replace_path):
 
 def find_files_with_grep_patt(search_path, file_glob, txt_pattern):
     comm = (
-        f'find {search_path} -not -path "*/\.*" -not -path "*venv/*" -not -path "*node_modules/*" -iname "{file_glob}" -exec grep --color=never -Isl "{txt_pattern}"'
-        + " {} /dev/null \;"
+        rf'find {search_path} -not -path "*/\.*" -not -path "*venv/*" -not -path "*node_modules/*" -iname "{file_glob}" -exec grep --color=never -Isl "{txt_pattern}"'
+        + r" {} /dev/null \;"
     )
     resp_bytes = hsubp.run_cmd_with_output(comm_str=comm)
     rprint("resp_bytes", resp_bytes)

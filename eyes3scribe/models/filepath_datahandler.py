@@ -1,7 +1,5 @@
 import logging
 from dataclasses import dataclass
-
-from eyes3scribe.helpo.hcollections import clean_list_via_rm_patts
 from eyes3scribe.helpo.hfile import mkdir_if_notexists
 from eyes3scribe.helpo.hstrops import str_multi_replace
 
