@@ -84,38 +84,28 @@ class Rst2MdConverter1Toc:
                 )
                 rprint("file_link_list0", file_path_list)
                 for file_path in file_path_list:
-                    ### version 1
-                    # _, file_name = file_path.rsplit("/", 1)
-                    # ### As index is in same directory as the file, we need to just use the filename as
-                    # ### the relative link. However as we are updating dict, we need another variable
-                    # ### for filepath_clean replacemnet within the md file toclink itself
-                    # ### probably have to do it downstream as it ddoes not work here
-
-                    # filepath_clean = file_path.replace(cls.handwritten_docs_outdir, "")
-                    # mdlink_rel = f"- [**{file_name.capitalize().replace('/index', '').replace('.md', '')}**]({filepath_clean})"
-                    # cls.r2m.mdtoclink_list.append(mdlink_rel)
-                    # print("cls.handwritten_docs_outdir", cls.handwritten_docs_outdir)
-                    # print("file_path", file_path)
-                    # print("filepath_clean", filepath_clean)
-                    # print("mdlink_rel", mdlink_rel)
-                    # # sys.exit(42)
-
-                    # ###
-                    # cls.r2m.toclinks_map[
-                    #     file_name.replace(".md", "")
-                    # ] = file_path.replace(cls.project_docs_dir, "")
-
-                    ### version 2
                     toclink_filepath_clean = copy.deepcopy(file_path).replace(
                         cls.project_docs_dir, ""
                     )
-                    print("toclink_filepath_clean", toclink_filepath_clean)
+                    print("\ntoclink_filepath_clean", toclink_filepath_clean)
                     filename = file_path.split("/")[-1]
-                    mdlink_rel = f"- [**{toc_link_name.capitalize().replace('/index', '')}**]({filename})"
+                    print("filename", filename)
+                    # mdlink_rel = f"- [**{toc_link_name.capitalize().replace('/index', '')}**]({filename})"
+                    # mdlink_rel = f"- [**{filename.capitalize().replace('/index', '').replace('.md', '')}**]({filename})"
+                    if "index.md" in file_path:
+                        filename_index = file_path.replace(cls.project_docs_dir, "")
+                        print("filename_index", filename_index)
+                        mdlink_rel = f"- [**{filename.capitalize().replace('/index', '').replace('.md', '')}**]({filename_index})"
+                    else:
+                        mdlink_rel = f"- [**{filename.capitalize().replace('/index', '').replace('.md', '')}**]({filename})"
+
+                    print("mdlink_rel", mdlink_rel)
                     cls.r2m.mdtoclink_list.append(mdlink_rel)
                     cls.r2m.toclinks_map[cls.r2m.index_name].append(
                         toclink_filepath_clean
                     )
+
+                # sys.exit(42)
 
                 rprint("toclinks_map", cls.r2m.toclinks_map)
                 rprint("mdtoclink_list", cls.r2m.mdtoclink_list)
@@ -133,20 +123,6 @@ class Rst2MdConverter1Toc:
                 if len(file_path_list) > 1:
                     print("ERROR: more than one file found")
                     sys.exit(42)
-
-                ### Version 1
-                # filepath_clean = file_path_list[0].replace(cls.project_docs_dir, "")
-                # print("filepath_clean", filepath_clean)
-                # # sys.exit(42)
-                # toc_link_name_noidx = toc_link_name.replace("/index", "")
-                # mdlink_rel = (
-                #     f"- [**{toc_link_name_noidx.capitalize()}**]({filepath_clean})"
-                # )
-                # # rprint(type(cls.r2m.mdtoclink_list))
-                # cls.r2m.mdtoclink_list.append(mdlink_rel)
-
-                # ###
-                # cls.r2m.toclinks_map[toc_link_name_noidx] = filepath_clean
 
                 ### Version 2
                 toclink_filepath_clean = copy.deepcopy(file_path_list[0]).replace(
@@ -186,6 +162,9 @@ class Rst2MdConverter1Toc:
             cls.gen_markdown_toclinks()
             rprint("mdtoclink_list", cls.r2m.mdtoclink_list)
 
+            # if cls.hwdoc_rpath == "docs_bash-it/index.md":
+            #     sys.exit(42)
+
             joined_original_toclinks = "\n".join(toc_list)
             joined_md_toclinks = "\n".join(cls.r2m.mdtoclink_list)
             joined_md_toclinks_with_headers = (
@@ -203,7 +182,9 @@ class Rst2MdConverter1Toc:
                 joined_md_toclinks_with_headers,
             )
             rprint("mdtext_replacedtoc", mdtext_replacedtoc)
-            # sys.exit(42)
+
+            # if "index" in cls.r2m.hwdoc_rpath:
+            #     sys.exit(42)
 
             cls.r2m.filetext = mdtext_replacedtoc
 

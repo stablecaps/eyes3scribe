@@ -2,7 +2,7 @@ import logging
 
 from rich import print as rprint
 
-from eyes3scribe.gen_navbar_dict import GenPyNavbarDict
+from eyes3scribe.gen_pynavbar_dict import GenPyNavbarDict
 from eyes3scribe.helpo import hfile
 from eyes3scribe.pipeline_rst2md import PipelineRst2Md
 

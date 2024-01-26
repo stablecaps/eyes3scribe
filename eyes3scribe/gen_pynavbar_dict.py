@@ -14,6 +14,24 @@ from eyes3scribe.regex_patterns import *
 LOG = logging.getLogger(__name__)
 
 
+# TODO: rename this function and put it somewhere more appropriate
+def walk_nested_dicts_with_lists(obj):
+    if isinstance(obj, list):  # could replace with collections.abc.MutableSequence
+        myiterable = enumerate(obj)
+    elif isinstance(obj, dict):  # could replace with collections.abc.MutableMapping
+        myiterable = obj.items()
+    else:
+        return  # don't iterate -- pass back up
+
+    for key, value in myiterable:
+        if isinstance(value, str):
+            # TODO: allow custiom function to be passed in using partial
+            obj[key] = value.replace("docshw/", "")
+        else:
+            walk_nested_dicts_with_lists(value)
+    return obj
+
+
 # TODO: refactor the hell out of this ;o)
 # TODO: sort out conversion of relative paths sooner
 class GenPyNavbarDict:
@@ -26,9 +44,11 @@ class GenPyNavbarDict:
         # TODO: bad var name
         self.project_docs_dir_local = cnf.project_docs_dir + "/"
         LOG.debug("project_docs_dir: %s", self.project_docs_dir_local)
+        self.project_docs_dir = cnf.project_docs_dir
         # sys.exit(42)
         #
-        self.toc_dict = {}
+        # self.toc_dict = {}
+        self.toclinks_map_all = toclinks_map_all
         self.hierarchy_dict = defaultdict(list)
         self.navbar_dict = {}
 
@@ -59,24 +79,28 @@ class GenPyNavbarDict:
 
     def gen_toc_dict_from_mdindex_files(self):
         for mdpath in self.mdtoc_path_list:
+            print("mdpath", mdpath)
             mdpath_rel = mdpath.replace(self.project_docs_dir_local, "")
+            print("mdpath_rel", mdpath_rel)
 
-            filetext = hfile.read_file_2string(filepath=mdpath)
-            table_of_contents = get_lines_between_tag_and_blank_line(
-                filetext, start_tag="## Table of Contents"
-            )
+            if mdpath_rel not in self.toclinks_map_all:
+                filetext = hfile.read_file_2string(filepath=mdpath)
+                table_of_contents = get_lines_between_tag_and_blank_line(
+                    filetext, start_tag="## Table of Contents"
+                )
 
-            self.toc_dict[mdpath_rel] = GenPyNavbarDict.gen_cleaned_mdtoc_list(
-                toc_mdlist=table_of_contents
-            )
+                clean_toc_mdlist = GenPyNavbarDict.gen_cleaned_mdtoc_list(
+                    toc_mdlist=table_of_contents
+                )
+                self.toclinks_map_all[mdpath_rel].extend(clean_toc_mdlist)
 
-        rprint("\ntoc_dict", self.toc_dict)
+        rprint("\ntoc_dict", self.toclinks_map_all)
         # sys.exit(42)
 
     def reorder_toc_dict_so_index_first(self):
         # copy index files to front of list
-        # catnames_list = list(self.toc_dict.keys())
-        for mdpath, toc_links in self.toc_dict.items():
+        # catnames_list = list(self.toclinks_map_all.keys())
+        for mdpath, toc_links in self.toclinks_map_all.items():
             rprint("mdpath", mdpath)
             # rprint("toc_links", toc_links)
             # sys.exit(42)
@@ -93,13 +117,13 @@ class GenPyNavbarDict:
             toc_links_with_index.insert(
                 0, mdpath
             )  ### inserts the index.mdfile at the start of the list
-            self.toc_dict[mdpath] = toc_links_with_index
-        rprint("toc_dict index ordered", self.toc_dict)
+            self.toclinks_map_all[mdpath] = toc_links_with_index
+        rprint("toc_dict index ordered", self.toclinks_map_all)
 
     def gen_toc_hierarchy_dict(self):
-        for mdpath, _ in self.toc_dict.items():
+        for mdpath, _ in self.toclinks_map_all.items():
             rprint("mdpath", mdpath)
-            for file_path2, toc_links2 in self.toc_dict.items():
+            for file_path2, toc_links2 in self.toclinks_map_all.items():
                 rprint("file_path2", file_path2)
                 mdpath_rel = mdpath.replace(self.project_docs_dir_local, "")
                 if mdpath_rel in toc_links2:
@@ -127,7 +151,7 @@ class GenPyNavbarDict:
         ):
             rprint("link_list", link_list)
 
-            self.navbar_dict[key] = self.toc_dict[key]
+            self.navbar_dict[key] = self.toclinks_map_all[key]
             rprint("navbar_dict", self.navbar_dict)
             # sys.exit(42)
 
@@ -146,7 +170,7 @@ class GenPyNavbarDict:
                         GenPyNavbarDict.clean_tockvs(
                             mylink=link, myvalue=self.project_docs_dir_local
                         )
-                        for link in self.toc_dict[mdlink]
+                        for link in self.toclinks_map_all[mdlink]
                     ]
 
                     sub_dict = {category_name: yaml2_sublist}
@@ -200,21 +224,3 @@ class GenPyNavbarDict:
         # sys.exit(42)
 
         return self.navbar_cleaned_dict
-
-
-# TODO: rename this function and put it somewhere more appropriate
-def walk_nested_dicts_with_lists(obj):
-    if isinstance(obj, list):  # could replace with collections.abc.MutableSequence
-        myiterable = enumerate(obj)
-    elif isinstance(obj, dict):  # could replace with collections.abc.MutableMapping
-        myiterable = obj.items()
-    else:
-        return  # don't iterate -- pass back up
-
-    for key, value in myiterable:
-        if isinstance(value, str):
-            # TODO: allow custiom function to be passed in using partial
-            obj[key] = value.replace("docshw/", "")
-        else:
-            walk_nested_dicts_with_lists(value)
-    return obj
