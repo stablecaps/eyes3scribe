@@ -24,7 +24,6 @@ class GenHandwrittenDocs:
 
         ##################################################
 
-
         # sys.exit(42)
         gen_py_navbar_dict = GenPyNavbarDict(
             cnf=self.cnf,

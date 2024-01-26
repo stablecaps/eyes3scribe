@@ -103,7 +103,6 @@ class Rst2MdConverter1Toc:
                         toclink_filepath_clean
                     )
 
-
                 rprint("toclinks_map", cls.r2m.toclinks_map)
                 rprint("mdtoclink_list", cls.r2m.mdtoclink_list)
                 # sys.exit(42)
@@ -159,7 +158,6 @@ class Rst2MdConverter1Toc:
             cls.gen_markdown_toclinks()
             rprint("mdtoclink_list", cls.r2m.mdtoclink_list)
 
-
             joined_original_toclinks = "\n".join(toc_list)
             joined_md_toclinks = "\n".join(cls.r2m.mdtoclink_list)
             joined_md_toclinks_with_headers = (
@@ -177,7 +175,6 @@ class Rst2MdConverter1Toc:
                 joined_md_toclinks_with_headers,
             )
             rprint("mdtext_replacedtoc", mdtext_replacedtoc)
-
 
             cls.r2m.filetext = mdtext_replacedtoc
 

@@ -184,7 +184,6 @@ def rm_lines_starting_with(multiline_str, rm_patt_list):
     clean_outstr = "\n".join(filtered_multiline_str_list)
     print("clean_outstr", clean_outstr)
 
-
     return clean_outstr
 
 
