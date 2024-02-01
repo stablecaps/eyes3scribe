@@ -45,7 +45,7 @@ jobs:
       env:
         DEEPSOURCE_DSN_SECRET: ${{ secrets.DEEPSOURCE_DSN_SECRET }}
       run: |
-        poetry run pytest -v --cov=helpo --cov-report xml tests/
+        make test
         export DEEPSOURCE_DSN=$DEEPSOURCE_DSN_SECRET
         ./bin/deepsource report --analyzer test-coverage --key python --value-file "$(pwd)/coverage.xml"
 
