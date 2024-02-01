@@ -76,7 +76,7 @@ six==1.15.0
 toml==0.10.1
 tomli==2.0.1
 tomlkit==0.12.3
-tornado==6.0.4
+tornado==6.4
 tqdm==4.51.0
 trove-classifiers==2023.11.29
 typed-ast==1.4.1
