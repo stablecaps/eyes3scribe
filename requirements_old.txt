@@ -18,7 +18,7 @@ exceptiongroup==1.2.0
 fastjsonschema==2.19.0
 filelock==3.13.1
 future==0.18.2
-graphviz==0.14.2
+graphviz==0.20.1
 idna==3.6
 importlib-metadata==7.0.0
 importlib-resources==6.1.1
