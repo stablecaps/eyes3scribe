@@ -2,7 +2,7 @@ appdirs==1.4.4
 black==20.8b1
 build==1.0.3
 cachecontrol==0.13.1
-certifi==2020.6.20
+certifi==2023.11.17
 cffi==1.16.0
 charset-normalizer==3.3.2
 cleo==2.1.0
