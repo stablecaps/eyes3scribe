@@ -10,7 +10,7 @@ click==7.1.2
 code2flow==2.5.1
 crashtest==0.4.1
 cryptography==41.0.7
-cycler==0.10.0
+cycler==0.12.1
 decorator==4.4.2
 distlib==0.3.7
 dulwich==0.21.7
