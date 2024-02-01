@@ -57,7 +57,6 @@ def encrypt(public_key: str, secret_value: str) -> str:
 
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser(
         description="Upload a secret to a GitHub repository"
     )
