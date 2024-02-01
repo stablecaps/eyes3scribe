@@ -12,7 +12,7 @@ crashtest==0.4.1
 cryptography==41.0.7
 cycler==0.10.0
 decorator==4.4.2
-distlib==0.3.7
+distlib==0.3.8
 dulwich==0.21.7
 exceptiongroup==1.2.0
 fastjsonschema==2.19.0
