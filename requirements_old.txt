@@ -15,7 +15,7 @@ decorator==4.4.2
 distlib==0.3.7
 dulwich==0.21.7
 exceptiongroup==1.2.0
-fastjsonschema==2.19.0
+fastjsonschema==2.19.1
 filelock==3.13.1
 future==0.18.2
 graphviz==0.14.2
