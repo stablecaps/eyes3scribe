@@ -34,6 +34,8 @@ install:
 .PHONY: pre-commit-install
 pre-commit-install:
 	poetry run pre-commit install
+	## Run for conventional commit
+	poetry run pre-commit install --hook-type commit-msg
 
 #* Formatters
 .PHONY: codestyle
