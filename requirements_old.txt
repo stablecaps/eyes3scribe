@@ -81,6 +81,6 @@ tqdm==4.51.0
 trove-classifiers==2023.11.29
 typed-ast==1.4.1
 typing-extensions==4.8.0
-urllib3==2.1.0
+urllib3==2.2.0
 virtualenv==20.25.0
 zipp==3.17.0
