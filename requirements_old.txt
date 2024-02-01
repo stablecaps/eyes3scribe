@@ -49,7 +49,7 @@ numpy==1.19.2
 packaging==23.2
 pathspec==0.8.0
 pexpect==4.9.0
-Pillow==8.0.1
+Pillow==10.2.0
 pkginfo==1.9.6
 platformdirs==3.11.0
 pluggy==1.3.0
