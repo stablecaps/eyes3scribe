@@ -79,7 +79,7 @@ tomlkit==0.12.3
 tornado==6.0.4
 tqdm==4.51.0
 trove-classifiers==2023.11.29
-typed-ast==1.4.1
+typed-ast==1.5.5
 typing-extensions==4.8.0
 urllib3==2.1.0
 virtualenv==20.25.0
