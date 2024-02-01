@@ -37,16 +37,6 @@ pre-commit-install:
 	## Run for conventional commit
 	poetry run pre-commit install --hook-type commit-msg
 
-#* Formatters
-.PHONY: codestyle
-codestyle:
-	# poetry run pyupgrade --exit-zero-even-if-changed --py39-plus **/*.py
-	poetry run isort --settings-path pyproject.toml ./
-	poetry run black --config pyproject.toml ./
-
-.PHONY: formatting
-formatting: codestyle
-
 #* Linting
 .PHONY: test
 test:
@@ -58,24 +48,6 @@ check-codestyle:
 	poetry run isort --diff --check-only --settings-path pyproject.toml ./
 	poetry run black --diff --check --config pyproject.toml ./
 	# poetry run darglint --verbosity 2 eyes3scribe tests
-
-# .PHONY: mypy
-# mypy:
-# 	poetry run mypy --config-file pyproject.toml ./
-
-# .PHONY: check-safety
-# check-safety:
-# 	poetry check
-# 	poetry run safety check --full-report
-# 	# poetry run bandit -ll --recursive eyes3scribe tests
-
-.PHONY: lint
-lint: test check-codestyle mypy check-safety
-
-# .PHONY: update-dev-deps
-# update-dev-deps:
-# 	poetry add -D bandit@latest darglint@latest "isort[colors]@latest" mypy@latest pre-commit@latest pydocstyle@latest pylint@latest pytest@latest pyupgrade@latest safety@latest coverage@latest coverage-badge@latest pytest-html@latest pytest-cov@latest
-# 	poetry add -D --allow-prereleases black@latest
 
 #* Docker
 # Example: make docker-build VERSION=latest
