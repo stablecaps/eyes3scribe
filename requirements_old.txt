@@ -72,7 +72,7 @@ requests-toolbelt==1.0.0
 rich==13.7.0
 SecretStorage==3.3.3
 shellingham==1.5.4
-six==1.15.0
+six==1.16.0
 toml==0.10.1
 tomli==2.0.1
 tomlkit==0.12.3
