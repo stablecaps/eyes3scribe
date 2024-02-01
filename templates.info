@@ -1,0 +1,5 @@
+start with:  `pip install -U cookiecutter`
+
+1. https://github.com/TezRomacH/python-package-template
+
+cookiecutter gh:TezRomacH/python-package-template --checkout v1.1.1
