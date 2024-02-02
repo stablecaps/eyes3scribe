@@ -109,6 +109,7 @@ jobs:
 # https://dev.to/mestrak/semantic-release-with-python-poetry-github-actions-20nn
 # https://github.com/Ezard/semantic-prs
 # https://michaelheap.com/ultimate-guide-github-actions-authentication/
+# https://packaging.python.org/en/latest/guides/packaging-namespace-packages/
 
 ## Todo:
 # 1. add branch protection: https://medium.com/codex/set-up-automatic-testing-2507dfb94cbe

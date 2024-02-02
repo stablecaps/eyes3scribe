@@ -38,6 +38,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.dependencies]
 python = "^3.9"
 wheel = "^0.42.0"
+build = "^1.0.3"
 [tool.poetry.dev-dependencies]
 pylint = "^3.0.3"
 black = "^24.1.1"
