@@ -169,6 +169,7 @@ major_on_zero = false
 tag_format = "{version}"
 #
 build_command = "poetry build"
+#
 
 [tool.semantic_release.branches.master]
 match = "master"
