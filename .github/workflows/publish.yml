@@ -106,7 +106,7 @@ jobs:
         with:
           packages-dir: dist/
 
-
+#PSR is annoying
 # https://endjin.com/blog/2023/02/how-to-implement-continuous-deployment-of-python-packages-with-github-actions
 # https://ubc-mds.github.io/DSCI_524_collab-sw-dev/materials/lectures/06_lecture-cd-semver-and-docs.html
 # https://dev.to/mestrak/semantic-release-with-python-poetry-github-actions-20nn
