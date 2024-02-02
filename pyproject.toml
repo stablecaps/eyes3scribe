@@ -173,7 +173,7 @@ build_command = "poetry build"
 #
 
 [tool.semantic_release.branches.master]
-match = "master|release/release-.*"
+match = "master|feat/test-semver-release-ver4|release/release-.*"
 prerelease_token = "rc"
 prerelease = false
 
