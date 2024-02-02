@@ -2,7 +2,7 @@
 
 [tool.poetry]
 name = "eyes3scribe"
-version = "0.1.0"
+version = "0.1.1"
 description = "Automatically creates HTML documentation files for BASH/Shell source code using markdown & python mkdocs"
 readme = "README.md"
 authors = ["Stablecaps <14529342+darkpandarts@users.noreply.github.com>"]
@@ -173,7 +173,7 @@ build_command = "poetry build"
 #
 
 [tool.semantic_release.branches.master]
-match = "master|release/release-.*"
+match = "master|feat/test-semver-release-ver4|release/release-.*"
 prerelease_token = "rc"
 prerelease = false
 
