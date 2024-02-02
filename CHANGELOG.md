@@ -22,7 +22,7 @@
 
 ### Unknown
 
-* 0.1.1 ([`c34033e`](https://github.com/stablecaps/bash-auto-doc/commit/c34033ee89e35bd637eec89b518f55c7696a57f6))
+* 0.1.1 ([`c34033e`](https://github.com/stablecaps/eyes3scribe/commit/c34033ee89e35bd637eec89b518f55c7696a57f6))
 
 
 ## v0.1.0 (2024-02-01)
