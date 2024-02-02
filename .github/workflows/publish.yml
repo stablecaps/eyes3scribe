@@ -97,6 +97,9 @@ jobs:
           git config user.email github-actions@github.com
           poetry run semantic-release version
           poetry run semantic-release publish
+          ls -lah
+          echo -e "\n\n"
+          ls -lah dist/
 
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
