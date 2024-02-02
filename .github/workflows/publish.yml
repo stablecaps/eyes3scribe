@@ -95,11 +95,13 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          poetry run semantic-release -vv version
-          poetry run semantic-release -vv publish
+          poetry run semantic-release version
+          poetry run semantic-release publish
 
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/
 
 
 # https://endjin.com/blog/2023/02/how-to-implement-continuous-deployment-of-python-packages-with-github-actions
