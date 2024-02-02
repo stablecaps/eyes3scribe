@@ -6,6 +6,14 @@
 
 ### Ci
 
+* ci(publish): change push branch to make debugging semver easier 7 ([`2fd09c4`](https://github.com/stablecaps/bash-auto-doc/commit/2fd09c4b0ce7dc3d8f6d188958ac5c623e9286d5))
+
+* ci(publish): change push branch to make debugging semver easier 6 ([`3746851`](https://github.com/stablecaps/bash-auto-doc/commit/3746851a399f8d1e8ee9d3cb31b5c1a049522b05))
+
+* ci(publish): change push branch to make debugging semver easier 5 ([`7e5fad2`](https://github.com/stablecaps/bash-auto-doc/commit/7e5fad2023e23f3d2aeeb0025896f2014fb10d51))
+
+* ci(publish): change push branch to make debugging semver easier 4 ([`e66b126`](https://github.com/stablecaps/bash-auto-doc/commit/e66b1265ec15a3fbdc22d7da658f10764bc6c0c5))
+
 * ci(publish): change push branch to make debugging semver easier 3 ([`df51210`](https://github.com/stablecaps/bash-auto-doc/commit/df51210e30219b47a2a96ce6b1b683c27dbdce43))
 
 * ci(publish): change push branch to make debugging semver easier 2 ([`20be519`](https://github.com/stablecaps/bash-auto-doc/commit/20be519438697b51ff78411577e6e8f3300ff1f3))
@@ -20,6 +28,8 @@
 
 ### Fix
 
+* fix(toml): trying to publish to pypi ([`262fa75`](https://github.com/stablecaps/bash-auto-doc/commit/262fa7536d21da8181a0fe88c3c8f8fa5ecf354f))
+
 * fix: classifiers ([`a123c45`](https://github.com/stablecaps/bash-auto-doc/commit/a123c451465a7cdfaed2f870945f9c5f59260e17))
 
 * fix: empty push 3 ([`a7384cd`](https://github.com/stablecaps/bash-auto-doc/commit/a7384cd57e75bebc3d46ef827b559a91beecbbfc))
@@ -27,6 +37,10 @@
 * fix: empty push 2 (#68) ([`98e629b`](https://github.com/stablecaps/bash-auto-doc/commit/98e629b227d90b1b7e93374d165269fd09de22b6))
 
 * fix: empty push (#67) ([`8551b1d`](https://github.com/stablecaps/bash-auto-doc/commit/8551b1d95e2b5c96949d2acf55fb23c3f106d79f))
+
+### Unknown
+
+* 0.1.1 ([`c34033e`](https://github.com/stablecaps/bash-auto-doc/commit/c34033ee89e35bd637eec89b518f55c7696a57f6))
 
 
 ## v0.1.0 (2024-02-01)
