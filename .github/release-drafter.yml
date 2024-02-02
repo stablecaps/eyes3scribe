@@ -18,6 +18,7 @@ categories:
   - title: ":arrow_up: Dependencies updates"
     labels: [dependencies]
 
+#
 template: |
   ## What’s Changed
 
