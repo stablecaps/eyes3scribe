@@ -5,6 +5,7 @@ on:
     push:
       branches:
         - master
+        - feat/test-semver-release-ver4
     pull_request:
 
 # TODO: insert linting checks & tests
