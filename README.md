@@ -12,6 +12,21 @@
 [![License](https://img.shields.io/github/license/stablecaps/eyes3scribe)](https://github.com/stablecaps/eyes3scribe/blob/master/LICENSE)
 ![Coverage Report](assets/images/coverage.svg)
 
+
+[![DeepSource](https://app.deepsource.com/gh/stablecaps/eyes3scribe.svg/?label=active+issues&show_trend=true&token=JveipNb_ClaKjk0YBBKrG-32)](https://app.deepsource.com/gh/stablecaps/eyes3scribe/)
+[![DeepSource](https://app.deepsource.com/gh/stablecaps/eyes3scribe.svg/?label=resolved+issues&show_trend=true&token=JveipNb_ClaKjk0YBBKrG-32)](https://app.deepsource.com/gh/stablecaps/eyes3scribe/)
+
+[![Test eyes3scribe](https://github.com/stablecaps/eyes3scribe/actions/workflows/test-python-app.yml/badge.svg)](https://github.com/stablecaps/eyes3scribe/actions/workflows/test-python-app.yml)
+
+[![github-repo-stats](https://github.com/stablecaps/eyes3scribe/actions/workflows/github-repo-stats.yml/badge.svg)](https://github.com/stablecaps/eyes3scribe/actions/workflows/github-repo-stats.yml)
+
+### Broken badges
+[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
+[![Stable Version](https://img.shields.io/pypi/v/poetry?label=stable)][PyPI Releases]
+[![Pre-release Version](https://img.shields.io/github/v/release/python-poetry/poetry?label=pre-release&include_prereleases&sort=semver)][PyPI Releases]
+[![Python Versions](https://img.shields.io/pypi/pyversions/poetry)][PyPI]
+[![Download Stats](https://img.shields.io/pypi/dm/poetry)](https://pypistats.org/packages/poetry)
+
 Automatically creates HTML documentation files for BASH/Shell source code using markdown & python mkdocs
 
 </div>
