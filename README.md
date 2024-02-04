@@ -1,13 +1,9 @@
 # Eyes3Scribe
 
 <div align="center">
-
-[![Build status](https://github.com/stablecaps/eyes3scribe/workflows/build/badge.svg?branch=master&event=push)](https://github.com/stablecaps/eyes3scribe/actions?query=workflow%3Abuild)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/eyes3scribe)
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
-[![Dependencies Status](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)](https://github.com/stablecaps/eyes3scribe/pulls?utf8=%E2%9C%93&q=is%3Apr%20author%3Aapp%2Fdependabot)
-
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/eyes3scribe)
+[![Style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/stablecaps/eyes3scribe/blob/master/.pre-commit-config.yaml)
 [![Semantic Versions](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--versions-e10079.svg)](https://github.com/stablecaps/eyes3scribe/releases)
 [![License](https://img.shields.io/github/license/stablecaps/eyes3scribe)](https://github.com/stablecaps/eyes3scribe/blob/master/LICENSE)
@@ -16,8 +12,9 @@
 ![Coverage Report](assets/images/coverage.svg)
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/stablecaps/eyes3scribe/total)
 [![Test eyes3scribe](https://github.com/stablecaps/eyes3scribe/actions/workflows/test-python-app.yml/badge.svg)](https://github.com/stablecaps/eyes3scribe/actions/workflows/test-python-app.yml)
-[![github-repo-stats](https://github.com/stablecaps/eyes3scribe/actions/workflows/github-repo-stats.yml/badge.svg)](https://github.com/stablecaps/eyes3scribe/actions/workflows/github-repo-stats.yml)
-[![Stable Version](https://img.shields.io/pypi/v/eyes3scribe?label=stable)]
+[![repo-stats](https://github.com/stablecaps/eyes3scribe/actions/workflows/github-repo-stats.yml/badge.svg)](https://github.com/stablecaps/eyes3scribe/actions/workflows/github-repo-stats.yml)
+[![Stable Version]](https://img.shields.io/pypi/v/eyes3scribe?label=stable)]
+[![Build status](https://github.com/stablecaps/eyes3scribe/workflows/build/badge.svg?branch=master&event=push)](https://github.com/stablecaps/eyes3scribe/actions?query=workflow%3Abuild)
 
 
 Automatically creates HTML documentation files for BASH/Shell source code using markdown & python mkdocs
