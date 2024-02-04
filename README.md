@@ -3,7 +3,7 @@
 <div align="center">
 
 
-[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
+[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)]
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/eyes3scribe)]
 [![Style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/stablecaps/eyes3scribe/blob/master/.pre-commit-config.yaml)
@@ -15,7 +15,7 @@
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/stablecaps/eyes3scribe/total)
 [![Test eyes3scribe](https://github.com/stablecaps/eyes3scribe/actions/workflows/test-python-app.yml/badge.svg)](https://github.com/stablecaps/eyes3scribe/actions/workflows/test-python-app.yml)
 [![repo-stats](https://github.com/stablecaps/eyes3scribe/actions/workflows/github-repo-stats.yml/badge.svg)](https://github.com/stablecaps/eyes3scribe/actions/workflows/github-repo-stats.yml)
-[![Stable Version]](https://img.shields.io/pypi/v/eyes3scribe?label=stable)]
+[![Alpha Version](https://img.shields.io/pypi/v/eyes3scribe?label=stable)]
 [![Build status](https://github.com/stablecaps/eyes3scribe/workflows/build/badge.svg?branch=master&event=push)](https://github.com/stablecaps/eyes3scribe/actions?query=workflow%3Abuild)
 
 
