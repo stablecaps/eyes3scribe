@@ -15,7 +15,7 @@
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/stablecaps/eyes3scribe/total)
 [![Test eyes3scribe](https://github.com/stablecaps/eyes3scribe/actions/workflows/test-python-app.yml/badge.svg)](https://github.com/stablecaps/eyes3scribe/actions/workflows/test-python-app.yml)
 [![repo-stats](https://github.com/stablecaps/eyes3scribe/actions/workflows/github-repo-stats.yml/badge.svg)](https://github.com/stablecaps/eyes3scribe/actions/workflows/github-repo-stats.yml)
-[![Alpha Version](https://img.shields.io/pypi/v/eyes3scribe?label=stable)]
+![Stable Version](https://img.shields.io/pypi/v/eyes3scribe?label=stable)
 [![Build status](https://github.com/stablecaps/eyes3scribe/workflows/build/badge.svg?branch=master&event=push)](https://github.com/stablecaps/eyes3scribe/actions?query=workflow%3Abuild)
 
 
@@ -80,62 +80,6 @@ Please read CONTRIBUTING.md for details on our code of conduct, and the process 
 ## License
 This project is licensed under the Apache 2.0 License - see the LICENSE.md file for details.
 
-## Things to do still
-1. **Setup and Configuration**
-    1. use poetry to setup package & standalone app
-    2. ~~set up python test coverage (link with deep source)~~
-    ~~3. set up pre-commit hooks~~
-    4. add create callgen to pre-commit hook
-    5. ~~protect master branch~~
-    6. package for pip
-
-2. **Documentation**
-    1. finish generating docstrings
-    2. feed test data into docstrings (run tests on docstrings to check vailidity?)
-    3. add contributing.md
-    4. create GHA to auto generate BASH documentation for users
-
-3. **Testing**
-    1. finish tests using better data sources
-
-4. **Project Management**
-    1. write scripts to autogenerate template python repo (cookie-cutter) & https://github.com/cjolowicz/cookiecutter-hypermodern-python?tab=readme-ov-file
-    2. add badges
-    3. create repo avatar image
-    4. setup relewase pipeline
-
-5. **Bug Fixes and Improvements**
-    1. fix paths so it works with windows - use Pathlib
-    ~~2. move undefined md pages to undef category~~
-    ~~3. fix orphan single quote on value for about, param, etc~~
-    4. Add features to jump to github code file from website
-    5. List function calls across files?
-    6. List function references across files?
-    ~~7. Organise sidebar entries alphabetically~~
-    ~~8. Check input config file for errors~~
-    7. Process manually written docs
-    ~~8. optionally put code generated stuff into a "reference" section~~
-    9. Add facility to auto-publish and update hosted github pages
-    ~~10. Capitalise title first letter~~
-    11. correct "(in ./docs_bash-it/docs/docshw/plugins/available/osx.plugin.bash)" to point at relative repo src file, not temp
-    12. embed hyperlinks in function index (currently a code block)
-    13. think about putting function names in navbar? too messy?
-    14. implement [gpt4docstrings](https://github.com/MichaelisTrofficus/gpt4docstrings)
-
-
-6. **Mkdocs**
-    1. fix mkdocs search
-    ~~2. fix input yaml so it works better with arbitrary mkdocs yaml~~
-    ~~3. allow arbitrary mkdocs themes to be used~~
-
-1. **create python documentation website:**
-    1. investigate using mkdocstrings
-    2. investigate using subsets of callgraph for viz
-    3. create GHA to auto generate python documentation for eyes2scribe repo
-
-8. **Miscellaneous**
-    1. amend readme to take into account poetry & also list instructions for standalone binary
-    ~~2. rename site to eyes3scribe~~
 
 ## Not so Random info links
 
