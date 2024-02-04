@@ -3,8 +3,8 @@
 <div align="center">
 
 
-[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)]
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/eyes3scribe)]
+![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/eyes3scribe)
 [![Style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/stablecaps/eyes3scribe/blob/master/.pre-commit-config.yaml)
 [![Semantic Versions](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--versions-e10079.svg)](https://github.com/stablecaps/eyes3scribe/releases)
