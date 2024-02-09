@@ -31,7 +31,7 @@ jobs:
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
 
-    - name: Set up Python
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
@@ -39,11 +39,12 @@ jobs:
 
     - name: Install dependencies
       run: |
-        # curl https://deepsource.io/cli | sh
         curl https://deepsource.io/cli > deepsource.sh \
           && chmod u+x deepsource.sh \
           && ./deepsource.sh
-        poetry install
+
+        ###
+        poetry install -n --all-extras
 
     - name: Run tests
       env:
@@ -68,15 +69,18 @@ jobs:
           new_sha=$(git rev-parse HEAD)
           echo "SHA=$new_sha" >> $GITHUB_OUTPUT
 
+########################################################
+########################################################
+########################################################
+
   publish:
     needs: ['build-test']
     if: github.event_name == 'push' && !contains(github.event.head_commit.message, 'chore(release):')
     name: upload release to PyPI
     runs-on: ubuntu-22.04
-    # concurrency: push
-    # strategy:
-    #   matrix:
-    #     python-version: ["3.9"]
+    strategy:
+      matrix:
+        python-version: ["3.9"]
     permissions:
       # IMPORTANT: this permission is mandatory for trusted publishing
       id-token: write
@@ -85,44 +89,37 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - name: Install dependencies & build package
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
 
-      - name: Python Semantic Release
-        id: release
-        uses: ./
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          root_options: "-vv"
-      # - name: Set up Python
-      #   uses: actions/setup-python@v4
-      #   with:
-      #     python-version: ${{ matrix.python-version }}
-      #     cache: "poetry"
+          python-version: ${{ matrix.python-version }}
+          cache: "poetry"
 
-      # - name: Install dependencies
-      #   run: poetry install
+      - name: Install dependencies
+        run: poetry install
 
-      # - name: Prepare package for release
-      #   env:
-      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     git config user.name github-actions
-      #     git config user.email github-actions@github.com
-      #     poetry run semantic-release version
-      #     poetry run semantic-release publish
-      #     ls -lah
-      #     echo -e "\n\n"
-      #     ls -lah dist/
+      - name: Prepare package for release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          poetry run semantic-release version
+          poetry run semantic-release publish
+          ls -lah
+          echo -e "\n\n"
+          ls -lah dist/
 
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: dist/
 
-#PSR is annoying
+# PSR is annoying
 # https://endjin.com/blog/2023/02/how-to-implement-continuous-deployment-of-python-packages-with-github-actions
 # https://ubc-mds.github.io/DSCI_524_collab-sw-dev/materials/lectures/06_lecture-cd-semver-and-docs.html
 # https://dev.to/mestrak/semantic-release-with-python-poetry-github-actions-20nn
