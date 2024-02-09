@@ -53,3 +53,6 @@ jobs:
           pytest-xml-coverage-path: ./coverage.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+## prevent bad merge
+# https://calmcode.io/course/github-actions/prevent-merge
