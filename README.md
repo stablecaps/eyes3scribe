@@ -2,20 +2,103 @@
 
 <div align="center">
 
-[![Build status](https://github.com/stablecaps/eyes3scribe/workflows/build/badge.svg?branch=master&event=push)](https://github.com/stablecaps/eyes3scribe/actions?query=workflow%3Abuild)
-[![Python Version](https://img.shields.io/pypi/pyversions/eyes3scribe.svg)](https://pypi.org/project/eyes3scribe/)
-[![Dependencies Status](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)](https://github.com/stablecaps/eyes3scribe/pulls?utf8=%E2%9C%93&q=is%3Apr%20author%3Aapp%2Fdependabot)
 
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Security: bandit](https://img.shields.io/badge/security-bandit-green.svg)](https://github.com/PyCQA/bandit)
+![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/eyes3scribe)
+[![Style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/stablecaps/eyes3scribe/blob/master/.pre-commit-config.yaml)
 [![Semantic Versions](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--versions-e10079.svg)](https://github.com/stablecaps/eyes3scribe/releases)
 [![License](https://img.shields.io/github/license/stablecaps/eyes3scribe)](https://github.com/stablecaps/eyes3scribe/blob/master/LICENSE)
+[![DeepSource](https://app.deepsource.com/gh/stablecaps/eyes3scribe.svg/?label=active+issues&show_trend=true&token=JveipNb_ClaKjk0YBBKrG-32)](https://app.deepsource.com/gh/stablecaps/eyes3scribe/)
+[![DeepSource](https://app.deepsource.com/gh/stablecaps/eyes3scribe.svg/?label=resolved+issues&show_trend=true&token=JveipNb_ClaKjk0YBBKrG-32)](https://app.deepsource.com/gh/stablecaps/eyes3scribe/)
 ![Coverage Report](assets/images/coverage.svg)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/stablecaps/eyes3scribe/total)
+[![Test eyes3scribe](https://github.com/stablecaps/eyes3scribe/actions/workflows/test-python-app.yml/badge.svg)](https://github.com/stablecaps/eyes3scribe/actions/workflows/test-python-app.yml)
+[![repo-stats](https://github.com/stablecaps/eyes3scribe/actions/workflows/github-repo-stats.yml/badge.svg)](https://github.com/stablecaps/eyes3scribe/actions/workflows/github-repo-stats.yml)
+![Stable Version](https://img.shields.io/pypi/v/eyes3scribe?label=stable)
+[![Build status](https://github.com/stablecaps/eyes3scribe/workflows/build/badge.svg?branch=master&event=push)](https://github.com/stablecaps/eyes3scribe/actions?query=workflow%3Abuild)
+
 
 Automatically creates HTML documentation files for BASH/Shell source code using markdown & python mkdocs
 
 </div>
+
+# This is still a WIP!!!
+
+## Overview
+This project is a Python application that uses pip for package management. The main entry point for the application is gen_mkdocs_site.py.
+
+**Features:**
+
+0. Uses mkdocs to create websites with any mkdocs theme
+1. Auto-generates BASH shell script documentation from src code that are marked with composure annotations.
+2. Create alias tables from shell code
+3. Preserves handwritten documentation (TBD)
+4. Converts existing RST docs --> Markdown docs (TBD)
+5. Auto-generates Python documentation from source code (TBD)
+
+
+### Prerequisites
+* Python 3.x
+* poetry/pip
+
+## Installation
+
+```
+git clone <repository_url>
+cd <project_directory>
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Usage
+```
+# Run program to create mkdocs documentation site and serve it locally.
+python gen_mkdocs_site.py --site-confname config/bash_it_site.yaml ---build-serve
+
+# Show help
+python gen_mkdocs_site.py --help
+```
+### Program options
+1. `--site_confname` (str): The name of the site configuration.
+2. `--build_serve` (bool): Whether to build and serve the local MkDocs site.
+3. `--check_singlefile` (str): The path of a single shell source file to debug.
+4. `--debug` (bool, optional): If True, debug information will be printed. Defaults to False.
+
+
+
+## Program structure
+
+**Auto-Documatix Callgraph:**
+__(made with [PyDeps](https://github.com/thebjorn/pydeps?tab=readme-ov-file#usage))__
+![PyDeps](images/launcher.svg)
+
+## Contributing
+Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
+
+## License
+This project is licensed under the Apache 2.0 License - see the LICENSE.md file for details.
+
+
+## Not so Random info links
+
+### Python call graphs
+1. [Generating and using a Callgraph, in Python](https://cerfacs.fr/coop/pycallgraph)
+2. [Quick & Simple Call Graphs in Python](https://medium.com/parkbee/quick-simple-call-graphs-in-python-eaa583d0e1b2)
+    [pyan](https://github.com/Technologicat/pyan)
+3. [Build a Call graph in python including modules and functions?](https://stackoverflow.com/questions/13963321/build-a-call-graph-in-python-including-modules-and-functions)
+4. [What is a Call Graph? And How to Generate them Automatically](https://www.freecodecamp.org/news/how-to-automate-call-graph-creation/)
+5. [Crabviz: a call graph generator for various programming languages](https://www.reddit.com/r/rust/comments/142is0h/crabviz_a_call_graph_generator_for_various/)
+6. [**Insane**: Callgraphs with Ghidra, Pyhidra, and Jpype](https://clearbluejar.github.io/posts/callgraphs-with-ghidra-pyhidra-and-jpype/)
+
+
+### Dependency analysis v2
+
+1. https://github.com/glato/emerge
+2. https://github.com/thebjorn/pydeps
+3. https://www.python.org/success-stories/building-a-dependency-graph-of-our-python-codebase/
+
 
 ## Very first steps
 

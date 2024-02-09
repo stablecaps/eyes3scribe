@@ -1,0 +1,55 @@
+---
+name: Pull request
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }} tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9"]
+        # python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Setup poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+
+      # TODO: figure out cache on this
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "poetry"
+
+      - name: Install dependencies
+        run: |
+          # curl https://deepsource.io/cli | sh
+          curl https://deepsource.io/cli > deepsource.sh \
+            && chmod u+x deepsource.sh \
+            && ./deepsource.sh
+          poetry install
+
+      - name: Run tests
+        env:
+          DEEPSOURCE_DSN_SECRET: ${{ secrets.DEEPSOURCE_DSN_SECRET }}
+        run: |
+          make test
+          export DEEPSOURCE_DSN=$DEEPSOURCE_DSN_SECRET
+          ./bin/deepsource report --analyzer test-coverage --key python --value-file "$(pwd)/coverage.xml"
+
+      # https://github.com/MishaKav/pytest-coverage-comment
+      - name: Pytest coverage comment
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+          pytest-xml-coverage-path: ./coverage.xml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

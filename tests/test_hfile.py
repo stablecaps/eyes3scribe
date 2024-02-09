@@ -31,8 +31,8 @@
 #         "name": "Test"
 #     }, "The loaded YAML data does not match the expected result"
 
-#     # Clean up
-#     os.remove(temp_name)
+# # Clean up
+# os.remove(temp_name)
 
 
 # def test_dump_yaml_file():

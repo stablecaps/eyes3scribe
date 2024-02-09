@@ -5,8 +5,8 @@ on:
     push:
       branches:
         - master
-        - main
-        - "pre/*"
+        - feat/test-semver-release-ver4
+    pull_request:
 
 # TODO: insert linting checks & tests
 #
@@ -16,13 +16,10 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.9"]
-
-    # TODO: rm perms?
     permissions:
       issues: write
       pull-requests: write
       contents: write
-
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -53,6 +50,7 @@ jobs:
         export DEEPSOURCE_DSN=$DEEPSOURCE_DSN_SECRET
         ./bin/deepsource report --analyzer test-coverage --key python --value-file "$(pwd)/coverage.xml"
 
+    # if: github.event_name != 'push' && github.ref == 'refs/heads/master'
     # https://github.com/MishaKav/pytest-coverage-comment
     - name: Pytest coverage comment
       uses: MishaKav/pytest-coverage-comment@main
@@ -61,22 +59,15 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # TODO: wtf does this do?
-    - name: Get new SHA
-      id: sha
-      run: |
-          new_sha=$(git rev-parse HEAD)
-          echo "SHA=$new_sha" >> $GITHUB_OUTPUT
 
   publish:
     needs: ['build-test']
     if: github.event_name == 'push' && github.ref == 'refs/heads/feat/test-semver-release-ver4' && !contains(github.event.head_commit.message, 'chore(release):')
     name: upload release to PyPI
     runs-on: ubuntu-22.04
-    concurrency: push
-    # strategy:
-    #   matrix:
-    #     python-version: ["3.9"]
+    strategy:
+      matrix:
+        python-version: ["3.9"]
     permissions:
       # IMPORTANT: this permission is mandatory for trusted publishing
       id-token: write
@@ -85,37 +76,30 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - name: Install dependencies & build package
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
 
-            - name: Python Semantic Release
-            id: release
-            uses: ./
-            with:
-              github_token: ${{ secrets.GITHUB_TOKEN }}
-              root_options: "-vv"
-      # - name: Set up Python
-      #   uses: actions/setup-python@v4
-      #   with:
-      #     python-version: ${{ matrix.python-version }}
-      #     cache: "poetry"
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "poetry"
 
-      # - name: Install dependencies
-      #   run: poetry install
+      - name: Install dependencies
+        run: poetry install
 
-      # - name: Prepare package for release
-      #   env:
-      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     git config user.name github-actions
-      #     git config user.email github-actions@github.com
-      #     poetry run semantic-release version
-      #     poetry run semantic-release publish
-      #     ls -lah
-      #     echo -e "\n\n"
-      #     ls -lah dist/
+      - name: Prepare package for release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          poetry run semantic-release version
+          poetry run semantic-release publish
+          ls -lah
+          echo -e "\n\n"
+          ls -lah dist/
 
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
