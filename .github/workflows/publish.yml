@@ -2,11 +2,12 @@
 # https://docs.pypi.org/trusted-publishers/
 
 on:
-    push:
-      branches:
-        - master
-        - main
-        - "pre/*"
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - main
+      - "pre/*"
 
 # TODO: insert linting checks & tests
 #

@@ -56,3 +56,4 @@ jobs:
 
 ## prevent bad merge
 # https://calmcode.io/course/github-actions/prevent-merge
+# https://practicalseries.com/1002-vcs/09-06-github.html
