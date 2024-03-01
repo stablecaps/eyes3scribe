@@ -2,7 +2,7 @@
 
 [tool.poetry]
 name = "eyes3scribe"
-version = "0.1.1"
+version = "0.2.0"
 description = "Automatically creates HTML documentation files for BASH/Shell source code using markdown & python mkdocs"
 readme = "README.md"
 authors = ["Stablecaps <14529342+darkpandarts@users.noreply.github.com>"]
@@ -212,7 +212,7 @@ default = "semantic-release <semantic-release>"
 [tool.semantic_release.commit_parser_options]
 allowed_tags = ["build", "chore", "ci", "docs", "feat", "fix", "perf", "style", "refactor", "test"]
 minor_tags = ["feat"]
-patch_tags = ["fix", "perf"]
+patch_tags = ["fix", "perf", "ci"]
 
 [tool.semantic_release.remote]
 name = "origin"
