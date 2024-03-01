@@ -180,7 +180,7 @@ build_command = "poetry build"
 #
 
 [tool.semantic_release.branches.master]
-match = "main|master"
+match = "main|master|feat/*"
 prerelease_token = "rc"
 prerelease = false
 
